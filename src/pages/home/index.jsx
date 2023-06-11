@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, ToastContainer } from 'react-bootstrap';
-import { getMangasList } from '../../service/Data.service';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { getMangas } from '../../service/Data.service';
 import MangasList from '../../components/mangaList';
 import "./styles.css";
 
@@ -21,7 +21,7 @@ function Home() {
     }, [activeButton])
 
     const callAPI = async (option, page, itemsPerPage) => {
-        let res = await getMangasList(option, page, itemsPerPage)
+        let res = await getMangas(option, page, itemsPerPage)
             .then((result) => {
                 setMangas(result.data)
             })
@@ -47,7 +47,7 @@ function Home() {
                         <Col xs={12} md={6} xl={3}>
 
                             <div >
-                                <img style={{ width: "40%", height: "50%" }} src={process.env.PUBLIC_URL + '/banner.png'} />
+                                <img style={{ width: "60%", height: "50%" }} src={process.env.PUBLIC_URL + '/banner.png'} />
                             </div>
 
                         </Col>

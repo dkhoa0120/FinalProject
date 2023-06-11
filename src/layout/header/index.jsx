@@ -4,7 +4,7 @@ import { Button, Container, Navbar, Nav, Offcanvas } from "react-bootstrap";
 import React, { useState, useContext, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import SearchBar from '../../components/search';
-import { getMangas } from '../../service/Data.service';
+import { getMangaList } from '../../service/Data.service';
 import { UserContext } from '../../context/UserContext';
 import { toast } from "react-toastify";
 import "./styles.css";
@@ -36,7 +36,7 @@ function Header(props) {
     }, [])
 
     const getData = async () => {
-        await getMangas()
+        await getMangaList()
             .then((result) => {
                 setData(result.data)
             })

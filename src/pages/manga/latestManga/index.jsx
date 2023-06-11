@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Card, Container, Button } from 'react-bootstrap';
-import { getMangasList, totalItems } from '../../../service/Data.service';
+import { getMangas, totalItems } from '../../../service/Data.service';
 import { Link, useParams } from 'react-router-dom';
 import "./styles.css";
 
@@ -20,7 +20,7 @@ function LatestManga() {
     }, [currentPage]);
 
     const latestManga = async () => {
-        await getMangasList("latest-manga", currentPage, itemPerPage)
+        await getMangas("latest-manga", currentPage, itemPerPage)
             .then((result) => {
                 setMangas(result.data);
             });
