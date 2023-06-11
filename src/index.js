@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import { BrowserRouter } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css"
+import { UserProvider } from './context/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <UserProvider>
+      <ProSidebarProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ProSidebarProvider>
+    </UserProvider>
   </React.StrictMode>
 );
 

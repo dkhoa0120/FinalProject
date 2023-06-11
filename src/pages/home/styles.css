@@ -1,0 +1,37 @@
+/************ Banner Css ************/
+.home-header {
+    margin-top: 0;
+  }
+  .home-header .tagline {
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 8px 10px;
+    background: linear-gradient(90.21deg, rgba(170, 54, 124, 0.5) -5.91%, rgba(74, 47, 189, 0.5) 111.58%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: inline-block;
+    color: black;
+  }
+  .home-header h1 {
+    font-size: 65px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    line-height: 1;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .home-header .tagline-p {
+    color: #B8B8B8;
+    font-size: 18px;
+    letter-spacing: 0.8px;
+    line-height: 1.5em;
+    letter-spacing: 0.8px;
+    margin-bottom: 16px;
+    display: inline-block;
+    color: black;
+  }
+
+  .txt-rotate > .wrap {
+    border-right: 0.08em solid #666;
+  }
