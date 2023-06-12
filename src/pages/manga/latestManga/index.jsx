@@ -46,7 +46,7 @@ function LatestManga() {
             pageNumbers.push(
                 <Link key={i} to={`/Manga/latest-manga/${i}`}>
                     <Button
-                        className={`btn ${currentPage === i ? 'btn-dark' : 'btn-light'}`}
+                        variant={`btn ${currentPage === i ? 'btn-dark' : 'btn-light'}`}
                         onClick={() => changePage(i)}
                     >
                         {i}
@@ -58,7 +58,7 @@ function LatestManga() {
         const dot = () => {
             pageNumbers.push(
 
-                <Button className="btn btn-light" disabled >
+                <Button variant="btn btn-light" disabled >
                     ...
                 </Button>
 
@@ -106,10 +106,10 @@ function LatestManga() {
                             <div className='wrapper'>
                                 <Card style={{ position: "relative" }}>
                                     <Row>
-                                        <Col md={2}>
-                                            <Card.Img variant="top" src={manga.coverPath} />
+                                        <Col xl={2}>
+                                            <Card.Img variant="top" src={manga.coverPath} className='coverI' />
                                         </Col>
-                                        <Col md={10} style={{ padding: "20px" }}>
+                                        <Col xl={10} style={{ padding: "20px" }}>
 
                                             <Link to={`/Manga/${manga.id}`} className='card-link'>
                                                 <Card.Title>{manga.originalTitle}</Card.Title>
@@ -129,25 +129,25 @@ function LatestManga() {
             <div className="d-flex justify-content-center">
                 <div className="pagination">
                     <Link to={`/Manga/latest-manga/1`}>
-                        <Button className='btn btn-dark'><i className="fa-solid fa-angles-left"></i></Button>
+                        <Button variant='btn btn-dark'><i className="fa-solid fa-angles-left"></i></Button>
                     </Link>
                     &nbsp;
                     {currentPage > 1 ? (
                         <Link to={`/Manga/latest-manga/${currentPage - 1}`}>
-                            <Button className='btn btn-dark'><i className="fa-solid fa-angle-left"></i></Button>
+                            <Button variant='btn btn-dark'><i className="fa-solid fa-angle-left"></i></Button>
                         </Link>
                     ) : (
-                        <Button className='btn btn-dark' disabled><i className="fa-solid fa-angle-left"></i></Button>
+                        <Button variant='btn btn-dark' disabled><i className="fa-solid fa-angle-left"></i></Button>
                     )}
                     &nbsp;
                     {renderPageNumbers()}
                     &nbsp;
                     {currentPage < totalPages ? (
                         <Link to={`/Manga/latest-manga/${currentPage + 1}`}>
-                            <Button className='btn btn-dark'><i className="fa-solid fa-angle-right"></i></Button>
+                            <Button variant='btn btn-dark'><i className="fa-solid fa-angle-right"></i></Button>
                         </Link>
                     ) : (
-                        <Button className='btn btn-dark' disabled>
+                        <Button variant='btn btn-dark' disabled>
                             <i className="fa-solid fa-angle-right"></i>
                         </Button>
                     )}

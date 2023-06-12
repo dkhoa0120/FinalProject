@@ -1,12 +1,107 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+import { UserContext } from '../../../context/UserContext';
+import "./styles.css";
+import { useNavigate } from 'react-router-dom';
+import { getMangaList } from '../../../service/Data.service';
+import { Image } from 'react-bootstrap';
+import { useContext } from 'react';
+import CreateManga from './components/CreateManga';
+import { ToastContainer } from 'react-toastify';
+import EditManga from './components/EditManga';
 
 function ManageManga() {
 
+    const navigate = useNavigate();
+    const [mangas, setMangas] = useState([]);
+    const { user } = useContext(UserContext);
+
+    const [showCreate, setShowCreate] = useState(false);
+    const handleCloseCreate = () => setShowCreate(false);
+    const handleShowCreate = () => setShowCreate(true);
+
+    const [showEdit, setShowEdit] = useState(false);
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = () => setShowEdit(true);
+
+    useEffect(() => {
+        if (user && user.auth === false && user.roles != "Admin") {
+            navigate('/');
+        }
+    }, [user, navigate]);
+
+    useEffect(() => {
+        getMangas();
+    }, [])
+
+    const getMangas = async () => {
+        await getMangaList()
+            .then((result) => {
+                setMangas(result.data)
+            })
+    }
+
+
+    const handleEdit = (mangas) => {
+        console.log(mangas)
+    }
+    const handleDelete = () => {
+
+    }
+
+
 
     return (
+        <div className='manage-manga'>
+            <ToastContainer />
+            <Button variant="success" onClick={handleShowCreate}> <i className="fa-solid fa-circle-plus"></i> Create </Button>
+            <div className='manage-table'>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cover</th>
+                            <th>Original Title</th>
+                            <th>Publish Year</th>
+                            <th>Description</th>
+                            <th>Created at</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            mangas ?
+                                mangas.map((item, index) => {
+                                    const createdAt = new Date(item.createdAt);
+                                    const formattedDate = createdAt.toLocaleDateString();
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td><Image src={item.coverPath} style={{ width: "100px" }} /></td>
+                                            <td>{item.originalTitle}</td>
+                                            <td>{item.publishYear}</td>
+                                            <td className="description-cell">{item.description}</td>
+                                            <td>{formattedDate}</td>
+                                            <td colSpan={2}>
+                                                <Button onClick={() => handleEdit(item)}> <i className="fa-solid fa-pen-to-square"></i> Edit </Button>
+                                                &nbsp;
+                                                <Button variant="danger" onClick={() => handleDelete(item.id)}> <i className="fa-solid fa-trash"></i> Delete</Button>
+                                            </td>
+                                        </tr>
 
-        <div>
+                                    )
+                                })
+                                :
+                                'Loading...'
+                        }
 
+                    </tbody>
+                </Table>
+
+            </div>
+            <CreateManga show={showCreate} handleClose={handleCloseCreate} getMangas={getMangas} />
+            <EditManga show={showEdit} handleClose={handleCloseEdit} />
         </div>
 
 

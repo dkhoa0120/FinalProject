@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/alt-text */
-import { Button, Container, Navbar, Nav, Offcanvas } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
+import { Button, Container, Navbar, Nav, Offcanvas, Row, Col } from "react-bootstrap";
 import React, { useState, useContext, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import SearchBar from '../../components/search';
@@ -11,6 +12,8 @@ import "./styles.css";
 
 
 function Header(props) {
+
+    const navigate = useNavigate();
 
     const [scrolled, setScrolled] = useState(false);
 
@@ -44,8 +47,7 @@ function Header(props) {
 
     const handleLogout = () => {
         logout();
-        window.location.reload();
-        toast.success("Log out success!")
+        navigate('/');
     }
 
 
@@ -114,14 +116,28 @@ function Header(props) {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav>
+                                <Row>
+                                    <Col xl={6}>
+                                        <Button className="mb-4 w-100" variant="outline-dark"><i className="fa-solid fa-gear"></i> Settings</Button>
+                                    </Col>
+                                    <Col xl={6}>
+                                        <Button className="mb-4 w-100" variant="outline-dark"><i className="fa-solid fa-sun"></i> Theme</Button>
+                                    </Col>
+                                </Row>
                                 {user && user.auth === true ? (
                                     <>
-                                        <Button className="mb-4 w-100" variant="dark" onClick={handleLogout}>Logout</Button>
                                         {user.roles == "Admin" && (
-                                            <NavLink to="/manage/Manga">
-                                                <Button className="mb-4 w-100" variant="dark">Manage Manga</Button>
-                                            </NavLink>
+                                            <>
+                                                <NavLink to="/manage/Manga">
+                                                    <Button className="mb-4 w-100" variant="outline-dark"><i className="fa-solid fa-list-check"></i> Manage Mangas</Button>
+                                                </NavLink>
+
+                                                <NavLink to="/manage/User">
+                                                    <Button className="mb-4 w-100" variant="outline-dark"><i className="fa-solid fa-users"></i> Manage Users</Button>
+                                                </NavLink>
+                                            </>
                                         )}
+                                        <Button className="mb-4 w-100" variant="dark" onClick={handleLogout}>Logout</Button>
                                     </>
                                 ) : (
                                     <>

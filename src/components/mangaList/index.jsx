@@ -8,7 +8,7 @@ function MangasList(props) {
     const { header, data } = props;
     // Pagination logic
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 2;
+    const itemsPerPage = 4;
 
 
     // Auto change pagination every 5 seconds
@@ -84,12 +84,12 @@ function MangasList(props) {
                             key={index}
                             className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
                         >
-                            <button
-                                className="btn btn-link"
+                            <Button
+                                variant="btn btn-link"
                                 onClick={() => handlePageChange(index + 1)}
                             >
                                 {currentPage === index + 1 ? <i className="fa-solid fa-circle-dot"></i> : <i className="fa-regular fa-circle-dot"></i>}
-                            </button>
+                            </Button>
                         </li>
                     ))}
                 </ul>

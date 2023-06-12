@@ -6,9 +6,9 @@
     /* Your styles here */
     top: 60px;
     right: 30px;
-    bottom: auto;
     width: 20%;
-    
+    bottom: 30%;
+    overflow: hidden auto;
   }
   .offcanvas-header .btn-close {
     display: none;
@@ -17,6 +17,9 @@
     right: 50%;
   
   }
+}
+.offcanvas-body::-webkit-scrollbar {
+  display: none;
 }
 
 .offcanvas-header .btn-close {
