@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "./styles.css";
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Row, Col, Image } from "react-bootstrap";
+import { Button, Row, Col, Image } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 function MangasList(props) {

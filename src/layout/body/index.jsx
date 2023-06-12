@@ -28,7 +28,7 @@ function Body() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/Manga/:mangaId" element={<MangaDetail />} />
-                <Route path="/Manga/latest-manga/:page" element={<LatestManga />} />
+                <Route path="/Manga/latest-manga" element={<LatestManga />} />
             </Routes>
         </div>
 

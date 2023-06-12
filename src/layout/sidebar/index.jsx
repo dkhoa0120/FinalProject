@@ -28,10 +28,10 @@ function SideBar(props) {
                 </MenuItem>
             ),
             items: [
-                { text: 'Popular', to: '/Manga/popular/1', key: 'popular' },
-                { text: 'Latest Manga', to: '/Manga/latest-manga/1', key: 'latest-manga' },
-                { text: 'Latest Chapter', to: '/Manga/latest-chapter/1', key: 'latest-chapter' },
-                { text: 'Random', to: '/Manga/random/1', key: 'random' }
+                { text: 'Popular', to: '/Manga/popular', key: 'popular' },
+                { text: 'Latest Manga', to: '/Manga/latest-manga', key: 'latest-manga' },
+                { text: 'Latest Chapter', to: '/Manga/latest-chapter', key: 'latest-chapter' },
+                { text: 'Random', to: '/Manga/random', key: 'random' }
             ]
         },
         {

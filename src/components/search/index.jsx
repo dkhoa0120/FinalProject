@@ -20,11 +20,12 @@ function SearchBar({ placeholder, data }) {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
     const newFilter = data.filter((value) => {
+      const originalTitle = value.originalTitle ? value.originalTitle.toLowerCase() : "";
+      const alternativeTitles = value.alternativeTitles ? value.alternativeTitles.toLowerCase() : "";
       return (
-        value.originalTitle.toLowerCase().includes(searchWord.toLowerCase()) ||
-        (value.alternativeTitles && value.alternativeTitles.includes(searchWord))
+        originalTitle.includes(searchWord.toLowerCase()) ||
+        alternativeTitles.includes(searchWord.toLowerCase())
       );
-
     });
 
     if (searchWord === "") {

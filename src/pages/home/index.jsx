@@ -90,7 +90,7 @@ function Home() {
             </div>
             <div>
                 {activeButton === 'popular' && <MangasList header="Popular Manga" />}
-                {activeButton === 'latest-manga' && <MangasList header="Latest Updated Manga" link="/Manga/latest-manga/1" data={mangas} />}
+                {activeButton === 'latest-manga' && <MangasList header="Latest Updated Manga" link="/Manga/latest-manga" data={mangas} />}
                 {activeButton === 'latest-chapter' && <MangasList header="Latest Updated Chapter" data={mangas} />}
                 {activeButton === 'random' && <MangasList header="Random Manga" />}
             </div>
