@@ -3,7 +3,7 @@ import "./styles.css";
 import { Route, Routes } from 'react-router-dom';
 import Report from '../../pages/admin/manageReport';
 import About from '../../pages/about';
-import LatestManga from '../../pages/manga/latestManga';
+import LatestManga from '../../pages/manga/mangaOptions';
 import MangaDetail from '../../pages/manga/mangaDetails';
 import Login from '../../pages/auth/login';
 import Register from '../../pages/auth/register';
@@ -28,7 +28,7 @@ function Body() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/Manga/:mangaId" element={<MangaDetail />} />
-                <Route path="/Manga/latest-manga" element={<LatestManga />} />
+                <Route path="/Manga" element={<LatestManga />} />
             </Routes>
         </div>
 

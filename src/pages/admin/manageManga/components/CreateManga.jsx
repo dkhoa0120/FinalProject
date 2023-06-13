@@ -103,7 +103,7 @@ function CreateManga(props) {
                                 onChange={(e) => setOriginalLanguage(e.target.value)}
                                 required
                             >
-                                <option value="">Select Language</option>
+                                <option>Select Language</option>
                                 {languageOptions.map((language, index) => (
                                     <option key={index} value={language}>
                                         {language}
@@ -120,6 +120,8 @@ function CreateManga(props) {
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </Col>
+                        </Row>
+                        <Row>
                         </Row>
                     </Row>
                 </Modal.Body>

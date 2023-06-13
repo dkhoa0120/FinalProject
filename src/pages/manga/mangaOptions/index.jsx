@@ -1,50 +1,71 @@
+
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Card, Container, Button } from 'react-bootstrap';
+import { Col, Row, Card, Container, Button, FormSelect } from 'react-bootstrap';
 import { getMangas, totalItems } from '../../../service/Data.service';
 import { Link, useSearchParams } from 'react-router-dom';
 import "./styles.css";
 import Pagination from '../../../components/pagination';
 
-function LatestManga() {
 
+function LatestManga() {
 
     const [mangas, setMangas] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const [totalMangas, setTotalMangas] = useState(0);
     const [page, setPage] = useState(searchParams.get('page') || 1);
-    const itemPerPage = 1;
+    const [option, setOption] = useState(searchParams.get('option'));
+    const itemPerPage = 8;
+
     useEffect(() => {
         setPage(parseInt(searchParams.get('page') || 1));
+        setOption(searchParams.get('option'));
     }, [searchParams]);
 
     useEffect(() => {
-        latestManga();
-    },)
+        callAPI();
+    }, [option, page])
 
-
-    const latestManga = async () => {
-        await getMangas("latest-manga", page, itemPerPage)
+    const callAPI = async () => {
+        let res = await getMangas(option, page, itemPerPage)
             .then((result) => {
-                setMangas(result.data);
-            });
-    };
+                setMangas(result.data)
+            })
+
+        console.log("MANGAs", res)
+    }
+
+
 
     //Pagination
     useEffect(() => {
         totalItems().then((response) => {
             setTotalMangas(response.data);
         });
-    }, []);
+    }, [page, itemPerPage]);
 
     const totalPages = Math.ceil(totalMangas / itemPerPage);
 
 
     return (
         <div>
-            <div style={{ paddingTop: "30px" }}>
-                <div className="Manga-Container-title">
-                    <span>Lastest Updated Manga</span>
-                </div>
+            <div style={{ paddingTop: "50px" }}>
+                <Row>
+                    <Col>
+                        <div className="Manga-Container-title">
+                            <span>{option === 'latest-manga' ? 'Latest Manga' : 'Latest Chapter'}</span>
+                        </div>
+                    </Col>
+                    <Col>
+                        <FormSelect
+                            className='mb-4 w-100'
+                            value={option}
+                            onChange={(e) => setSearchParams({ option: e.target.value, page: '1' })}
+                        >
+                            <option value='latest-manga'>Latest Manga</option>
+                            <option value='latest-chapter'>Latest Chapter</option>
+                        </FormSelect>
+                    </Col>
+                </Row>
                 {mangas ? (
                     mangas.map((manga, index) => (
                         <React.Fragment key={index}>
@@ -73,7 +94,7 @@ function LatestManga() {
                 )}
                 &nbsp;
                 <div className="d-flex justify-content-center">
-                    <Pagination page={page} totalPages={totalPages} setSearchParams={setSearchParams} />
+                    <Pagination page={page} totalPages={totalPages} setSearchParams={setSearchParams} option={option} />
                 </div>
             </div>
         </div>
@@ -81,7 +102,6 @@ function LatestManga() {
 }
 
 export default LatestManga;
-
 
 
 

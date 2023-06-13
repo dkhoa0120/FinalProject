@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-const Pagination = ({ totalPages, page, setSearchParams }) => {
+const Pagination = ({ totalPages, page, setSearchParams, option }) => {
     const renderPageNumbers = () => {
         const pageNumbers = [];
 
@@ -9,7 +9,7 @@ const Pagination = ({ totalPages, page, setSearchParams }) => {
             pageNumbers.push(
                 <Button
                     variant={`btn ${page === i ? 'btn-dark' : 'btn-light'}`}
-                    onClick={() => setSearchParams({ page: String(i) })}
+                    onClick={() => setSearchParams({ option: option, page: String(i) })}
                 >
                     {i}
                 </Button>
@@ -57,12 +57,12 @@ const Pagination = ({ totalPages, page, setSearchParams }) => {
     return (
         <div className="d-flex justify-content-center">
             <div className="pagination">
-                <Button onClick={() => setSearchParams({ page: String(1) })} variant="btn btn-dark">
+                <Button onClick={() => setSearchParams({ option: option, page: String(1) })} variant="btn btn-dark">
                     <i className="fa-solid fa-angles-left"></i>
                 </Button>
                 &nbsp;
                 {page > 1 ? (
-                    <Button onClick={() => setSearchParams({ page: String(page - 1) })} variant="btn btn-dark">
+                    <Button onClick={() => setSearchParams({ option: option, page: String(page - 1) })} variant="btn btn-dark">
                         <i className="fa-solid fa-angle-left"></i>
                     </Button>
                 ) : (
@@ -74,7 +74,7 @@ const Pagination = ({ totalPages, page, setSearchParams }) => {
                 {renderPageNumbers()}
                 &nbsp;
                 {page < totalPages ? (
-                    <Button variant="btn btn-dark" onClick={() => setSearchParams({ page: String(page + 1) })}>
+                    <Button variant="btn btn-dark" onClick={() => setSearchParams({ option: option, page: String(page + 1) })}>
                         <i className="fa-solid fa-angle-right"></i>
                     </Button>
                 ) : (
@@ -83,7 +83,7 @@ const Pagination = ({ totalPages, page, setSearchParams }) => {
                     </Button>
                 )}
                 &nbsp;
-                <Button onClick={() => setSearchParams({ page: String(totalPages) })} className="btn btn-dark">
+                <Button onClick={() => setSearchParams({ option: option, page: String(totalPages) })} className="btn btn-dark">
                     <i className="fa-solid fa-angles-right"></i>
                 </Button>
             </div>

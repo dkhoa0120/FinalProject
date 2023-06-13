@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Image } from 'react-bootstrap';
-import { getMangas } from '../../service/Data.service';
+import { Button, Col, Container, Row, Image, Carousel } from 'react-bootstrap';
+import { getMangaList, getMangas } from '../../service/Data.service';
 import MangasList from '../../components/mangaList';
 import banner from '../../img/banner/banner.png'
 import "./styles.css";
+import CarouselFade from '../../components/carousel';
 
 function Home() {
 
@@ -17,7 +18,7 @@ function Home() {
     const [mangas, setMangas] = useState([]);
 
     useEffect(() => {
-        callAPI(activeButton, 1, 12);
+        callAPI(activeButton, 1, 8);
     }, [activeButton])
 
     const callAPI = async (option, page, itemsPerPage) => {
@@ -54,9 +55,9 @@ function Home() {
                     </Row>
                 </Container>
             </div>
-            &nbsp;
-            <>
-                <div style={{ display: 'flex' }}>
+            <CarouselFade />
+            <div className="Manga-Container">
+                <div style={{ display: 'flex', paddingLeft: "20px", paddingRight: "20px" }}>
                     <Button
                         className='mb-4 w-100'
                         variant={activeButton === 'latest-manga' ? 'dark' : 'light'}
@@ -72,21 +73,12 @@ function Home() {
                     >
                         Latest Chapter
                     </Button>
-                    &nbsp;
-                    <Button
-                        className='mb-4 w-100'
-                        variant={activeButton === 'random' ? 'dark' : 'light'}
-                        onClick={() => handleButtonClick('random')}
-                    >
-                        Random
-                    </Button>
                 </div>
                 <div>
-                    {activeButton === 'latest-manga' && <MangasList header="Latest Updated Manga" link="/Manga/latest-manga" data={mangas} />}
-                    {activeButton === 'latest-chapter' && <MangasList header="Latest Updated Chapter" data={mangas} />}
-                    {activeButton === 'random' && <MangasList header="Random Manga" />}
+                    {activeButton === 'latest-manga' && <MangasList header="Latest Updated Manga" link="/Manga?option=latest-manga" data={mangas} />}
+                    {activeButton === 'latest-chapter' && <MangasList header="Latest Updated Chapter" link="/Manga?option=latest-chapter" data={mangas} />}
                 </div>
-            </>
+            </div>
         </div>
     );
 }

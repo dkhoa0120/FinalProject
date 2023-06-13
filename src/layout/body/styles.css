@@ -1,7 +1,8 @@
 .Body {
     padding: 20px;
     width: 100%;
-    height: 1000vh;
+    min-height: 100vh;
+    height: 100%;
     background: #eee;
     font-family: sans-serif;
   }
