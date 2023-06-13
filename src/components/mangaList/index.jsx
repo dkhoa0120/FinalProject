@@ -3,6 +3,12 @@ import "./styles.css";
 import React, { useState, useEffect } from 'react';
 import { Button, Row, Col, Image } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import china from '../../img/flag/China.png'
+import japan from '../../img/flag/Japan.png'
+import korea from '../../img/flag/Korea.png'
+import england from '../../img/flag/England.png'
+import vietnam from '../../img/flag/VietNam.png'
+
 
 function MangasList(props) {
     const { header, data } = props;
@@ -66,7 +72,15 @@ function MangasList(props) {
                                 <Image className="cover" src={manga.coverPath} />
                                 <div className="proj-txtx">
                                     <Link to={`/Manga/${manga.id}`} className='card-link'>
-                                        <i className="fa-solid fa-flag"></i>
+                                        {manga.originalLanguage === "Japanese" && (
+                                            <Image style={{ height: "30px", width: "30px" }} src={japan} />
+                                        )}
+                                        {manga.originalLanguage === "Korean" && (
+                                            <Image style={{ height: "30px", width: "30px" }} src={korea} />
+                                        )}
+                                        {manga.originalLanguage === "English" && (
+                                            <Image style={{ height: "30px", width: "30px" }} src={england} />
+                                        )}
                                         <h4>{manga.originalTitle}</h4>
                                     </Link>
                                     <span className="text-limit">{manga.description}</span>
@@ -91,6 +105,7 @@ function MangasList(props) {
                                 {currentPage === index + 1 ? <i className="fa-solid fa-circle-dot"></i> : <i className="fa-regular fa-circle-dot"></i>}
                             </Button>
                         </li>
+
                     ))}
                 </ul>
             </div>

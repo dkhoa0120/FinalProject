@@ -19,7 +19,8 @@ function LatestManga() {
 
     useEffect(() => {
         latestManga();
-    }, [page])
+    },)
+
 
     const latestManga = async () => {
         await getMangas("latest-manga", page, itemPerPage)
@@ -40,13 +41,10 @@ function LatestManga() {
 
     return (
         <div>
-            <div>
+            <div style={{ paddingTop: "30px" }}>
                 <div className="Manga-Container-title">
                     <span>Lastest Updated Manga</span>
                 </div>
-                <Button onClick={() => setSearchParams({ page: String(page + 1) })}>
-                    Next Page
-                </Button>
                 {mangas ? (
                     mangas.map((manga, index) => (
                         <React.Fragment key={index}>

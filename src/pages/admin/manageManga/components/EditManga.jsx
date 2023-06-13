@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { createManga, getLanguage } from '../../../../service/Data.service';
+import { editManga, getLanguage } from '../../../../service/Data.service';
 import { toast } from 'react-toastify';
 
 function EditManga(props) {
 
+    const [id, setId] = useState('');
     const [originalTitle, setOriginalTitle] = useState('');
     const [coverPath, setCoverPath] = useState(null);
     const [alternativeTitles, setAlternativeTitles] = useState('');
@@ -30,9 +31,47 @@ function EditManga(props) {
         fetchLanguageOptions();
     }, []);
 
-    const handleSave = () => {
+    useEffect(() => {
+        if (props.show) {
+            const { originalTitle, coverPath, alternativeTitles, originalLanguage, description, publishYear, id } = props.dataEdit;
+            setId(id || '');
+            setOriginalTitle(originalTitle || ''); // Provide an empty string as the default value
+            setCoverPath(coverPath || null);
+            setAlternativeTitles(alternativeTitles || '');
+            setOriginalLanguage(originalLanguage || '');
+            setDescription(description || '');
+            setPublishYear(publishYear || '');
+        }
+    }, [props.dataEdit, props.show]);
 
-    }
+
+    const handleSave = async () => {
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("originalTitle", originalTitle);
+        formData.append("coverImage", coverPath);
+        formData.append("alternativeTitles", alternativeTitles);
+        formData.append("originalLanguage", originalLanguage);
+        formData.append("description", description);
+        formData.append("publishYear", publishYear);
+        console.log("Formdata", formData)
+
+        try {
+            await editManga(id, formData);
+            props.handleClose();
+            setOriginalTitle("");
+            setCoverPath(null);
+            setAlternativeTitles("");
+            setOriginalLanguage("");
+            setDescription("");
+            setPublishYear("");
+            toast.success("A manga has been updated");
+            props.getMangas();
+        } catch (error) {
+            toast.error(error);
+            console.log(error)
+        }
+    };
 
     return (
         <div>
@@ -82,8 +121,8 @@ function EditManga(props) {
                                 required
                             >
                                 <option value="">Select Language</option>
-                                {languageOptions.map((language) => (
-                                    <option key={language.id} value={language.id}>
+                                {languageOptions.map((language, index) => (
+                                    <option key={index} value={language}>
                                         {language}
                                     </option>
                                 ))}
@@ -102,9 +141,6 @@ function EditManga(props) {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
-                        Close
-                    </Button>
                     <Button variant="primary" onClick={handleSave}>
                         Save Change
                     </Button>

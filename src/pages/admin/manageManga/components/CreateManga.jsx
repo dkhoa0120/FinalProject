@@ -104,8 +104,8 @@ function CreateManga(props) {
                                 required
                             >
                                 <option value="">Select Language</option>
-                                {languageOptions.map((language) => (
-                                    <option key={language.id} value={language.id}>
+                                {languageOptions.map((language, index) => (
+                                    <option key={index} value={language}>
                                         {language}
                                     </option>
                                 ))}
@@ -123,12 +123,9 @@ function CreateManga(props) {
                         </Row>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSave}>
-                        Add
+                <Modal.Footer >
+                    <Button variant="success" onClick={handleSave}>
+                        Add New
                     </Button>
                 </Modal.Footer>
             </Modal>

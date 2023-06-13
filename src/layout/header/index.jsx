@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import SearchBar from '../../components/search';
 import { getMangaList } from '../../service/Data.service';
 import { UserContext } from '../../context/UserContext';
-import { toast } from "react-toastify";
 import "./styles.css";
 
 

@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import CreateManga from './components/CreateManga';
 import { ToastContainer } from 'react-toastify';
 import EditManga from './components/EditManga';
+import DeleteManga from './components/DeleteManga';
 
 function ManageManga() {
 
@@ -25,8 +26,13 @@ function ManageManga() {
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
+    const [showDelete, setShowDelete] = useState(false);
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = () => setShowDelete(true);
+    const [dataEdit, setDataEdit] = useState({})
+
     useEffect(() => {
-        if (user && user.auth === false && user.roles != "Admin") {
+        if (user && user.auth === false && user.roles !== "Admin") {
             navigate('/');
         }
     }, [user, navigate]);
@@ -44,10 +50,12 @@ function ManageManga() {
 
 
     const handleEdit = (mangas) => {
-        console.log(mangas)
+        setDataEdit(mangas)
+        handleShowEdit();
     }
-    const handleDelete = () => {
-
+    const handleDelete = (mangas) => {
+        setDataEdit(mangas)
+        handleShowDelete();
     }
 
 
@@ -76,7 +84,7 @@ function ManageManga() {
                                     const createdAt = new Date(item.createdAt);
                                     const formattedDate = createdAt.toLocaleDateString();
                                     return (
-                                        <tr key={index}>
+                                        <tr key={item.id}>
                                             <td>{index + 1}</td>
                                             <td><Image src={item.coverPath} style={{ width: "100px" }} /></td>
                                             <td>{item.originalTitle}</td>
@@ -86,7 +94,7 @@ function ManageManga() {
                                             <td colSpan={2}>
                                                 <Button onClick={() => handleEdit(item)}> <i className="fa-solid fa-pen-to-square"></i> Edit </Button>
                                                 &nbsp;
-                                                <Button variant="danger" onClick={() => handleDelete(item.id)}> <i className="fa-solid fa-trash"></i> Delete</Button>
+                                                <Button variant="danger" onClick={() => handleDelete(item)}> <i className="fa-solid fa-trash"></i> Delete</Button>
                                             </td>
                                         </tr>
 
@@ -101,7 +109,8 @@ function ManageManga() {
 
             </div>
             <CreateManga show={showCreate} handleClose={handleCloseCreate} getMangas={getMangas} />
-            <EditManga show={showEdit} handleClose={handleCloseEdit} />
+            <EditManga show={showEdit} handleClose={handleCloseEdit} dataEdit={dataEdit} getMangas={getMangas} />
+            <DeleteManga show={showDelete} handleClose={handleCloseDelete} dataEdit={dataEdit} getMangas={getMangas} />
         </div>
 
 

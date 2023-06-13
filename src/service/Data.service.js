@@ -48,8 +48,24 @@ export const createManga = (formData) => {
     });
 };
 
+export const editManga = (id, formData) => {
+    return axios.put(`${API_URL}/admin/manga/${id}`, formData, {
+        headers: {
+            Authorization: `Bearer ${new Cookies().get("Token")}`,
+        },
+    });
+};
+
 export const getLanguage = () => {
     return axios.get(`${API_URL}/admin/manga/languages`, {
+        headers: {
+            Authorization: `Bearer ${new Cookies().get("Token")}`,
+        },
+    });
+};
+
+export const deleteManga = (id) => {
+    return axios.delete(`${API_URL}/admin/manga/${id}`, {
         headers: {
             Authorization: `Bearer ${new Cookies().get("Token")}`,
         },

@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { getMangaById } from '../../../service/Data.service';
 import TrackVisibility from 'react-on-screen';
 import "./styles.css";
-import { Typewriter } from 'react-simple-typewriter'
 
 
 function MangaDetail() {
@@ -45,14 +44,7 @@ function MangaDetail() {
                             {({ isVisible }) =>
                                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                                     <h1 className="txt-rotate">
-                                        <Typewriter
-                                            words={[manga.originalTitle]}
-                                            cursor
-                                            cursorStyle=''
-                                            typeSpeed={70}
-                                            deleteSpeed={50}
-                                            delaySpeed={1000}
-                                        />
+                                        {[manga.originalTitle]}
                                     </h1>
                                     <p>{manga.description}</p>
 

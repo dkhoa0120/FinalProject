@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Image } from 'react-bootstrap';
 import { getMangas } from '../../service/Data.service';
 import MangasList from '../../components/mangaList';
+import banner from '../../img/banner/banner.png'
 import "./styles.css";
-
 
 function Home() {
 
@@ -47,7 +47,7 @@ function Home() {
                         <Col xs={12} md={6} xl={3}>
 
                             <div >
-                                <img style={{ width: "60%", height: "50%" }} src={process.env.PUBLIC_URL + '/banner.png'} />
+                                <Image style={{ width: "60%", height: "50%" }} src={banner} />
                             </div>
 
                         </Col>
@@ -55,45 +55,38 @@ function Home() {
                 </Container>
             </div>
             &nbsp;
-            <div style={{ display: 'flex' }}>
-                <Button
-                    className='mb-4 w-100'
-                    variant={activeButton === 'popular' ? 'dark' : 'light'}
-                    onClick={() => handleButtonClick('popular')}
-                >
-                    Popular Manga
-                </Button>
-                &nbsp;
-                <Button
-                    className='mb-4 w-100'
-                    variant={activeButton === 'latest-manga' ? 'dark' : 'light'}
-                    onClick={() => handleButtonClick('latest-manga')}
-                >
-                    Latest Manga
-                </Button>
-                &nbsp;
-                <Button
-                    className='mb-4 w-100'
-                    variant={activeButton === 'latest-chapter' ? 'dark' : 'light'}
-                    onClick={() => handleButtonClick('latest-chapter')}
-                >
-                    Latest Chapter
-                </Button>
-                &nbsp;
-                <Button
-                    className='mb-4 w-100'
-                    variant={activeButton === 'random' ? 'dark' : 'light'}
-                    onClick={() => handleButtonClick('random')}
-                >
-                    Random
-                </Button>
-            </div>
-            <div>
-                {activeButton === 'popular' && <MangasList header="Popular Manga" />}
-                {activeButton === 'latest-manga' && <MangasList header="Latest Updated Manga" link="/Manga/latest-manga" data={mangas} />}
-                {activeButton === 'latest-chapter' && <MangasList header="Latest Updated Chapter" data={mangas} />}
-                {activeButton === 'random' && <MangasList header="Random Manga" />}
-            </div>
+            <>
+                <div style={{ display: 'flex' }}>
+                    <Button
+                        className='mb-4 w-100'
+                        variant={activeButton === 'latest-manga' ? 'dark' : 'light'}
+                        onClick={() => handleButtonClick('latest-manga')}
+                    >
+                        Latest Manga
+                    </Button>
+                    &nbsp;
+                    <Button
+                        className='mb-4 w-100'
+                        variant={activeButton === 'latest-chapter' ? 'dark' : 'light'}
+                        onClick={() => handleButtonClick('latest-chapter')}
+                    >
+                        Latest Chapter
+                    </Button>
+                    &nbsp;
+                    <Button
+                        className='mb-4 w-100'
+                        variant={activeButton === 'random' ? 'dark' : 'light'}
+                        onClick={() => handleButtonClick('random')}
+                    >
+                        Random
+                    </Button>
+                </div>
+                <div>
+                    {activeButton === 'latest-manga' && <MangasList header="Latest Updated Manga" link="/Manga/latest-manga" data={mangas} />}
+                    {activeButton === 'latest-chapter' && <MangasList header="Latest Updated Chapter" data={mangas} />}
+                    {activeButton === 'random' && <MangasList header="Random Manga" />}
+                </div>
+            </>
         </div>
     );
 }
