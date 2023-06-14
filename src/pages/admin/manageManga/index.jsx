@@ -42,10 +42,11 @@ function ManageManga() {
     }, [])
 
     const getMangas = async () => {
-        await getMangaList()
+        let res = await getMangaList()
             .then((result) => {
                 setMangas(result.data)
             })
+        console.log(res)
     }
 
 

@@ -15,7 +15,7 @@ function CreateManga(props) {
     const [alternativeTitles, setAlternativeTitles] = useState('');
     const [originalLanguage, setOriginalLanguage] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState([]);
+    const [categoryNames, setCategoryNames] = useState([]);
     const [author, setAuthor] = useState([]);
     const [publishYear, setPublishYear] = useState('');
 
@@ -27,7 +27,7 @@ function CreateManga(props) {
         formData.append("alternativeTitles", alternativeTitles);
         formData.append("originalLanguage", originalLanguage);
         formData.append("description", description);
-        formData.append("category", category);
+        formData.append("categoryNames", categoryNames);
         formData.append("author", author);
         formData.append("publishYear", publishYear);
 
@@ -39,13 +39,13 @@ function CreateManga(props) {
             setAlternativeTitles("");
             setOriginalLanguage("");
             setDescription("");
-            setCategory("");
+            setCategoryNames("");
             setAuthor("");
             setPublishYear("");
             toast.success("A manga has been created");
             props.getMangas();
         } catch (error) {
-            toast.error("All fields are required!");
+            toast.error(error);
         }
     };
 
@@ -63,6 +63,7 @@ function CreateManga(props) {
         fetchLanguageOptions();
     }, []);
 
+    const [categories, setCategories] = useState([]);
     useEffect(() => {
         getCategoryList();
     }, [])
@@ -70,22 +71,12 @@ function CreateManga(props) {
     const getCategoryList = async () => {
         let res = await getCategory()
             .then((result) => {
-                setCategory(result.data)
+                setCategories(result.data)
             })
         console.log(res)
     }
 
-    useEffect(() => {
-        getAuthorList();
-    }, [])
 
-    const getAuthorList = async () => {
-        let res = await getAuthor()
-            .then((result) => {
-                setAuthor(result.data)
-            })
-        console.log(res)
-    }
 
 
     return (
@@ -117,19 +108,9 @@ function CreateManga(props) {
                             <Form.Label>Category</Form.Label>
                             <Multiselect
                                 isObject={false}
-                                onRemove={(event) => { console.log(event) }}
-                                onSelect={(event) => { console.log(event) }}
-                                options={category.map((cat) => cat.name)}
-                                showCheckbox
-                            />
-                        </Col>
-                        <Col>
-                            <Form.Label>Author</Form.Label>
-                            <Multiselect
-                                isObject={false}
-                                onRemove={(event) => { console.log(event) }}
-                                onSelect={(event) => { console.log(event) }}
-                                options={author.map((aut) => aut.name)}
+                                onRemove={(e) => setCategoryNames(e)}
+                                onSelect={(e) => setCategoryNames(e)}
+                                options={categories.map((cat) => cat.name)}
                                 showCheckbox
                             />
                         </Col>
