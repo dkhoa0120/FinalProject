@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-const Pagination = ({ totalPages, page, setSearchParams, option }) => {
+const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
     const renderPageNumbers = () => {
         const pageNumbers = [];
 
@@ -9,7 +9,7 @@ const Pagination = ({ totalPages, page, setSearchParams, option }) => {
             pageNumbers.push(
                 <Button
                     variant={`btn ${page === i ? 'btn-dark' : 'btn-light'}`}
-                    onClick={() => setSearchParams({ option: option, page: String(i) })}
+                    onClick={() => setSearchParams({ sortOption: sortOption, page: String(i) })}
                 >
                     {i}
                 </Button>
@@ -57,12 +57,12 @@ const Pagination = ({ totalPages, page, setSearchParams, option }) => {
     return (
         <div className="d-flex justify-content-center">
             <div className="pagination">
-                <Button onClick={() => setSearchParams({ option: option, page: String(1) })} variant="btn btn-dark">
+                <Button onClick={() => setSearchParams({ sortOption: sortOption, page: String(1) })} variant="btn btn-dark">
                     <i className="fa-solid fa-angles-left"></i>
                 </Button>
                 &nbsp;
                 {page > 1 ? (
-                    <Button onClick={() => setSearchParams({ option: option, page: String(page - 1) })} variant="btn btn-dark">
+                    <Button onClick={() => setSearchParams({ sortOption: sortOption, page: String(page - 1) })} variant="btn btn-dark">
                         <i className="fa-solid fa-angle-left"></i>
                     </Button>
                 ) : (
@@ -74,7 +74,7 @@ const Pagination = ({ totalPages, page, setSearchParams, option }) => {
                 {renderPageNumbers()}
                 &nbsp;
                 {page < totalPages ? (
-                    <Button variant="btn btn-dark" onClick={() => setSearchParams({ option: option, page: String(page + 1) })}>
+                    <Button variant="btn btn-dark" onClick={() => setSearchParams({ sortOption: sortOption, page: String(page + 1) })}>
                         <i className="fa-solid fa-angle-right"></i>
                     </Button>
                 ) : (
@@ -83,7 +83,7 @@ const Pagination = ({ totalPages, page, setSearchParams, option }) => {
                     </Button>
                 )}
                 &nbsp;
-                <Button onClick={() => setSearchParams({ option: option, page: String(totalPages) })} className="btn btn-dark">
+                <Button onClick={() => setSearchParams({ sortOption: sortOption, page: String(totalPages) })} className="btn btn-dark">
                     <i className="fa-solid fa-angles-right"></i>
                 </Button>
             </div>

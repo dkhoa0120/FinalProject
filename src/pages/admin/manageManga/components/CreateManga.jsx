@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { createManga, getLanguage } from '../../../../service/Data.service';
+import { createManga, getLanguage, getCategory, getAuthor } from '../../../../service/Data.service';
 import { toast } from 'react-toastify';
+import Multiselect from 'multiselect-react-dropdown';
+
 
 function CreateManga(props) {
 
@@ -13,6 +15,8 @@ function CreateManga(props) {
     const [alternativeTitles, setAlternativeTitles] = useState('');
     const [originalLanguage, setOriginalLanguage] = useState('');
     const [description, setDescription] = useState('');
+    const [category, setCategory] = useState([]);
+    const [author, setAuthor] = useState([]);
     const [publishYear, setPublishYear] = useState('');
 
 
@@ -23,6 +27,8 @@ function CreateManga(props) {
         formData.append("alternativeTitles", alternativeTitles);
         formData.append("originalLanguage", originalLanguage);
         formData.append("description", description);
+        formData.append("category", category);
+        formData.append("author", author);
         formData.append("publishYear", publishYear);
 
         try {
@@ -33,6 +39,8 @@ function CreateManga(props) {
             setAlternativeTitles("");
             setOriginalLanguage("");
             setDescription("");
+            setCategory("");
+            setAuthor("");
             setPublishYear("");
             toast.success("A manga has been created");
             props.getMangas();
@@ -54,6 +62,30 @@ function CreateManga(props) {
 
         fetchLanguageOptions();
     }, []);
+
+    useEffect(() => {
+        getCategoryList();
+    }, [])
+
+    const getCategoryList = async () => {
+        let res = await getCategory()
+            .then((result) => {
+                setCategory(result.data)
+            })
+        console.log(res)
+    }
+
+    useEffect(() => {
+        getAuthorList();
+    }, [])
+
+    const getAuthorList = async () => {
+        let res = await getAuthor()
+            .then((result) => {
+                setAuthor(result.data)
+            })
+        console.log(res)
+    }
 
 
     return (
@@ -77,6 +109,28 @@ function CreateManga(props) {
                                 type="file"
                                 onChange={(e) => setCoverPath(e.target.files[0])}
                                 required
+                            />
+                        </Col>
+                    </Row> &nbsp;
+                    <Row>
+                        <Col>
+                            <Form.Label>Category</Form.Label>
+                            <Multiselect
+                                isObject={false}
+                                onRemove={(event) => { console.log(event) }}
+                                onSelect={(event) => { console.log(event) }}
+                                options={category.map((cat) => cat.name)}
+                                showCheckbox
+                            />
+                        </Col>
+                        <Col>
+                            <Form.Label>Author</Form.Label>
+                            <Multiselect
+                                isObject={false}
+                                onRemove={(event) => { console.log(event) }}
+                                onSelect={(event) => { console.log(event) }}
+                                options={author.map((aut) => aut.name)}
+                                showCheckbox
                             />
                         </Col>
                     </Row> &nbsp;
@@ -111,18 +165,16 @@ function CreateManga(props) {
                                 ))}
                             </Form.Control>
                         </Col> &nbsp;
-                        <Row>
-                            <Col>  <Form.Label>Description</Form.Label>
-                                <Form.Control
-                                    as="textarea"
-                                    rows={3}
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                        </Row>
+                    </Row> &nbsp;
+                    <Row>
+                        <Col>  <Form.Label>Description</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </Col>
                     </Row>
                 </Modal.Body>
                 <Modal.Footer >

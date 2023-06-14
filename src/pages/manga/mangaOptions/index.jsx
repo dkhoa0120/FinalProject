@@ -13,20 +13,20 @@ function LatestManga() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [totalMangas, setTotalMangas] = useState(0);
     const [page, setPage] = useState(searchParams.get('page') || 1);
-    const [option, setOption] = useState(searchParams.get('option'));
-    const itemPerPage = 8;
+    const [sortOption, setOption] = useState(searchParams.get('sortOption'));
+    const pageSize = 4;
 
     useEffect(() => {
         setPage(parseInt(searchParams.get('page') || 1));
-        setOption(searchParams.get('option'));
+        setOption(searchParams.get('sortOption'));
     }, [searchParams]);
 
     useEffect(() => {
         callAPI();
-    }, [option, page])
+    }, [sortOption, page])
 
     const callAPI = async () => {
-        let res = await getMangas(option, page, itemPerPage)
+        let res = await getMangas(sortOption, page, pageSize)
             .then((result) => {
                 setMangas(result.data)
             })
@@ -41,9 +41,9 @@ function LatestManga() {
         totalItems().then((response) => {
             setTotalMangas(response.data);
         });
-    }, [page, itemPerPage]);
+    }, [page, pageSize]);
 
-    const totalPages = Math.ceil(totalMangas / itemPerPage);
+    const totalPages = Math.ceil(totalMangas / pageSize);
 
 
     return (
@@ -52,17 +52,17 @@ function LatestManga() {
                 <Row>
                     <Col>
                         <div className="Manga-Container-title">
-                            <span>{option === 'latest-manga' ? 'Latest Manga' : 'Latest Chapter'}</span>
+                            <span>{sortOption === 'LatestManga' ? 'Latest Manga' : 'Latest Chapter'}</span>
                         </div>
                     </Col>
                     <Col>
                         <FormSelect
                             className='mb-4 w-100'
-                            value={option}
-                            onChange={(e) => setSearchParams({ option: e.target.value, page: '1' })}
+                            value={sortOption}
+                            onChange={(e) => setSearchParams({ sortOption: e.target.value, page: '1' })}
                         >
-                            <option value='latest-manga'>Latest Manga</option>
-                            <option value='latest-chapter'>Latest Chapter</option>
+                            <option value='LatestManga'>Latest Manga</option>
+                            <option value='LatestChapter'>Latest Chapter</option>
                         </FormSelect>
                     </Col>
                 </Row>
@@ -94,7 +94,7 @@ function LatestManga() {
                 )}
                 &nbsp;
                 <div className="d-flex justify-content-center">
-                    <Pagination page={page} totalPages={totalPages} setSearchParams={setSearchParams} option={option} />
+                    <Pagination page={page} totalPages={totalPages} setSearchParams={setSearchParams} sortOption={sortOption} />
                 </div>
             </div>
         </div>

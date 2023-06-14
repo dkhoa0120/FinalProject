@@ -9,8 +9,8 @@ export const getMangaList = () => {
 };
 
 
-export const getMangas = (option, page, itemPerPage) => {
-    return axios.get(`${API_URL}/user/Manga/${option}/${page}/${itemPerPage}`)
+export const getMangas = (SortOption, Page, PageSize) => {
+    return axios.get(`${API_URL}/user/Manga/?sortOption=${SortOption}&Page=${Page}&PageSize=${PageSize}`)
 };
 
 export const totalItems = () => {
@@ -41,7 +41,7 @@ export const getCurrentUserBasic = () => {
 }
 
 export const createManga = (formData) => {
-    return axios.post(`${API_URL}/admin/manga`, formData, {
+    return axios.post(`${API_URL}/manage/manga`, formData, {
         headers: {
             Authorization: `Bearer ${new Cookies().get("Token")}`,
         },
@@ -49,15 +49,7 @@ export const createManga = (formData) => {
 };
 
 export const editManga = (id, formData) => {
-    return axios.put(`${API_URL}/admin/manga/${id}`, formData, {
-        headers: {
-            Authorization: `Bearer ${new Cookies().get("Token")}`,
-        },
-    });
-};
-
-export const getLanguage = () => {
-    return axios.get(`${API_URL}/admin/manga/languages`, {
+    return axios.put(`${API_URL}/manage/manga/${id}`, formData, {
         headers: {
             Authorization: `Bearer ${new Cookies().get("Token")}`,
         },
@@ -65,10 +57,21 @@ export const getLanguage = () => {
 };
 
 export const deleteManga = (id) => {
-    return axios.delete(`${API_URL}/admin/manga/${id}`, {
+    return axios.delete(`${API_URL}/manage/manga/${id}`, {
         headers: {
             Authorization: `Bearer ${new Cookies().get("Token")}`,
         },
     });
 };
 
+export const getLanguage = () => {
+    return axios.get(`${API_URL}/Language`);
+};
+
+export const getCategory = () => {
+    return axios.get(`${API_URL}/manage/category`);
+};
+
+export const getAuthor = () => {
+    return axios.get(`${API_URL}/manage/author`);
+};

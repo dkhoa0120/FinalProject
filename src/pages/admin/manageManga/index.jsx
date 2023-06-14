@@ -71,7 +71,7 @@ function ManageManga() {
                             <th>#</th>
                             <th>Cover</th>
                             <th>Original Title</th>
-                            <th>Publish Year</th>
+                            <th>Language</th>
                             <th>Description</th>
                             <th>Created at</th>
                             <th>Action</th>
@@ -88,7 +88,7 @@ function ManageManga() {
                                             <td>{index + 1}</td>
                                             <td><Image src={item.coverPath} style={{ width: "100px" }} /></td>
                                             <td>{item.originalTitle}</td>
-                                            <td>{item.publishYear}</td>
+                                            <td>{item.originalLanguage}</td>
                                             <td className="description-cell">{item.description}</td>
                                             <td>{formattedDate}</td>
                                             <td colSpan={2}>
