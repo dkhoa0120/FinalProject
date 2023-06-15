@@ -3,6 +3,7 @@ import "./styles.css";
 import { Button, Image, Modal, Nav } from "react-bootstrap";
 import { useEffect } from "react";
 import { getMangaForSearch } from "../../service/Data.service";
+import axios from "axios";
 
 function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);
@@ -12,38 +13,25 @@ function SearchBar({ placeholder }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getData(wordEntered);
-  }, [wordEntered]);
-
   const getData = async (search) => {
-    await getMangaForSearch(search).then((result) => {
-      setData(result.data);
-    });
+    const response = await getMangaForSearch(search);
+    return response.data;
   };
 
-  const handleFilter = (event) => {
+  const handleFilter = async (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
-    const newFilter = data.filter((value) => {
-      const originalTitle = value.originalTitle
-        ? value.originalTitle.toLowerCase()
-        : "";
-      const alternativeTitles = value.alternativeTitles
-        ? value.alternativeTitles.toLowerCase()
-        : "";
-      return (
-        originalTitle.includes(searchWord.toLowerCase()) ||
-        alternativeTitles.includes(searchWord.toLowerCase())
-      );
-    });
 
     if (searchWord === "") {
       setFilteredData([]);
     } else {
-      setFilteredData(newFilter);
+      try {
+        const mangaData = await getData(searchWord);
+        setFilteredData(mangaData);
+      } catch (error) {
+        console.error("Error fetching manga data:", error);
+        setFilteredData([]);
+      }
     }
   };
 
@@ -78,7 +66,7 @@ function SearchBar({ placeholder }) {
             </div>
             {filteredData.length !== 0 && (
               <div className="dataResult">
-                {filteredData.slice(0, 15).map((value, key) => {
+                {filteredData.slice(0, 10).map((value, key) => {
                   return (
                     <React.Fragment key={value.id}>
                       <Nav.Link

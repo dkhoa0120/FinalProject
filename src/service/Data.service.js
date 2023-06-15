@@ -10,7 +10,7 @@ export const getMangaForUI = () => {
 
 //Test API
 export const getMangaForSearch = (Search) => {
-  return axios.get(`${API_URL}/user/Manga/?search=${Search}`);
+  return axios.get(`${API_URL}/user/Manga?search=${Search}`);
 };
 
 //Get manga
@@ -40,9 +40,9 @@ export const registerAPI = (data) => {
 
 // Admin mangae Manga
 
-export const getMangaList = (Page, PageSize) => {
+export const getMangaList = (Search, Page, PageSize) => {
   return axios.get(
-    `${API_URL}/manage/Manga/?Page=${Page}&PageSize=${PageSize}`,
+    `${API_URL}/manage/Manga/?Search=${Search}&Page=${Page}&PageSize=${PageSize}`,
     {
       headers: {
         Authorization: `Bearer ${new Cookies().get("Token")}`,
@@ -87,8 +87,8 @@ export const getLanguage = () => {
   return axios.get(`${API_URL}/Language`);
 };
 
-export const getCategory = () => {
-  return axios.get(`${API_URL}/manage/category`);
+export const getCategory = (PageSize) => {
+  return axios.get(`${API_URL}/manage/category/?PageSize=${PageSize}`);
 };
 
 export const getAuthor = () => {

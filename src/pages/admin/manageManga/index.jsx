@@ -9,7 +9,7 @@ import {
   getMangaList,
   totalItems,
 } from "../../../service/Data.service";
-import { Image } from "react-bootstrap";
+import { Col, Form, Image, Row } from "react-bootstrap";
 import { useContext } from "react";
 import CreateManga from "./components/CreateManga";
 import { ToastContainer } from "react-toastify";
@@ -61,16 +61,16 @@ function ManageManga() {
   }, [page]);
 
   const getMangas = async () => {
-    let res = await getMangaList(page, pageSize).then((result) => {
+    await getMangaList(page, pageSize).then((result) => {
       setMangas(result.data);
     });
-    console.log(res);
   };
+  console.log("mangas", mangas);
 
   const handleEdit = async (id) => {
     handleShowEdit();
     await getMangaById(id).then((result) => {
-      setDataEdit(result);
+      setDataEdit(result.data);
     });
   };
   const handleDelete = (mangas) => {
@@ -81,10 +81,26 @@ function ManageManga() {
   return (
     <div className="manage-manga">
       <ToastContainer />
-      <Button variant="success" onClick={handleShowCreate}>
-        {" "}
-        <i className="fa-solid fa-circle-plus"></i> Create{" "}
-      </Button>
+      <Row>
+        <Col>
+          <Button variant="success" onClick={handleShowCreate}>
+            {" "}
+            <i className="fa-solid fa-circle-plus"></i> Create{" "}
+          </Button>
+        </Col>
+        <Col>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button variant="outline-success">Search</Button>{" "}
+          </Form>
+        </Col>
+      </Row>
+
       <div className="manage-table">
         <Table striped bordered hover>
           <thead>
@@ -117,6 +133,7 @@ function ManageManga() {
                         </Button>
                         &nbsp;
                         <Button
+                          disabled={item.deletedAt != null}
                           variant="danger"
                           onClick={() => handleDelete(item)}
                         >

@@ -73,10 +73,12 @@ function CreateManga(props) {
     getCategoryList();
   }, []);
   const getCategoryList = async () => {
-    let res = await getCategory().then((result) => {
+    try {
+      const result = await getCategory(30);
       setCategories(result.data);
-    });
-    console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const categoryOptions = categories.map((category) => ({
     value: category.id,
