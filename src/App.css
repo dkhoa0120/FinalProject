@@ -1,15 +1,12 @@
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.App{
+.App {
   background: #eee;
   font-family: sans-serif;
 }
-
-
 
 .App-logo {
   height: 40vmin;
@@ -22,23 +19,17 @@
   }
 }
 
-
-
-
-.Headercus{
+.Headercus {
   display: flex;
   background-color: #f1f1f1;
   flex-direction: column;
   width: 100%;
   height: auto;
-
 }
-
 
 .App-link {
   color: #61dafb;
 }
-
 
 @keyframes App-logo-spin {
   from {
@@ -49,23 +40,19 @@
   }
 }
 
+.text-limit {
+  --max-lines: 3;
 
-  .text-limit {
-    --max-lines: 3;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--max-lines);
+}
 
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: var(--max-lines);
-
-
-  }
-  
-  .card-link {
-    text-decoration: none;
-    color: black;
-  }
-  .card-link:hover {
-    color: black;
-  }
-
+.card-link {
+  text-decoration: none;
+  color: black;
+}
+.card-link:hover {
+  color: black;
+}

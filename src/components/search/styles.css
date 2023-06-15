@@ -15,11 +15,9 @@
   width: 100%;
 }
 
-
 input:focus {
   outline: none;
 }
-
 
 .dataResult {
   margin-top: 5px;
@@ -29,8 +27,6 @@ input:focus {
   overflow: hidden;
   overflow-y: auto;
 }
-
-
 
 .dataResult .dataItem {
   width: 100%;
@@ -50,7 +46,6 @@ input:focus {
 a {
   text-decoration: none;
 }
-
 
 #clearBtn {
   cursor: pointer;

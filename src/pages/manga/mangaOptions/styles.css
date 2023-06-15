@@ -1,11 +1,11 @@
 .wrapper {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
-.coverI{
-    height: 230px;
+.coverI {
+  height: 230px;
 }
 @media (max-width: 768px) {
-    .coverI{
-        height: 450px;
-    }
+  .coverI {
+    height: 450px;
   }
+}

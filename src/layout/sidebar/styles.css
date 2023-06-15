@@ -7,74 +7,65 @@
   font-family: "Lato", sans-serif;
 }
 
-  .nav-menu {
-    background-color: aliceblue;
-    width: 230px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: hidden auto;
-    left: 0;
-    top: 0;
-    position: fixed;
-  }
-  .nav-menu::-webkit-scrollbar {
-      display: none;
-  }
+.nav-menu {
+  background-color: aliceblue;
+  width: 230px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden auto;
+  left: 0;
+  top: 0;
+  position: fixed;
+}
+.nav-menu::-webkit-scrollbar {
+  display: none;
+}
 
+.nav-menu button {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-  .nav-menu button {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  
 .nav-text a {
-    text-decoration: none;
-    color: #151414;
-    font-size: 0.85rem;
-    width: 95%;
-    height: 100%;
-    border-radius: 4px;
-  }
-  
+  text-decoration: none;
+  color: #151414;
+  font-size: 0.85rem;
+  width: 95%;
+  height: 100%;
+  border-radius: 4px;
+}
 
+.nav-menu hr.sidebar-divider {
+  margin: 0rem 2rem 0.5rem;
+}
+.sidebar-title {
+  font-weight: 800;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 0px !important;
+}
 
-  .nav-menu hr.sidebar-divider {
-    margin: 0rem 2rem 0.5rem;
-  }
-  .sidebar-title{
-    font-weight: 800;
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-bottom: 0px !important;
-  }
-  
-  .sidebar-heading a:hover,
-  .nav-text a:hover {
-    background-color: black !important;
-    color: white;
-  }
+.sidebar-heading a:hover,
+.nav-text a:hover {
+  background-color: black !important;
+  color: white;
+}
 
+.sidebar-heading {
+  font-weight: 800;
+  padding-bottom: 0px !important;
+}
+.drop-item {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
 
-  .sidebar-heading {
-    font-weight: 800;
-    padding-bottom: 0px !important;
-  }
-  .dropdown-item {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
-  }
-  
-  /* Define the state when the dropdown items are visible */
-  .dropdown-item.active {
-    max-height: 100px; 
-    transition: max-height 0.5s ease-in-out;
-  }
-
-
-
-
+/* Define the state when the dropdown items are visible */
+.drop-item.active {
+  max-height: 100px;
+  transition: max-height 0.5s ease-in-out;
+}

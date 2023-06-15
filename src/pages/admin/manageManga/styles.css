@@ -1,13 +1,19 @@
 .manage-table {
-    padding-top: 20px;
+  padding-top: 20px;
 }
 .manage-manga {
-    padding-top: 40px;
+  padding-top: 40px;
 }
 .description-cell {
-    max-width: 200px; /* Adjust the value to your desired maximum width */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  max-width: 300px; /* Adjust the value to your desired maximum width */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
+.title-cell {
+  max-width: 200px; /* Adjust the value to your desired maximum width */
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

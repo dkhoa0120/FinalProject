@@ -1,14 +1,14 @@
 .Body {
-    padding: 20px;
-    width: 100%;
-    min-height: 100vh;
-    height: 100%;
-    background: #eee;
-    font-family: sans-serif;
+  padding: 20px;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background: #eee;
+  font-family: sans-serif;
+}
+@media (max-width: 768px) {
+  .Body {
+    padding: 0px;
+    padding-top: 40px;
   }
-  @media (max-width: 768px) {
-    .Body {
-        padding: 0px;
-        padding-top: 40px;
-    }
-  }
+}
