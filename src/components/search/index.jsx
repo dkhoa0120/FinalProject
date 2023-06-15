@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { Button, Image, Modal, Nav, NavItem } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Image, Modal, Nav } from "react-bootstrap";
 import { useEffect } from "react";
-import { getMangaForUI } from "../../service/Data.service";
+import { getMangaForSearch } from "../../service/Data.service";
 
 function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);
@@ -20,7 +19,7 @@ function SearchBar({ placeholder }) {
   }, [wordEntered]);
 
   const getData = async (search) => {
-    await getMangaForUI(search).then((result) => {
+    await getMangaForSearch(search).then((result) => {
       setData(result.data);
     });
   };
@@ -32,7 +31,13 @@ function SearchBar({ placeholder }) {
       const originalTitle = value.originalTitle
         ? value.originalTitle.toLowerCase()
         : "";
-      return originalTitle.includes(searchWord.toLowerCase());
+      const alternativeTitles = value.alternativeTitles
+        ? value.alternativeTitles.toLowerCase()
+        : "";
+      return (
+        originalTitle.includes(searchWord.toLowerCase()) ||
+        alternativeTitles.includes(searchWord.toLowerCase())
+      );
     });
 
     if (searchWord === "") {
