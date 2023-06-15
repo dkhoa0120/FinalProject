@@ -85,7 +85,7 @@ function Header(props) {
         </div>
 
         <div>
-          <SearchBar placeholder="Enter a Manga Name..." data={data} />
+          <SearchBar placeholder="Enter a Manga Name..." />
           &nbsp; &nbsp;
           <Navbar.Toggle as={CustomNavbarToggle} />
           <Navbar.Offcanvas

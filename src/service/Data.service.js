@@ -4,8 +4,8 @@ import Cookies from "universal-cookie";
 const API_URL = process.env.REACT_APP_API_URL; // Access the API_URL variable from the environment
 
 //Test API
-export const getMangaForUI = () => {
-  return axios.get(`${API_URL}/user/Manga`);
+export const getMangaForUI = (Search) => {
+  return axios.get(`${API_URL}/user/Manga/?search=${Search}`);
 };
 
 //Get manga

@@ -8,6 +8,7 @@ const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
     const addPageNumber = (i) => {
       pageNumbers.push(
         <Button
+          key={i}
           variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() =>
             setSearchParams({ sortOption: sortOption, page: String(i) })

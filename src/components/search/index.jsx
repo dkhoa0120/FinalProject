@@ -2,14 +2,28 @@ import React, { useState } from "react";
 import "./styles.css";
 import { Button, Image, Modal, Nav, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getMangaForUI } from "../../service/Data.service";
 
-function SearchBar({ placeholder, data }) {
+function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getData(wordEntered);
+  }, [wordEntered]);
+
+  const getData = async (search) => {
+    await getMangaForUI(search).then((result) => {
+      setData(result.data);
+    });
+  };
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -18,13 +32,7 @@ function SearchBar({ placeholder, data }) {
       const originalTitle = value.originalTitle
         ? value.originalTitle.toLowerCase()
         : "";
-      const alternativeTitles = value.alternativeTitles
-        ? value.alternativeTitles.toLowerCase()
-        : "";
-      return (
-        originalTitle.includes(searchWord.toLowerCase()) ||
-        alternativeTitles.includes(searchWord.toLowerCase())
-      );
+      return originalTitle.includes(searchWord.toLowerCase());
     });
 
     if (searchWord === "") {
