@@ -14,7 +14,6 @@ import {
 import React, { useState, useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import SearchBar from "../../components/search";
-import { getMangaForUI } from "../../service/Data.service";
 import { UserContext } from "../../context/UserContext";
 import "./styles.css";
 
@@ -37,18 +36,6 @@ function Header(props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const { logout, user } = useContext(UserContext);
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    await getMangaForUI().then((result) => {
-      setData(result.data);
-    });
-  };
 
   const handleLogout = () => {
     logout();
@@ -85,7 +72,7 @@ function Header(props) {
         </div>
 
         <div>
-          <SearchBar placeholder="Enter a Manga Name..." data={data} />
+          <SearchBar placeholder="Enter a Manga Name..." />
           &nbsp; &nbsp;
           <Navbar.Toggle as={CustomNavbarToggle} />
           <Navbar.Offcanvas
@@ -134,7 +121,7 @@ function Header(props) {
                 </Row>
                 {user && user.auth === true ? (
                   <>
-                    {user.roles == "Admin" && (
+                    {user.roles.includes("Admin") && (
                       <>
                         <Dropdown>
                           <Dropdown.Toggle

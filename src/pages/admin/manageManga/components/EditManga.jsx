@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 function EditManga(props) {
   const [id, setId] = useState("");
   const [originalTitle, setOriginalTitle] = useState("");
-  const [coverPath, setCoverPath] = useState("");
+  const [coverPath, setCoverPath] = useState(null);
   const [alternativeTitles, setAlternativeTitles] = useState("");
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
@@ -39,10 +39,10 @@ function EditManga(props) {
         description,
         publishYear,
         id,
-      } = props.dataEdit.data;
+      } = props.dataEdit;
       setId(id || "");
-      setOriginalTitle(originalTitle || ""); // Provide an empty string as the default value
-      setCoverPath(coverPath || "");
+      setOriginalTitle(originalTitle || "");
+      setCoverPath(coverPath || null);
       setAlternativeTitles(alternativeTitles || "");
       setOriginalLanguage(originalLanguage || "");
       setDescription(description || "");
@@ -94,7 +94,6 @@ function EditManga(props) {
         <Modal.Body>
           <Row>
             <Col xl={8}>
-              {" "}
               <Form.Label>Original Title</Form.Label>
               <Form.Control
                 type="text"
@@ -104,7 +103,6 @@ function EditManga(props) {
               />
             </Col>
             <Col xl={4}>
-              {" "}
               <Form.Label>Cover</Form.Label>
               <Form.Control
                 type="file"
@@ -112,11 +110,9 @@ function EditManga(props) {
                 required
               />
             </Col>
-          </Row>{" "}
-          &nbsp;
+          </Row>
           <Row>
             <Col>
-              {" "}
               <Form.Label>Publish Year</Form.Label>
               <Form.Control
                 type="number"
@@ -126,7 +122,6 @@ function EditManga(props) {
               />
             </Col>
             <Col>
-              {" "}
               <Form.Label>Alternative Titles</Form.Label>
               <Form.Control
                 type="text"
@@ -135,7 +130,6 @@ function EditManga(props) {
               />
             </Col>
             <Col>
-              {" "}
               <Form.Label>Original Language</Form.Label>
               <Form.Control
                 as="select"
@@ -150,20 +144,18 @@ function EditManga(props) {
                   </option>
                 ))}
               </Form.Control>
-            </Col>{" "}
-            &nbsp;
-            <Row>
-              <Col>
-                {" "}
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Col>
-            </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Col>
           </Row>
         </Modal.Body>
         <Modal.Footer>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { Button, Image, Modal, Nav, NavItem } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Image, Modal, Nav } from "react-bootstrap";
+import { getMangaForSearch } from "../../service/Data.service";
 
-function SearchBar({ placeholder, data }) {
+function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,26 +11,25 @@ function SearchBar({ placeholder, data }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
 
-  const handleFilter = (event) => {
+  const getData = async (search) => {
+    const response = await getMangaForSearch(search);
+    return response.data;
+  };
+
+  const handleFilter = async (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
-    const newFilter = data.filter((value) => {
-      const originalTitle = value.originalTitle
-        ? value.originalTitle.toLowerCase()
-        : "";
-      const alternativeTitles = value.alternativeTitles
-        ? value.alternativeTitles.toLowerCase()
-        : "";
-      return (
-        originalTitle.includes(searchWord.toLowerCase()) ||
-        alternativeTitles.includes(searchWord.toLowerCase())
-      );
-    });
 
     if (searchWord === "") {
       setFilteredData([]);
     } else {
-      setFilteredData(newFilter);
+      try {
+        const mangaData = await getData(searchWord);
+        setFilteredData(mangaData);
+      } catch (error) {
+        console.error("Error fetching manga data:", error);
+        setFilteredData([]);
+      }
     }
   };
 
@@ -65,7 +64,7 @@ function SearchBar({ placeholder, data }) {
             </div>
             {filteredData.length !== 0 && (
               <div className="dataResult">
-                {filteredData.slice(0, 15).map((value, key) => {
+                {filteredData.slice(0, 10).map((value, key) => {
                   return (
                     <React.Fragment key={value.id}>
                       <Nav.Link

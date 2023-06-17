@@ -5,18 +5,27 @@ const API_URL = process.env.REACT_APP_API_URL; // Access the API_URL variable fr
 
 // Test API
 export const getMangaForUI = () => {
-  return axios.get(`${API_URL}/user/Manga`);
+  return axios.get(`${API_URL}/user/Manga/`);
+};
+
+//Search Component
+export const getMangaForSearch = (Search) => {
+  return axios.get(`${API_URL}/user/Manga?search=${Search}`);
 };
 
 // Get manga
-export const getMangas = (SortOption, Page, PageSize) => {
+export const getMangas = (Search, SortOption, Page, PageSize) => {
   return axios.get(
-    `${API_URL}/user/Manga/?sortOption=${SortOption}&Page=${Page}&PageSize=${PageSize}`
+    `${API_URL}/user/Manga/?Search=${Search}&SortOption=${SortOption}&Page=${Page}&PageSize=${PageSize}`
   );
 };
 
 export const totalItems = () => {
   return axios.get(`${API_URL}/user/Manga/count`);
+};
+
+export const totalItemsWithSearch = (search) => {
+  return axios.get(`${API_URL}/user/Manga/countSearch/?search=${search}`);
 };
 
 export const getMangaById = (id) => {
@@ -33,9 +42,9 @@ export const registerAPI = (data) => {
 };
 
 // Admin manage Manga
-export const getMangaList = (Page, PageSize) => {
+export const getMangaList = (Search, Page, PageSize) => {
   return axios.get(
-    `${API_URL}/manage/Manga/?Page=${Page}&PageSize=${PageSize}`,
+    `${API_URL}/manage/Manga/?Search=${Search}&Page=${Page}&PageSize=${PageSize}`,
     {
       headers: {
         Authorization: `Bearer ${new Cookies().get("Token")}`,
@@ -99,4 +108,36 @@ export const getCategoryList = (Page, PageSize) => {
       },
     }
   );
+};
+
+export const createCategory = (data) => {
+  return axios.post(`${API_URL}/manage/category`, data, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const getCategoryByID = (id, data) => {
+  return axios.get(`${API_URL}/manage/category/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const editCategory = (id, data) => {
+  return axios.put(`${API_URL}/manage/category/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const deleteCategory = (id) => {
+  return axios.delete(`${API_URL}/manage/category/${id}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
 };

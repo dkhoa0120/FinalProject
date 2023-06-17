@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Card, Container, Button, FormSelect } from "react-bootstrap";
-import { getMangas, totalItems } from "../../../service/Data.service";
+import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
+import {
+  getMangas,
+  getMangasBySearch,
+  totalItems,
+  totalItemsWithSearch,
+} from "../../../service/Data.service";
 import { Link, useSearchParams } from "react-router-dom";
 import "./styles.css";
 import Pagination from "../../../components/pagination";
@@ -10,38 +15,72 @@ function Manga() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalMangas, setTotalMangas] = useState(0);
   const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [sortOption, setOption] = useState(searchParams.get("sortOption"));
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
+  const [sortOption, setOption] = useState(
+    searchParams.get("sortOption") || ""
+  );
   const pageSize = 4;
 
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
-    setOption(searchParams.get("sortOption"));
+    setOption(searchParams.get("sortOption" || ""));
+    setSearchTerm(searchParams.get("search") || "");
   }, [searchParams]);
 
+  // Fetch manga data
   useEffect(() => {
-    callAPI();
-  }, [sortOption, page]);
+    getMangasList();
+  }, [searchTerm, sortOption, page]);
 
-  const callAPI = async () => {
-    let res = await getMangas(sortOption, page, pageSize).then((result) => {
+  const getMangasList = async () => {
+    await getMangas(searchTerm, sortOption, page, pageSize).then((result) => {
       setMangas(result.data);
     });
+  };
 
-    console.log("MANGAs", res);
+  // Event handler for search manga
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    if (search) {
+      setSearchParams({ search, sortOption: sortOption, page: 1 });
+    } else {
+      setSearchParams({ sortOption: sortOption, page: 1 });
+    }
   };
 
   //Pagination
+  // Calculate total number of manga items
   useEffect(() => {
-    totalItems().then((response) => {
-      setTotalMangas(response.data);
-    });
-  }, [page, pageSize]);
+    if (searchTerm !== "") {
+      totalItemsWithSearch(searchTerm).then((response) => {
+        setTotalMangas(response.data);
+      });
+    } else {
+      totalItems().then((response) => {
+        setTotalMangas(response.data);
+      });
+    }
+  }, [searchTerm, sortOption, page]);
 
   const totalPages = Math.ceil(totalMangas / pageSize);
 
   return (
     <div>
       <div style={{ paddingTop: "50px" }}>
+        <Row>
+          <div className="Manga-Container-title">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+        </Row>
         <Row>
           <Col>
             <div className="Manga-Container-title">
@@ -99,6 +138,7 @@ function Manga() {
             totalPages={totalPages}
             setSearchParams={setSearchParams}
             sortOption={sortOption}
+            search={searchTerm}
           />
         </div>
       </div>
