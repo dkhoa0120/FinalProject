@@ -1,7 +1,13 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
+const Pagination = ({
+  totalPages,
+  page,
+  setSearchParams,
+  sortOption,
+  search,
+}) => {
   const renderPageNumbers = () => {
     const pageNumbers = [];
 
@@ -11,7 +17,11 @@ const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
           key={i}
           variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() =>
-            setSearchParams({ sortOption: sortOption, page: String(i) })
+            setSearchParams({
+              ...(search && { search }), // Include search if available
+              ...(sortOption && { sortOption }), // Include sortOption if available
+              page: String(i),
+            })
           }
         >
           {i}
@@ -59,7 +69,11 @@ const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
       <div className="pagination">
         <Button
           onClick={() =>
-            setSearchParams({ sortOption: sortOption, page: String(1) })
+            setSearchParams({
+              ...(search && { search }), // Include search if available
+              ...(sortOption && { sortOption }), // Include sortOption if available
+              page: String(1),
+            })
           }
           variant="btn btn-dark"
         >
@@ -70,7 +84,8 @@ const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
           <Button
             onClick={() =>
               setSearchParams({
-                sortOption: sortOption,
+                ...(search && { search }), // Include search if available
+                ...(sortOption && { sortOption }), // Include sortOption if available
                 page: String(page - 1),
               })
             }
@@ -91,7 +106,8 @@ const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
             variant="btn btn-dark"
             onClick={() =>
               setSearchParams({
-                sortOption: sortOption,
+                ...(search && { search }), // Include search if available
+                ...(sortOption && { sortOption }), // Include sortOption if available
                 page: String(page + 1),
               })
             }
@@ -107,7 +123,8 @@ const Pagination = ({ totalPages, page, setSearchParams, sortOption }) => {
         <Button
           onClick={() =>
             setSearchParams({
-              sortOption: sortOption,
+              ...(search && { search }), // Include search if available
+              ...(sortOption && { sortOption }), // Include sortOption if available
               page: String(totalPages),
             })
           }

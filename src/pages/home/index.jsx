@@ -16,13 +16,15 @@ function Home() {
   const [mangas, setMangas] = useState([]);
 
   useEffect(() => {
-    callAPI(activeButton, 1, 8);
+    callAPI("", activeButton, 1, 8);
   }, [activeButton]);
 
-  const callAPI = async (sortOption, page, pageSize) => {
-    let res = await getMangas(sortOption, page, pageSize).then((result) => {
-      setMangas(result.data);
-    });
+  const callAPI = async (search, sortOption, page, pageSize) => {
+    let res = await getMangas(search, sortOption, page, pageSize).then(
+      (result) => {
+        setMangas(result.data);
+      }
+    );
 
     console.log("MANGAs", res);
   };

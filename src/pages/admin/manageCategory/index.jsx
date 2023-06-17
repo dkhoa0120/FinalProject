@@ -4,10 +4,16 @@ import Button from "react-bootstrap/Button";
 import { UserContext } from "../../../context/UserContext";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getCategoryList, totalItems } from "../../../service/Data.service";
+import {
+  getCategoryList,
+  getCategoryByID,
+} from "../../../service/Data.service";
 import { useContext } from "react";
 import { ToastContainer } from "react-toastify";
 import Pagination from "../../../components/pagination";
+import CreateCate from "./components/CreateCate";
+import EditCate from "./components/EditCate";
+import DeleteCate from "./components/DeleteCate";
 
 function ManageCategory() {
   const navigate = useNavigate();
@@ -16,7 +22,21 @@ function ManageCategory() {
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const [categories, setCategories] = useState([]);
   const { user } = useContext(UserContext);
-  const pageSize = 6;
+  const pageSize = 10;
+
+  // Component state variables for modal controls
+  const [showCreate, setShowCreate] = useState(false);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
+
+  const [showEdit, setShowEdit] = useState(false);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
+
+  const [showDelete, setShowDelete] = useState(false);
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = () => setShowDelete(true);
+  const [dataEdit, setDataEdit] = useState({});
 
   useEffect(() => {
     if (user && user.auth === false && user.roles !== "Admin") {
@@ -26,9 +46,7 @@ function ManageCategory() {
 
   //Pagination
   useEffect(() => {
-    totalItems().then((response) => {
-      setTotal(response.data);
-    });
+    getCategories();
   }, [page, pageSize]);
 
   const totalPages = Math.ceil(total / pageSize);
@@ -41,18 +59,33 @@ function ManageCategory() {
 
   const getCategories = async () => {
     let res = await getCategoryList(page, pageSize).then((result) => {
-      setCategories(result.data);
+      setCategories(result.data.categories);
+      setTotal(result.data.totalCount);
     });
     console.log(res);
   };
 
-  const handleEdit = () => {};
-  const handleDelete = () => {};
+  const handleEdit = async (id) => {
+    handleShowEdit();
+    await getCategoryByID(id).then((result) => {
+      setDataEdit(result.data);
+    });
+  };
+
+  // Event handler for deleting cate
+  const handleDelete = (categories) => {
+    setDataEdit(categories);
+    handleShowDelete();
+  };
 
   return (
     <div className="manage-manga">
       <ToastContainer />
       <div className="manage-table">
+        <Button variant="success" onClick={handleShowCreate}>
+          <i className="fa-solid fa-circle-plus"></i> Create
+        </Button>
+        &nbsp;
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -96,6 +129,23 @@ function ManageCategory() {
             setSearchParams={setSearchParams}
           />
         </div>
+        <CreateCate
+          show={showCreate}
+          handleClose={handleCloseCreate}
+          getCategories={getCategories}
+        />
+        <EditCate
+          show={showEdit}
+          handleClose={handleCloseEdit}
+          dataEdit={dataEdit}
+          getCategories={getCategories}
+        />
+        <DeleteCate
+          show={showDelete}
+          handleClose={handleCloseDelete}
+          dataEdit={dataEdit}
+          getCategories={getCategories}
+        />
       </div>
     </div>
   );

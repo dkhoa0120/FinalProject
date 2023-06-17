@@ -74,8 +74,8 @@ function CreateManga(props) {
   }, []);
   const getCategoryList = async () => {
     try {
-      const result = await getCategory(30);
-      setCategories(result.data);
+      const result = await getCategory(50);
+      setCategories(result.data.categories);
     } catch (error) {
       console.log(error);
     }

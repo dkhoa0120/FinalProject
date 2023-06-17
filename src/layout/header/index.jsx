@@ -121,7 +121,7 @@ function Header(props) {
                 </Row>
                 {user && user.auth === true ? (
                   <>
-                    {user.roles == "Admin" && (
+                    {user.roles.includes("Admin") && (
                       <>
                         <Dropdown>
                           <Dropdown.Toggle

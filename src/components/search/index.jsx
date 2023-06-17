@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { Button, Image, Modal, Nav } from "react-bootstrap";
-import { useEffect } from "react";
 import { getMangaForSearch } from "../../service/Data.service";
-import axios from "axios";
 
 function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);

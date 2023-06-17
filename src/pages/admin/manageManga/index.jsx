@@ -8,6 +8,7 @@ import {
   getMangaById,
   getMangaList,
   totalItems,
+  totalItemsWithSearch,
 } from "../../../service/Data.service";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import { useContext } from "react";
@@ -18,14 +19,19 @@ import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
 
 function ManageManga() {
+  // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalMangas, setTotalMangas] = useState(0);
   const [page, setPage] = useState(searchParams.get("page") || 1);
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
   const [mangas, setMangas] = useState([]);
   const { user } = useContext(UserContext);
   const pageSize = 4;
 
+  // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
@@ -39,65 +45,91 @@ function ManageManga() {
   const handleShowDelete = () => setShowDelete(true);
   const [dataEdit, setDataEdit] = useState({});
 
+  // Effects
+
   useEffect(() => {
-    if (user && user.auth === false && user.roles !== "Admin") {
+    // Redirect if the user is not authenticated or is not an admin
+    if (user && user.auth === false && !user.roles.includes("Admin")) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user]);
 
-  //Pagination
+  // Calculate total number of manga items
   useEffect(() => {
-    totalItems().then((response) => {
-      setTotalMangas(response.data);
-    });
-  }, [page, pageSize]);
+    if (searchTerm !== "") {
+      totalItemsWithSearch(searchTerm).then((response) => {
+        setTotalMangas(response.data);
+      });
+    } else {
+      totalItems().then((response) => {
+        setTotalMangas(response.data);
+      });
+    }
+  }, [searchTerm, page]);
 
+  // Calculate total number of pages
   const totalPages = Math.ceil(totalMangas / pageSize);
+
+  // Set page and search term from URL search params
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
+    setSearchTerm(searchParams.get("search") || "");
   }, [searchParams]);
+
+  // Fetch manga data
   useEffect(() => {
     getMangas();
-  }, [page]);
+  }, [searchTerm, page]);
 
   const getMangas = async () => {
-    await getMangaList(page, pageSize).then((result) => {
+    await getMangaList(searchTerm, page, pageSize).then((result) => {
       setMangas(result.data);
     });
   };
-  console.log("mangas", mangas);
 
+  // Event handler for search manga
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    if (search) {
+      setSearchParams({ search, page: 1 });
+    } else {
+      setSearchParams({ page: 1 });
+    }
+  };
+
+  // Event handler for editing manga
   const handleEdit = async (id) => {
     handleShowEdit();
     await getMangaById(id).then((result) => {
       setDataEdit(result.data);
     });
   };
+
+  // Event handler for deleting manga
   const handleDelete = (mangas) => {
     setDataEdit(mangas);
     handleShowDelete();
   };
 
+  // JSX rendering
   return (
     <div className="manage-manga">
       <ToastContainer />
       <Row>
         <Col>
           <Button variant="success" onClick={handleShowCreate}>
-            {" "}
-            <i className="fa-solid fa-circle-plus"></i> Create{" "}
+            <i className="fa-solid fa-circle-plus"></i> Create
           </Button>
         </Col>
         <Col>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>{" "}
-          </Form>
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            className="me-2"
+            aria-label="Search"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
         </Col>
       </Row>
 
@@ -128,8 +160,7 @@ function ManageManga() {
                       <td className="description-cell">{item.description}</td>
                       <td colSpan={2}>
                         <Button onClick={() => handleEdit(item.id)}>
-                          {" "}
-                          <i className="fa-solid fa-pen-to-square"></i> Edit{" "}
+                          <i className="fa-solid fa-pen-to-square"></i> Edit
                         </Button>
                         &nbsp;
                         <Button
@@ -137,7 +168,6 @@ function ManageManga() {
                           variant="danger"
                           onClick={() => handleDelete(item)}
                         >
-                          {" "}
                           <i className="fa-solid fa-trash"></i> Delete
                         </Button>
                       </td>
@@ -153,6 +183,7 @@ function ManageManga() {
             page={page}
             totalPages={totalPages}
             setSearchParams={setSearchParams}
+            search={searchTerm}
           />
         </div>
       </div>
