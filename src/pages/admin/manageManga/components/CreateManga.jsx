@@ -101,7 +101,7 @@ function CreateManga(props) {
               <MultiSelect
                 placeholder="Search category"
                 getOptions={async (search) => {
-                  return (await getCategory(search)).data;
+                  return (await getCategory(search)).data.categories;
                 }}
                 exportOptions={(options) => setCategoryIds(options)}
               />
