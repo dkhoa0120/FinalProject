@@ -3,12 +3,12 @@ import Cookies from "universal-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL; // Access the API_URL variable from the environment
 
-//Test API
+// Test API
 export const getMangaForUI = () => {
   return axios.get(`${API_URL}/user/Manga`);
 };
 
-//Get manga
+// Get manga
 export const getMangas = (SortOption, Page, PageSize) => {
   return axios.get(
     `${API_URL}/user/Manga/?sortOption=${SortOption}&Page=${Page}&PageSize=${PageSize}`
@@ -23,8 +23,7 @@ export const getMangaById = (id) => {
   return axios.get(`${API_URL}/user/Manga/${id}`);
 };
 
-//AUthentical
-
+// Authenticate
 export const loginAPI = (data) => {
   return axios.post(`${API_URL}/api/Authenticate/SignIn`, data);
 };
@@ -33,8 +32,7 @@ export const registerAPI = (data) => {
   return axios.post(`${API_URL}/api/Authenticate/SignUp`, data);
 };
 
-// Admin mangae Manga
-
+// Admin manage Manga
 export const getMangaList = (Page, PageSize) => {
   return axios.get(
     `${API_URL}/manage/Manga/?Page=${Page}&PageSize=${PageSize}`,
@@ -82,15 +80,15 @@ export const getLanguage = () => {
   return axios.get(`${API_URL}/Language`);
 };
 
-export const getCategory = () => {
-  return axios.get(`${API_URL}/manage/category`);
+export const getCategory = (search) => {
+  return axios.get(`${API_URL}/manage/category/?Search=${search}`);
 };
 
 export const getAuthor = () => {
   return axios.get(`${API_URL}/manage/author`);
 };
 
-// Admin mangae Category
+// Admin manage Category
 
 export const getCategoryList = (Page, PageSize) => {
   return axios.get(

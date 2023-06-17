@@ -10,8 +10,7 @@ import {
   getAuthor,
 } from "../../../../service/Data.service";
 import { toast } from "react-toastify";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
+import MultiSelect from "../../../../components/multiSelect";
 
 function CreateManga(props) {
   const [originalTitle, setOriginalTitle] = useState("");
@@ -52,7 +51,7 @@ function CreateManga(props) {
     }
   };
 
-  //hanlde seleted language
+  //handle selected language
   const [languageOptions, setLanguageOptions] = useState([]);
   useEffect(() => {
     const fetchLanguageOptions = async () => {
@@ -66,25 +65,6 @@ function CreateManga(props) {
 
     fetchLanguageOptions();
   }, []);
-
-  //hanlde seleted categories
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    getCategoryList();
-  }, []);
-  const getCategoryList = async () => {
-    let res = await getCategory().then((result) => {
-      setCategories(result.data);
-    });
-    console.log(res);
-  };
-  const categoryOptions = categories.map((category) => ({
-    value: category.id,
-    label: category.name,
-  }));
-  const animatedComponents = makeAnimated();
-
-  console.log(categoryIds);
 
   return (
     <div>
@@ -118,18 +98,12 @@ function CreateManga(props) {
           <Row>
             <Col>
               <Form.Label>Category</Form.Label>
-              <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                options={categoryOptions}
-                onChange={(selectedOptions) => {
-                  const categoryIds = selectedOptions.map(
-                    (option) => option.value
-                  );
-                  setCategoryIds(categoryIds);
-                  console.log("asd");
+              <MultiSelect
+                placeholder="Search category"
+                getOptions={async (search) => {
+                  return (await getCategory(search)).data;
                 }}
+                exportOptions={(options) => setCategoryIds(options)}
               />
             </Col>
           </Row>{" "}
