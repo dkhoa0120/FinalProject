@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./styles.css";
 
 export default function MultiSelect({
   placeholder,
@@ -8,6 +9,7 @@ export default function MultiSelect({
   const [options, setOptions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [searchValue, setSearchValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleGetData = async (event) => {
     // get value from input and set searchValue state with that
@@ -51,25 +53,40 @@ export default function MultiSelect({
     exportOptions(Object.keys(selectedOptionsCopy));
   };
 
-  const inputUI = (
-    <input
-      type="text"
-      placeholder={placeholder}
-      onChange={handleGetData}
-      value={searchValue}
-    />
-  );
+  const handleInputClick = () => {
+    setIsOpen(true);
+  };
 
-  const optionsUI =
-    options.length === 0 ? (
-      <p>No option found</p>
-    ) : (
-      Object.entries(options).map(([key, value]) => (
-        <button key={key} onClick={() => selectOption(key)}>
-          {value}
-        </button>
-      ))
-    );
+  const inputUI = (
+    <div className="custom-input">
+      <input
+        type="text"
+        placeholder={placeholder}
+        onChange={handleGetData}
+        value={searchValue}
+        onClick={handleInputClick}
+      />
+      {isOpen &&
+        (options.length === 0 ? (
+          <div className="custom-dropdown">
+            <p>No option found</p>
+          </div>
+        ) : (
+          <div className="custom-dropdown">
+            {Object.entries(options).map(([key, value]) => (
+              <label key={key} className="option">
+                <input
+                  type="checkbox"
+                  value={key}
+                  onChange={() => selectOption(key)}
+                />
+                {value}
+              </label>
+            ))}
+          </div>
+        ))}
+    </div>
+  );
 
   const selectedOptionsUI =
     selectedOptions.length === 0 ? (
@@ -88,7 +105,6 @@ export default function MultiSelect({
   return (
     <>
       {inputUI}
-      {optionsUI}
       {selectedOptionsUI}
     </>
   );
