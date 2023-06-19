@@ -14,7 +14,7 @@ const Pagination = ({
     const addPageNumber = (i) => {
       pageNumbers.push(
         <Button
-          key={i}
+          key={i} // Add unique "key" prop here
           variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() =>
             setSearchParams({

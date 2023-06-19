@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { getCurrentUserBasic } from "../service/Data.service";
 
@@ -8,7 +8,7 @@ const UserContext = React.createContext({ email: "", auth: false, roles: [] });
 // @function  UserProvider
 // Create function to provide UserContext
 const UserProvider = ({ children }) => {
-  const cookies = useMemo(() => new Cookies(), []); // Initialize cookies object memoized
+  const cookies = new Cookies();
 
   const [user, setUser] = useState({ email: "", auth: false, roles: [] });
 
@@ -17,11 +17,11 @@ const UserProvider = ({ children }) => {
     if (token) {
       loginContext();
     }
-  }, [cookies]); // Include cookies in the dependency array
+  }, []); // Include cookies in the dependency array
 
   const loginContext = async () => {
     let response = await getCurrentUserBasic();
-    console.log(response);
+
     setUser(() => ({
       email: response.data.email,
       roles: response.data.roles,

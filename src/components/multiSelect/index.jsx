@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.css";
+import { Form, InputGroup } from "react-bootstrap";
 
 export default function MultiSelect({
   placeholder,
@@ -53,19 +54,42 @@ export default function MultiSelect({
     exportOptions(Object.keys(selectedOptionsCopy));
   };
 
-  const handleInputClick = () => {
-    setIsOpen(true);
+  // show select box logi
+  const handleValueClick = (key) => {
+    selectOption(key);
+    setIsOpen(false);
   };
 
-  const inputUI = (
+  useEffect(() => {
+    if (searchValue.length > 0) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [searchValue]);
+
+  return (
     <div className="custom-input">
-      <input
-        type="text"
-        placeholder={placeholder}
-        onChange={handleGetData}
-        value={searchValue}
-        onClick={handleInputClick}
-      />
+      {Object.entries(selectedOptions).map(([key, value]) => (
+        <span className="selected-option" key={key}>
+          {value}
+          &nbsp;
+          <i
+            className="fa-solid fa-circle-xmark"
+            onClick={() => removeOption(key)}
+          ></i>
+        </span>
+      ))}
+      <Form.Group>
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder={placeholder}
+            onChange={handleGetData}
+            value={searchValue}
+          />
+        </InputGroup>
+      </Form.Group>
       {isOpen &&
         (options.length === 0 ? (
           <div className="custom-dropdown">
@@ -75,37 +99,11 @@ export default function MultiSelect({
           <div className="custom-dropdown">
             {Object.entries(options).map(([key, value]) => (
               <label key={key} className="option">
-                <input
-                  type="checkbox"
-                  value={key}
-                  onChange={() => selectOption(key)}
-                />
-                {value}
+                <p onClick={() => handleValueClick(key)}>{value}</p>
               </label>
             ))}
           </div>
         ))}
     </div>
-  );
-
-  const selectedOptionsUI =
-    selectedOptions.length === 0 ? (
-      <p>No option selected</p>
-    ) : (
-      <ul>
-        {Object.entries(selectedOptions).map(([key, value]) => (
-          <li key={key}>
-            {value}
-            <button onClick={() => removeOption(key)}>X</button>
-          </li>
-        ))}
-      </ul>
-    );
-
-  return (
-    <>
-      {inputUI}
-      {selectedOptionsUI}
-    </>
   );
 }

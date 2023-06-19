@@ -45,15 +45,6 @@ function ManageManga() {
   const handleShowDelete = () => setShowDelete(true);
   const [dataEdit, setDataEdit] = useState({});
 
-  // Effects
-
-  useEffect(() => {
-    // Redirect if the user is not authenticated or is not an admin
-    if (user && user.auth === false && !user.roles.includes("Admin")) {
-      navigate("/");
-    }
-  }, [user]);
-
   // Calculate total number of manga items
   useEffect(() => {
     if (searchTerm !== "") {
@@ -82,9 +73,18 @@ function ManageManga() {
   }, [searchTerm, page]);
 
   const getMangas = async () => {
-    await getMangaList(searchTerm, page, pageSize).then((result) => {
+    try {
+      const result = await getMangaList(searchTerm, page, pageSize);
       setMangas(result.data);
-    });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Redirect to another page
+        navigate("/login");
+      } else {
+        // Handle other errors
+        console.error(error);
+      }
+    }
   };
 
   // Event handler for search manga
