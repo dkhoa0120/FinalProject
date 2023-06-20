@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
+import MangaCategoryList from "../../../components/categoryList";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -23,7 +24,7 @@ function MangaDetail() {
       }
     }
   };
-
+  console.log("manga", manga);
   return (
     <section className="banner" id="home">
       <Container>
@@ -61,10 +62,18 @@ function MangaDetail() {
                     <>
                       <h1 className="txt-rotate">{manga.originalTitle}</h1>
                       <p>{manga.description}</p>
+                       <button>{manga.categories.map(c=>c.name)}</button> 
                     </>
                   ) : (
                     <p>Manga not found.</p>
                   )}
+                   <div>
+      {/* <h1>Manga Categories</h1>
+      <MangaCategoryList
+        categories={manga.categories.map(c=>c.name)}
+        
+      /> */}
+    </div>
                 </div>
               )}
             </TrackVisibility>

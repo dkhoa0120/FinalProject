@@ -22,7 +22,7 @@ export const getMangas = (Search, SortOption, Page) => {
 
 
 export const getMangaById = (id) => {
-  return axios.get(`${API_URL}/user/Manga/${id}`);
+  return axios.get(`${API_URL}/manage/Manga/${id}`);
 };
 
 // Authenticate
