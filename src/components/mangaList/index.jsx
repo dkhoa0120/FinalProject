@@ -15,39 +15,43 @@ function MangasList(props) {
   return (
     <div>
       <Row className="px-4 my-5">
-        {data.map((manga) => (
-          <div key={manga.id} className="col-md-3 col-lg-3">
-            <div>
-              <div className="proj-imgbx">
-                <Image className="cover" src={manga.coverPath} />
-                <div className="proj-txtx">
-                  <Link to={`/Manga/${manga.id}`} className="card-link">
-                    {manga.originalLanguage === "Japanese" && (
-                      <Image
-                        style={{ height: "30px", width: "30px" }}
-                        src={japan}
-                      />
-                    )}
-                    {manga.originalLanguage === "Korean" && (
-                      <Image
-                        style={{ height: "30px", width: "30px" }}
-                        src={korea}
-                      />
-                    )}
-                    {manga.originalLanguage === "English" && (
-                      <Image
-                        style={{ height: "30px", width: "30px" }}
-                        src={england}
-                      />
-                    )}
-                    <h4>{manga.originalTitle}</h4>
-                  </Link>
-                  <span className="text-limit">{manga.description}</span>
+        {data.length > 0 ? (
+          data.map((manga) => (
+            <div key={manga.id} className="col-md-3 col-lg-3">
+              <div>
+                <div className="proj-imgbx">
+                  <Image className="cover" src={manga.coverPath} />
+                  <div className="proj-txtx">
+                    <Link to={`/Manga/${manga.id}`} className="card-link">
+                      {manga.originalLanguage === "Japanese" && (
+                        <Image
+                          style={{ height: "30px", width: "30px" }}
+                          src={japan}
+                        />
+                      )}
+                      {manga.originalLanguage === "Korean" && (
+                        <Image
+                          style={{ height: "30px", width: "30px" }}
+                          src={korea}
+                        />
+                      )}
+                      {manga.originalLanguage === "English" && (
+                        <Image
+                          style={{ height: "30px", width: "30px" }}
+                          src={england}
+                        />
+                      )}
+                      <h4>{manga.originalTitle}</h4>
+                    </Link>
+                    <span className="text-limit">{manga.description}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div className="text-center">No data found.</div>
+        )}
       </Row>
       <div className="d-flex justify-content-center">
         <Link to={props.link}>

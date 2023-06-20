@@ -14,15 +14,18 @@ import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
 import EditCate from "./components/EditCate";
 import DeleteCate from "./components/DeleteCate";
+import { Col, Row, Form } from "react-bootstrap";
 
 function ManageCategory() {
+  // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(searchParams.get("page") || 1);
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
   const [categories, setCategories] = useState([]);
-  const { user } = useContext(UserContext);
-  const pageSize = 10;
+  const [totalPages, setTotalPages] = useState(0);
 
   // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
@@ -38,33 +41,43 @@ function ManageCategory() {
   const handleShowDelete = () => setShowDelete(true);
   const [dataEdit, setDataEdit] = useState({});
 
-  useEffect(() => {
-    if (user && user.auth === false && user.roles !== "Admin") {
-      navigate("/");
-    }
-  }, [user, navigate]);
-
-  //Pagination
-  useEffect(() => {
-    getCategories();
-  }, [page, pageSize]);
-
-  const totalPages = Math.ceil(total / pageSize);
+  // Set page and search term from URL search params
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
+    setSearchTerm(searchParams.get("search") || "");
   }, [searchParams]);
+
+  // Fetch manga data
   useEffect(() => {
     getCategories();
-  }, [page]);
+  }, [searchTerm, page]);
 
   const getCategories = async () => {
-    let res = await getCategoryList(page, pageSize).then((result) => {
-      setCategories(result.data.categories);
-      setTotal(result.data.totalCount);
-    });
-    console.log(res);
+    try {
+      const result = await getCategoryList(searchTerm, page);
+      setCategories(result.data.itemList);
+      setTotalPages(result.data.totalPages);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Redirect to another page
+        navigate("/login");
+      } else if (error.response && error.response.status === 404) {
+        // Handle other errors
+        setCategories([]);
+        setTotalPages(0);
+      }
+    }
   };
 
+  // Event handler for search manga
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    if (search) {
+      setSearchParams({ search, page: 1 });
+    } else {
+      setSearchParams({ page: 1 });
+    }
+  };
   const handleEdit = async (id) => {
     handleShowEdit();
     await getCategoryByID(id).then((result) => {
@@ -82,9 +95,23 @@ function ManageCategory() {
     <div className="manage-manga">
       <ToastContainer />
       <div className="manage-table">
-        <Button variant="success" onClick={handleShowCreate}>
-          <i className="fa-solid fa-circle-plus"></i> Create
-        </Button>
+        <Row>
+          <Col>
+            <Button variant="success" onClick={handleShowCreate}>
+              <i className="fa-solid fa-circle-plus"></i> Create
+            </Button>
+          </Col>
+          <Col>
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </Col>
+        </Row>
         &nbsp;
         <Table striped bordered hover>
           <thead>
@@ -95,30 +122,32 @@ function ManageCategory() {
             </tr>
           </thead>
           <tbody>
-            {categories
-              ? categories.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{item.name}</td>
-                      <td className="description-cell">{item.description}</td>
-                      <td colSpan={2}>
-                        <Button onClick={() => handleEdit(item.id)}>
-                          {" "}
-                          <i className="fa-solid fa-pen-to-square"></i> Edit{" "}
-                        </Button>
-                        &nbsp;
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDelete(item)}
-                        >
-                          {" "}
-                          <i className="fa-solid fa-trash"></i> Delete
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })
-              : "Loading..."}
+            {categories.length > 0 ? (
+              categories.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{item.name}</td>
+                    <td className="description-cell">{item.description}</td>
+                    <td colSpan={2}>
+                      <Button onClick={() => handleEdit(item.id)}>
+                        {" "}
+                        <i className="fa-solid fa-pen-to-square"></i> Edit{" "}
+                      </Button>
+                      &nbsp;
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(item)}
+                      >
+                        {" "}
+                        <i className="fa-solid fa-trash"></i> Delete
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div className="text-center">No data found.</div>
+            )}
           </tbody>
         </Table>
         &nbsp;
@@ -127,6 +156,7 @@ function ManageCategory() {
             page={page}
             totalPages={totalPages}
             setSearchParams={setSearchParams}
+            search={searchTerm}
           />
         </div>
         <CreateCate

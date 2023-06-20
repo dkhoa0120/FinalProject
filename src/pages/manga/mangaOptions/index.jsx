@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
-import {
-  getMangas,
-  getMangasBySearch,
-  totalItems,
-  totalItemsWithSearch,
-} from "../../../service/Data.service";
+import { getMangas } from "../../../service/Data.service";
 import { Link, useSearchParams } from "react-router-dom";
 import "./styles.css";
 import Pagination from "../../../components/pagination";
@@ -13,7 +8,6 @@ import Pagination from "../../../components/pagination";
 function Manga() {
   const [mangas, setMangas] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [totalMangas, setTotalMangas] = useState(0);
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
@@ -21,7 +15,7 @@ function Manga() {
   const [sortOption, setOption] = useState(
     searchParams.get("sortOption") || ""
   );
-  const pageSize = 4;
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
@@ -35,9 +29,16 @@ function Manga() {
   }, [searchTerm, sortOption, page]);
 
   const getMangasList = async () => {
-    await getMangas(searchTerm, sortOption, page, pageSize).then((result) => {
-      setMangas(result.data);
-    });
+    try {
+      const result = await getMangas(searchTerm, sortOption, page);
+      setMangas(result.data.itemList);
+      setTotalPages(result.data.totalPages);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setMangas([]);
+        setTotalPages(0);
+      }
+    }
   };
 
   // Event handler for search manga
@@ -49,22 +50,6 @@ function Manga() {
       setSearchParams({ sortOption: sortOption, page: 1 });
     }
   };
-
-  //Pagination
-  // Calculate total number of manga items
-  useEffect(() => {
-    if (searchTerm !== "") {
-      totalItemsWithSearch(searchTerm).then((response) => {
-        setTotalMangas(response.data);
-      });
-    } else {
-      totalItems().then((response) => {
-        setTotalMangas(response.data);
-      });
-    }
-  }, [searchTerm, sortOption, page]);
-
-  const totalPages = Math.ceil(totalMangas / pageSize);
 
   return (
     <div>
@@ -104,33 +89,35 @@ function Manga() {
             </FormSelect>
           </Col>
         </Row>
-        {mangas
-          ? mangas.map((manga, index) => (
-              <React.Fragment key={index}>
-                <Container>
-                  <div className="wrapper">
-                    <Card style={{ position: "relative" }}>
-                      <Row>
-                        <Col xl={2}>
-                          <Card.Img
-                            variant="top"
-                            src={manga.coverPath}
-                            className="coverI"
-                          />
-                        </Col>
-                        <Col xl={10} style={{ padding: "20px" }}>
-                          <Link to={`/Manga/${manga.id}`} className="card-link">
-                            <Card.Title>{manga.originalTitle}</Card.Title>
-                          </Link>
-                          <Card.Text>{manga.description}</Card.Text>
-                        </Col>
-                      </Row>
-                    </Card>
-                  </div>
-                </Container>
-              </React.Fragment>
-            ))
-          : "Loading..."}
+        {mangas.length > 0 ? (
+          mangas.map((manga, index) => (
+            <React.Fragment key={index}>
+              <Container>
+                <div className="wrapper">
+                  <Card style={{ position: "relative" }}>
+                    <Row>
+                      <Col xl={2}>
+                        <Card.Img
+                          variant="top"
+                          src={manga.coverPath}
+                          className="coverI"
+                        />
+                      </Col>
+                      <Col xl={10} style={{ padding: "20px" }}>
+                        <Link to={`/Manga/${manga.id}`} className="card-link">
+                          <Card.Title>{manga.originalTitle}</Card.Title>
+                        </Link>
+                        <Card.Text>{manga.description}</Card.Text>
+                      </Col>
+                    </Row>
+                  </Card>
+                </div>
+              </Container>
+            </React.Fragment>
+          ))
+        ) : (
+          <div className="text-center">No data found.</div>
+        )}
         &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination

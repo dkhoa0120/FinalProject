@@ -16,17 +16,18 @@ function Home() {
   const [mangas, setMangas] = useState([]);
 
   useEffect(() => {
-    callAPI("", activeButton, 1, 8);
+    callAPI("", activeButton, 1);
   }, [activeButton]);
 
-  const callAPI = async (search, sortOption, page, pageSize) => {
-    let res = await getMangas(search, sortOption, page, pageSize).then(
-      (result) => {
-        setMangas(result.data);
+  const callAPI = async (search, sortOption, page) => {
+    try {
+      const result = await getMangas(search, sortOption, page);
+      setMangas(result.data.itemList);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setMangas([]);
       }
-    );
-
-    console.log("MANGAs", res);
+    }
   };
 
   return (

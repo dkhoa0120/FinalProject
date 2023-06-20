@@ -6,17 +6,22 @@ import TrackVisibility from "react-on-screen";
 import "./styles.css";
 
 function MangaDetail() {
-  const [manga, setManga] = useState([]);
+  const [manga, setManga] = useState(null);
   const { mangaId } = useParams();
+
   useEffect(() => {
     getMangaDetail(mangaId);
   }, []);
 
   const getMangaDetail = async (id) => {
-    await getMangaById(id).then((result) => {
+    try {
+      const result = await getMangaById(id);
       setManga(result.data);
-      console.log(result.data);
-    });
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setManga(null);
+      }
+    }
   };
 
   return (
@@ -31,10 +36,15 @@ function MangaDetail() {
                     isVisible ? "animate__animated animate__zoomIn" : ""
                   }
                 >
-                  <img
-                    src={manga.coverPath}
-                    style={{ width: "100%", height: "320px" }}
-                  />
+                  {manga ? (
+                    <img
+                      src={manga.coverPath}
+                      style={{ width: "100%", height: "320px" }}
+                      alt="Manga Cover"
+                    />
+                  ) : (
+                    <p>Cover not found.</p>
+                  )}
                 </div>
               )}
             </TrackVisibility>
@@ -47,8 +57,14 @@ function MangaDetail() {
                     isVisible ? "animate__animated animate__fadeIn" : ""
                   }
                 >
-                  <h1 className="txt-rotate">{[manga.originalTitle]}</h1>
-                  <p>{manga.description}</p>
+                  {manga ? (
+                    <>
+                      <h1 className="txt-rotate">{manga.originalTitle}</h1>
+                      <p>{manga.description}</p>
+                    </>
+                  ) : (
+                    <p>Manga not found.</p>
+                  )}
                 </div>
               )}
             </TrackVisibility>

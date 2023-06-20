@@ -18,9 +18,14 @@ function CarouselFade() {
   }, []);
 
   const getMangas = async () => {
-    // Assuming this function fetches the manga data from an API
-    const result = await getMangaForUI();
-    setMangas(result.data);
+    try {
+      const result = await getMangaForUI();
+      setMangas(result.data.itemList);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setMangas([]);
+      }
+    }
   };
 
   // Calculate the index range of the current page
@@ -53,33 +58,35 @@ function CarouselFade() {
   return (
     <div className="Manga-Container">
       <div className="Manga-Container-title">Most popular</div>
-      {currentMangas.length > 0
-        ? currentMangas.map((manga, index) => (
-            <React.Fragment key={index}>
-              <Container>
-                <div className="wrapper">
-                  <div style={{ position: "relative" }}>
-                    <Row>
-                      <Col xl={2}>
-                        <Card.Img
-                          variant="top"
-                          src={manga.coverPath}
-                          className="coverI"
-                        />
-                      </Col>
-                      <Col xl={10} style={{ padding: "20px" }}>
-                        <Link to={`/Manga/${manga.id}`} className="card-link">
-                          <Card.Title>{manga.originalTitle}</Card.Title>
-                        </Link>
-                        <Card.Text>{manga.description}</Card.Text>
-                      </Col>
-                    </Row>
-                  </div>
+      {currentMangas.length > 0 ? (
+        currentMangas.map((manga, index) => (
+          <React.Fragment key={index}>
+            <Container>
+              <div className="wrapper">
+                <div style={{ position: "relative" }}>
+                  <Row>
+                    <Col xl={2}>
+                      <Card.Img
+                        variant="top"
+                        src={manga.coverPath}
+                        className="coverI"
+                      />
+                    </Col>
+                    <Col xl={10} style={{ padding: "20px" }}>
+                      <Link to={`/Manga/${manga.id}`} className="card-link">
+                        <Card.Title>{manga.originalTitle}</Card.Title>
+                      </Link>
+                      <Card.Text>{manga.description}</Card.Text>
+                    </Col>
+                  </Row>
                 </div>
-              </Container>
-            </React.Fragment>
-          ))
-        : "Loading..."}
+              </div>
+            </Container>
+          </React.Fragment>
+        ))
+      ) : (
+        <div className="text-center">No data found.</div>
+      )}
       &nbsp;
       {/* Pagination controls */}
       <div

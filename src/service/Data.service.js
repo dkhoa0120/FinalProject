@@ -14,19 +14,12 @@ export const getMangaForSearch = (Search) => {
 };
 
 // Get manga
-export const getMangas = (Search, SortOption, Page, PageSize) => {
+export const getMangas = (Search, SortOption, Page) => {
   return axios.get(
-    `${API_URL}/user/Manga/?Search=${Search}&SortOption=${SortOption}&Page=${Page}&PageSize=${PageSize}`
+    `${API_URL}/user/Manga/?Search=${Search}&SortOption=${SortOption}&Page=${Page}`
   );
 };
 
-export const totalItems = () => {
-  return axios.get(`${API_URL}/user/Manga/count`);
-};
-
-export const totalItemsWithSearch = (search) => {
-  return axios.get(`${API_URL}/user/Manga/countSearch/?search=${search}`);
-};
 
 export const getMangaById = (id) => {
   return axios.get(`${API_URL}/user/Manga/${id}`);
@@ -42,9 +35,9 @@ export const registerAPI = (data) => {
 };
 
 // Admin manage Manga
-export const getMangaList = (Search, Page, PageSize) => {
+export const getMangaList = (Search, Page) => {
   return axios.get(
-    `${API_URL}/manage/Manga/?Search=${Search}&Page=${Page}&PageSize=${PageSize}`,
+    `${API_URL}/manage/Manga/?Search=${Search}&Page=${Page}`,
     {
       headers: {
         Authorization: `Bearer ${new Cookies().get("Token")}`,
@@ -90,7 +83,11 @@ export const getLanguage = () => {
 };
 
 export const getCategory = (search) => {
-  return axios.get(`${API_URL}/manage/category/?Search=${search}`);
+  return axios.get(`${API_URL}/manage/category/?Search=${search}`, 
+  {          
+    params: {
+    ExcludeDeleted: true,
+  },});
 };
 
 export const getAuthor = () => {
@@ -99,9 +96,9 @@ export const getAuthor = () => {
 
 // Admin manage Category
 
-export const getCategoryList = (Page, PageSize) => {
+export const getCategoryList = (Search, Page) => {
   return axios.get(
-    `${API_URL}/manage/category/?Page=${Page}&PageSize=${PageSize}`,
+    `${API_URL}/manage/category/?Search=${Search}&Page=${Page}`,
     {
       headers: {
         Authorization: `Bearer ${new Cookies().get("Token")}`,
