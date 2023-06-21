@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
-import MangaCategoryList from "../../../components/categoryList";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -51,16 +50,27 @@ function MangaDetail() {
             </TrackVisibility>
           </Col>
           <Col xs={12} md={6} xl={9}>
-            {manga ? (
-              <>
-                <Row>
+            <TrackVisibility>
+              {({ isVisible }) => (
+                <div
+                  className={
+                    isVisible ? "animate__animated animate__fadeIn" : ""
+                  }
+                >
+                  {manga ? (
+                    <>
+                      <Row>
                   <h1 className="txt-rotate">{manga.originalTitle}</h1>
                   <span>TestAuthorName</span>
                   <p>{manga.description}</p>
                 </Row>
                 <Row>
                   <Col>
-                    <button>{manga.categories.map((c) => c.name)}</button>
+                  <div>
+                          {manga.categories.map((c) => (
+                            <Button key={c.id} variant="outline-dark"style={{margin:"0 10px 0 0"}}>{c.name}</Button>
+                          ))}
+                      </div>
                   </Col>
                   <Col>
                     <span>Publication: {manga.publishYear}</span>
@@ -92,10 +102,15 @@ function MangaDetail() {
                     </span>
                   </Col>
                 </Row>
-              </>
-            ) : (
-              <p>Manga not found.</p>
-            )}
+                    </>
+                  ) : (
+                    <p>Manga not found.</p>
+                  )}
+                   <div>
+    </div>
+                </div>
+              )}
+            </TrackVisibility>
           </Col>
         </Row>
       </Container>
