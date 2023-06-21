@@ -100,6 +100,7 @@ function CreateManga(props) {
               <Form.Label>Category</Form.Label>
               <MultiSelect
                 placeholder="Search category"
+                initialSelectedOptions={{}}
                 getOptions={async (search) => {
                   try {
                     var res = await getCategory(search);

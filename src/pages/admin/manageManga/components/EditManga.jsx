@@ -71,6 +71,7 @@ function EditManga(props) {
     formData.append("originalLanguage", originalLanguage);
     formData.append("description", description);
     formData.append("publishYear", publishYear);
+    formData.append("categoryIds", categoryIds);
     if (!coverPath) {
       toast.error("Cover is required", {
         theme: "colored",
@@ -91,13 +92,12 @@ function EditManga(props) {
       props.getMangas();
     } catch (error) {
       toast.error(error);
-      console.log(error);
     }
   };
 
   const mapToOptions = (categories) => {
     if (typeof categories === "undefined") {
-      return null;
+      return {};
     }
     console.log("dataEdit", categories);
     const options = categories.reduce((acc, value) => {
@@ -106,8 +106,6 @@ function EditManga(props) {
     }, {});
     return options;
   };
-
-  console.log("dataEdit22222222222222", props.dataEdit);
 
   return (
     <div>
