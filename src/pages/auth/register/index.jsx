@@ -54,7 +54,6 @@ function Register() {
         });
         loginContext();
         navigate("/");
-        console.log(response);
       }
     } catch (error) {
       toast.error("Failed to register or log in");

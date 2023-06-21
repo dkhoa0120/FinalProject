@@ -27,7 +27,6 @@ function DeleteManga(props) {
       props.handleClose();
     } catch (error) {
       toast.error("Failed to delete manga");
-      console.log(error);
     }
   };
 

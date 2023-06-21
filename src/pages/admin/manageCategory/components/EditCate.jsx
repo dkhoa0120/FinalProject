@@ -24,8 +24,6 @@ function EditCate(props) {
     }
   }, [props.dataEdit, props.show]);
 
-  console.log("Current data", props.dataEdit);
-
   const handleUpdate = async () => {
     const data = {
       id: id,
