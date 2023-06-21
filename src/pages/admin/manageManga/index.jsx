@@ -24,16 +24,8 @@ function ManageManga() {
 
   // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
-  const handleCloseCreate = () => setShowCreate(false);
-  const handleShowCreate = () => setShowCreate(true);
-
   const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = () => setShowEdit(true);
-
   const [showDelete, setShowDelete] = useState(false);
-  const handleCloseDelete = () => setShowDelete(false);
-  const handleShowDelete = () => setShowDelete(true);
   const [dataEdit, setDataEdit] = useState({});
 
   // Set page and search term from URL search params
@@ -76,16 +68,16 @@ function ManageManga() {
 
   // Event handler for editing manga
   const handleEdit = async (id) => {
-    handleShowEdit();
     await getMangaById(id).then((result) => {
       setDataEdit(result.data);
     });
+    setShowEdit(true);
   };
 
   // Event handler for deleting manga
-  const handleDelete = (mangas) => {
-    setDataEdit(mangas);
-    handleShowDelete();
+  const handleDelete = (manga) => {
+    setDataEdit(manga);
+    setShowDelete(true);
   };
 
   // JSX rendering
@@ -94,7 +86,7 @@ function ManageManga() {
       <ToastContainer />
       <Row>
         <Col>
-          <Button variant="success" onClick={handleShowCreate}>
+          <Button variant="success" onClick={() => setShowCreate(true)}>
             <i className="fa-solid fa-circle-plus"></i> Create
           </Button>
         </Col>
@@ -165,18 +157,18 @@ function ManageManga() {
       </div>
       <CreateManga
         show={showCreate}
-        handleClose={handleCloseCreate}
+        handleClose={() => setShowCreate(false)}
         getMangas={getMangas}
       />
       <EditManga
         show={showEdit}
-        handleClose={handleCloseEdit}
+        handleClose={() => setShowEdit(false)}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
       <DeleteManga
         show={showDelete}
-        handleClose={handleCloseDelete}
+        handleClose={() => setShowDelete(false)}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
