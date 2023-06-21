@@ -57,10 +57,3 @@
 /* .dropdown-basic::after{
   display: none !important;
 } */
-
-.commentSection{
-  padding-left: 20px;
-  color: red;
-  font-weight: 800px;
-  width: 60%;
-}
