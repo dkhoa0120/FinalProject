@@ -48,3 +48,19 @@
 .txt-rotate > .wrap {
   border-right: 0.08em solid #666;
 }
+
+.dropdown-basic {
+  outline: none !important;
+  outline-offset: none !important;
+}
+
+/* .dropdown-basic::after{
+  display: none !important;
+} */
+
+.commentSection{
+  padding-left: 20px;
+  color: red;
+  font-weight: 800px;
+  width: 60%;
+}
