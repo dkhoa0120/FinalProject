@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
-import MangaCategoryList from "../../../components/categoryList";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -62,18 +61,16 @@ function MangaDetail() {
                     <>
                       <h1 className="txt-rotate">{manga.originalTitle}</h1>
                       <p>{manga.description}</p>
-                       <button>{manga.categories.map(c=>c.name)}</button> 
+                      <div>
+                          {manga.categories.map((c) => (
+                            <Button key={c.id} variant="outline-dark"style={{margin:"0 10px 0 0"}}>{c.name}</Button>
+                          ))}
+                      </div>
                     </>
                   ) : (
                     <p>Manga not found.</p>
                   )}
-                   <div>
-      {/* <h1>Manga Categories</h1>
-      <MangaCategoryList
-        categories={manga.categories.map(c=>c.name)}
-        
-      /> */}
-    </div>
+                  <div></div>
                 </div>
               )}
             </TrackVisibility>
