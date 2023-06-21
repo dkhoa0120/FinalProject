@@ -20,9 +20,8 @@ export const getMangas = (Search, SortOption, Page) => {
   );
 };
 
-
 export const getMangaById = (id) => {
-  return axios.get(`${API_URL}/user/Manga/${id}`);
+  return axios.get(`${API_URL}/manage/Manga/${id}`);
 };
 
 // Authenticate
@@ -36,14 +35,11 @@ export const registerAPI = (data) => {
 
 // Admin manage Manga
 export const getMangaList = (Search, Page) => {
-  return axios.get(
-    `${API_URL}/manage/Manga/?Search=${Search}&Page=${Page}`,
-    {
-      headers: {
-        Authorization: `Bearer ${new Cookies().get("Token")}`,
-      },
-    }
-  );
+  return axios.get(`${API_URL}/manage/Manga/?Search=${Search}&Page=${Page}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
 };
 
 export const getCurrentUserBasic = () => {
@@ -83,11 +79,11 @@ export const getLanguage = () => {
 };
 
 export const getCategory = (search) => {
-  return axios.get(`${API_URL}/manage/category/?Search=${search}`, 
-  {          
+  return axios.get(`${API_URL}/manage/category/?Search=${search}`, {
     params: {
-    ExcludeDeleted: true,
-  },});
+      ExcludeDeleted: true,
+    },
+  });
 };
 
 export const getAuthor = () => {

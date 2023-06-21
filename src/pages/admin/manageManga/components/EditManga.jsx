@@ -3,8 +3,13 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { editManga, getLanguage } from "../../../../service/Data.service";
+import {
+  editManga,
+  getCategory,
+  getLanguage,
+} from "../../../../service/Data.service";
 import { toast } from "react-toastify";
+import MultiSelect from "../../../../components/multiSelect";
 
 function EditManga(props) {
   const [id, setId] = useState("");
@@ -14,6 +19,7 @@ function EditManga(props) {
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
   const [publishYear, setPublishYear] = useState("");
+  const [categoryIds, setCategoryIds] = useState([]);
 
   const [languageOptions, setLanguageOptions] = useState([]);
   useEffect(() => {
@@ -38,6 +44,7 @@ function EditManga(props) {
         originalLanguage,
         description,
         publishYear,
+        categories,
         id,
       } = props.dataEdit;
       setId(id || "");
@@ -47,6 +54,9 @@ function EditManga(props) {
       setOriginalLanguage(originalLanguage || "");
       setDescription(description || "");
       setPublishYear(publishYear || "");
+      if (categories) {
+        setCategoryIds(categories.map((category) => category.id));
+      }
     }
   }, [props.dataEdit, props.show]);
 
@@ -85,6 +95,20 @@ function EditManga(props) {
     }
   };
 
+  const mapToOptions = (categories) => {
+    if (typeof categories === "undefined") {
+      return null;
+    }
+    console.log("dataEdit", categories);
+    const options = categories.reduce((acc, value) => {
+      acc[value.id] = value.name;
+      return acc;
+    }, {});
+    return options;
+  };
+
+  console.log("dataEdit22222222222222", props.dataEdit);
+
   return (
     <div>
       <Modal show={props.show} onHide={props.handleClose} size="lg">
@@ -111,6 +135,28 @@ function EditManga(props) {
               />
             </Col>
           </Row>
+          &nbsp;
+          <Row>
+            <Col>
+              <Form.Label>Category</Form.Label>
+              <MultiSelect
+                placeholder="Search category"
+                initialSelectedOptions={mapToOptions(props.dataEdit.categories)}
+                getOptions={async (search) => {
+                  try {
+                    var res = await getCategory(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
+                }}
+                exportOptions={(options) => setCategoryIds(options)}
+              />
+            </Col>
+          </Row>{" "}
+          &nbsp;
           <Row>
             <Col>
               <Form.Label>Publish Year</Form.Label>

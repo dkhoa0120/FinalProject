@@ -1,29 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./styles.css";
 import { Form, InputGroup } from "react-bootstrap";
 
 export default function MultiSelect({
   placeholder,
+  initialSelectedOptions,
   getOptions,
   exportOptions,
 }) {
   const [options, setOptions] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState(
+    initialSelectedOptions
+  );
   const [searchValue, setSearchValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleGetData = async (event) => {
-    // get value from input and set searchValue state with that
-    // if input is null, do not call api
+  const handleInputChange = async (event) => {
+    // check search input
     var inputValue = event.target.value;
     setSearchValue(inputValue);
     if (!inputValue) {
+      setIsOpen(false);
       return;
     }
 
-    // getOptions from API, transform it to associative array
-    // and remove already selected option
+    // call api
     const rawOptions = await getOptions(inputValue);
+    if (!rawOptions) {
+      setOptions(null);
+      return;
+    }
     const cleanOptions = rawOptions.reduce((acc, value) => {
       acc[value.id] = value.name;
       return acc;
@@ -33,40 +39,28 @@ export default function MultiSelect({
     });
 
     setOptions(cleanOptions);
+    setIsOpen(true);
   };
 
-  const selectOption = (key) => {
+  const handleSelectOption = (key) => {
     const selectedOptionsCopy = { ...selectedOptions };
     selectedOptionsCopy[key] = options[key];
     setSelectedOptions(selectedOptionsCopy);
 
     setSearchValue("");
     setOptions({});
+    setIsOpen(false);
 
     exportOptions(Object.keys(selectedOptionsCopy));
   };
 
-  const removeOption = (key) => {
+  const handleRemoveOption = (key) => {
     const selectedOptionsCopy = { ...selectedOptions };
     delete selectedOptionsCopy[key];
     setSelectedOptions(selectedOptionsCopy);
 
     exportOptions(Object.keys(selectedOptionsCopy));
   };
-
-  // show select box logi
-  const handleValueClick = (key) => {
-    selectOption(key);
-    setIsOpen(false);
-  };
-
-  useEffect(() => {
-    if (searchValue.length > 0) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
-  }, [searchValue]);
 
   return (
     <div className="custom-input">
@@ -76,7 +70,7 @@ export default function MultiSelect({
           &nbsp;
           <i
             className="fa-solid fa-circle-xmark"
-            onClick={() => removeOption(key)}
+            onClick={() => handleRemoveOption(key)}
           ></i>
         </span>
       ))}
@@ -85,13 +79,13 @@ export default function MultiSelect({
           <Form.Control
             type="text"
             placeholder={placeholder}
-            onChange={handleGetData}
+            onChange={handleInputChange}
             value={searchValue}
           />
         </InputGroup>
       </Form.Group>
       {isOpen &&
-        (options.length === 0 ? (
+        (!options ? (
           <div className="custom-dropdown">
             <p>No option found</p>
           </div>
@@ -99,7 +93,7 @@ export default function MultiSelect({
           <div className="custom-dropdown">
             {Object.entries(options).map(([key, value]) => (
               <label key={key} className="option">
-                <p onClick={() => handleValueClick(key)}>{value}</p>
+                <p onClick={() => handleSelectOption(key)}>{value}</p>
               </label>
             ))}
           </div>
