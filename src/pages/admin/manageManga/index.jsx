@@ -137,17 +137,18 @@ function ManageManga() {
                     <td>
                       <Image src={item.coverPath} style={{ width: "100px" }} />
                     </td>
-                    <td className="title-cell">{item.originalTitle}</td>
+                    <td className="manga-title-cell">{item.originalTitle}</td>
                     <td>{item.originalLanguage}</td>
-                    <td className="description-cell">{item.description}</td>
+                    <td className="manga-description-cell">
+                      <span className="text-limit">{item.description}</span>
+                    </td>
                     <td colSpan={2}>
                       {item.deletedAt != null ? (
                         <Button
                           variant="dark"
                           onClick={() => handleUndelete(item.id)}
                         >
-                          <i className="fa-solid fa-rotate-left"></i>
-                          Undelete
+                          <i className="fa-solid fa-rotate-left"></i> Undelete
                         </Button>
                       ) : (
                         <>

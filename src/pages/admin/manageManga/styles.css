@@ -4,16 +4,10 @@
 .manage-manga {
   padding-top: 40px;
 }
-.description-cell {
-  max-width: 300px; /* Adjust the value to your desired maximum width */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.manga-description-cell {
+  max-width: 300px;
 }
 
-.title-cell {
-  max-width: 200px; /* Adjust the value to your desired maximum width */
-  white-space: pre-line;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.manga-title-cell {
+  max-width: 100px;
 }

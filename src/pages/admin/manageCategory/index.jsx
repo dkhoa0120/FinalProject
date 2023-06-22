@@ -130,15 +130,16 @@ function ManageCategory() {
                 return (
                   <tr key={index}>
                     <td>{item.name}</td>
-                    <td className="description-cell">{item.description}</td>
+                    <td className="cate-description-cell">
+                      <span className="text-limit">{item.description}</span>
+                    </td>
                     <td colSpan={2}>
                       {item.deletedAt != null ? (
                         <Button
                           variant="dark"
                           onClick={() => handleUndelete(item.id)}
                         >
-                          <i className="fa-solid fa-rotate-left"></i>
-                          Undelete
+                          <i className="fa-solid fa-rotate-left"></i> Undelete
                         </Button>
                       ) : (
                         <>
