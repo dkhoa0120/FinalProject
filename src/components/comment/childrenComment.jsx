@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Dropdown, Button, Card } from "react-bootstrap";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 
-function Comment() {
+function Children() {
   return (
-    
-      <div className="commented-section mt-2">
+    <div className="comment-reply ">
+      <div className="commented-section mt-2" style={{ paddingLeft: "58px" }}>
         <div className="d-flex flex-row align-items-center commented-user">
           <img
             className="avatar"
             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
             width="38"
           />
-          <h5 className="mr-2">&nbsp;Huy&nbsp;</h5>
+          <h5 className="mr-2">&nbsp;Con&nbsp;</h5>
           <span className="dot mb-1"></span>
           <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
         </div>
@@ -50,7 +50,8 @@ function Comment() {
           </div>
         </div>
       </div>
+    </div>
   );
 }
 
-export default Comment;
+export default Children;
