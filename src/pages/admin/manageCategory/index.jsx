@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { UserContext } from "../../../context/UserContext";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   getCategoryList,
   getCategoryByID,
+  deleteCategory,
 } from "../../../service/Data.service";
-import { useContext } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
 import EditCate from "./components/EditCate";
@@ -29,16 +28,8 @@ function ManageCategory() {
 
   // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
-  const handleCloseCreate = () => setShowCreate(false);
-  const handleShowCreate = () => setShowCreate(true);
-
   const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = () => setShowEdit(true);
-
   const [showDelete, setShowDelete] = useState(false);
-  const handleCloseDelete = () => setShowDelete(false);
-  const handleShowDelete = () => setShowDelete(true);
   const [dataEdit, setDataEdit] = useState({});
 
   // Set page and search term from URL search params
@@ -79,7 +70,7 @@ function ManageCategory() {
     }
   };
   const handleEdit = async (id) => {
-    handleShowEdit();
+    setShowEdit(true);
     await getCategoryByID(id).then((result) => {
       setDataEdit(result.data);
     });
@@ -88,7 +79,19 @@ function ManageCategory() {
   // Event handler for deleting cate
   const handleDelete = (categories) => {
     setDataEdit(categories);
-    handleShowDelete();
+    setShowDelete(true);
+  };
+
+  const handleUndelete = async (id) => {
+    try {
+      await deleteCategory(id, true);
+      toast.success("Category has been restored", {
+        theme: "dark",
+      });
+      getCategories();
+    } catch (error) {
+      toast.error("Failed to delete restored");
+    }
   };
 
   return (
@@ -97,7 +100,7 @@ function ManageCategory() {
       <div className="manage-table">
         <Row>
           <Col>
-            <Button variant="success" onClick={handleShowCreate}>
+            <Button variant="success" onClick={() => setShowCreate(true)}>
               <i className="fa-solid fa-circle-plus"></i> Create
             </Button>
           </Col>
@@ -129,18 +132,28 @@ function ManageCategory() {
                     <td>{item.name}</td>
                     <td className="description-cell">{item.description}</td>
                     <td colSpan={2}>
-                      <Button onClick={() => handleEdit(item.id)}>
-                        {" "}
-                        <i className="fa-solid fa-pen-to-square"></i> Edit{" "}
-                      </Button>
-                      &nbsp;
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDelete(item)}
-                      >
-                        {" "}
-                        <i className="fa-solid fa-trash"></i> Delete
-                      </Button>
+                      {item.deletedAt != null ? (
+                        <Button
+                          variant="dark"
+                          onClick={() => handleUndelete(item.id)}
+                        >
+                          <i className="fa-solid fa-rotate-left"></i>
+                          Undelete
+                        </Button>
+                      ) : (
+                        <>
+                          <Button onClick={() => handleEdit(item.id)}>
+                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          </Button>
+                          &nbsp;
+                          <Button
+                            variant="danger"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <i className="fa-solid fa-trash"></i> Delete
+                          </Button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 );
@@ -161,18 +174,18 @@ function ManageCategory() {
         </div>
         <CreateCate
           show={showCreate}
-          handleClose={handleCloseCreate}
+          handleClose={() => setShowCreate(false)}
           getCategories={getCategories}
         />
         <EditCate
           show={showEdit}
-          handleClose={handleCloseEdit}
+          handleClose={() => setShowEdit(false)}
           dataEdit={dataEdit}
           getCategories={getCategories}
         />
         <DeleteCate
           show={showDelete}
-          handleClose={handleCloseDelete}
+          handleClose={() => setShowDelete(false)}
           dataEdit={dataEdit}
           getCategories={getCategories}
         />

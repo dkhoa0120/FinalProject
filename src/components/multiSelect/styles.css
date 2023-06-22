@@ -34,10 +34,12 @@
   .selected-option {
     display: inline-flex;
     align-items: center;
-    background-color: blue;
+    background-color: #0d6efd;
     color: white;
     border-radius: 4px;
     padding: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
     margin-right: 8px;
     margin-bottom: 6px;
   }

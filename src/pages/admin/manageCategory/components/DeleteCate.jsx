@@ -40,7 +40,7 @@ function DeleteCate(props) {
           <Row>
             <Col>
               <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" defaultValue={name} readOnly />
+              <Form.Control type="text" value={name} disabled />
             </Col>
           </Row>
         </Modal.Body>

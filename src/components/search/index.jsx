@@ -25,7 +25,7 @@ function SearchBar({ placeholder }) {
     } else {
       try {
         const mangaData = await getData(searchWord);
-        setFilteredData(mangaData);
+        setFilteredData(mangaData.itemList);
       } catch (error) {
         console.error("Error fetching manga data:", error);
         setFilteredData([]);

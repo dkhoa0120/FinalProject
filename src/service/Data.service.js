@@ -20,8 +20,8 @@ export const getMangas = (Search, SortOption, Page) => {
   );
 };
 
-export const getMangaById = (id) => {
-  return axios.get(`${API_URL}/manage/Manga/${id}`);
+export const getMangaByIdUser = (id) => {
+  return axios.get(`${API_URL}/user/Manga/${id}`);
 };
 
 // Authenticate
@@ -50,6 +50,14 @@ export const getCurrentUserBasic = () => {
   });
 };
 
+export const getMangaById = (id) => {
+  return axios.get(`${API_URL}/manage/Manga/${id}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
 export const createManga = (formData) => {
   return axios.post(`${API_URL}/manage/manga`, formData, {
     headers: {
@@ -66,13 +74,17 @@ export const editManga = (id, formData) => {
   });
 };
 
-export const deleteManga = (id) => {
+export const deleteManga = (id, undelete = false) => {
   return axios.delete(`${API_URL}/manage/manga/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
+    params: {
+      undelete: undelete 
+    }
   });
 };
+
 
 export const getLanguage = () => {
   return axios.get(`${API_URL}/Language`);
@@ -82,6 +94,9 @@ export const getCategory = (search) => {
   return axios.get(`${API_URL}/manage/category/?Search=${search}`, {
     params: {
       ExcludeDeleted: true,
+    },
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
   });
 };
@@ -127,10 +142,13 @@ export const editCategory = (id, data) => {
   });
 };
 
-export const deleteCategory = (id) => {
+export const deleteCategory = (id, undelete = false) => {
   return axios.delete(`${API_URL}/manage/category/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
+    params: {
+      undelete: undelete 
+    }
   });
 };

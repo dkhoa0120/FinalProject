@@ -67,7 +67,7 @@ export default function MultiSelect({
       {Object.entries(selectedOptions).map(([key, value]) => (
         <span className="selected-option" key={key}>
           {value}
-          &nbsp;
+          &nbsp; &nbsp;
           <i
             className="fa-solid fa-circle-xmark"
             onClick={() => handleRemoveOption(key)}

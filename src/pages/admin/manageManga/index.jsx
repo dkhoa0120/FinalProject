@@ -3,10 +3,14 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getMangaById, getMangaList } from "../../../service/Data.service";
+import {
+  deleteManga,
+  getMangaById,
+  getMangaList,
+} from "../../../service/Data.service";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import CreateManga from "./components/CreateManga";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
@@ -80,6 +84,18 @@ function ManageManga() {
     setShowDelete(true);
   };
 
+  const handleUndelete = async (id) => {
+    try {
+      await deleteManga(id, true);
+      toast.success("Manga has been restored", {
+        theme: "dark",
+      });
+      getMangas();
+    } catch (error) {
+      toast.error("Failed to delete restored");
+    }
+  };
+
   // JSX rendering
   return (
     <div className="manage-manga">
@@ -125,17 +141,28 @@ function ManageManga() {
                     <td>{item.originalLanguage}</td>
                     <td className="description-cell">{item.description}</td>
                     <td colSpan={2}>
-                      <Button onClick={() => handleEdit(item.id)}>
-                        <i className="fa-solid fa-pen-to-square"></i> Edit
-                      </Button>
-                      &nbsp;
-                      <Button
-                        disabled={item.deletedAt != null}
-                        variant="danger"
-                        onClick={() => handleDelete(item)}
-                      >
-                        <i className="fa-solid fa-trash"></i> Delete
-                      </Button>
+                      {item.deletedAt != null ? (
+                        <Button
+                          variant="dark"
+                          onClick={() => handleUndelete(item.id)}
+                        >
+                          <i className="fa-solid fa-rotate-left"></i>
+                          Undelete
+                        </Button>
+                      ) : (
+                        <>
+                          <Button onClick={() => handleEdit(item.id)}>
+                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          </Button>
+                          &nbsp;
+                          <Button
+                            variant="danger"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <i className="fa-solid fa-trash"></i> Delete
+                          </Button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 );

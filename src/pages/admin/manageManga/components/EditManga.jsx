@@ -60,8 +60,6 @@ function EditManga(props) {
     }
   }, [props.dataEdit, props.show]);
 
-  console.log("Current data", props.dataEdit);
-
   const handleSave = async () => {
     const formData = new FormData();
     formData.append("id", id);

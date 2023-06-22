@@ -40,7 +40,7 @@ function DeleteManga(props) {
           <Row>
             <Col>
               <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" defaultValue={originalTitle} readOnly />
+              <Form.Control type="text" value={originalTitle} disabled />
             </Col>
           </Row>
         </Modal.Body>
