@@ -6,6 +6,7 @@ import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
 import Rating from "./rating";
+import Comment from "../../../components/comment/comment";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -334,43 +335,7 @@ function MangaDetail() {
                 </div>
               </Card>
               <br></br>
-              <Card style={{ padding: "20px" }}>
-                <div className="commented-section mt-2">
-                  <div className="d-flex flex-row align-items-center commented-user">
-                    <img
-                      className="avatar"
-                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                      width="38"
-                    />
-                    <h5 className="mr-2">Huy&nbsp;</h5>
-                    <span className="dot mb-1"></span>
-                    <span className="mb-1 ml-2">&nbsp;2 hours ago</span>
-                  </div>
-                  <div className="comment-text-sm">
-                    <span>
-                      &nbsp;Truyen hay qua troi Truyen hay qua troi Truyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troi
-                    </span>
-                  </div>
-                  <div className="reply-section">
-                    <div className="d-flex flex-row align-items-center voting-icon">
-                      <Col>
-                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
-                        20 &nbsp;<i className="fa-regular fa-clock"></i>
-                        &nbsp;&nbsp;
-                        <button
-                          className="rounded bg-white"
-                          style={{ border: "none" }}
-                        >
-                          Reply
-                        </button>
-                      </Col>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+              <Comment></Comment>
             </div>
           </Container>
         </div>
