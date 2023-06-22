@@ -31,7 +31,7 @@
   line-height: 1.5em;
   width: 96%;
 }
-.banner img {
+.banner .coverPath {
   animation: updown 3s linear infinite;
 }
 @keyframes updown {

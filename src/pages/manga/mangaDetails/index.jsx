@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Dropdown, Button, Card } from "react-bootstrap";
+import {AiOutlineLike, AiOutlineDislike} from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
@@ -42,6 +43,7 @@ function MangaDetail() {
                       src={manga.coverPath}
                       style={{ width: "100%", height: "320px" }}
                       alt="Manga Cover"
+                      className="coverPath"
                     />
                   ) : (
                     <p>Cover not found.</p>
@@ -183,7 +185,9 @@ function MangaDetail() {
                     className="form-control mr-3"
                     placeholder="Add comment"
                   ></input>
-                  <button className="rounded">Comment</button>
+                  <Button variant="outline-dark" className="rounded">
+                    Comment
+                  </Button>
                 </div>
               </Card>
               <br></br>
@@ -195,113 +199,137 @@ function MangaDetail() {
                       src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                       width="38"
                     />
-                    <h5 className="mr-2">Huy&nbsp;</h5>
+                    <h5 className="mr-2">&nbsp;Huy&nbsp;</h5>
                     <span className="dot mb-1"></span>
                     <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
                   </div>
-                  <div className="comment-text-sm" style={{paddingLeft: "38px"}}>
+                  <div
+                    className="comment-text-sm"
+                    style={{ paddingLeft: "38px" }}
+                  >
                     <span>
-                      Truyen hay qua troi Truyen hay qua troi Truyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troi
+                      Truyen hay qua troi Truyen hay qua troi Truyen hay qua
+                      troiTruyen hay qua troiTruyen hay qua troiTruyen hay qua
+                      troiTruyen hay qua troiTruyen hay qua troiTruyen hay qua
+                      troiTruyen hay qua troiTruyen hay qua troi
                     </span>
                   </div>
-                  <div className="reply-section" style={{paddingLeft: "58px"}}>
+                  <div
+                    className="reply-section"
+                    style={{ paddingLeft: "58px" }}
+                  >
                     <div className="d-flex flex-row align-items-center voting-icon">
-                      <Col className="col-2">
-                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
-                        20 &nbsp;<i className="fa-regular fa-clock"></i>
-                      </Col>
-                      <Col className="col-2">
-                        <h6 className="ml-2 mt-1">
-                          <button
-                            className="rounded"
-                            style={{ border: "none" }}
-                          >
-                            Reply
+                      <Col>
+                        10 &nbsp;<button style={{borderWidth: '0', backgroundColor:"white"}}>
+                        <AiOutlineLike />
+                        </button>
+                        &nbsp; 20 &nbsp;
+                        <button style={{borderWidth: '0', backgroundColor:"white"}}>
+                          <AiOutlineDislike/>
                           </button>
-                        </h6>
+                        &nbsp;&nbsp;
+                        <button
+                          className="rounded bg-white"
+                          style={{
+                            border: "none",
+                            fontWeight: "bold",
+                            color: "gray",
+                          }}
+                        >
+                          Reply
+                        </button>
                       </Col>
                     </div>
                   </div>
                 </div>
-                <div className="comment-reply">
-                <div className="commented-section mt-2" style={{paddingLeft: "58px"}}>
-                  <div className="d-flex flex-row align-items-center commented-user">
-                    <img
-                      className="avatar"
-                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                      width="38"
-                    />
-                    <h5 className="mr-2">H&nbsp;</h5>
-                    <span className="dot mb-1"></span>
-                    <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
-                  </div>
-                  <div className="comment-text-sm" style={{paddingLeft: "38px"}}>
-                    <span>
-                      Truyen hay qua troi Truyen hay qua troi Truyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troi
-                    </span>
-                  </div>
-                  <div className="reply-section" style={{paddingLeft: "58px"}}>
-                    <div className="d-flex flex-row align-items-center voting-icon">
-                      <Col className="col-2">
-                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
-                        20 &nbsp;<i className="fa-regular fa-clock"></i>
-                      </Col>
-                      <Col className="col-2">
-                        <h6 className="ml-2 mt-1">
+                <div className="comment-reply ">
+                  <div
+                    className="commented-section mt-2"
+                    style={{ paddingLeft: "58px" }}
+                  >
+                    <div className="d-flex flex-row align-items-center commented-user">
+                      <img
+                        className="avatar"
+                        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        width="38"
+                      />
+                      <h5 className="mr-2">H&nbsp;</h5>
+                      <span className="dot mb-1"></span>
+                      <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
+                    </div>
+                    <div
+                      className="comment-text-sm"
+                      style={{ paddingLeft: "38px" }}
+                    >
+                      <span>
+                        Truyen hay qua troi Truyen hay qua troi Truyen hay qua
+                        troiTruyen hay qua troiTruyen hay qua troiTruyen hay qua
+                        troiTruyen hay qua troiTruyen hay qua troiTruyen hay qua
+                        troiTruyen hay qua troiTruyen hay qua troi
+                      </span>
+                    </div>
+                    <div
+                      className="reply-section"
+                      style={{ paddingLeft: "58px" }}
+                    >
+                      <div className="d-flex flex-row align-items-center voting-icon">
+                        <Col>
+                          10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
+                          20 &nbsp;<i className="fa-regular fa-clock"></i>
+                          &nbsp;&nbsp;
                           <button
-                            className="rounded"
+                            className="rounded bg-white"
                             style={{ border: "none" }}
                           >
                             Reply
                           </button>
-                        </h6>
-                      </Col>
+                        </Col>
+                      </div>
                     </div>
-                  </div>
-                <div className="commented-section mt-2" style={{paddingLeft: "78px"}}>
-                  <div className="d-flex flex-row align-items-center commented-user">
-                    <img
-                      className="avatar"
-                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                      width="38"
-                    />
-                    <h5 className="mr-2">uy&nbsp;</h5>
-                    <span className="dot mb-1"></span>
-                    <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
-                  </div>
-                  <div className="comment-text-sm" style={{paddingLeft: "38px"}}>
-                    <span>
-                      Truyen hay qua troi Truyen hay qua troi Truyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
-                      qua troiTruyen hay qua troiTruyen hay qua troi
-                    </span>
-                  </div>
-                  <div className="reply-section" style={{paddingLeft: "58px"}}>
-                    <div className="d-flex flex-row align-items-center voting-icon">
-                      <Col className="col-2">
-                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
-                        20 &nbsp;<i className="fa-regular fa-clock"></i>
-                      </Col>
-                      <Col className="col-2">
-                        <h6 className="ml-2 mt-1">
-                          <button
-                            className="rounded"
-                            style={{ border: "none" }}
-                          >
-                            Reply
-                          </button>
-                        </h6>
-                      </Col>
+                    <div
+                      className="commented-section mt-2"
+                      style={{ paddingLeft: "78px" }}
+                    >
+                      <div className="d-flex flex-row align-items-center commented-user">
+                        <img
+                          className="avatar"
+                          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                          width="38"
+                        />
+                        <h5 className="mr-2">uy&nbsp;</h5>
+                        <span className="dot mb-1"></span>
+                        <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
+                      </div>
+                      <div
+                        className="comment-text-sm"
+                        style={{ paddingLeft: "38px" }}
+                      >
+                        <span>
+                          Truyen hay qua troi Truyen hay qua troi Truyen hay qua
+                          troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                          qua troiTruyen hay qua troiTruyen hay qua troiTruyen
+                          hay qua troiTruyen hay qua troiTruyen hay qua troi
+                        </span>
+                      </div>
+                      <div
+                        className="reply-section"
+                        style={{ paddingLeft: "58px" }}
+                      >
+                        <div className="d-flex flex-row align-items-center voting-icon">
+                          <Col>
+                            10 &nbsp;<i className="fa-regular fa-clock"></i>
+                            &nbsp; 20 &nbsp;
+                            <i className="fa-regular fa-clock"></i>&nbsp;&nbsp;
+                            <button
+                              className="rounded bg-white"
+                              style={{ border: "none" }}
+                            >
+                              Reply
+                            </button>
+                          </Col>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  </div>
                   </div>
                 </div>
               </Card>
@@ -328,19 +356,16 @@ function MangaDetail() {
                   </div>
                   <div className="reply-section">
                     <div className="d-flex flex-row align-items-center voting-icon">
-                      <Col className="col-2">
+                      <Col>
                         10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
                         20 &nbsp;<i className="fa-regular fa-clock"></i>
-                      </Col>
-                      <Col className="col-2">
-                        <h6 className="ml-2 mt-1">
-                          <button
-                            className="rounded"
-                            style={{ border: "none" }}
-                          >
-                            Reply
-                          </button>
-                        </h6>
+                        &nbsp;&nbsp;
+                        <button
+                          className="rounded bg-white"
+                          style={{ border: "none" }}
+                        >
+                          Reply
+                        </button>
                       </Col>
                     </div>
                   </div>
