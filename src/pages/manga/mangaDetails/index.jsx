@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
+import Rating from "./rating";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -50,78 +51,71 @@ function MangaDetail() {
             </TrackVisibility>
           </Col>
           <Col xs={12} md={6} xl={9}>
-            <TrackVisibility>
-              {({ isVisible }) => (
-                <div
-                  className={
-                    isVisible ? "animate__animated animate__fadeIn" : ""
-                  }
-                >
-                  {manga ? (
-                    <>
-                      <Row>
-                        <h1 className="txt-rotate">{manga.originalTitle}</h1>
-                        <p>Alternative Titles: {manga.alternativeTitles}</p>
-                        <p>TestAuthorName</p>
-                        <p>{manga.description}</p>
-                      </Row>
-                      <Row>
-                        <Col sm="9">
-                          <div>
-                            {manga.categories.map((c) => (
-                              <Button
-                                key={c.id}
-                                variant="outline-dark"
-                                style={{ margin: "0 10px 0 0" , border: "none"}}
-                              >
-                                {c.name}
-                              </Button>
-                            ))}
-                          </div>
-                        </Col>
-                        <Col sm="3">
-                          <span>Publication: {manga.publishYear}</span>
-                        </Col>
-                      </Row>
-                      <br></br>
-                      <Row>
-                        <Col>
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              variant="outline"
-                              id="dropdown-basic"
-                            >
-                              <span>
-                                <i className="fa-regular fa-star"></i>
-                              </span>
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              <Dropdown.Item>(5) Masterpice</Dropdown.Item>
-                              <Dropdown.Item>(4) Good</Dropdown.Item>
-                              <Dropdown.Item>(3) Fine</Dropdown.Item>
-                              <Dropdown.Item>(2) Bad</Dropdown.Item>
-                              <Dropdown.Item>(1) Horrible</Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </Col>
-                        <Col>
-                          &nbsp;&nbsp;
-                          <span>
-                            <button style={{ border: "none" }}>
-                              <i className="fa-regular fa-heart"></i>
-                            </button>
-                            &nbsp;100
-                          </span>
-                        </Col>
-                      </Row>
-                    </>
-                  ) : (
-                    <p>Manga not found.</p>
-                  )}
-                  <div></div>
-                </div>
-              )}
-            </TrackVisibility>
+            {manga ? (
+              <>
+                <Row>
+                  <h1 className="txt-rotate">{manga.originalTitle}</h1>
+                  <span>Alternative Titles: {manga.alternativeTitles}</span>
+                  <span>TestAuthorName</span>
+                  <p>{manga.description}</p>
+                </Row>
+                <Row>
+                  <Col sm="9">
+                    <div>
+                      {manga.categories.map((c) => (
+                        <Button
+                          key={c.id}
+                          variant="outline-dark"
+                          style={{ margin: "0 10px 10px 0", border: "none" }}
+                        >
+                          {c.name}
+                        </Button>
+                      ))}
+                    </div>
+                  </Col>
+                  <Col sm="3">
+                    <p className="text-end">Publication: {manga.publishYear}</p>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="col-4">
+                    <Rating />
+                  </Col>
+                  {/* <Dropdown>
+                      <Dropdown.Toggle variant="outline" id="dropdown-basic">
+                        <span>
+                          <i className="fa-regular fa-star"></i>
+                        </span>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item>(5) Masterpice</Dropdown.Item>
+                        <Dropdown.Item>(4) Good</Dropdown.Item>
+                        <Dropdown.Item>(3) Fine</Dropdown.Item>
+                        <Dropdown.Item>(2) Bad</Dropdown.Item>
+                        <Dropdown.Item>(1) Horrible</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown> */}
+                  <Col className="col-4">
+                    <span>
+                      <button style={{ border: "none" }}>
+                        <i className="fa-regular fa-heart"></i>
+                      </button>
+                      &nbsp;100
+                    </span>
+                  </Col>
+                  <Col className="col-4">
+                    <span>
+                      <button style={{ border: "none" }}>
+                        <i className="fa-regular fa-heart"></i>
+                      </button>
+                      &nbsp;Report
+                    </span>
+                  </Col>
+                </Row>
+              </>
+            ) : (
+              <p>Manga not found.</p>
+            )}
           </Col>
         </Row>
       </Container>
@@ -148,14 +142,14 @@ function MangaDetail() {
             <p>Chapter 1: You apply just the right amount of heat</p>
             <Row>
               <Col className="col-sm-4 offset-sm-4">
-                <p className="text-end" >
+                <p className="text-end">
                   <i className="fa-regular fa-clock"></i>&nbsp;Group
                 </p>
               </Col>
-              <Col >
-                <p className="text-end text-truncate" style={{maxWidth: "150px"}}>
+              <Col className="col-2">
+                <p className="text-truncate">
                   <i className="fa-regular fa-clock"></i>
-                  &nbsp;UploaderTestLong
+                  &nbsp;UploaderTestTextLong
                 </p>
               </Col>
               <Col>
@@ -169,9 +163,190 @@ function MangaDetail() {
           </Row>
         </div>
         <div className="Manga-Container">
-          <div className="Manga-Container-title">Comments</div>
+          <div
+            className="Manga-Container-title"
+            style={{ textDecorationLine: "underline", marginBottom: "0" }}
+          >
+            Comments
+          </div>
           <Container>
-            <div className="commentSection"></div>
+            <div className="comment-bottom bg-white p-2 px-4">
+              <Card style={{ padding: "10px" }}>
+                <div className="d-flex flex-row add-comment-section mt-4 mb-4">
+                  <img
+                    className="avatar"
+                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    width="38"
+                  />
+                  <input
+                    type="text"
+                    className="form-control mr-3"
+                    placeholder="Add comment"
+                  ></input>
+                  <button className="rounded">Comment</button>
+                </div>
+              </Card>
+              <br></br>
+              <Card style={{ padding: "20px" }}>
+                <div className="commented-section mt-2">
+                  <div className="d-flex flex-row align-items-center commented-user">
+                    <img
+                      className="avatar"
+                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      width="38"
+                    />
+                    <h5 className="mr-2">Huy&nbsp;</h5>
+                    <span className="dot mb-1"></span>
+                    <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
+                  </div>
+                  <div className="comment-text-sm" style={{paddingLeft: "38px"}}>
+                    <span>
+                      Truyen hay qua troi Truyen hay qua troi Truyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troi
+                    </span>
+                  </div>
+                  <div className="reply-section" style={{paddingLeft: "58px"}}>
+                    <div className="d-flex flex-row align-items-center voting-icon">
+                      <Col className="col-2">
+                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
+                        20 &nbsp;<i className="fa-regular fa-clock"></i>
+                      </Col>
+                      <Col className="col-2">
+                        <h6 className="ml-2 mt-1">
+                          <button
+                            className="rounded"
+                            style={{ border: "none" }}
+                          >
+                            Reply
+                          </button>
+                        </h6>
+                      </Col>
+                    </div>
+                  </div>
+                </div>
+                <div className="comment-reply">
+                <div className="commented-section mt-2" style={{paddingLeft: "58px"}}>
+                  <div className="d-flex flex-row align-items-center commented-user">
+                    <img
+                      className="avatar"
+                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      width="38"
+                    />
+                    <h5 className="mr-2">H&nbsp;</h5>
+                    <span className="dot mb-1"></span>
+                    <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
+                  </div>
+                  <div className="comment-text-sm" style={{paddingLeft: "38px"}}>
+                    <span>
+                      Truyen hay qua troi Truyen hay qua troi Truyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troi
+                    </span>
+                  </div>
+                  <div className="reply-section" style={{paddingLeft: "58px"}}>
+                    <div className="d-flex flex-row align-items-center voting-icon">
+                      <Col className="col-2">
+                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
+                        20 &nbsp;<i className="fa-regular fa-clock"></i>
+                      </Col>
+                      <Col className="col-2">
+                        <h6 className="ml-2 mt-1">
+                          <button
+                            className="rounded"
+                            style={{ border: "none" }}
+                          >
+                            Reply
+                          </button>
+                        </h6>
+                      </Col>
+                    </div>
+                  </div>
+                <div className="commented-section mt-2" style={{paddingLeft: "78px"}}>
+                  <div className="d-flex flex-row align-items-center commented-user">
+                    <img
+                      className="avatar"
+                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      width="38"
+                    />
+                    <h5 className="mr-2">uy&nbsp;</h5>
+                    <span className="dot mb-1"></span>
+                    <span className="mb-1 ml-2">&nbsp;3 hours ago</span>
+                  </div>
+                  <div className="comment-text-sm" style={{paddingLeft: "38px"}}>
+                    <span>
+                      Truyen hay qua troi Truyen hay qua troi Truyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troi
+                    </span>
+                  </div>
+                  <div className="reply-section" style={{paddingLeft: "58px"}}>
+                    <div className="d-flex flex-row align-items-center voting-icon">
+                      <Col className="col-2">
+                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
+                        20 &nbsp;<i className="fa-regular fa-clock"></i>
+                      </Col>
+                      <Col className="col-2">
+                        <h6 className="ml-2 mt-1">
+                          <button
+                            className="rounded"
+                            style={{ border: "none" }}
+                          >
+                            Reply
+                          </button>
+                        </h6>
+                      </Col>
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+                </div>
+              </Card>
+              <br></br>
+              <Card style={{ padding: "20px" }}>
+                <div className="commented-section mt-2">
+                  <div className="d-flex flex-row align-items-center commented-user">
+                    <img
+                      className="avatar"
+                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      width="38"
+                    />
+                    <h5 className="mr-2">Huy&nbsp;</h5>
+                    <span className="dot mb-1"></span>
+                    <span className="mb-1 ml-2">&nbsp;2 hours ago</span>
+                  </div>
+                  <div className="comment-text-sm">
+                    <span>
+                      &nbsp;Truyen hay qua troi Truyen hay qua troi Truyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troiTruyen hay
+                      qua troiTruyen hay qua troiTruyen hay qua troi
+                    </span>
+                  </div>
+                  <div className="reply-section">
+                    <div className="d-flex flex-row align-items-center voting-icon">
+                      <Col className="col-2">
+                        10 &nbsp;<i className="fa-regular fa-clock"></i>&nbsp;
+                        20 &nbsp;<i className="fa-regular fa-clock"></i>
+                      </Col>
+                      <Col className="col-2">
+                        <h6 className="ml-2 mt-1">
+                          <button
+                            className="rounded"
+                            style={{ border: "none" }}
+                          >
+                            Reply
+                          </button>
+                        </h6>
+                      </Col>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </Container>
         </div>
       </Container>

@@ -57,3 +57,13 @@
 /* .dropdown-basic::after{
   display: none !important;
 } */
+
+
+.dot{
+  height: 7px;
+  width: 7px;
+  margin-top: 3px;
+  background-color: red;
+  border-radius:  50%;
+  display: inline-block;
+}
