@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Dropdown, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Dropdown, Button, Card, Collapse } from "react-bootstrap";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
+import Children from "./childrenComment";
+
 
 function Comment() {
+  const [open, setOpen]= useState(false);
   return (
     
       <div className="commented-section mt-2">
@@ -36,16 +39,14 @@ function Comment() {
                 <AiOutlineDislike />
               </button>
               &nbsp;&nbsp;
-              <button
-                className="rounded bg-white"
-                style={{
-                  border: "none",
-                  fontWeight: "bold",
-                  color: "gray",
-                }}
-              >
-                Reply
-              </button>
+              <Button onClick={()=>setOpen(!open)}
+            aria-controls="reply-comments"
+            aria-expanded="open">Reply</Button>
+            <Collapse in ={open}>
+              <div id="reply-comments">
+                <Children/>
+              </div>
+            </Collapse>
             </Col>
           </div>
         </div>

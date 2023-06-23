@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Dropdown, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Dropdown, Button, Card, Collapse } from "react-bootstrap";
 import {AiOutlineLike, AiOutlineDislike} from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
@@ -14,6 +14,7 @@ import CommentForm from "../../../components/comment/commentForm";
 function MangaDetail() {
   const [manga, setManga] = useState(null);
   const { mangaId } = useParams();
+  const [open, setOpen]= useState(false);
 
   useEffect(() => {
     getMangaDetail(mangaId);
@@ -158,6 +159,14 @@ function MangaDetail() {
                 <Children />
               </div>
             </Card>
+            <Button onClick={()=>setOpen(!open)}
+            aria-controls="reply-comments"
+            aria-expanded="open">Reply</Button>
+            <Collapse in ={open}>
+              <div id="reply-comments">
+                <Children/>
+              </div>
+            </Collapse>
           </div>
         </div>
       </Container>
