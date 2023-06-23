@@ -19,6 +19,7 @@ function CreateManga(props) {
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
   const [categoryIds, setCategoryIds] = useState([]);
+  const [authorIds, setAuthorIds] = useState([]);
   const [author, setAuthor] = useState([]);
   const [publishYear, setPublishYear] = useState("");
 
@@ -30,6 +31,7 @@ function CreateManga(props) {
     formData.append("originalLanguage", originalLanguage);
     formData.append("description", description);
     formData.append("categoryIds", categoryIds);
+    formData.append("authorIds", authorIds);
     formData.append("author", author);
     formData.append("publishYear", publishYear);
 
@@ -42,6 +44,7 @@ function CreateManga(props) {
       setOriginalLanguage("");
       setDescription("");
       setCategoryIds("");
+      setAuthorIds("");
       setAuthor("");
       setPublishYear("");
       toast.success("A manga has been created");
@@ -112,6 +115,27 @@ function CreateManga(props) {
                   }
                 }}
                 exportOptions={(options) => setCategoryIds(options)}
+              />
+            </Col>
+          </Row>{" "}
+          &nbsp;
+          <Row>
+            <Col>
+              <Form.Label>Author</Form.Label>
+              <MultiSelect
+                placeholder="Search author"
+                initialSelectedOptions={{}}
+                getOptions={async (search) => {
+                  try {
+                    var res = await getAuthor(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
+                }}
+                exportOptions={(options) => setAuthorIds(options)}
               />
             </Col>
           </Row>{" "}

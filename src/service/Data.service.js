@@ -80,11 +80,10 @@ export const deleteManga = (id, undelete = false) => {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
     params: {
-      undelete: undelete 
-    }
+      undelete: undelete,
+    },
   });
 };
-
 
 export const getLanguage = () => {
   return axios.get(`${API_URL}/Language`);
@@ -101,8 +100,15 @@ export const getCategory = (search) => {
   });
 };
 
-export const getAuthor = () => {
-  return axios.get(`${API_URL}/manage/author`);
+export const getAuthor = (search) => {
+  return axios.get(`${API_URL}/manage/author/?Search=${search}`, {
+    params: {
+      ExcludeDeleted: true,
+    },
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
 };
 
 // Admin manage Category
@@ -148,7 +154,7 @@ export const deleteCategory = (id, undelete = false) => {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
     params: {
-      undelete: undelete 
-    }
+      undelete: undelete,
+    },
   });
 };
