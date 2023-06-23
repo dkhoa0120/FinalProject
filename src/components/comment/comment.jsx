@@ -44,7 +44,10 @@ function Comment() {
             aria-expanded="open">Reply</Button>
             <Collapse in ={open}>
               <div id="reply-comments">
-                <Children/>
+              <div className="d-flex">
+                <div className="vr"></div>
+                <Children />
+              </div>
               </div>
             </Collapse>
             </Col>

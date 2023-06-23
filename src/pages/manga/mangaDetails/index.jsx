@@ -7,7 +7,6 @@ import TrackVisibility from "react-on-screen";
 import "./styles.css";
 import Rating from "./rating";
 import Comment from "../../../components/comment/comment";
-import Children from "../../../components/comment/childrenComment";
 import ChaptersList from "../../../components/chapterList/chapters";
 import CommentForm from "../../../components/comment/commentForm";
 
@@ -140,33 +139,12 @@ function MangaDetail() {
             <CommentForm />
             <br></br>
             <Card style={{ padding: "20px" }}>
-              <Comment />
-              <div className="d-flex">
-                <div className="vr"></div>
-                <Children />
-              </div>
-              <div className="d-flex">
-                <div className="reply-section" style={{ paddingLeft: "58px" }}></div>
-                <div className="vr" ></div>
-                <Children />
-              </div>
+              <Comment/>
             </Card>
             <br></br>
             <Card style={{ padding: "20px" }}>
               <Comment />
-              <div className="d-flex">
-                <div className="vr"></div>
-                <Children />
-              </div>
             </Card>
-            <Button onClick={()=>setOpen(!open)}
-            aria-controls="reply-comments"
-            aria-expanded="open">Reply</Button>
-            <Collapse in ={open}>
-              <div id="reply-comments">
-                <Children/>
-              </div>
-            </Collapse>
           </div>
         </div>
       </Container>

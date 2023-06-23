@@ -5,7 +5,7 @@ import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 function Children() {
   return (
     <div className="comment-reply ">
-      <div className="commented-section mt-2" style={{ paddingLeft: "58px" }}>
+      <div className="commented-section mt-2" style={{ paddingLeft: "20px" }}>
         <div className="d-flex flex-row align-items-center commented-user">
           <img
             className="avatar"
