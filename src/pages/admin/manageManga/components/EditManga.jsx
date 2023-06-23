@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import {
   editManga,
+  getAuthor,
   getCategory,
   getLanguage,
 } from "../../../../service/Data.service";
@@ -20,6 +21,7 @@ function EditManga(props) {
   const [description, setDescription] = useState("");
   const [publishYear, setPublishYear] = useState("");
   const [categoryIds, setCategoryIds] = useState([]);
+  const [authorIds, setAuthorIds] = useState([]);
 
   const [languageOptions, setLanguageOptions] = useState([]);
   useEffect(() => {
@@ -45,6 +47,7 @@ function EditManga(props) {
         description,
         publishYear,
         categories,
+        authors,
         id,
       } = props.dataEdit;
       setId(id || "");
@@ -56,6 +59,9 @@ function EditManga(props) {
       setPublishYear(publishYear || "");
       if (categories) {
         setCategoryIds(categories.map((category) => category.id));
+      }
+      if (authors) {
+        setAuthorIds(authors.map((author) => author.id));
       }
     }
   }, [props.dataEdit, props.show]);
@@ -70,6 +76,7 @@ function EditManga(props) {
     formData.append("description", description);
     formData.append("publishYear", publishYear);
     formData.append("categoryIds", categoryIds);
+    formData.append("authorIds", authorIds);
     if (!coverPath) {
       toast.error("Cover is required", {
         theme: "colored",
@@ -93,12 +100,11 @@ function EditManga(props) {
     }
   };
 
-  const mapToOptions = (categories) => {
-    if (typeof categories === "undefined") {
+  const mapToOptions = (items) => {
+    if (typeof items === "undefined") {
       return {};
     }
-    console.log("dataEdit", categories);
-    const options = categories.reduce((acc, value) => {
+    const options = items.reduce((acc, value) => {
       acc[value.id] = value.name;
       return acc;
     }, {});
@@ -149,6 +155,27 @@ function EditManga(props) {
                   }
                 }}
                 exportOptions={(options) => setCategoryIds(options)}
+              />
+            </Col>
+          </Row>{" "}
+          &nbsp;
+          <Row>
+            <Col>
+              <Form.Label>Author</Form.Label>
+              <MultiSelect
+                placeholder="Search author"
+                initialSelectedOptions={mapToOptions(props.dataEdit.authors)}
+                getOptions={async (search) => {
+                  try {
+                    var res = await getAuthor(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
+                }}
+                exportOptions={(options) => setAuthorIds(options)}
               />
             </Col>
           </Row>{" "}
