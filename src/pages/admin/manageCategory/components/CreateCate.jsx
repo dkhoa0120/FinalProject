@@ -44,7 +44,7 @@ function CreateCate(props) {
           />{" "}
           <Form.Label>Description</Form.Label>
           <Form.Control
-            type="textarea"
+            as="textarea"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required

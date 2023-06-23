@@ -160,7 +160,9 @@ function ManageCategory() {
                 );
               })
             ) : (
-              <div className="text-center">No data found.</div>
+              <tr className="text-center">
+                <td colSpan={3}>No DATA found</td>
+              </tr>
             )}
           </tbody>
         </Table>

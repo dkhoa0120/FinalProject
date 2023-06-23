@@ -126,8 +126,8 @@ export const createCategory = (data) => {
   });
 };
 
-export const getCategoryByID = (id, data) => {
-  return axios.get(`${API_URL}/manage/category/${id}`, data, {
+export const getCategoryByID = (id) => {
+  return axios.get(`${API_URL}/manage/category/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
@@ -152,3 +152,55 @@ export const deleteCategory = (id, undelete = false) => {
     }
   });
 };
+
+
+// Admin manage Author
+
+export const getAuthorList = (Search, Page) => {
+  return axios.get(
+    `${API_URL}/manage/author/?Search=${Search}&Page=${Page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${new Cookies().get("Token")}`,
+      },
+    }
+  );
+};
+
+export const createAuthor = (data) => {
+  return axios.post(`${API_URL}/manage/author`, data, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const getAuthorByID = (id) => {
+  return axios.get(`${API_URL}/manage/author/${id}`,
+  {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  }
+  );
+};
+
+export const editAuthor = (id, data) => {
+  return axios.put(`${API_URL}/manage/author/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const deleteAuthor = (id, undelete = false) => {
+  return axios.delete(`${API_URL}/manage/author/${id}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+    params: {
+      undelete: undelete 
+    }
+  });
+};
+

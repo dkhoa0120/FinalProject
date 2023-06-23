@@ -4,18 +4,18 @@ import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  deleteManga,
-  getMangaById,
-  getMangaList,
+  getAuthorList,
+  deleteAuthor,
+  getAuthorByID,
 } from "../../../service/Data.service";
-import { Col, Form, Image, Row } from "react-bootstrap";
-import CreateManga from "./components/CreateManga";
 import { ToastContainer, toast } from "react-toastify";
-import EditManga from "./components/EditManga";
-import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
+import { Col, Row, Form } from "react-bootstrap";
+import CreateAuthor from "./components/CreateAuthor";
+import EditAuthor from "./components/EditAuthor";
+import DeleteAuthor from "./components/DeleteAuthor";
 
-function ManageManga() {
+function ManageAuthor() {
   // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,8 +23,8 @@ function ManageManga() {
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
-  const [mangas, setMangas] = useState([]);
-  const [totalPages, setTotalPages] = useState();
+  const [authors, setAuthors] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
   // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
@@ -40,25 +40,26 @@ function ManageManga() {
 
   // Fetch manga data
   useEffect(() => {
-    getMangas();
+    getAuthors();
   }, [searchTerm, page]);
 
-  const getMangas = async () => {
+  const getAuthors = async () => {
     try {
-      const result = await getMangaList(searchTerm, page);
-      setMangas(result.data.itemList);
+      const result = await getAuthorList(searchTerm, page);
+      setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // Redirect to another page
         navigate("/login");
       } else if (error.response && error.response.status === 404) {
-        // Handle not found
-        setMangas([]);
+        // Handle other errors
+        setAuthors([]);
         setTotalPages(0);
       }
     }
   };
+  console.log(authors);
 
   // Event handler for search manga
   const handleSearch = (e) => {
@@ -69,78 +70,69 @@ function ManageManga() {
       setSearchParams({ page: 1 });
     }
   };
-
-  // Event handler for editing manga
   const handleEdit = async (id) => {
-    await getMangaById(id).then((result) => {
+    setShowEdit(true);
+    await getAuthorByID(id).then((result) => {
       setDataEdit(result.data);
     });
-    setShowEdit(true);
   };
 
-  // Event handler for deleting manga
-  const handleDelete = (manga) => {
-    setDataEdit(manga);
+  // Event handler for deleting cate
+  const handleDelete = (categories) => {
+    setDataEdit(categories);
     setShowDelete(true);
   };
 
   const handleUndelete = async (id) => {
     try {
-      await deleteManga(id, true);
-      toast.success("Manga has been restored", {
+      await deleteAuthor(id, true);
+      toast.success("Author has been restored", {
         theme: "dark",
       });
-      getMangas();
+      getAuthors();
     } catch (error) {
       toast.error("Failed to delete restored");
     }
   };
 
-  // JSX rendering
   return (
     <div className="manage-manga">
       <ToastContainer />
-      <Row>
-        <Col>
-          <Button variant="success" onClick={() => setShowCreate(true)}>
-            <i className="fa-solid fa-circle-plus"></i> Create
-          </Button>
-        </Col>
-        <Col>
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </Col>
-      </Row>
-
       <div className="manage-table">
+        <Row>
+          <Col>
+            <Button variant="success" onClick={() => setShowCreate(true)}>
+              <i className="fa-solid fa-circle-plus"></i> Create
+            </Button>
+          </Col>
+          <Col>
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </Col>
+        </Row>
+        &nbsp;
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Cover</th>
-              <th>Original Title</th>
-              <th>Language</th>
-              <th>Description</th>
+              <th>Author</th>
+              <th>Biography</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {mangas.length > 0 ? (
-              mangas.map((item, index) => {
+            {authors.length > 0 ? (
+              authors.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td>
-                      <Image src={item.coverPath} style={{ width: "100px" }} />
-                    </td>
-                    <td className="manga-title-cell">{item.originalTitle}</td>
-                    <td>{item.originalLanguage}</td>
-                    <td className="manga-description-cell">
-                      <span className="text-limit">{item.description}</span>
+                    <td>{item.name}</td>
+                    <td className="author-description-cell">
+                      <span className="text-limit">{item.biography}</span>
                     </td>
                     <td colSpan={2}>
                       {item.deletedAt != null ? (
@@ -170,7 +162,7 @@ function ManageManga() {
               })
             ) : (
               <tr className="text-center">
-                <td colSpan={5}>No DATA found</td>
+                <td colSpan={3}>No DATA found</td>
               </tr>
             )}
           </tbody>
@@ -184,26 +176,26 @@ function ManageManga() {
             search={searchTerm}
           />
         </div>
+        <CreateAuthor
+          show={showCreate}
+          handleClose={() => setShowCreate(false)}
+          getAuthors={getAuthors}
+        />
+        <EditAuthor
+          show={showEdit}
+          handleClose={() => setShowEdit(false)}
+          dataEdit={dataEdit}
+          getAuthors={getAuthors}
+        />
+        <DeleteAuthor
+          show={showDelete}
+          handleClose={() => setShowDelete(false)}
+          dataEdit={dataEdit}
+          getAuthors={getAuthors}
+        />
       </div>
-      <CreateManga
-        show={showCreate}
-        handleClose={() => setShowCreate(false)}
-        getMangas={getMangas}
-      />
-      <EditManga
-        show={showEdit}
-        handleClose={() => setShowEdit(false)}
-        dataEdit={dataEdit}
-        getMangas={getMangas}
-      />
-      <DeleteManga
-        show={showDelete}
-        handleClose={() => setShowDelete(false)}
-        dataEdit={dataEdit}
-        getMangas={getMangas}
-      />
     </div>
   );
 }
 
-export default ManageManga;
+export default ManageAuthor;

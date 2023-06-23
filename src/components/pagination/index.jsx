@@ -31,7 +31,7 @@ const Pagination = ({
 
     const dot = () => {
       pageNumbers.push(
-        <Button variant="btn btn-light" disabled>
+        <Button key="..." variant="btn btn-light" disabled>
           ...
         </Button>
       );
@@ -68,6 +68,7 @@ const Pagination = ({
     <div className="d-flex justify-content-center">
       <div className="pagination">
         <Button
+          key="<<"
           onClick={() =>
             setSearchParams({
               ...(search && { search }), // Include search if available
@@ -82,6 +83,7 @@ const Pagination = ({
         &nbsp;
         {page > 1 ? (
           <Button
+            key="<"
             onClick={() =>
               setSearchParams({
                 ...(search && { search }), // Include search if available
@@ -103,6 +105,7 @@ const Pagination = ({
         &nbsp;
         {page < totalPages ? (
           <Button
+            key=">"
             variant="btn btn-dark"
             onClick={() =>
               setSearchParams({
@@ -121,6 +124,7 @@ const Pagination = ({
         )}
         &nbsp;
         <Button
+          key=">>"
           onClick={() =>
             setSearchParams({
               ...(search && { search }), // Include search if available
