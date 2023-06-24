@@ -14,9 +14,9 @@ export const getMangaForSearch = (Search) => {
 };
 
 // Get manga
-export const getMangas = (Search, SortOption, Page) => {
+export const getMangas = (Search, SortOption, Page, PageSize) => {
   return axios.get(
-    `${API_URL}/user/Manga/?Search=${Search}&SortOption=${SortOption}&Page=${Page}`
+    `${API_URL}/user/Manga/?Search=${Search}&SortOption=${SortOption}&Page=${Page}&PageSize=${PageSize}`
   );
 };
 
@@ -207,6 +207,14 @@ export const deleteAuthor = (id, undelete = false) => {
     params: {
       undelete: undelete 
     }
+  });
+};
+
+export const getUsers = (roleOption, search, page) => {
+  return axios.get(`${API_URL}/manage/user/?RoleOption=${roleOption}&Search=${search}&Page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
   });
 };
 

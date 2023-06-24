@@ -30,7 +30,7 @@ function Manga() {
 
   const getMangasList = async () => {
     try {
-      const result = await getMangas(searchTerm, sortOption, page);
+      const result = await getMangas(searchTerm, sortOption, page, 12);
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
