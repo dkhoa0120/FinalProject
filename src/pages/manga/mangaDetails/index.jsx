@@ -8,7 +8,6 @@ import {
   Card,
   Collapse,
 } from "react-bootstrap";
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";

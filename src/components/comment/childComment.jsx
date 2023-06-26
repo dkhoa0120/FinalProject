@@ -8,7 +8,6 @@ import {
   Card,
   Collapse,
 } from "react-bootstrap";
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 
 function ChildComponent({ childComment }) {
   const [open, setOpen] = useState(false);
@@ -47,11 +46,11 @@ function ChildComponent({ childComment }) {
               <Col>
                 10 &nbsp;
                 <button style={{ borderWidth: "0", backgroundColor: "white" }}>
-                  <AiOutlineLike />
+                  <i class="fa-solid fa-thumbs-up"></i>
                 </button>
                 &nbsp; 20 &nbsp;
                 <button style={{ borderWidth: "0", backgroundColor: "white" }}>
-                  <AiOutlineDislike />
+                  <i class="fa-solid fa-thumbs-down"></i>
                 </button>
                 &nbsp;&nbsp;
                 <Button>Reply</Button>
