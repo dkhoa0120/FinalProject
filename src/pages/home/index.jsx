@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import { getMangas } from "../../service/Data.service";
 import MangasList from "../../components/mangaList";
-import banner from "../../img/banner/banner.png";
 import "./styles.css";
 import CarouselFade from "../../components/carousel";
 
 function Home() {
+  const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
+
   const [activeButton, setActiveButton] = useState("LatestManga");
 
   const handleButtonClick = (sortOption) => {
