@@ -159,18 +159,14 @@ export const deleteCategory = (id, undelete = false) => {
   });
 };
 
-
 // Admin manage Author
 
 export const getAuthorList = (Search, Page) => {
-  return axios.get(
-    `${API_URL}/manage/author/?Search=${Search}&Page=${Page}`,
-    {
-      headers: {
-        Authorization: `Bearer ${new Cookies().get("Token")}`,
-      },
-    }
-  );
+  return axios.get(`${API_URL}/manage/author/?Search=${Search}&Page=${Page}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
 };
 
 export const createAuthor = (data) => {
@@ -182,13 +178,11 @@ export const createAuthor = (data) => {
 };
 
 export const getAuthorByID = (id) => {
-  return axios.get(`${API_URL}/manage/author/${id}`,
-  {
+  return axios.get(`${API_URL}/manage/author/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
-  }
-  );
+  });
 };
 
 export const editAuthor = (id, data) => {
@@ -205,16 +199,18 @@ export const deleteAuthor = (id, undelete = false) => {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
     params: {
-      undelete: undelete 
-    }
-  });
-};
-
-export const getUsers = (roleOption, search, page) => {
-  return axios.get(`${API_URL}/manage/user/?RoleOption=${roleOption}&Search=${search}&Page=${page}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
+      undelete: undelete,
     },
   });
 };
 
+export const getUsers = (roleOption, search, page) => {
+  return axios.get(
+    `${API_URL}/manage/user/?RoleOption=${roleOption}&Search=${search}&Page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${new Cookies().get("Token")}`,
+      },
+    }
+  );
+};
