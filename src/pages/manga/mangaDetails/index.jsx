@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Dropdown, Button, Card, Collapse } from "react-bootstrap";
-import {AiOutlineLike, AiOutlineDislike} from "react-icons/ai";
+import {
+  Container,
+  Row,
+  Col,
+  Dropdown,
+  Button,
+  Card,
+  Collapse,
+} from "react-bootstrap";
+import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
@@ -17,7 +25,6 @@ function MangaDetail() {
   const handleToggle = () => {
     setActive(!isActive);
   };
-  
 
   useEffect(() => {
     getMangaDetail(mangaId);
@@ -143,16 +150,16 @@ function MangaDetail() {
             <CommentForm />
             <br></br>
             <Card style={{ padding: "20px" }}>
-              <Comment/>
-            </Card>
-            <br></br>
-            <Card style={{ padding: "20px" }}>
               <Comment />
             </Card>
+            <br></br>
             <Card>
-              <div className="heart-btn" >
+              <div className="heart-btn">
                 <div className="content">
-                  <span className={`heart ${isActive ? "heart-active" : ""}`} onClick={handleToggle}></span>
+                  <span
+                    className={`heart ${isActive ? "heart-active" : ""}`}
+                    onClick={handleToggle}
+                  ></span>
                   <span className="follow">Follow</span>
                 </div>
               </div>
