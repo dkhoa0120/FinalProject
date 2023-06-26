@@ -13,7 +13,11 @@ import CommentForm from "../../../components/comment/commentForm";
 function MangaDetail() {
   const [manga, setManga] = useState(null);
   const { mangaId } = useParams();
-  const [open, setOpen]= useState(false);
+  const [isActive, setActive] = useState(null);
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+  
 
   useEffect(() => {
     getMangaDetail(mangaId);
@@ -144,6 +148,14 @@ function MangaDetail() {
             <br></br>
             <Card style={{ padding: "20px" }}>
               <Comment />
+            </Card>
+            <Card>
+              <div className="heart-btn" >
+                <div className="content">
+                  <span className={`heart ${isActive ? "heart-active" : ""}`} onClick={handleToggle}></span>
+                  <span className="follow">Follow</span>
+                </div>
+              </div>
             </Card>
           </div>
         </div>

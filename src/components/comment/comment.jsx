@@ -5,7 +5,20 @@ import Children from "./childrenComment";
 
 
 function Comment() {
-  const [open, setOpen]= useState(false);
+  const [open, setOpen] = useState(false);
+  const [like, setLike] = useState(0),
+    [isLike, setIsLike] = useState(false),
+    onLikeButtonClick = () => {
+      setLike(like + (isLike ? -1 : 1));
+      setIsLike(!isLike);
+    };
+
+  const [dislike, setDisLike] = useState(0),
+    [isDisLike, setDisIsLike] = useState(false),
+    onDisLikeButtonClick = () => {
+      setDisLike(dislike + (isDisLike ? -1 : 1));
+      setDisIsLike(!isDisLike);
+    };
   return (
     
       <div className="commented-section mt-2">
@@ -30,12 +43,12 @@ function Comment() {
         <div className="reply-section" style={{ paddingLeft: "58px" }}>
           <div className="d-flex flex-row align-items-center voting-icon">
             <Col>
-              10 &nbsp;
-              <button style={{ borderWidth: "0", backgroundColor: "white" }}>
+            {like} &nbsp;
+              <button style={{ borderWidth: "0", backgroundColor: "white" }} onClick={onLikeButtonClick}>
                 <AiOutlineLike />
               </button>
-              &nbsp; 20 &nbsp;
-              <button style={{ borderWidth: "0", backgroundColor: "white" }}>
+              &nbsp; {dislike} &nbsp;
+              <button style={{ borderWidth: "0", backgroundColor: "white" }} onClick={onDisLikeButtonClick}>
                 <AiOutlineDislike />
               </button>
               &nbsp;&nbsp;
