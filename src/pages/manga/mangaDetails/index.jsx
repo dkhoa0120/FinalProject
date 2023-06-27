@@ -14,7 +14,7 @@ import TrackVisibility from "react-on-screen";
 import "./styles.css";
 import Rating from "./rating";
 import ChaptersList from "../../../components/chapter";
-import CommentsList from "../../../components/comment";
+import CommentSection from "../../../components/comment";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -132,7 +132,7 @@ function MangaDetail() {
       </Container>
       <br></br>
       <ChaptersList />
-      <CommentsList />
+      <CommentSection />
     </section>
   );
 }

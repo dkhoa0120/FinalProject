@@ -8,10 +8,10 @@ import {
   Card,
   Collapse,
 } from "react-bootstrap";
-import ChildComponent from "./childComment";
+import ChildComment from "./childComment";
 import CommentForm from "./commentForm";
 
-function Comment({ comment }) {
+function CommentList({ comment }) {
   const [open, setOpen] = useState(false);
   const handleToggleReplies = () => {
     setOpen(!open);
@@ -120,7 +120,7 @@ function Comment({ comment }) {
           <Collapse in={open}>
             <div id="reply-comments">
               {comment.childComments.map((childComment) => (
-                <ChildComponent
+                <ChildComment
                   key={childComment.id}
                   childComment={childComment}
                 />
@@ -133,7 +133,7 @@ function Comment({ comment }) {
   );
 }
 
-function CommentSection() {
+function CommentsList() {
   const dummyComments = [
     {
       id: "1",
@@ -171,10 +171,10 @@ function CommentSection() {
   return (
     <div>
       {dummyComments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <CommentList key={comment.id} comment={comment} />
       ))}
     </div>
   );
 }
 
-export default CommentSection;
+export default CommentsList;

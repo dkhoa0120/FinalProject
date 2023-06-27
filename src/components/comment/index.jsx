@@ -9,9 +9,9 @@ import {
   Collapse,
 } from "react-bootstrap";
 import CommentForm from "./commentForm";
-import Comment from "./comment";
+import CommentsList from "./commentList";
 
-function CommentsList({ comment }) {
+function CommentSection() {
   const [isActive, setActive] = useState(null);
   const handleToggle = () => {
     setActive(!isActive);
@@ -31,7 +31,7 @@ function CommentsList({ comment }) {
           </Card>
           <br></br>
           <Card style={{ padding: "20px" }}>
-            <Comment />
+            <CommentsList />
           </Card>
           <br></br>
           <Card>
@@ -51,4 +51,4 @@ function CommentsList({ comment }) {
   );
 }
 
-export default CommentsList;
+export default CommentSection;

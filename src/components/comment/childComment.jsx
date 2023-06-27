@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import CommentForm from "./commentForm";
 
-function ChildComponent({ childComment }) {
+function ChildComment({ childComment }) {
   const [open, setOpen] = useState(false);
   const handleToggleReplies = () => {
     setOpen(!open);
@@ -126,7 +126,7 @@ function ChildComponent({ childComment }) {
               <Collapse in={open}>
                 <div id="reply-childcomments">
                   {childComment.childComments.map((c) => (
-                    <ChildComponent key={c.id} childComment={c} />
+                    <ChildComment key={c.id} childComment={c} />
                   ))}
                 </div>
               </Collapse>
@@ -138,4 +138,4 @@ function ChildComponent({ childComment }) {
   );
 }
 
-export default ChildComponent;
+export default ChildComment;
