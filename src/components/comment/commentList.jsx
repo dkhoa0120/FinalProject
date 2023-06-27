@@ -8,10 +8,9 @@ import {
   Card,
   Collapse,
 } from "react-bootstrap";
-import ChildComment from "./childComment";
 import CommentForm from "./commentForm";
 
-function CommentList({ comment }) {
+function Comment({ comment }) {
   const [open, setOpen] = useState(false);
   const handleToggleReplies = () => {
     setOpen(!open);
@@ -81,7 +80,11 @@ function CommentList({ comment }) {
           <Col>
             {likeCount} &nbsp;
             <button
-              style={{ borderWidth: "0", backgroundColor: "white" }}
+              style={{
+                borderWidth: "0",
+                backgroundColor: "white",
+                fontSize: "20px",
+              }}
               onClick={handleLikeClick}
             >
               {activeBtn === "like" ? (
@@ -92,7 +95,11 @@ function CommentList({ comment }) {
             </button>
             &nbsp; {dislikeCount} &nbsp;
             <button
-              style={{ borderWidth: "0", backgroundColor: "white" }}
+              style={{
+                borderWidth: "0",
+                backgroundColor: "white",
+                fontSize: "20px",
+              }}
               onClick={handleDislikeClick}
             >
               {activeBtn === "dislike" ? (
@@ -102,12 +109,36 @@ function CommentList({ comment }) {
               )}
             </button>
             &nbsp;&nbsp;
-            <Button onClick={handleReplyComment}>Reply</Button>
+            <button
+              style={{
+                borderWidth: "0",
+                backgroundColor: "white",
+                fontSize: "15px",
+              }}
+              onClick={handleReplyComment}
+            >
+              <i className="fa-solid fa-reply"></i> Reply
+            </button>
             &nbsp;&nbsp;
-            {comment.childComments.length > 0 && (
-              <Button onClick={handleToggleReplies}>
-                {open ? "Hide Replies" : "View Replies"}
-              </Button>
+            {comment.childComments?.length > 0 && (
+              <button
+                style={{
+                  borderWidth: "0",
+                  backgroundColor: "white",
+                  fontSize: "15px",
+                }}
+                onClick={handleToggleReplies}
+              >
+                {open ? (
+                  <>
+                    <i className="fa-solid fa-arrow-up" /> Hide Replies
+                  </>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-arrow-down" /> Show Replies
+                  </>
+                )}
+              </button>
             )}
           </Col>
         </div>
@@ -118,13 +149,16 @@ function CommentList({ comment }) {
         </Collapse>
         {comment.childComments?.length > 0 && (
           <Collapse in={open}>
-            <div id="reply-comments">
-              {comment.childComments.map((childComment) => (
-                <ChildComment
-                  key={childComment.id}
-                  childComment={childComment}
-                />
-              ))}
+            <div className="d-flex">
+              <div className="vr"></div>
+              <div
+                id="reply-comments"
+                style={{ paddingLeft: "20px", flexGrow: "1" }}
+              >
+                {comment.childComments.map((childComment) => (
+                  <Comment key={childComment.id} comment={childComment} />
+                ))}
+              </div>
             </div>
           </Collapse>
         )}
@@ -133,7 +167,7 @@ function CommentList({ comment }) {
   );
 }
 
-function CommentsList() {
+function CommentList() {
   const dummyComments = [
     {
       id: "1",
@@ -171,10 +205,10 @@ function CommentsList() {
   return (
     <div>
       {dummyComments.map((comment) => (
-        <CommentList key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} />
       ))}
     </div>
   );
 }
 
-export default CommentsList;
+export default CommentList;
