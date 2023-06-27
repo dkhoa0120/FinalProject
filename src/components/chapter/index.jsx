@@ -5,7 +5,7 @@ function ChaptersList() {
   const [buttonText, setButtonText] = useState("Descending");
   const handleClick = () => {
     setButtonText(!buttonText);
-  }
+  };
   return (
     <Container>
       <div className="Manga-Container">
@@ -29,8 +29,9 @@ function ChaptersList() {
               &nbsp;
               <Button>Latest Chapter</Button>
               &nbsp;
-              <Button  onClick={handleClick}>
-         { buttonText ? "Descending" : "Ascending"}</Button>
+              <Button onClick={handleClick}>
+                {buttonText ? "Descending" : "Ascending"}
+              </Button>
             </p>
           </Col>
         </Row>
