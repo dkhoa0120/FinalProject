@@ -9,25 +9,55 @@ import {
   Collapse,
 } from "react-bootstrap";
 import ChildComponent from "./childComment";
+import CommentForm from "./commentForm";
 
 function Comment({ comment }) {
   const [open, setOpen] = useState(false);
   const handleToggleReplies = () => {
     setOpen(!open);
   };
-  const [like, setLike] = useState(0),
-    [isLike, setIsLike] = useState(false),
-    onLikeButtonClick = () => {
-      setLike(like + (isLike ? -1 : 1));
-      setIsLike(!isLike);
-    };
 
-  const [dislike, setDisLike] = useState(0),
-    [isDisLike, setDisIsLike] = useState(false),
-    onDisLikeButtonClick = () => {
-      setDisLike(dislike + (isDisLike ? -1 : 1));
-      setDisIsLike(!isDisLike);
-    };
+  const [reply, setReply] = useState(false);
+  const handleReplyComment = () => {
+    setReply(!reply);
+  };
+
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDisLikeCount] = useState(0);
+  const [activeBtn, setActiveBtn] = useState("none");
+
+  const handleLikeClick = () => {
+    if (activeBtn === "none") {
+      setLikeCount(likeCount + 1);
+      setActiveBtn("like");
+    }
+    if (activeBtn === "like") {
+      setLikeCount(likeCount - 1);
+      setActiveBtn("none");
+    }
+    if (activeBtn === "dislike") {
+      setLikeCount(likeCount + 1);
+      setDisLikeCount(dislikeCount - 1);
+      setActiveBtn("like");
+    }
+  };
+
+  const handleDislikeClick = () => {
+    if (activeBtn === "none") {
+      setDisLikeCount(dislikeCount + 1);
+      setActiveBtn("dislike");
+    }
+    if (activeBtn === "dislike") {
+      setDisLikeCount(dislikeCount - 1);
+      setActiveBtn("none");
+    }
+    if (activeBtn === "like") {
+      setDisLikeCount(dislikeCount + 1);
+      setLikeCount(likeCount - 1);
+      setActiveBtn("dislike");
+    }
+  };
+
   return (
     <div className="commented-section mt-2">
       <div className="d-flex flex-row align-items-center commented-user">
@@ -49,22 +79,30 @@ function Comment({ comment }) {
       <div className="reply-section" style={{ paddingLeft: "58px" }}>
         <div className="d-flex flex-row align-items-center voting-icon">
           <Col>
-            {like} &nbsp;
+            {likeCount} &nbsp;
             <button
               style={{ borderWidth: "0", backgroundColor: "white" }}
-              onClick={onLikeButtonClick}
+              onClick={handleLikeClick}
             >
-              <i class="fa-solid fa-thumbs-up"></i>
+              {activeBtn === "like" ? (
+                <i className="fa-solid fa-thumbs-up" />
+              ) : (
+                <i className="fa-regular fa-thumbs-up" />
+              )}
             </button>
-            &nbsp; {dislike} &nbsp;
+            &nbsp; {dislikeCount} &nbsp;
             <button
               style={{ borderWidth: "0", backgroundColor: "white" }}
-              onClick={onDisLikeButtonClick}
+              onClick={handleDislikeClick}
             >
-              <i class="fa-solid fa-thumbs-down"></i>
+              {activeBtn === "dislike" ? (
+                <i className="fa-solid fa-thumbs-down" />
+              ) : (
+                <i className="fa-regular fa-thumbs-down" />
+              )}
             </button>
             &nbsp;&nbsp;
-            <Button>Reply</Button>
+            <Button onClick={handleReplyComment}>Reply</Button>
             &nbsp;&nbsp;
             {comment.childComments.length > 0 && (
               <Button onClick={handleToggleReplies}>
@@ -73,6 +111,11 @@ function Comment({ comment }) {
             )}
           </Col>
         </div>
+        <Collapse in={reply}>
+          <div id="handleReplyComment">
+            <CommentForm />
+          </div>
+        </Collapse>
         {comment.childComments?.length > 0 && (
           <Collapse in={open}>
             <div id="reply-comments">
