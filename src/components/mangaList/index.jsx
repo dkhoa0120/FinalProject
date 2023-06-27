@@ -16,7 +16,10 @@ function MangasList(props) {
                 <div className="proj-imgbx">
                   <Image className="cover" src={manga.coverPath} />
                   <div className="proj-txtx">
-                    <CountryFlag manga={manga} />
+                    <Link to={`/Manga/${manga.id}`} className="card-link">
+                      <CountryFlag originalLanguage={manga.originalLanguage} />
+                      <h4>{manga.originalTitle}</h4>
+                    </Link>
                     <span className="text-limit">{manga.description}</span>
                   </div>
                 </div>
