@@ -59,12 +59,12 @@ function ChildComponent({ childComment }) {
 
   return (
     <div>
-      <div className="d-flex p-2">
+      <div className="d-flex">
         <div className="vr"></div>
         <div
           className="commented-section mt-2"
           key={childComment.id}
-          style={{ paddingLeft: "20px" }}
+          style={{ paddingLeft: "20px", flexGrow: "1" }}
         >
           <div className="d-flex flex-row align-items-center commented-user">
             <img

@@ -146,7 +146,7 @@ function MangaDetail() {
             Comments
           </div>
           <div className="comment-bottom">
-            <Card style={{ padding: "10px" }}>
+            <Card style={{ padding: "20px" }}>
               <CommentForm />
             </Card>
             <br></br>
