@@ -9,6 +9,7 @@ import {
   Collapse,
 } from "react-bootstrap";
 import CommentForm from "./commentForm";
+import "./style.css";
 
 function Comment({ comment }) {
   const [open, setOpen] = useState(false);
@@ -72,12 +73,12 @@ function Comment({ comment }) {
           &nbsp;{new Date().toLocaleString()} ago
         </span>
       </div>
-      <div className="comment-text-sm" style={{ paddingLeft: "38px" }}>
+      <div className="comment-text-sm" style={{ padding: "0 0 5px 45px" }}>
         <span>{comment.context}</span>
       </div>
-      <div className="reply-section" style={{ paddingLeft: "58px" }}>
+      <div className="reply-section" style={{ paddingLeft: "45px" }}>
         <div className="d-flex flex-row align-items-center voting-icon">
-          <Col>
+          <Col style={{ paddingBottom: "5px" }}>
             {likeCount} &nbsp;
             <button
               style={{
@@ -114,32 +115,48 @@ function Comment({ comment }) {
                 borderWidth: "0",
                 backgroundColor: "white",
                 fontSize: "15px",
+                color: "#555555",
+                fontWeight: "bold",
               }}
               onClick={handleReplyComment}
             >
               <i className="fa-solid fa-reply"></i> Reply
             </button>
-            &nbsp;&nbsp;
             {comment.childComments?.length > 0 && (
-              <button
-                style={{
-                  borderWidth: "0",
-                  backgroundColor: "white",
-                  fontSize: "15px",
-                }}
-                onClick={handleToggleReplies}
-              >
-                {open ? (
-                  <>
-                    <i className="fa-solid fa-arrow-up" /> Hide Replies
-                  </>
-                ) : (
-                  <>
-                    <i className="fa-solid fa-arrow-down" /> Show Replies
-                  </>
-                )}
-              </button>
+              <>
+                &nbsp;&nbsp;
+                <button
+                  style={{
+                    borderWidth: "0",
+                    backgroundColor: "white",
+                    fontSize: "15px",
+                    color: "#124699",
+                  }}
+                  onClick={handleToggleReplies}
+                >
+                  {open ? (
+                    <>
+                      <i className="fa-solid fa-arrow-up" /> Hide Replies
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa-solid fa-arrow-down" /> Show Replies
+                    </>
+                  )}
+                </button>
+              </>
             )}
+            &nbsp;&nbsp;
+            <button
+              style={{
+                borderWidth: "0",
+                backgroundColor: "white",
+                fontSize: "15px",
+                color: "#730000",
+              }}
+            >
+              <i class="fa-regular fa-flag"></i> Report
+            </button>
           </Col>
         </div>
         <Collapse in={reply}>
@@ -148,9 +165,9 @@ function Comment({ comment }) {
           </div>
         </Collapse>
         {comment.childComments?.length > 0 && (
-          <Collapse in={open}>
-            <div className="d-flex">
-              <div className="vr"></div>
+          <div className="d-flex">
+            <div className="vr" style={{ minHeight: "0px" }}></div>
+            <Collapse in={open}>
               <div
                 id="reply-comments"
                 style={{ paddingLeft: "20px", flexGrow: "1" }}
@@ -159,8 +176,8 @@ function Comment({ comment }) {
                   <Comment key={childComment.id} comment={childComment} />
                 ))}
               </div>
-            </div>
-          </Collapse>
+            </Collapse>
+          </div>
         )}
       </div>
     </div>

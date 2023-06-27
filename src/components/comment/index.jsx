@@ -9,7 +9,7 @@ import {
   Collapse,
 } from "react-bootstrap";
 import CommentForm from "./commentForm";
-import CommentsList from "./commentList";
+import CommentList from "./commentList";
 
 function CommentSection() {
   const [isActive, setActive] = useState(null);
@@ -31,7 +31,7 @@ function CommentSection() {
           </Card>
           <br></br>
           <Card style={{ padding: "20px" }}>
-            <CommentsList />
+            <CommentList />
           </Card>
           <br></br>
           <Card>

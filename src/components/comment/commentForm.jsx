@@ -3,7 +3,7 @@ import { Container, Row, Col, Dropdown, Button, Card } from "react-bootstrap";
 
 function CommentForm() {
   return (
-    <div className="d-flex flex-row add-comment-section mt-4 mb-4">
+    <div className="d-flex flex-row add-comment-section mt-3 mb-3">
       <img
         className="avatar"
         src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
