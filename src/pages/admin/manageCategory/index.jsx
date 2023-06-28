@@ -4,10 +4,10 @@ import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  getCategoryList,
+  getCategories,
   getCategoryByID,
   deleteCategory,
-} from "../../../service/Data.service";
+} from "../../../service/api.category";
 import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
@@ -40,12 +40,12 @@ function ManageCategory() {
 
   // Fetch manga data
   useEffect(() => {
-    getCategories();
+    handleGetCategories();
   }, [searchTerm, page]);
 
-  const getCategories = async () => {
+  const handleGetCategories = async () => {
     try {
-      const result = await getCategoryList(searchTerm, page);
+      const result = await getCategories({ search: searchTerm, page });
       setCategories(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -88,7 +88,7 @@ function ManageCategory() {
       toast.success("Category has been restored", {
         theme: "dark",
       });
-      getCategories();
+      handleGetCategories();
     } catch (error) {
       toast.error("Failed to delete restored");
     }
@@ -178,19 +178,19 @@ function ManageCategory() {
         <CreateCate
           show={showCreate}
           handleClose={() => setShowCreate(false)}
-          getCategories={getCategories}
+          getCategories={handleGetCategories}
         />
         <EditCate
           show={showEdit}
           handleClose={() => setShowEdit(false)}
           dataEdit={dataEdit}
-          getCategories={getCategories}
+          getCategories={handleGetCategories}
         />
         <DeleteCate
           show={showDelete}
           handleClose={() => setShowDelete(false)}
           dataEdit={dataEdit}
-          getCategories={getCategories}
+          getCategories={handleGetCategories}
         />
       </div>
     </div>

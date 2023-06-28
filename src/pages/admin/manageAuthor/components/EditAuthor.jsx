@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import { toast } from "react-toastify";
-import { editAuthor } from "../../../../service/Data.service";
+import { editAuthor } from "../../../../service/api.author";
 
 function EditAuthor(props) {
   const [id, setId] = useState("");

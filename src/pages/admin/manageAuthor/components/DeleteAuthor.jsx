@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { deleteAuthor } from "../../../../service/Data.service";
+import { deleteAuthor } from "../../../../service/api.author";
 import { toast } from "react-toastify";
 
 function DeleteAuthor(props) {
