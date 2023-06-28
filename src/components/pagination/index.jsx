@@ -6,6 +6,7 @@ const Pagination = ({
   page,
   setSearchParams,
   sortOption,
+  roleOption,
   search,
 }) => {
   const renderPageNumbers = () => {
@@ -18,6 +19,7 @@ const Pagination = ({
           variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() =>
             setSearchParams({
+              ...(roleOption && { roleOption }),
               ...(search && { search }), // Include search if available
               ...(sortOption && { sortOption }), // Include sortOption if available
               page: String(i),
@@ -31,7 +33,7 @@ const Pagination = ({
 
     const dot = () => {
       pageNumbers.push(
-        <Button variant="btn btn-light" disabled>
+        <Button key="..." variant="btn btn-light" disabled>
           ...
         </Button>
       );
@@ -68,8 +70,10 @@ const Pagination = ({
     <div className="d-flex justify-content-center">
       <div className="pagination">
         <Button
+          key="<<"
           onClick={() =>
             setSearchParams({
+              ...(roleOption && { roleOption }),
               ...(search && { search }), // Include search if available
               ...(sortOption && { sortOption }), // Include sortOption if available
               page: String(1),
@@ -82,8 +86,10 @@ const Pagination = ({
         &nbsp;
         {page > 1 ? (
           <Button
+            key="<"
             onClick={() =>
               setSearchParams({
+                ...(roleOption && { roleOption }),
                 ...(search && { search }), // Include search if available
                 ...(sortOption && { sortOption }), // Include sortOption if available
                 page: String(page - 1),
@@ -103,9 +109,11 @@ const Pagination = ({
         &nbsp;
         {page < totalPages ? (
           <Button
+            key=">"
             variant="btn btn-dark"
             onClick={() =>
               setSearchParams({
+                ...(roleOption && { roleOption }),
                 ...(search && { search }), // Include search if available
                 ...(sortOption && { sortOption }), // Include sortOption if available
                 page: String(page + 1),
@@ -121,8 +129,10 @@ const Pagination = ({
         )}
         &nbsp;
         <Button
+          key=">>"
           onClick={() =>
             setSearchParams({
+              ...(roleOption && { roleOption }),
               ...(search && { search }), // Include search if available
               ...(sortOption && { sortOption }), // Include sortOption if available
               page: String(totalPages),

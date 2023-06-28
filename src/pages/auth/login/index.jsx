@@ -42,8 +42,6 @@ function Login() {
         loginContext();
         navigate("/");
       }
-
-      console.log(">>Get Response", response);
     } catch (error) {
       toast.error("Somethings went wrong!");
     }

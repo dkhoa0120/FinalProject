@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./styles.css";
 import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
-import { Nav, Navbar } from "react-bootstrap";
+import { Image, Nav, Navbar } from "react-bootstrap";
 import React, { useState } from "react";
 
 function SideBar(props) {
@@ -82,7 +82,7 @@ function SideBar(props) {
               <i className="fa-solid fa-bars" onClick={props.toggleSidebar}></i>
               &nbsp; &nbsp;
               <Navbar.Brand>
-                <img
+                <Image
                   style={{ width: "40px", height: "100%" }}
                   src={process.env.PUBLIC_URL + "/favicon.ico"}
                 />{" "}

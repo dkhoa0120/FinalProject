@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
-import { getMangas } from "../../../service/Data.service";
 import { Link, useSearchParams } from "react-router-dom";
 import "./styles.css";
 import Pagination from "../../../components/pagination";
+import { getMangasForUser } from "../../../service/api.manga";
 
 function Manga() {
   const [mangas, setMangas] = useState([]);
@@ -30,7 +30,11 @@ function Manga() {
 
   const getMangasList = async () => {
     try {
-      const result = await getMangas(searchTerm, sortOption, page);
+      const result = await getMangasForUser({
+        search: searchTerm,
+        sortOption,
+        page,
+      });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {

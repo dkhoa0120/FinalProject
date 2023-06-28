@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getMangaForUI } from "../../service/Data.service";
+import { getMangasForUser } from "../../service/api.manga";
 
 function CarouselFade() {
   const [mangas, setMangas] = useState([]);
@@ -19,7 +19,7 @@ function CarouselFade() {
 
   const getMangas = async () => {
     try {
-      const result = await getMangaForUI();
+      const result = await getMangasForUser();
       setMangas(result.data.itemList);
     } catch (error) {
       if (error.response && error.response.status === 404) {

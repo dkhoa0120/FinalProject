@@ -17,7 +17,6 @@ function DeleteCate(props) {
     }
   }, [props.dataEdit, props.show]);
 
-  console.log("id dELETE", id);
   const handleConfirm = async () => {
     try {
       await deleteCategory(id);
@@ -28,7 +27,6 @@ function DeleteCate(props) {
       props.handleClose();
     } catch (error) {
       toast.error("Failed to delete manga");
-      console.log(error);
     }
   };
 
@@ -42,7 +40,7 @@ function DeleteCate(props) {
           <Row>
             <Col>
               <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" defaultValue={name} readOnly />
+              <Form.Control type="text" value={name} disabled />
             </Col>
           </Row>
         </Modal.Body>

@@ -3,8 +3,14 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { editManga, getLanguage } from "../../../../service/Data.service";
+import {
+  getAuthor,
+  getCategory,
+  getLanguage,
+} from "../../../../service/Data.service";
 import { toast } from "react-toastify";
+import MultiSelect from "../../../../components/multiSelect";
+import { editManga } from "../../../../service/api.manga";
 
 function EditManga(props) {
   const [id, setId] = useState("");
@@ -14,6 +20,8 @@ function EditManga(props) {
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
   const [publishYear, setPublishYear] = useState("");
+  const [categoryIds, setCategoryIds] = useState([]);
+  const [authorIds, setAuthorIds] = useState([]);
 
   const [languageOptions, setLanguageOptions] = useState([]);
   useEffect(() => {
@@ -38,6 +46,8 @@ function EditManga(props) {
         originalLanguage,
         description,
         publishYear,
+        categories,
+        authors,
         id,
       } = props.dataEdit;
       setId(id || "");
@@ -47,10 +57,14 @@ function EditManga(props) {
       setOriginalLanguage(originalLanguage || "");
       setDescription(description || "");
       setPublishYear(publishYear || "");
+      if (categories) {
+        setCategoryIds(categories.map((category) => category.id));
+      }
+      if (authors) {
+        setAuthorIds(authors.map((author) => author.id));
+      }
     }
   }, [props.dataEdit, props.show]);
-
-  console.log("Current data", props.dataEdit);
 
   const handleSave = async () => {
     const formData = new FormData();
@@ -61,6 +75,8 @@ function EditManga(props) {
     formData.append("originalLanguage", originalLanguage);
     formData.append("description", description);
     formData.append("publishYear", publishYear);
+    formData.append("categoryIds", categoryIds);
+    formData.append("authorIds", authorIds);
     if (!coverPath) {
       toast.error("Cover is required", {
         theme: "colored",
@@ -81,8 +97,18 @@ function EditManga(props) {
       props.getMangas();
     } catch (error) {
       toast.error(error);
-      console.log(error);
     }
+  };
+
+  const mapToOptions = (items) => {
+    if (typeof items === "undefined") {
+      return {};
+    }
+    const options = items.reduce((acc, value) => {
+      acc[value.id] = value.name;
+      return acc;
+    }, {});
+    return options;
   };
 
   return (
@@ -111,6 +137,49 @@ function EditManga(props) {
               />
             </Col>
           </Row>
+          &nbsp;
+          <Row>
+            <Col>
+              <Form.Label>Category</Form.Label>
+              <MultiSelect
+                placeholder="Search category"
+                initialSelectedOptions={mapToOptions(props.dataEdit.categories)}
+                getOptions={async (search) => {
+                  try {
+                    var res = await getCategory(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
+                }}
+                exportOptions={(options) => setCategoryIds(options)}
+              />
+            </Col>
+          </Row>{" "}
+          &nbsp;
+          <Row>
+            <Col>
+              <Form.Label>Author</Form.Label>
+              <MultiSelect
+                placeholder="Search author"
+                initialSelectedOptions={mapToOptions(props.dataEdit.authors)}
+                getOptions={async (search) => {
+                  try {
+                    var res = await getAuthor(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
+                }}
+                exportOptions={(options) => setAuthorIds(options)}
+              />
+            </Col>
+          </Row>{" "}
+          &nbsp;
           <Row>
             <Col>
               <Form.Label>Publish Year</Form.Label>

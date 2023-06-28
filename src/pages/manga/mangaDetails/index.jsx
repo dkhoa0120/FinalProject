@@ -9,12 +9,12 @@ import {
   Collapse,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { getMangaById } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
 import Rating from "./rating";
 import ChaptersList from "../../../components/chapter";
 import CommentSection from "../../../components/comment";
+import { getMangaByIdForUser } from "../../../service/api.manga";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -26,7 +26,7 @@ function MangaDetail() {
 
   const getMangaDetail = async (id) => {
     try {
-      const result = await getMangaById(id);
+      const result = await getMangaByIdForUser(id);
       setManga(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {

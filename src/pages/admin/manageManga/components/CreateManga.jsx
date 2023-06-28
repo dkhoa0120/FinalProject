@@ -4,13 +4,13 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import {
-  createManga,
   getLanguage,
   getCategory,
   getAuthor,
 } from "../../../../service/Data.service";
 import { toast } from "react-toastify";
 import MultiSelect from "../../../../components/multiSelect";
+import { createManga } from "../../../../service/api.manga";
 
 function CreateManga(props) {
   const [originalTitle, setOriginalTitle] = useState("");
@@ -19,6 +19,7 @@ function CreateManga(props) {
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
   const [categoryIds, setCategoryIds] = useState([]);
+  const [authorIds, setAuthorIds] = useState([]);
   const [author, setAuthor] = useState([]);
   const [publishYear, setPublishYear] = useState("");
 
@@ -30,6 +31,7 @@ function CreateManga(props) {
     formData.append("originalLanguage", originalLanguage);
     formData.append("description", description);
     formData.append("categoryIds", categoryIds);
+    formData.append("authorIds", authorIds);
     formData.append("author", author);
     formData.append("publishYear", publishYear);
 
@@ -42,6 +44,7 @@ function CreateManga(props) {
       setOriginalLanguage("");
       setDescription("");
       setCategoryIds("");
+      setAuthorIds("");
       setAuthor("");
       setPublishYear("");
       toast.success("A manga has been created");
@@ -100,10 +103,39 @@ function CreateManga(props) {
               <Form.Label>Category</Form.Label>
               <MultiSelect
                 placeholder="Search category"
+                initialSelectedOptions={{}}
                 getOptions={async (search) => {
-                  return (await getCategory(search)).data.itemList;
+                  try {
+                    var res = await getCategory(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
                 }}
                 exportOptions={(options) => setCategoryIds(options)}
+              />
+            </Col>
+          </Row>{" "}
+          &nbsp;
+          <Row>
+            <Col>
+              <Form.Label>Author</Form.Label>
+              <MultiSelect
+                placeholder="Search author"
+                initialSelectedOptions={{}}
+                getOptions={async (search) => {
+                  try {
+                    var res = await getAuthor(search);
+                    return res.data.itemList;
+                  } catch (err) {
+                    if (err.response && err.response.status === 404) {
+                      return null;
+                    }
+                  }
+                }}
+                exportOptions={(options) => setAuthorIds(options)}
               />
             </Col>
           </Row>{" "}

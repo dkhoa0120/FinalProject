@@ -3,13 +3,17 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getMangaById, getMangaList } from "../../../service/Data.service";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import CreateManga from "./components/CreateManga";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
+import {
+  deleteManga,
+  getMangaByIdForManage,
+  getMangasForManage,
+} from "../../../service/api.manga";
 
 function ManageManga() {
   // Component state variables
@@ -24,16 +28,8 @@ function ManageManga() {
 
   // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
-  const handleCloseCreate = () => setShowCreate(false);
-  const handleShowCreate = () => setShowCreate(true);
-
   const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = () => setShowEdit(true);
-
   const [showDelete, setShowDelete] = useState(false);
-  const handleCloseDelete = () => setShowDelete(false);
-  const handleShowDelete = () => setShowDelete(true);
   const [dataEdit, setDataEdit] = useState({});
 
   // Set page and search term from URL search params
@@ -49,7 +45,7 @@ function ManageManga() {
 
   const getMangas = async () => {
     try {
-      const result = await getMangaList(searchTerm, page);
+      const result = await getMangasForManage({ search: searchTerm, page });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -76,16 +72,28 @@ function ManageManga() {
 
   // Event handler for editing manga
   const handleEdit = async (id) => {
-    handleShowEdit();
-    await getMangaById(id).then((result) => {
+    await getMangaByIdForManage(id).then((result) => {
       setDataEdit(result.data);
     });
+    setShowEdit(true);
   };
 
   // Event handler for deleting manga
-  const handleDelete = (mangas) => {
-    setDataEdit(mangas);
-    handleShowDelete();
+  const handleDelete = (manga) => {
+    setDataEdit(manga);
+    setShowDelete(true);
+  };
+
+  const handleUndelete = async (id) => {
+    try {
+      await deleteManga(id, true);
+      toast.success("Manga has been restored", {
+        theme: "dark",
+      });
+      getMangas();
+    } catch (error) {
+      toast.error("Failed to delete restored");
+    }
   };
 
   // JSX rendering
@@ -94,7 +102,7 @@ function ManageManga() {
       <ToastContainer />
       <Row>
         <Col>
-          <Button variant="success" onClick={handleShowCreate}>
+          <Button variant="success" onClick={() => setShowCreate(true)}>
             <i className="fa-solid fa-circle-plus"></i> Create
           </Button>
         </Col>
@@ -129,27 +137,41 @@ function ManageManga() {
                     <td>
                       <Image src={item.coverPath} style={{ width: "100px" }} />
                     </td>
-                    <td className="title-cell">{item.originalTitle}</td>
+                    <td className="manga-title-cell">{item.originalTitle}</td>
                     <td>{item.originalLanguage}</td>
-                    <td className="description-cell">{item.description}</td>
+                    <td className="manga-description-cell">
+                      <span className="text-limit">{item.description}</span>
+                    </td>
                     <td colSpan={2}>
-                      <Button onClick={() => handleEdit(item.id)}>
-                        <i className="fa-solid fa-pen-to-square"></i> Edit
-                      </Button>
-                      &nbsp;
-                      <Button
-                        disabled={item.deletedAt != null}
-                        variant="danger"
-                        onClick={() => handleDelete(item)}
-                      >
-                        <i className="fa-solid fa-trash"></i> Delete
-                      </Button>
+                      {item.deletedAt != null ? (
+                        <Button
+                          variant="dark"
+                          onClick={() => handleUndelete(item.id)}
+                        >
+                          <i className="fa-solid fa-rotate-left"></i> Undelete
+                        </Button>
+                      ) : (
+                        <>
+                          <Button onClick={() => handleEdit(item.id)}>
+                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          </Button>
+                          &nbsp;
+                          <Button
+                            variant="danger"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <i className="fa-solid fa-trash"></i> Delete
+                          </Button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 );
               })
             ) : (
-              <div className="text-center">No data found.</div>
+              <tr className="text-center">
+                <td colSpan={5}>No DATA found</td>
+              </tr>
             )}
           </tbody>
         </Table>
@@ -165,18 +187,18 @@ function ManageManga() {
       </div>
       <CreateManga
         show={showCreate}
-        handleClose={handleCloseCreate}
+        handleClose={() => setShowCreate(false)}
         getMangas={getMangas}
       />
       <EditManga
         show={showEdit}
-        handleClose={handleCloseEdit}
+        handleClose={() => setShowEdit(false)}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
       <DeleteManga
         show={showDelete}
-        handleClose={handleCloseDelete}
+        handleClose={() => setShowDelete(false)}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />

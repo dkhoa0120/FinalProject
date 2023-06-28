@@ -3,50 +3,48 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { deleteManga } from "../../../../service/Data.service";
 import { toast } from "react-toastify";
-import { deleteManga } from "../../../../service/api.manga";
 
-function DeleteManga(props) {
+function ModalUpdateRoles(props) {
   const [id, setId] = useState("");
-  const [originalTitle, setOriginalTitle] = useState("");
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (props.show) {
       setId(props.dataEdit.id || "");
-      setOriginalTitle(props.dataEdit.originalTitle || "");
+      setName(props.dataEdit.name || "");
     }
   }, [props.dataEdit, props.show]);
 
   const handleConfirm = async () => {
-    try {
-      await deleteManga(id);
-      toast.success("Manga has been deleted", {
-        theme: "dark",
-      });
-      props.getMangas();
-      props.handleClose();
-    } catch (error) {
-      toast.error("Failed to delete manga");
-    }
+    props.getUsers();
+    props.handleClose();
   };
 
   return (
     <div>
       <Modal show={props.show} onHide={props.handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Manga</Modal.Title>
+          <Modal.Title>Update Roles</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col>
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" value={originalTitle} disabled />
+              <Form.Label>User Id</Form.Label>
+              <Form.Control type="text" value={id} disabled />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>User Name</Form.Label>
+              <Form.Control type="text" value={name} disabled />
             </Col>
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleConfirm}>
-            Confirm Delete
+          <Button variant="success" onClick={handleConfirm}>
+            Confirm Update
           </Button>
         </Modal.Footer>
       </Modal>
@@ -54,4 +52,4 @@ function DeleteManga(props) {
   );
 }
 
-export default DeleteManga;
+export default ModalUpdateRoles;

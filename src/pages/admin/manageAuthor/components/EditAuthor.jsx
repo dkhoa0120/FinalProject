@@ -3,20 +3,21 @@ import { useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { editCategory } from "../../../../service/Data.service";
-import { toast } from "react-toastify";
 
-function EditCate(props) {
+import { toast } from "react-toastify";
+import { editAuthor } from "../../../../service/Data.service";
+
+function EditAuthor(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [biography, setBiography] = useState("");
 
   useEffect(() => {
     if (props.show) {
-      const { name, description, id } = props.dataEdit;
+      const { name, biography, id } = props.dataEdit;
       setId(id || "");
       setName(name || "");
-      setDescription(description || "");
+      setBiography(biography || "");
     }
   }, [props.dataEdit, props.show]);
 
@@ -24,15 +25,15 @@ function EditCate(props) {
     const data = {
       id: id,
       name: name,
-      description: description,
+      biography: biography,
     };
     try {
-      await editCategory(id, data);
+      await editAuthor(id, data);
       props.handleClose();
-      props.getCategories();
+      props.getAuthors();
       setName("");
-      setDescription("");
-      toast.success("Category has been updated!");
+      setBiography("");
+      toast.success("Author has been updated!");
     } catch (error) {
       toast.error("Somethings went wrong!");
     }
@@ -42,7 +43,7 @@ function EditCate(props) {
     <div>
       <Modal show={props.show} onHide={props.handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Edit Manga</Modal.Title>
+          <Modal.Title>Edit Author</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {" "}
@@ -53,11 +54,11 @@ function EditCate(props) {
             onChange={(e) => setName(e.target.value)}
             required
           />{" "}
-          <Form.Label>Description</Form.Label>
+          <Form.Label>Biography</Form.Label>
           <Form.Control
             as="textarea"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={biography}
+            onChange={(e) => setBiography(e.target.value)}
             required
           />
         </Modal.Body>
@@ -71,4 +72,4 @@ function EditCate(props) {
   );
 }
 
-export default EditCate;
+export default EditAuthor;

@@ -4,18 +4,18 @@ import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  getCategoryList,
-  getCategoryByID,
-  deleteCategory,
+  getAuthorList,
+  deleteAuthor,
+  getAuthorByID,
 } from "../../../service/Data.service";
 import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
-import CreateCate from "./components/CreateCate";
-import EditCate from "./components/EditCate";
-import DeleteCate from "./components/DeleteCate";
 import { Col, Row, Form } from "react-bootstrap";
+import CreateAuthor from "./components/CreateAuthor";
+import EditAuthor from "./components/EditAuthor";
+import DeleteAuthor from "./components/DeleteAuthor";
 
-function ManageCategory() {
+function ManageAuthor() {
   // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +23,7 @@ function ManageCategory() {
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
-  const [categories, setCategories] = useState([]);
+  const [authors, setAuthors] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
 
   // Component state variables for modal controls
@@ -40,13 +40,13 @@ function ManageCategory() {
 
   // Fetch manga data
   useEffect(() => {
-    getCategories();
+    getAuthors();
   }, [searchTerm, page]);
 
-  const getCategories = async () => {
+  const getAuthors = async () => {
     try {
-      const result = await getCategoryList(searchTerm, page);
-      setCategories(result.data.itemList);
+      const result = await getAuthorList(searchTerm, page);
+      setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -54,11 +54,12 @@ function ManageCategory() {
         navigate("/login");
       } else if (error.response && error.response.status === 404) {
         // Handle other errors
-        setCategories([]);
+        setAuthors([]);
         setTotalPages(0);
       }
     }
   };
+  console.log(authors);
 
   // Event handler for search manga
   const handleSearch = (e) => {
@@ -71,7 +72,7 @@ function ManageCategory() {
   };
   const handleEdit = async (id) => {
     setShowEdit(true);
-    await getCategoryByID(id).then((result) => {
+    await getAuthorByID(id).then((result) => {
       setDataEdit(result.data);
     });
   };
@@ -84,11 +85,11 @@ function ManageCategory() {
 
   const handleUndelete = async (id) => {
     try {
-      await deleteCategory(id, true);
-      toast.success("Category has been restored", {
+      await deleteAuthor(id, true);
+      toast.success("Author has been restored", {
         theme: "dark",
       });
-      getCategories();
+      getAuthors();
     } catch (error) {
       toast.error("Failed to delete restored");
     }
@@ -119,19 +120,19 @@ function ManageCategory() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Category</th>
-              <th>Description</th>
+              <th>Author</th>
+              <th>Biography</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {categories.length > 0 ? (
-              categories.map((item, index) => {
+            {authors.length > 0 ? (
+              authors.map((item, index) => {
                 return (
                   <tr key={index}>
                     <td>{item.name}</td>
-                    <td className="cate-description-cell">
-                      <span className="text-limit">{item.description}</span>
+                    <td className="author-description-cell">
+                      <span className="text-limit">{item.biography}</span>
                     </td>
                     <td colSpan={2}>
                       {item.deletedAt != null ? (
@@ -175,26 +176,26 @@ function ManageCategory() {
             search={searchTerm}
           />
         </div>
-        <CreateCate
+        <CreateAuthor
           show={showCreate}
           handleClose={() => setShowCreate(false)}
-          getCategories={getCategories}
+          getAuthors={getAuthors}
         />
-        <EditCate
+        <EditAuthor
           show={showEdit}
           handleClose={() => setShowEdit(false)}
           dataEdit={dataEdit}
-          getCategories={getCategories}
+          getAuthors={getAuthors}
         />
-        <DeleteCate
+        <DeleteAuthor
           show={showDelete}
           handleClose={() => setShowDelete(false)}
           dataEdit={dataEdit}
-          getCategories={getCategories}
+          getAuthors={getAuthors}
         />
       </div>
     </div>
   );
 }
 
-export default ManageCategory;
+export default ManageAuthor;
