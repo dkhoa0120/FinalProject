@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Dropdown, Button, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
 
 function ChaptersList() {
@@ -26,11 +26,11 @@ function ChaptersList() {
                 justifyContent: "flex-end",
               }}
             >
-              <button>Start Reading</button>
+              <button className="button">Start Reading</button>
               &nbsp;
-              <button>Latest Chapter</button>
+              <button className="button">Latest Chapter</button>
               &nbsp;
-              <button onClick={handleClick}>
+              <button className="button" onClick={handleClick}>
                 {buttonText ? "Descending" : "Ascending"}
               </button>
             </p>
