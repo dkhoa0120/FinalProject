@@ -13,19 +13,3 @@
   padding-left: 1.5rem !important;
   padding-bottom: 0.5rem !important;
 }
-
-.heart-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.content {
-  padding: 13px 16px;
-  display: flex;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-

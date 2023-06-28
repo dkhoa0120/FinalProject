@@ -111,15 +111,21 @@ function MangaDetail() {
                     </Dropdown>
                   </Col>
                   <Col className="col-4">
-                    <div className="heart-btn">
-                      <div className="content">
-                        <span
-                          className={`heart ${isActive ? "heart-active" : ""}`}
-                          onClick={handleToggle}
-                        ></span>
+                    <button
+                      className="follow-btn"
+                      style={{
+                        borderWidth: "0",
+                        backgroundColor: "white",
+                        fontSize: "20px",
+                      }}
+                    >
+                      <span
+                        className={`heart ${isActive ? "heart-active" : ""}`}
+                        onClick={handleToggle}
+                      >
                         <span className="follow">Follow</span>
-                      </div>
-                    </div>
+                      </span>
+                    </button>
                   </Col>
                   <Col className="col-4">
                     <span>

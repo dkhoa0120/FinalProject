@@ -55,13 +55,11 @@
 }
 
 .heart-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.content {
+.heart.follow {
+  display: flex;
   padding: 13px 16px;
   border: none;
   border-radius: 5px;
@@ -69,14 +67,12 @@
 }
 
 .heart {
+  display: inline-block;
   position: absolute;
   background: url("/public/img/animation/heart.png") no-repeat;
-  background-position: left;
   background-size: 2900%;
   height: 90px;
   width: 90px;
-  top: 50%;
-  left: 21%;
   transform: translate(-50%, -50%);
 }
 
@@ -95,7 +91,8 @@
 }
 
 .follow {
-  margin-left: 30px;
-  font-size: 21px;
-  color: yellow;
+  display: flex;
+  margin: 30px 0 0 70px;
+  font-size: 20px;
+  color: black;
 }
