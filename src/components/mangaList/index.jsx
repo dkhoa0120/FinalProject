@@ -3,9 +3,7 @@ import { Button, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
 
-function MangasList(props) {
-  const { data } = props;
-
+function MangasList({ data, link }) {
   return (
     <div>
       <Row className="px-4 my-5">
@@ -17,7 +15,7 @@ function MangasList(props) {
                   <Image className="cover" src={manga.coverPath} />
                   <div className="proj-txtx">
                     <Link to={`/Manga/${manga.id}`} className="card-link">
-                      <CountryFlag originalLanguage={manga.originalLanguage} />
+                      <CountryFlag lang={manga.originalLanguage} />
                       <h4>{manga.originalTitle}</h4>
                     </Link>
                     <span className="text-limit">{manga.description}</span>
@@ -31,7 +29,7 @@ function MangasList(props) {
         )}
       </Row>
       <div className="d-flex justify-content-center">
-        <Link to={props.link}>
+        <Link to={link}>
           <Button className="btn btn-dark"> See More </Button>
         </Link>
       </div>
