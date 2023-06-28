@@ -7,6 +7,9 @@ import {
   Button,
   Card,
   Collapse,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
@@ -57,6 +60,11 @@ function Comment({ comment }) {
       setActiveBtn("dislike");
     }
   };
+
+  const [showModal, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div className="commented-section mt-2">
@@ -154,9 +162,39 @@ function Comment({ comment }) {
                 fontSize: "15px",
                 color: "#730000",
               }}
+              onClick={handleShow}
             >
               <i class="fa-regular fa-flag"></i> Report
             </button>
+            <Modal show={showModal} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Report</Modal.Title>
+              </Modal.Header>
+              <ModalBody>
+                {comment.context}
+                <hr></hr>
+                <div>
+                  <input
+                    type="text"
+                    className="form-control mr-3"
+                    placeholder="..."
+                  ></input>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <button
+                  style={{
+                    borderWidth: "0",
+                    backgroundColor: "white",
+                    fontSize: "15px",
+                    color: "#730000",
+                  }}
+                  onClick={handleClose}
+                >
+                  Accept
+                </button>
+              </ModalFooter>
+            </Modal>
           </Col>
         </div>
         <Collapse in={reply}>
