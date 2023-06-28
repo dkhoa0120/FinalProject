@@ -53,3 +53,49 @@
   outline: none !important;
   outline-offset: none !important;
 }
+
+.heart-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.content {
+  padding: 13px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.heart {
+  position: absolute;
+  background: url("/public/img/animation/heart.png") no-repeat;
+  background-position: left;
+  background-size: 2900%;
+  height: 90px;
+  width: 90px;
+  top: 50%;
+  left: 21%;
+  transform: translate(-50%, -50%);
+}
+
+.heart.heart-active {
+  animation: animate 0.8s steps(28);
+  background-position: right;
+}
+
+@keyframes animate {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+.follow {
+  margin-left: 30px;
+  font-size: 21px;
+  color: yellow;
+}

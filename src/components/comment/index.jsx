@@ -34,17 +34,7 @@ function CommentSection() {
             <CommentList />
           </Card>
           <br></br>
-          <Card>
-            <div className="heart-btn">
-              <div className="content">
-                <span
-                  className={`heart ${isActive ? "heart-active" : ""}`}
-                  onClick={handleToggle}
-                ></span>
-                <span className="follow">Follow</span>
-              </div>
-            </div>
-          </Card>
+          <Card></Card>
         </div>
       </div>
     </Container>

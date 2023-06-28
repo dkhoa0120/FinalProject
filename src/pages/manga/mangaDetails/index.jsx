@@ -20,6 +20,11 @@ function MangaDetail() {
   const [manga, setManga] = useState(null);
   const { mangaId } = useParams();
 
+  const [isActive, setActive] = useState(null);
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+
   useEffect(() => {
     getMangaDetail(mangaId);
   }, []);
@@ -90,9 +95,7 @@ function MangaDetail() {
                 </Row>
                 <Row>
                   <Col className="col-4">
-                    <Rating />
-                  </Col>
-                  {/* <Dropdown>
+                    <Dropdown>
                       <Dropdown.Toggle variant="outline" id="dropdown-basic">
                         <span>
                           <i className="fa-regular fa-star"></i>
@@ -105,21 +108,24 @@ function MangaDetail() {
                         <Dropdown.Item>(2) Bad</Dropdown.Item>
                         <Dropdown.Item>(1) Horrible</Dropdown.Item>
                       </Dropdown.Menu>
-                    </Dropdown> */}
+                    </Dropdown>
+                  </Col>
                   <Col className="col-4">
-                    <span>
-                      <button style={{ border: "none" }}>
-                        <i className="fa-regular fa-heart"></i>
-                      </button>
-                      &nbsp;100
-                    </span>
+                    <div className="heart-btn">
+                      <div className="content">
+                        <span
+                          className={`heart ${isActive ? "heart-active" : ""}`}
+                          onClick={handleToggle}
+                        ></span>
+                        <span className="follow">Follow</span>
+                      </div>
+                    </div>
                   </Col>
                   <Col className="col-4">
                     <span>
                       <button style={{ border: "none" }}>
-                        <i className="fa-regular fa-heart"></i>
+                        <i className="fa-regular fa-flag"></i> Report
                       </button>
-                      &nbsp;Report
                     </span>
                   </Col>
                 </Row>
