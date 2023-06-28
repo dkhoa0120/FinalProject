@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import { getCurrentUserBasic } from "../service/Data.service";
+import { getCurrentUserBasic } from "../service/api.auth";
 
 // @function  UserContext
 const UserContext = React.createContext({ email: "", auth: false, roles: [] });

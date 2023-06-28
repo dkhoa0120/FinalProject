@@ -3,23 +3,6 @@ import Cookies from "universal-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL; // Access the API_URL variable from the environment
 
-// Authenticate
-export const loginAPI = (data) => {
-  return axios.post(`${API_URL}/api/Authenticate/SignIn`, data);
-};
-
-export const registerAPI = (data) => {
-  return axios.post(`${API_URL}/api/Authenticate/SignUp`, data);
-};
-
-export const getCurrentUserBasic = () => {
-  return axios.get(`${API_URL}/api/User`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
-};
-
 export const getLanguage = () => {
   return axios.get(`${API_URL}/Language`);
 };

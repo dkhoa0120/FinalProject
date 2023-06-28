@@ -1,17 +1,4 @@
-import axios from "axios";
-import Cookies from "universal-cookie";
-
-const API_URL = process.env.REACT_APP_API_URL;
-const userAxios = axios.create({
-  baseURL: `${API_URL}/user`,
-});
-const getManageAxios = () =>
-  axios.create({
-    baseURL: `${API_URL}/manage`,
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+import { userAxios, getManageAxios } from "./api.base";
 
 // user/manga
 export const getMangasForUser = (filter) => {
@@ -50,11 +37,11 @@ export const createManga = (formData) => {
 };
 
 export const editManga = (id, formData) => {
-  return getManageAxios().put(`/managa/${id}`, formData);
+  return getManageAxios().put(`/manga/${id}`, formData);
 };
 
 export const deleteManga = (id, undelete = false) => {
-  return getManageAxios().delete(`/manage/${id}`, {
+  return getManageAxios().delete(`/manga/${id}`, {
     params: { undelete },
   });
 };
