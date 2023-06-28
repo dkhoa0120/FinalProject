@@ -10,7 +10,7 @@ import {
   Button,
   Table,
 } from "react-bootstrap";
-import { getMangas, getUsers } from "../../../service/Data.service";
+import { getUsers } from "../../../service/Data.service";
 import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { getMangaByIdUser } from "../../../service/Data.service";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
+import { getMangaByIdForUser } from "../../../service/api.manga";
 
 function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -15,7 +15,7 @@ function MangaDetail() {
 
   const getMangaDetail = async (id) => {
     try {
-      const result = await getMangaByIdUser(id);
+      const result = await getMangaByIdForUser(id);
       setManga(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {

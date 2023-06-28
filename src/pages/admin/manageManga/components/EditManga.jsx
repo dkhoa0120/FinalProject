@@ -4,13 +4,13 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import {
-  editManga,
   getAuthor,
   getCategory,
   getLanguage,
 } from "../../../../service/Data.service";
 import { toast } from "react-toastify";
 import MultiSelect from "../../../../components/multiSelect";
+import { editManga } from "../../../../service/api.manga";
 
 function EditManga(props) {
   const [id, setId] = useState("");

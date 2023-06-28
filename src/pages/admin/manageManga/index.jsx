@@ -3,17 +3,17 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  deleteManga,
-  getMangaById,
-  getMangaList,
-} from "../../../service/Data.service";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import CreateManga from "./components/CreateManga";
 import { ToastContainer, toast } from "react-toastify";
 import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
+import {
+  deleteManga,
+  getMangaByIdForManage,
+  getMangasForManage,
+} from "../../../service/api.manga";
 
 function ManageManga() {
   // Component state variables
@@ -45,7 +45,7 @@ function ManageManga() {
 
   const getMangas = async () => {
     try {
-      const result = await getMangaList(searchTerm, page);
+      const result = await getMangasForManage({ search: searchTerm, page });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -72,7 +72,7 @@ function ManageManga() {
 
   // Event handler for editing manga
   const handleEdit = async (id) => {
-    await getMangaById(id).then((result) => {
+    await getMangaByIdForManage(id).then((result) => {
       setDataEdit(result.data);
     });
     setShowEdit(true);

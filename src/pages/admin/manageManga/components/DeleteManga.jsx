@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { deleteManga } from "../../../../service/Data.service";
 import { toast } from "react-toastify";
+import { deleteManga } from "../../../../service/api.manga";
 
 function DeleteManga(props) {
   const [id, setId] = useState("");

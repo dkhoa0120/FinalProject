@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Image } from "react-bootstrap";
-import { getMangas } from "../../service/Data.service";
 import MangasList from "../../components/mangaList";
 import "./styles.css";
 import CarouselFade from "../../components/carousel";
+import { getMangasForUser } from "../../service/api.manga";
 
 function Home() {
   const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
@@ -22,7 +22,12 @@ function Home() {
 
   const callAPI = async (search, sortOption, page, pageSize) => {
     try {
-      const result = await getMangas(search, sortOption, page, pageSize);
+      const result = await getMangasForUser({
+        search,
+        sortOption,
+        page,
+        pageSize,
+      });
       setMangas(result.data.itemList);
     } catch (error) {
       if (error.response && error.response.status === 404) {
