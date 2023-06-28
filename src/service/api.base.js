@@ -18,3 +18,7 @@ export const getManageAxios = () =>
 export const accountAxios = axios.create({
   baseURL: `${API_URL}/account`,
 });
+
+export const helperAxios = axios.create({
+  baseURL: `${API_URL}/helper`,
+});

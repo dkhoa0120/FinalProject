@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import {
-  getAuthor,
-  getCategory,
-  getLanguage,
-} from "../../../../service/Data.service";
 import { toast } from "react-toastify";
 import MultiSelect from "../../../../components/multiSelect";
 import { editManga } from "../../../../service/api.manga";
+import { getLanguage } from "../../../../service/api.helper";
+import { getAuthors } from "../../../../service/api.author";
+import { getCategories } from "../../../../service/api.category";
 
 function EditManga(props) {
   const [id, setId] = useState("");
@@ -146,7 +143,10 @@ function EditManga(props) {
                 initialSelectedOptions={mapToOptions(props.dataEdit.categories)}
                 getOptions={async (search) => {
                   try {
-                    var res = await getCategory(search);
+                    var res = await getCategories({
+                      search,
+                      excludeDeleted: true,
+                    });
                     return res.data.itemList;
                   } catch (err) {
                     if (err.response && err.response.status === 404) {
@@ -167,7 +167,10 @@ function EditManga(props) {
                 initialSelectedOptions={mapToOptions(props.dataEdit.authors)}
                 getOptions={async (search) => {
                   try {
-                    var res = await getAuthor(search);
+                    var res = await getAuthors({
+                      search,
+                      excludeDeleted: true,
+                    });
                     return res.data.itemList;
                   } catch (err) {
                     if (err.response && err.response.status === 404) {
