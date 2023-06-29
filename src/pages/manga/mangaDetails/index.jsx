@@ -78,7 +78,7 @@ function MangaDetail() {
                         <Button
                           key={c.id}
                           variant="outline-dark"
-                          style={{ margin: "0 10px 10px 0", border: "none" }}
+                          style={{ margin: "0 10px 10px 0" }}
                         >
                           {c.name}
                         </Button>
@@ -90,9 +90,13 @@ function MangaDetail() {
                   </Col>
                 </Row>
                 <Row>
-                  <Col className="col-4">
+                  <Col xs="6" md="3" lg="3">
                     <Dropdown onSelect={handleRate}>
-                      <Dropdown.Toggle variant="outline" id="dropdown-basic">
+                      <Dropdown.Toggle
+                        variant="outline"
+                        id="dropdown-basic"
+                        style={{ fontSize: "25px" }}
+                      >
                         <span className="rating">
                           <i
                             className="fa fa-star"
@@ -124,13 +128,14 @@ function MangaDetail() {
                       </Dropdown.Menu>
                     </Dropdown>
                   </Col>
-                  <Col className="col-4">
+                  <Col xs="6" md="3" lg="3">
                     <button
                       className="follow-btn"
                       style={{
                         borderWidth: "0",
                         backgroundColor: "white",
                         fontSize: "20px",
+                        marginTop: "25px",
                       }}
                     >
                       <span
@@ -141,9 +146,17 @@ function MangaDetail() {
                       </span>
                     </button>
                   </Col>
-                  <Col className="col-4">
+                  <Col xs="6" md="3" lg="3">
                     <span>
-                      <button style={{ border: "none" }}>
+                      <button
+                        style={{
+                          border: "none",
+                          borderWidth: "0",
+                          fontSize: "20px",
+                          marginTop: "8px",
+                          color: "#730000",
+                        }}
+                      >
                         <i className="fa-regular fa-flag"></i> Report
                       </button>
                     </span>
