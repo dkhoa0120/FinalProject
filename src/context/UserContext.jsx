@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import { getCurrentUserBasic } from "../service/api.auth";
+import { extendToken, getCurrentUserBasic } from "../service/api.auth";
 
 // @function  UserContext
 const UserContext = React.createContext({ email: "", auth: false, roles: [] });
@@ -15,6 +15,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     const token = cookies.get("Token");
     if (token) {
+      handleExtendToken();
       loginContext();
     }
   }, []); // Include cookies in the dependency array
@@ -27,6 +28,15 @@ const UserProvider = ({ children }) => {
       roles: response.data.roles,
       auth: true,
     }));
+  };
+
+  const handleExtendToken = async () => {
+    const response = await extendToken();
+    if (response && response.data.token && response.data.expiration) {
+      cookies.set("Token", response.data.token, {
+        expires: new Date(response.data.expiration),
+      });
+    }
   };
 
   const logout = () => {

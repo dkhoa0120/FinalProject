@@ -9,6 +9,14 @@ export const signUp = (data) => {
   return accountAxios.post("/SignUp", data);
 };
 
+export const extendToken = () => {
+  return accountAxios.post("/Extend", null, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
 export const getCurrentUserBasic = () => {
   return accountAxios.get("/user", {
     headers: {
