@@ -11,7 +11,6 @@ import {
 import { useParams } from "react-router-dom";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";
-import Rating from "./rating";
 import ChaptersList from "../../../components/chapter";
 import CommentSection from "../../../components/comment";
 import { getMangaByIdForUser } from "../../../service/api.manga";
@@ -19,6 +18,11 @@ import { getMangaByIdForUser } from "../../../service/api.manga";
 function MangaDetail() {
   const [manga, setManga] = useState(null);
   const { mangaId } = useParams();
+
+  const [rate, setRate] = useState("");
+  const handleRate = (eventKey) => {
+    setRate(eventKey);
+  };
 
   const [isActive, setActive] = useState(null);
   const handleToggle = () => {
@@ -95,18 +99,36 @@ function MangaDetail() {
                 </Row>
                 <Row>
                   <Col className="col-4">
-                    <Dropdown>
+                    <Dropdown onSelect={handleRate}>
                       <Dropdown.Toggle variant="outline" id="dropdown-basic">
-                        <span>
-                          <i className="fa-regular fa-star"></i>
+                        <span className="rating">
+                          <i
+                            className="fa fa-star"
+                            style={
+                              rate ? { color: "#FFC107" } : { color: "#ccc" }
+                            }
+                          ></i>
                         </span>
+                        &nbsp;{rate}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item>(5) Masterpice</Dropdown.Item>
-                        <Dropdown.Item>(4) Good</Dropdown.Item>
-                        <Dropdown.Item>(3) Fine</Dropdown.Item>
-                        <Dropdown.Item>(2) Bad</Dropdown.Item>
-                        <Dropdown.Item>(1) Horrible</Dropdown.Item>
+                        <Dropdown.Header>Rate this manga</Dropdown.Header>
+                        <Dropdown.Item eventKey={5} active={rate === "5"}>
+                          (5) Masterpice
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey={4} active={rate === "4"}>
+                          (4) Good
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey={3} active={rate === "3"}>
+                          (3) Fine
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey={2} active={rate === "2"}>
+                          (2) Bad
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey={1} active={rate === "1"}>
+                          (1) Horrible
+                        </Dropdown.Item>
+                        <Dropdown.Item>Remove rating</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </Col>
