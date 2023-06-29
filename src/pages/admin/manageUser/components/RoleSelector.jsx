@@ -18,6 +18,7 @@ export default function RoleSelector({ selectedRoles, onChangeRoles }) {
         <Form.Check
           key={role}
           id={`chk-${role}`}
+          name="role-options"
           inline
           type="checkbox"
           label={role}
