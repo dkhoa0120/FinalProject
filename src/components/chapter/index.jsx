@@ -26,11 +26,11 @@ function ChaptersList() {
                 justifyContent: "flex-end",
               }}
             >
-              <button className="button">Start Reading</button>
+              <button className="btn-7 custom-btn">Start Reading</button>
               &nbsp;
-              <button className="button">Latest Chapter</button>
+              <button className="btn-7 custom-btn">Latest Chapter</button>
               &nbsp;
-              <button className="button" onClick={handleClick}>
+              <button className="btn-7 custom-btn " onClick={handleClick}>
                 {buttonText ? "Descending" : "Ascending"}
               </button>
             </p>

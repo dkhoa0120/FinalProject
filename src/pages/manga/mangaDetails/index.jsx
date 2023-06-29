@@ -75,13 +75,14 @@ function MangaDetail() {
                   <Col sm="9">
                     <div>
                       {manga.categories.map((c) => (
-                        <Button
+                        <button
+                          className="button-50"
                           key={c.id}
                           variant="outline-dark"
                           style={{ margin: "0 10px 10px 0" }}
                         >
                           {c.name}
-                        </Button>
+                        </button>
                       ))}
                     </div>
                   </Col>
@@ -135,7 +136,7 @@ function MangaDetail() {
                         borderWidth: "0",
                         backgroundColor: "white",
                         fontSize: "20px",
-                        marginTop: "25px",
+                        marginTop: "22px",
                       }}
                     >
                       <span
@@ -148,17 +149,16 @@ function MangaDetail() {
                   </Col>
                   <Col xs="6" md="3" lg="3">
                     <span>
-                      <button
+                      <Button
+                        variant="outline-danger"
                         style={{
                           border: "none",
                           borderWidth: "0",
-                          fontSize: "20px",
-                          marginTop: "8px",
-                          color: "#730000",
+                          fontSize: "21px",
                         }}
                       >
-                        <i className="fa-regular fa-flag"></i> Report
-                      </button>
+                        <i className="fa-regular fa-flag"></i> &nbsp;Report
+                      </Button>
                     </span>
                   </Col>
                 </Row>
