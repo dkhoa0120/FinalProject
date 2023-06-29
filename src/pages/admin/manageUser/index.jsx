@@ -14,6 +14,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
 import { getUsers } from "../../../service/api.user";
+import { ToastContainer } from "react-toastify";
 
 function ManageUser() {
   const [users, setUsers] = useState([]);
@@ -74,6 +75,7 @@ function ManageUser() {
 
   return (
     <div>
+      <ToastContainer />
       <div style={{ paddingTop: "50px" }}>
         <Row>
           <div className="Manga-Container-title">

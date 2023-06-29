@@ -11,3 +11,7 @@ export const getUsers = (filter) => {
     params: { search, excludeDeleted, page, pageSize, roleOption },
   });
 };
+
+export const updateRoles = (id, roles) => {
+  return getManageAxios().put(`user/${id}`, roles);
+};

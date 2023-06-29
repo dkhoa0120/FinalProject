@@ -4,21 +4,31 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import RoleSelector from "./RoleSelector";
+import { updateRoles } from "../../../../service/api.user";
 
 function ModalUpdateRoles(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     if (props.show) {
       setId(props.dataEdit.id || "");
       setName(props.dataEdit.name || "");
+      setRoles(props.dataEdit.roles || []);
     }
   }, [props.dataEdit, props.show]);
 
   const handleConfirm = async () => {
-    props.getUsers();
-    props.handleClose();
+    try {
+      await updateRoles(id, roles);
+      props.getUsers();
+      props.handleClose();
+      toast.success("User's roles have been updated");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -38,6 +48,12 @@ function ModalUpdateRoles(props) {
             <Col>
               <Form.Label>User Name</Form.Label>
               <Form.Control type="text" value={name} disabled />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Roles</Form.Label>
+              <RoleSelector selectedRoles={roles} onChangeRoles={setRoles} />
             </Col>
           </Row>
         </Modal.Body>
