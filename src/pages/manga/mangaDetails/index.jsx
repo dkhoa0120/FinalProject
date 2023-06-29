@@ -67,7 +67,7 @@ function MangaDetail() {
               <>
                 <Row>
                   <h1 className="txt-rotate">{manga.originalTitle}</h1>
-                  <span>Alternative Titles: {manga.alternativeTitles}</span>
+                  <p>Alternative Titles: {manga.alternativeTitles}</p>
                   <span>TestAuthorName</span>
                   <p>{manga.description}</p>
                 </Row>
@@ -106,7 +106,6 @@ function MangaDetail() {
                             }
                           ></i>
                         </span>
-                        &nbsp;{rate}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
                         <Dropdown.Header>Rate this manga</Dropdown.Header>
@@ -127,6 +126,7 @@ function MangaDetail() {
                         </Dropdown.Item>
                         <Dropdown.Item>Remove rating</Dropdown.Item>
                       </Dropdown.Menu>
+                      <span className="rate">4.5</span>
                     </Dropdown>
                   </Col>
                   <Col xs="6" md="3" lg="3">
@@ -143,9 +143,21 @@ function MangaDetail() {
                         className={`heart ${isActive ? "heart-active" : ""}`}
                         onClick={handleToggle}
                       >
-                        <span className="follow">Follow</span>
+                        <span className="follow">100</span>
                       </span>
                     </button>
+                  </Col>
+                  <Col xs="6" md="3" lg="3">
+                    <span
+                      style={{
+                        border: "none",
+                        borderWidth: "0",
+                        fontSize: "21px",
+                        marginTop: "22px",
+                      }}
+                    >
+                      <i className="fa-regular fa-eye"></i> &nbsp;1000
+                    </span>
                   </Col>
                   <Col xs="6" md="3" lg="3">
                     <span>

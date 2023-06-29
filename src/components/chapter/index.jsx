@@ -39,7 +39,7 @@ function ChaptersList() {
         <Row style={{ padding: "20px" }}>
           <p>Chapter 1: You apply just the right amount of heat</p>
           <Row>
-            <Col className="col-sm-4 offset-sm-4">
+            <Col>
               <p className="text-end">
                 <i className="fa-regular fa-clock"></i>&nbsp;Group
               </p>
@@ -53,6 +53,11 @@ function ChaptersList() {
             <Col className="col-2">
               <p className="text-end">
                 <i className="fa-regular fa-clock"></i>&nbsp;2 days ago
+              </p>
+            </Col>
+            <Col className="col-2">
+              <p className="text-end">
+                <i className="fa-regular fa-eye"></i>&nbsp;10 views
               </p>
             </Col>
           </Row>
