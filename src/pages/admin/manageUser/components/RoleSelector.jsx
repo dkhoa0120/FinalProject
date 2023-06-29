@@ -17,6 +17,7 @@ export default function RoleSelector({ selectedRoles, onChangeRoles }) {
       {roles.map((role) => (
         <Form.Check
           key={role}
+          id={`chk-${role}`}
           inline
           type="checkbox"
           label={role}
