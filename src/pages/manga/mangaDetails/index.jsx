@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Dropdown,
-  Button,
-  Card,
-  Collapse,
-} from "react-bootstrap";
+import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import TrackVisibility from "react-on-screen";
 import "./styles.css";

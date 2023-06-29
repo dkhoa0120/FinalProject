@@ -1,21 +1,8 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Dropdown,
-  Button,
-  Card,
-  Collapse,
-} from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 
 function CommentSection() {
-  const [isActive, setActive] = useState(null);
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
   return (
     <Container>
       <div className="Manga-Container">
@@ -33,8 +20,6 @@ function CommentSection() {
           <Card style={{ padding: "20px" }}>
             <CommentList />
           </Card>
-          <br></br>
-          <Card></Card>
         </div>
       </div>
     </Container>
