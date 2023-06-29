@@ -34,6 +34,7 @@ const UserProvider = ({ children }) => {
     const response = await extendToken();
     if (response && response.data.token && response.data.expiration) {
       cookies.set("Token", response.data.token, {
+        path: "/",
         expires: new Date(response.data.expiration),
       });
     }

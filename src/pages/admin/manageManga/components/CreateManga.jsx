@@ -29,7 +29,6 @@ function CreateManga(props) {
     formData.append("description", description);
     formData.append("categoryIds", categoryIds);
     formData.append("authorIds", authorIds);
-    formData.append("author", author);
     formData.append("publishYear", publishYear);
 
     try {
