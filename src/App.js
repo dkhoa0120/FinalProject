@@ -1,23 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import Body from "./layout/body";
+import { useState } from "react";
+import Header from "./layout/header";
+import SideBar from "./layout/sidebar";
 
 function App() {
+  const [showSidebar, setShowSidebar] = useState(true);
+  const [isNavMenuOpen, setIsNavMenuOpen] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const toggleSidebar = () => {
+    setIsNavMenuOpen(!isNavMenuOpen);
+    setShowSidebar(!showSidebar);
+  };
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+
+      if (window.innerWidth <= 768) {
+        setShowSidebar(false);
+        setIsNavMenuOpen(false);
+      } else {
+        setShowSidebar(true);
+        setIsNavMenuOpen(true);
+      }
+    };
+
+    // Initial check on component mount
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <div style={{ display: "flex", height: "100%" }}>
+        <div
+          style={{
+            flex: "1",
+            marginLeft: windowWidth > 1080 && isNavMenuOpen ? "230px" : "0",
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Body showSidebar={showSidebar} isNavMenuOpen={isNavMenuOpen} />
+        </div>
+        <Header toggleSidebar={toggleSidebar} />
+        {showSidebar && <SideBar toggleSidebar={toggleSidebar} />}
+      </div>
     </div>
   );
 }

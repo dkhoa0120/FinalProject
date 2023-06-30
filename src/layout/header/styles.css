@@ -1,0 +1,38 @@
+@media only screen and (min-width: 1000px) {
+  /* Styles for laptop and computer screens */
+  #offcanvasNavbar-expand-false {
+    /* Your styles here */
+    top: 50px;
+    right: 30px;
+    width: 20%;
+    bottom: 40%;
+    overflow: hidden auto;
+  }
+  .offcanvas-header .btn-close {
+    display: none;
+  }
+  .login-cover {
+    right: 50%;
+  }
+}
+.offcanvas-body::-webkit-scrollbar {
+  display: none;
+}
+
+.offcanvas-header .btn-close {
+  position: absolute;
+  right: 1rem;
+  top: 5%;
+  transform: translateY(-50%);
+}
+nav.navbar {
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  transition: 0.32s ease-in-out;
+}
+nav.navbar.scrolled {
+  padding: 20px 0;
+  background-color: white;
+}
