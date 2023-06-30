@@ -17,7 +17,6 @@ function CreateManga(props) {
   const [description, setDescription] = useState("");
   const [categoryIds, setCategoryIds] = useState([]);
   const [authorIds, setAuthorIds] = useState([]);
-  const [author, setAuthor] = useState([]);
   const [publishYear, setPublishYear] = useState("");
 
   const handleSave = async () => {
@@ -39,9 +38,8 @@ function CreateManga(props) {
       setAlternativeTitles("");
       setOriginalLanguage("");
       setDescription("");
-      setCategoryIds("");
-      setAuthorIds("");
-      setAuthor("");
+      setCategoryIds([]);
+      setAuthorIds([]);
       setPublishYear("");
       toast.success("A manga has been created");
       props.getMangas();
@@ -64,6 +62,41 @@ function CreateManga(props) {
 
     fetchLanguageOptions();
   }, []);
+
+  const mapToOptions = (items) => {
+    return items.reduce((options, item) => {
+      options[item.id] = item.name;
+      return options;
+    }, {});
+  };
+
+  const handleCategoryOptions = async (search) => {
+    try {
+      let res = await getCategories({ search, excludeDeleted: true });
+      let categories = res.data.itemList.filter(
+        (category) => !categoryIds.includes(category.id)
+      );
+      return mapToOptions(categories);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        return {};
+      }
+    }
+  };
+
+  const handleAuthorOptions = async (search) => {
+    try {
+      let res = await getAuthors({ search, excludeDeleted: true });
+      let authors = res.data.itemList.filter(
+        (author) => !authorIds.includes(author.id)
+      );
+      return mapToOptions(authors);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        return {};
+      }
+    }
+  };
 
   return (
     <div>
@@ -99,21 +132,8 @@ function CreateManga(props) {
               <Form.Label>Category</Form.Label>
               <MultiSelect
                 placeholder="Search category"
-                initialSelectedOptions={{}}
-                getOptions={async (search) => {
-                  try {
-                    var res = await getCategories({
-                      search,
-                      excludeDeleted: true,
-                    });
-                    return res.data.itemList;
-                  } catch (err) {
-                    if (err.response && err.response.status === 404) {
-                      return null;
-                    }
-                  }
-                }}
-                exportOptions={(options) => setCategoryIds(options)}
+                onSearchOptions={handleCategoryOptions}
+                onChangeOptions={(options) => setCategoryIds(options)}
               />
             </Col>
           </Row>{" "}
@@ -123,21 +143,8 @@ function CreateManga(props) {
               <Form.Label>Author</Form.Label>
               <MultiSelect
                 placeholder="Search author"
-                initialSelectedOptions={{}}
-                getOptions={async (search) => {
-                  try {
-                    var res = await getAuthors({
-                      search,
-                      excludeDeleted: true,
-                    });
-                    return res.data.itemList;
-                  } catch (err) {
-                    if (err.response && err.response.status === 404) {
-                      return null;
-                    }
-                  }
-                }}
-                exportOptions={(options) => setAuthorIds(options)}
+                onSearchOptions={handleAuthorOptions}
+                onChangeOptions={(options) => setAuthorIds(options)}
               />
             </Col>
           </Row>{" "}

@@ -101,9 +101,9 @@ function EditManga(props) {
     if (typeof items === "undefined") {
       return {};
     }
-    const options = items.reduce((acc, value) => {
-      acc[value.id] = value.name;
-      return acc;
+    const options = items.reduce((options, item) => {
+      options[item.id] = item.name;
+      return options;
     }, {});
     return options;
   };

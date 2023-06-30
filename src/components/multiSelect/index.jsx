@@ -4,55 +4,41 @@ import { Form, InputGroup } from "react-bootstrap";
 
 export default function MultiSelect({
   placeholder,
-  initialSelectedOptions,
-  getOptions,
-  exportOptions,
+  initialSelectedOptions = {},
+  onSearchOptions,
+  onChangeOptions,
 }) {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState({});
   const [selectedOptions, setSelectedOptions] = useState(
     initialSelectedOptions
   );
-  const [searchValue, setSearchValue] = useState("");
+  const [search, setSearch] = useState("");
 
   const handleInputChange = async (event) => {
-    // check search input
-    var inputValue = event.target.value;
-    setSearchValue(inputValue);
+    const nextSearch = event.target.value;
+    setSearch(nextSearch);
 
-    // call api
-    const rawOptions = await getOptions(inputValue);
-    if (!rawOptions) {
-      setOptions(null);
-      return;
-    }
-    const cleanOptions = rawOptions.reduce((acc, value) => {
-      acc[value.id] = value.name;
-      return acc;
-    }, {});
-    Object.keys(selectedOptions).forEach((key) => {
-      delete cleanOptions[key];
-    });
-
-    setOptions(cleanOptions);
+    const nextOptions = await onSearchOptions(nextSearch);
+    setOptions(nextOptions);
   };
 
   const handleSelectOption = (key) => {
-    const selectedOptionsCopy = { ...selectedOptions };
-    selectedOptionsCopy[key] = options[key];
-    setSelectedOptions(selectedOptionsCopy);
+    const nextSelectedOptions = { ...selectedOptions, [key]: options[key] };
+    setSelectedOptions(nextSelectedOptions);
 
-    setSearchValue("");
+    // clear and close options dropdown
+    setSearch("");
     setOptions({});
 
-    exportOptions(Object.keys(selectedOptionsCopy));
+    onChangeOptions(Object.keys(nextSelectedOptions));
   };
 
   const handleRemoveOption = (key) => {
-    const selectedOptionsCopy = { ...selectedOptions };
-    delete selectedOptionsCopy[key];
-    setSelectedOptions(selectedOptionsCopy);
+    const nextSelectedOptions = { ...selectedOptions };
+    delete nextSelectedOptions[key];
+    setSelectedOptions(nextSelectedOptions);
 
-    exportOptions(Object.keys(selectedOptionsCopy));
+    onChangeOptions(Object.keys(nextSelectedOptions));
   };
 
   return (
@@ -73,12 +59,12 @@ export default function MultiSelect({
             type="text"
             placeholder={placeholder}
             onChange={handleInputChange}
-            value={searchValue}
+            value={search}
           />
         </InputGroup>
       </Form.Group>
-      {searchValue &&
-        (!options ? (
+      {search &&
+        (Object.keys(options).length === 0 ? (
           <div className="custom-dropdown">
             <p>No option found</p>
           </div>
