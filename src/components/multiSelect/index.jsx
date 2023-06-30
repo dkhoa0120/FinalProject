@@ -13,16 +13,11 @@ export default function MultiSelect({
     initialSelectedOptions
   );
   const [searchValue, setSearchValue] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleInputChange = async (event) => {
     // check search input
     var inputValue = event.target.value;
     setSearchValue(inputValue);
-    if (!inputValue) {
-      setIsOpen(false);
-      return;
-    }
 
     // call api
     const rawOptions = await getOptions(inputValue);
@@ -39,7 +34,6 @@ export default function MultiSelect({
     });
 
     setOptions(cleanOptions);
-    setIsOpen(true);
   };
 
   const handleSelectOption = (key) => {
@@ -49,7 +43,6 @@ export default function MultiSelect({
 
     setSearchValue("");
     setOptions({});
-    setIsOpen(false);
 
     exportOptions(Object.keys(selectedOptionsCopy));
   };
@@ -84,7 +77,7 @@ export default function MultiSelect({
           />
         </InputGroup>
       </Form.Group>
-      {isOpen &&
+      {searchValue &&
         (!options ? (
           <div className="custom-dropdown">
             <p>No option found</p>
