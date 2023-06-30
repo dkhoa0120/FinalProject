@@ -92,42 +92,50 @@ function MangaDetail() {
                 </Row>
                 <Row>
                   <Col xs="6" md="3" lg="3">
-                    <Dropdown onSelect={handleRate}>
-                      <Dropdown.Toggle
-                        variant="outline"
-                        id="dropdown-basic"
-                        style={{ fontSize: "25px" }}
-                      >
-                        <span className="rating">
-                          <i
-                            className="fa fa-star"
-                            style={
-                              rate ? { color: "#FFC107" } : { color: "#ccc" }
-                            }
-                          ></i>
-                        </span>
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Header>Rate this manga</Dropdown.Header>
-                        <Dropdown.Item eventKey={5} active={rate === "5"}>
-                          (5) Masterpice
-                        </Dropdown.Item>
-                        <Dropdown.Item eventKey={4} active={rate === "4"}>
-                          (4) Good
-                        </Dropdown.Item>
-                        <Dropdown.Item eventKey={3} active={rate === "3"}>
-                          (3) Fine
-                        </Dropdown.Item>
-                        <Dropdown.Item eventKey={2} active={rate === "2"}>
-                          (2) Bad
-                        </Dropdown.Item>
-                        <Dropdown.Item eventKey={1} active={rate === "1"}>
-                          (1) Horrible
-                        </Dropdown.Item>
-                        <Dropdown.Item>Remove rating</Dropdown.Item>
-                      </Dropdown.Menu>
-                      <span className="rate">4.5</span>
-                    </Dropdown>
+                    <div
+                      style={{
+                        border: "none",
+                        borderWidth: "0",
+                        fontSize: "21px",
+                      }}
+                    >
+                      <Dropdown onSelect={handleRate}>
+                        <Dropdown.Toggle
+                          variant="outline"
+                          id="dropdown-basic"
+                          style={{ fontSize: "25px", marginBottom: "5px" }}
+                        >
+                          <span className="rating">
+                            <i
+                              className="fa fa-star"
+                              style={
+                                rate ? { color: "#FFC107" } : { color: "#ccc" }
+                              }
+                            ></i>
+                          </span>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Header>Rate this manga</Dropdown.Header>
+                          <Dropdown.Item eventKey={5} active={rate === "5"}>
+                            (5) Masterpice
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey={4} active={rate === "4"}>
+                            (4) Good
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey={3} active={rate === "3"}>
+                            (3) Fine
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey={2} active={rate === "2"}>
+                            (2) Bad
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey={1} active={rate === "1"}>
+                            (1) Horrible
+                          </Dropdown.Item>
+                          <Dropdown.Item>Remove rating</Dropdown.Item>
+                        </Dropdown.Menu>
+                        <span className="rate">4.5</span>
+                      </Dropdown>
+                    </div>
                   </Col>
                   <Col xs="6" md="3" lg="3">
                     <button
@@ -136,7 +144,7 @@ function MangaDetail() {
                         borderWidth: "0",
                         backgroundColor: "white",
                         fontSize: "20px",
-                        marginTop: "22px",
+                        marginTop: "24px",
                       }}
                     >
                       <span
@@ -148,16 +156,18 @@ function MangaDetail() {
                     </button>
                   </Col>
                   <Col xs="6" md="3" lg="3">
-                    <span
+                    <div
                       style={{
                         border: "none",
                         borderWidth: "0",
                         fontSize: "21px",
-                        marginTop: "22px",
+                        marginTop: "7px",
                       }}
                     >
-                      <i className="fa-regular fa-eye"></i> &nbsp;1000
-                    </span>
+                      <span>
+                        <i className="fa-regular fa-eye"></i> &nbsp;1000
+                      </span>
+                    </div>
                   </Col>
                   <Col xs="6" md="3" lg="3">
                     <span>

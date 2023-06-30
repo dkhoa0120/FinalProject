@@ -101,12 +101,6 @@
   color: black;
 }
 
-.rate {
-  margin-top: 20px 0 0 20px;
-  font-size: 20px;
-  color: black;
-}
-
 .rating i {
   color: #ccc;
 }
@@ -117,7 +111,7 @@
   background-image: none;
   border: 1px solid #000;
   border-radius: 4px;
-  box-shadow: black 4px 4px 0 0,#000 4px 4px 0 1px;
+  box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
   box-sizing: border-box;
   color: black;
   cursor: pointer;
@@ -146,7 +140,7 @@
 }
 
 .button-50:active {
-  box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+  box-shadow: rgba(0, 0, 0, 0.125) 0 3px 5px inset;
   outline: 0;
 }
 
