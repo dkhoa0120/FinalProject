@@ -12,7 +12,7 @@ import { getCategories } from "../../../../service/api.category";
 function EditManga(props) {
   const [id, setId] = useState("");
   const [originalTitle, setOriginalTitle] = useState("");
-  const [coverPath, setCoverPath] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   const [alternativeTitles, setAlternativeTitles] = useState("");
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
@@ -38,7 +38,6 @@ function EditManga(props) {
     if (props.show) {
       const {
         originalTitle,
-        coverPath,
         alternativeTitles,
         originalLanguage,
         description,
@@ -49,7 +48,6 @@ function EditManga(props) {
       } = props.dataEdit;
       setId(id || "");
       setOriginalTitle(originalTitle || "");
-      setCoverPath(coverPath || null);
       setAlternativeTitles(alternativeTitles || "");
       setOriginalLanguage(originalLanguage || "");
       setDescription(description || "");
@@ -67,25 +65,19 @@ function EditManga(props) {
     const formData = new FormData();
     formData.append("id", id);
     formData.append("originalTitle", originalTitle);
-    formData.append("coverImage", coverPath);
+    formData.append("coverImage", coverImage);
     formData.append("alternativeTitles", alternativeTitles);
     formData.append("originalLanguage", originalLanguage);
     formData.append("description", description);
     formData.append("publishYear", publishYear);
     formData.append("categoryIds", categoryIds);
     formData.append("authorIds", authorIds);
-    if (!coverPath) {
-      toast.error("Cover is required", {
-        theme: "colored",
-      });
-      return;
-    }
 
     try {
       await editManga(id, formData);
       props.handleClose();
       setOriginalTitle("");
-      setCoverPath(null);
+      setCoverImage(null);
       setAlternativeTitles("");
       setOriginalLanguage("");
       setDescription("");
@@ -106,6 +98,34 @@ function EditManga(props) {
       return options;
     }, {});
     return options;
+  };
+
+  const handleCategoryOptions = async (search) => {
+    try {
+      let res = await getCategories({ search, excludeDeleted: true });
+      let categories = res.data.itemList.filter(
+        (category) => !categoryIds.includes(category.id)
+      );
+      return mapToOptions(categories);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        return {};
+      }
+    }
+  };
+
+  const handleAuthorOptions = async (search) => {
+    try {
+      let res = await getAuthors({ search, excludeDeleted: true });
+      let authors = res.data.itemList.filter(
+        (author) => !authorIds.includes(author.id)
+      );
+      return mapToOptions(authors);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        return {};
+      }
+    }
   };
 
   return (
@@ -129,7 +149,7 @@ function EditManga(props) {
               <Form.Label>Cover</Form.Label>
               <Form.Control
                 type="file"
-                onChange={(e) => setCoverPath(e.target.files[0])}
+                onChange={(e) => setCoverImage(e.target.files[0])}
                 required
               />
             </Col>
@@ -141,20 +161,8 @@ function EditManga(props) {
               <MultiSelect
                 placeholder="Search category"
                 initialSelectedOptions={mapToOptions(props.dataEdit.categories)}
-                getOptions={async (search) => {
-                  try {
-                    var res = await getCategories({
-                      search,
-                      excludeDeleted: true,
-                    });
-                    return res.data.itemList;
-                  } catch (err) {
-                    if (err.response && err.response.status === 404) {
-                      return null;
-                    }
-                  }
-                }}
-                exportOptions={(options) => setCategoryIds(options)}
+                onSearchOptions={handleCategoryOptions}
+                onChangeOptions={(options) => setCategoryIds(options)}
               />
             </Col>
           </Row>{" "}
@@ -165,20 +173,8 @@ function EditManga(props) {
               <MultiSelect
                 placeholder="Search author"
                 initialSelectedOptions={mapToOptions(props.dataEdit.authors)}
-                getOptions={async (search) => {
-                  try {
-                    var res = await getAuthors({
-                      search,
-                      excludeDeleted: true,
-                    });
-                    return res.data.itemList;
-                  } catch (err) {
-                    if (err.response && err.response.status === 404) {
-                      return null;
-                    }
-                  }
-                }}
-                exportOptions={(options) => setAuthorIds(options)}
+                onSearchOptions={handleAuthorOptions}
+                onChangeOptions={(options) => setAuthorIds(options)}
               />
             </Col>
           </Row>{" "}

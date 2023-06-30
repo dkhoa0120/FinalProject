@@ -11,7 +11,7 @@ import { getAuthors } from "../../../../service/api.author";
 
 function CreateManga(props) {
   const [originalTitle, setOriginalTitle] = useState("");
-  const [coverPath, setCoverPath] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   const [alternativeTitles, setAlternativeTitles] = useState("");
   const [originalLanguage, setOriginalLanguage] = useState("");
   const [description, setDescription] = useState("");
@@ -22,7 +22,7 @@ function CreateManga(props) {
   const handleSave = async () => {
     const formData = new FormData();
     formData.append("originalTitle", originalTitle);
-    formData.append("coverImage", coverPath);
+    formData.append("coverImage", coverImage);
     formData.append("alternativeTitles", alternativeTitles);
     formData.append("originalLanguage", originalLanguage);
     formData.append("description", description);
@@ -34,7 +34,7 @@ function CreateManga(props) {
       await createManga(formData);
       props.handleClose();
       setOriginalTitle("");
-      setCoverPath(null);
+      setCoverImage(null);
       setAlternativeTitles("");
       setOriginalLanguage("");
       setDescription("");
@@ -121,7 +121,7 @@ function CreateManga(props) {
               <Form.Label>Cover</Form.Label>
               <Form.Control
                 type="file"
-                onChange={(e) => setCoverPath(e.target.files[0])}
+                onChange={(e) => setCoverImage(e.target.files[0])}
                 required
               />
             </Col>
