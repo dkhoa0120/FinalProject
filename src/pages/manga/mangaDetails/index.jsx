@@ -21,6 +21,8 @@ function MangaDetail() {
     setActive(!isActive);
   };
 
+  const [moreDescription, setMoreDescription] = useState(false);
+
   useEffect(() => {
     getMangaDetail(mangaId);
   }, []);
@@ -184,7 +186,26 @@ function MangaDetail() {
                   </Col>
                 </Row>
                 <br />
-                <p>Description: {manga.description}</p>
+
+                <p className={moreDescription ? "" : "text-limit"}>
+                  Description: {manga.description}
+                </p>
+                <div className="d-flex justify-content-center">
+                  <button
+                    className="button-50"
+                    onClick={() => setMoreDescription(!moreDescription)}
+                  >
+                    {moreDescription ? (
+                      <>
+                        <i className="fa-solid fa-arrow-up" /> Less Detail
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa-solid fa-arrow-down" /> More Detail
+                      </>
+                    )}
+                  </button>
+                </div>
               </>
             ) : (
               <p>Manga not found.</p>

@@ -76,16 +76,12 @@ function Comment({ comment }) {
           alt="Avatar"
         />
         <h5 className="mr-2">&nbsp;{comment.user}&nbsp;</h5>
-        <span className="dot mb-1"></span>
-        <span className="mb-1 ml-2">
-          &nbsp;{new Date().toLocaleString()} ago
-        </span>
       </div>
       <div className="comment-text-sm" style={{ padding: "0 0 5px 45px" }}>
         <span>{comment.context}</span>
       </div>
       <div className="reply-section" style={{ paddingLeft: "45px" }}>
-        <div className="d-flex flex-row align-items-center voting-icon">
+        <div className="align-items-center">
           <Col style={{ paddingBottom: "5px" }}>
             {likeCount} &nbsp;
             <button
@@ -130,30 +126,6 @@ function Comment({ comment }) {
             >
               Reply
             </button>
-            {comment.childComments?.length > 0 && (
-              <>
-                &nbsp;&nbsp;
-                <button
-                  style={{
-                    borderWidth: "0",
-                    backgroundColor: "white",
-                    fontSize: "15px",
-                    color: "#124699",
-                  }}
-                  onClick={handleToggleReplies}
-                >
-                  {open ? (
-                    <>
-                      <i className="fa-solid fa-arrow-up" /> Hide
-                    </>
-                  ) : (
-                    <>
-                      <i className="fa-solid fa-arrow-down" /> Show
-                    </>
-                  )}
-                </button>
-              </>
-            )}
             &nbsp;&nbsp;
             <button
               style={{
@@ -195,6 +167,34 @@ function Comment({ comment }) {
                 </button>
               </ModalFooter>
             </Modal>
+            <span> {new Date().toLocaleString()} ago</span>
+          </Col>
+          <Col>
+            {comment.childComments?.length > 0 && (
+              <>
+                &nbsp;&nbsp;
+                <button
+                  style={{
+                    borderWidth: "0",
+                    backgroundColor: "white",
+                    fontSize: "15px",
+                    color: "#124699",
+                  }}
+                  onClick={handleToggleReplies}
+                >
+                  {open ? (
+                    <>
+                      <i className="fa-solid fa-arrow-up" /> Hide
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa-solid fa-arrow-down" />{" "}
+                      {comment.childComments?.length} comments
+                    </>
+                  )}
+                </button>
+              </>
+            )}
           </Col>
         </div>
         <Collapse in={reply}>

@@ -38,6 +38,7 @@ function ChaptersList() {
           </Col>
         </Row>
         <Chapters />
+        <Chapters />
       </div>
     </Container>
   );
