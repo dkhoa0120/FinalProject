@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
+import Chapters from "./chapter";
 
 function ChaptersList() {
   const [buttonText, setButtonText] = useState("Descending");
@@ -36,34 +37,7 @@ function ChaptersList() {
             </p>
           </Col>
         </Row>
-        <Row style={{ padding: "20px" }}>
-          <p>Chapter 1: You apply just the right amount of heat</p>
-          <Row>
-            <Col>
-              <p className="text-end">
-                <i className="fa-regular fa-clock"></i>&nbsp;Group
-              </p>
-            </Col>
-            <Col className="col-2">
-              <p className="text-truncate ">
-                <i className="fa-regular fa-clock"></i>
-                &nbsp;UploaderTestTextLong
-              </p>
-            </Col>
-            <Col className="col-2">
-              <p className="text-end">
-                <i className="fa-regular fa-clock"></i>&nbsp;2 days ago
-              </p>
-            </Col>
-            <Col className="col-2">
-              <p className="text-end">
-                <i className="fa-regular fa-eye"></i>&nbsp;10 views
-              </p>
-            </Col>
-          </Row>
-          <p>Chapter 2: First breakfast together</p>
-          <p>Chapter 3: A Toast with Beer and lamp chops</p>
-        </Row>
+        <Chapters />
       </div>
     </Container>
   );

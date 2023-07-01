@@ -128,7 +128,7 @@ function Comment({ comment }) {
               }}
               onClick={handleReplyComment}
             >
-              <i className="fa-solid fa-reply"></i> Reply
+              Reply
             </button>
             {comment.childComments?.length > 0 && (
               <>
@@ -144,11 +144,11 @@ function Comment({ comment }) {
                 >
                   {open ? (
                     <>
-                      <i className="fa-solid fa-arrow-up" /> Hide Replies
+                      <i className="fa-solid fa-arrow-up" /> Hide
                     </>
                   ) : (
                     <>
-                      <i className="fa-solid fa-arrow-down" /> Show Replies
+                      <i className="fa-solid fa-arrow-down" /> Show
                     </>
                   )}
                 </button>
@@ -164,7 +164,7 @@ function Comment({ comment }) {
               }}
               onClick={handleShow}
             >
-              <i class="fa-regular fa-flag"></i> Report
+              Report
             </button>
             <Modal show={showModal} onHide={handleClose}>
               <Modal.Header closeButton>
