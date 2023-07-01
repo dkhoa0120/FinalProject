@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { InputGroup, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import { loginAPI, registerAPI } from "../../../service/Data.service";
 import { ToastContainer, toast } from "react-toastify";
 import "../styles.css";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { useEffect } from "react";
+import { signIn, signUp } from "../../../service/api.auth";
 
 function Register() {
   const navigate = useNavigate();
@@ -41,13 +41,13 @@ function Register() {
     };
 
     try {
-      await registerAPI(data);
+      await signUp(data);
 
       const loginData = {
         email: email,
         password: password,
       };
-      const response = await loginAPI(loginData);
+      const response = await signIn(loginData);
       if (response && response.data.token && response.data.expiration) {
         cookies.set("Token", response.data.token, {
           expires: new Date(response.data.expiration),

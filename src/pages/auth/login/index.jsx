@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../styles.css";
 import { UserContext } from "../../../context/UserContext";
-import { loginAPI } from "../../../service/Data.service";
+import { signIn } from "../../../service/api.auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -34,9 +34,10 @@ function Login() {
     }
     setLoading(true);
     try {
-      const response = await loginAPI(data);
+      const response = await signIn(data);
       if (response && response.data.token && response.data.expiration) {
         cookies.set("Token", response.data.token, {
+          path: "/",
           expires: new Date(response.data.expiration),
         });
         loginContext();

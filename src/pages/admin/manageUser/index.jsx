@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -10,10 +10,11 @@ import {
   Button,
   Table,
 } from "react-bootstrap";
-import { getUsers } from "../../../service/Data.service";
 import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
+import { getUsers } from "../../../service/api.user";
+import { ToastContainer } from "react-toastify";
 
 function ManageUser() {
   const [users, setUsers] = useState([]);
@@ -43,7 +44,7 @@ function ManageUser() {
 
   const getUsersList = async () => {
     try {
-      const result = await getUsers(roleOption, searchTerm, page);
+      const result = await getUsers({ search: searchTerm, page, roleOption });
       console.log("Check users", result);
       setUsers(result.data.itemList);
       setTotalPages(result.data.totalPages);
@@ -74,6 +75,7 @@ function ManageUser() {
 
   return (
     <div>
+      <ToastContainer />
       <div style={{ paddingTop: "50px" }}>
         <Row>
           <div className="Manga-Container-title">

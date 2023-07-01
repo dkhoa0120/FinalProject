@@ -4,10 +4,10 @@ import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  getAuthorList,
+  getAuthors,
   deleteAuthor,
   getAuthorByID,
-} from "../../../service/Data.service";
+} from "../../../service/api.author";
 import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
 import { Col, Row, Form } from "react-bootstrap";
@@ -40,12 +40,12 @@ function ManageAuthor() {
 
   // Fetch manga data
   useEffect(() => {
-    getAuthors();
+    handleGetAuthors();
   }, [searchTerm, page]);
 
-  const getAuthors = async () => {
+  const handleGetAuthors = async () => {
     try {
-      const result = await getAuthorList(searchTerm, page);
+      const result = await getAuthors({ search: searchTerm, page });
       setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -89,7 +89,7 @@ function ManageAuthor() {
       toast.success("Author has been restored", {
         theme: "dark",
       });
-      getAuthors();
+      handleGetAuthors();
     } catch (error) {
       toast.error("Failed to delete restored");
     }
@@ -179,19 +179,19 @@ function ManageAuthor() {
         <CreateAuthor
           show={showCreate}
           handleClose={() => setShowCreate(false)}
-          getAuthors={getAuthors}
+          getAuthors={handleGetAuthors}
         />
         <EditAuthor
           show={showEdit}
           handleClose={() => setShowEdit(false)}
           dataEdit={dataEdit}
-          getAuthors={getAuthors}
+          getAuthors={handleGetAuthors}
         />
         <DeleteAuthor
           show={showDelete}
           handleClose={() => setShowDelete(false)}
           dataEdit={dataEdit}
-          getAuthors={getAuthors}
+          getAuthors={handleGetAuthors}
         />
       </div>
     </div>
