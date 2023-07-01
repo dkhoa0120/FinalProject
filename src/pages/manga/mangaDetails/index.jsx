@@ -61,12 +61,13 @@ function MangaDetail() {
                 </div>
               )}
             </TrackVisibility>
-            <Row className="row-cols-2">
+            <Row className="row-cols-2" style={{ marginTop: "20px" }}>
               <Col>
                 <button
                   className="follow-btn"
                   style={{
                     borderWidth: "0",
+                    marginLeft: "27px",
                     backgroundColor: "white",
                     fontSize: "20px",
                   }}
@@ -84,7 +85,9 @@ function MangaDetail() {
                   style={{
                     border: "none",
                     borderWidth: "0",
-                    fontSize: "21px",
+                    marginLeft: "10px",
+                    marginTop: "3px",
+                    fontSize: "20px",
                   }}
                 >
                   <span>
@@ -146,6 +149,7 @@ function MangaDetail() {
                       border: "none",
                       borderWidth: "0",
                       fontSize: "21px",
+                      marginTop: "3px",
                     }}
                   >
                     <i className="fa-regular fa-flag"></i> &nbsp;Report
