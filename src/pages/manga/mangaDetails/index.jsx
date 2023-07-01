@@ -68,7 +68,7 @@ function MangaDetail() {
                 <Row>
                   <h1 className="txt-rotate">{manga.originalTitle}</h1>
                   <p>Alternative Titles: {manga.alternativeTitles}</p>
-                  <span>TestAuthorName</span>
+                  <p>Authors: {manga.authors.map((a) => a.name)}</p>
                   <p>{manga.description}</p>
                 </Row>
                 <Row>
