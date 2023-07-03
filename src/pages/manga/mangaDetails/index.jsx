@@ -187,24 +187,29 @@ function MangaDetail() {
                 </Row>
                 <br />
 
-                <p className={moreDescription ? "" : "text-limit"}>
-                  Description: {manga.description}
+                <p>
+                  Description:{" "}
+                  {moreDescription || manga.description.length < 100
+                    ? manga.description
+                    : manga.description.slice(0, 100) + "..."}
                 </p>
-                <div className="d-flex justify-content-center">
-                  <button
-                    className="button-50"
-                    onClick={() => setMoreDescription(!moreDescription)}
-                  >
-                    {moreDescription ? (
-                      <>
-                        <i className="fa-solid fa-arrow-up" /> Less Detail
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa-solid fa-arrow-down" /> More Detail
-                      </>
-                    )}
-                  </button>
+                <div className="d-flex justify-content-end">
+                  {manga.description.length > 100 && (
+                    <button
+                      className="button-50"
+                      onClick={() => setMoreDescription(!moreDescription)}
+                    >
+                      {moreDescription ? (
+                        <>
+                          <i className="fa-solid fa-arrow-up" /> Less Detail
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa-solid fa-arrow-down" /> More Detail
+                        </>
+                      )}
+                    </button>
+                  )}
                 </div>
               </>
             ) : (
