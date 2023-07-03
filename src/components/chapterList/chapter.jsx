@@ -9,7 +9,7 @@ function Chapters() {
       <div className="Manga-Container">
         <div
           className="Manga-Container-title"
-          style={{ marginBottom: "0", fontSize: "20px" }}
+          style={{ marginBottom: "0", fontSize: "18px" }}
         >
           Chapter 1
         </div>

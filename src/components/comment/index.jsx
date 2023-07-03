@@ -12,7 +12,7 @@ function CommentSection() {
         >
           Comments
         </div>
-        <div className="comment-bottom">
+        <div className="comment-section">
           <Card style={{ padding: "20px" }}>
             <CommentForm />
           </Card>
