@@ -70,8 +70,6 @@ function MangaDetail() {
                   style={{
                     borderWidth: "0",
                     marginLeft: "27px",
-                    backgroundColor: "white",
-                    fontSize: "20px",
                   }}
                 >
                   <span
@@ -89,7 +87,7 @@ function MangaDetail() {
                     borderWidth: "0",
                     marginLeft: "10px",
                     marginTop: "3px",
-                    fontSize: "20px",
+                    fontSize: "18px",
                   }}
                 >
                   <span>
@@ -106,11 +104,7 @@ function MangaDetail() {
                   }}
                 >
                   <Dropdown onSelect={handleRate}>
-                    <Dropdown.Toggle
-                      variant="outline"
-                      id="dropdown-basic"
-                      style={{ fontSize: "25px", marginBottom: "5px" }}
-                    >
+                    <Dropdown.Toggle variant="outline" id="dropdown-basic">
                       <span className="rating">
                         <i
                           className="fa fa-star"
@@ -150,7 +144,7 @@ function MangaDetail() {
                     style={{
                       border: "none",
                       borderWidth: "0",
-                      fontSize: "21px",
+                      fontSize: "18px",
                       marginTop: "3px",
                     }}
                   >
