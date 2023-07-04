@@ -6,11 +6,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "../styles.css";
 import { UserContext } from "../../../context/UserContext";
 import { signIn } from "../../../service/api.auth";
+import Cookies from "universal-cookie";
 
 function Login() {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
-  const { loginContext, cookies } = useContext(UserContext);
+  const { user, loginContext } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ function Login() {
     try {
       const response = await signIn(data);
       if (response && response.data.token && response.data.expiration) {
-        cookies.set("Token", response.data.token, {
+        new Cookies().set("Token", response.data.token, {
           path: "/",
           expires: new Date(response.data.expiration),
         });

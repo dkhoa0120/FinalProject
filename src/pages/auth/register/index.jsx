@@ -8,10 +8,11 @@ import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { useEffect } from "react";
 import { signIn, signUp } from "../../../service/api.auth";
+import Cookies from "universal-cookie";
 
 function Register() {
   const navigate = useNavigate();
-  const { loginContext, cookies } = useContext(UserContext);
+  const { loginContext } = useContext(UserContext);
   const { user } = useContext(UserContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,7 +50,7 @@ function Register() {
       };
       const response = await signIn(loginData);
       if (response && response.data.token && response.data.expiration) {
-        cookies.set("Token", response.data.token, {
+        new Cookies().set("Token", response.data.token, {
           expires: new Date(response.data.expiration),
         });
         loginContext();
