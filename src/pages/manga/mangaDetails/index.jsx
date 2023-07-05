@@ -149,31 +149,20 @@ export default function MangaDetail() {
                     </Col>
                   </Row>
                   <br />
-
                   <p>
                     Description:{" "}
                     {moreDescription || manga.description.length < 100
                       ? manga.description
-                      : manga.description.slice(0, 100) + "..."}
-                  </p>
-                  <div className="d-flex justify-content-end">
+                      : manga.description.slice(0, 100) + "..."}{" "}
                     {manga.description.length > 100 && (
                       <button
-                        className="button-50"
+                        className="btn-resize-description"
                         onClick={() => setMoreDescription(!moreDescription)}
                       >
-                        {moreDescription ? (
-                          <>
-                            <i className="fa-solid fa-arrow-up" /> Less Detail
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa-solid fa-arrow-down" /> More Detail
-                          </>
-                        )}
+                        {!moreDescription ? "<More>" : "<Less>"}
                       </button>
                     )}
-                  </div>
+                  </p>
                 </>
               ) : (
                 <p>Manga not found.</p>

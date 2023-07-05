@@ -131,6 +131,17 @@
   margin-top: 3px;
 }
 
+.btn-resize-description {
+  border: none;
+  background-color: none;
+  color: #004759;
+  font-weight: bold;
+}
+
+.btn-resize-description:hover {
+  text-decoration: underline;
+}
+
 .button-50 {
   appearance: button;
   background-color: white;
