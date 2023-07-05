@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import "./style.css";
-import CountryFlag from "../countryFlag";
+import CountryFlag from "../../../../components/countryFlag";
 
-export default function Chapters() {
+export default function ChapterGroup() {
   return (
     <div className="Manga-Container">
       <div className="Manga-Container-title" style={{ fontSize: "18px" }}>
