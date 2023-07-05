@@ -53,13 +53,16 @@
   border-right: 0.08em solid #666;
 }
 
-.dropdown-basic {
+#dropdown-basic {
   outline: none !important;
   outline-offset: none !important;
+  font-size: 25px;
+  outline: none;
+  outline-offset: none;
 }
 
-.heart-btn {
-  transform: translate(-50%, -50%);
+.rate {
+  font-size: 18px;
 }
 
 .heart.follow {
@@ -74,8 +77,8 @@
   position: absolute;
   background: url("/public/img/animation/heart.png") no-repeat;
   background-size: 2900%;
-  height: 90px;
-  width: 90px;
+  height: 80px;
+  width: 80px;
   transform: translate(-50%, -50%);
 }
 
@@ -95,8 +98,8 @@
 
 .follow {
   display: flex;
-  margin: 30px 0 0 70px;
-  font-size: 20px;
+  margin: 25px 0 0 60px;
+  font-size: 18px;
   color: black;
 }
 
