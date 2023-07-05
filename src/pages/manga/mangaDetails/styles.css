@@ -24,6 +24,11 @@
   margin-bottom: 20px;
   display: block;
 }
+@media (max-width: 767px) {
+  .banner h1 {
+    font-size: 32px;
+  }
+}
 .banner p {
   color: black;
   font-size: 16px;
@@ -49,9 +54,8 @@
     transform: translateY(-10px);
   }
 }
-.txt-rotate > .wrap {
-  border-right: 0.08em solid #666;
-}
+
+
 
 #dropdown-basic {
   outline: none !important;
@@ -59,10 +63,6 @@
   font-size: 25px;
   outline: none;
   outline-offset: none;
-}
-
-.rate {
-  font-size: 18px;
 }
 
 .heart.follow {
@@ -96,15 +96,39 @@
   }
 }
 
-.follow {
+.btn-follow {
+  border-width: 0;
+  margin-left: 27px;
+}
+
+.follow-number {
   display: flex;
   margin: 25px 0 0 60px;
   font-size: 18px;
   color: black;
 }
 
-.rating i {
-  color: #ccc;
+.view-manga {
+  border-width: 0;
+  margin-left: 10px;
+  margin-top: 3px;
+  font-size: 18px;
+}
+
+.rating {
+  border-width: 0;
+  font-size: 21px;
+}
+
+.rating .rating-number {
+  font-size: 18px;
+}
+
+.banner .btn-report-manga {
+  border: none;
+  border-width: 0;
+  font-size: 18px;
+  margin-top: 3px;
 }
 
 .button-50 {

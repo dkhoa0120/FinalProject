@@ -66,54 +66,30 @@ export default function MangaDetail() {
               </TrackVisibility>
               <Row className="row-cols-2" style={{ marginTop: "20px" }}>
                 <Col>
-                  <button
-                    className="follow-btn"
-                    style={{
-                      borderWidth: "0",
-                      marginLeft: "27px",
-                    }}
-                  >
+                  <button className="btn-follow">
                     <span
                       className={`heart ${isActive ? "heart-active" : ""}`}
                       onClick={handleToggle}
                     >
-                      <span className="follow">100</span>
+                      <span className="follow-number">100</span>
                     </span>
                   </button>
                 </Col>
                 <Col>
-                  <div
-                    style={{
-                      border: "none",
-                      borderWidth: "0",
-                      marginLeft: "10px",
-                      marginTop: "3px",
-                      fontSize: "18px",
-                    }}
-                  >
-                    <span>
-                      <i className="fa-regular fa-eye"></i> &nbsp;1000
-                    </span>
+                  <div className="view-manga">
+                    <i className="fa-regular fa-eye"></i> 1000
                   </div>
                 </Col>
                 <Col>
-                  <div
-                    style={{
-                      border: "none",
-                      borderWidth: "0",
-                      fontSize: "21px",
-                    }}
-                  >
+                  <div className="rating">
                     <Dropdown onSelect={handleRate}>
                       <Dropdown.Toggle variant="outline" id="dropdown-basic">
-                        <span className="rating">
-                          <i
-                            className="fa fa-star"
-                            style={
-                              rate ? { color: "#FFC107" } : { color: "#ccc" }
-                            }
-                          ></i>
-                        </span>
+                        <i
+                          className="fa fa-star"
+                          style={
+                            rate ? { color: "#FFC107" } : { color: "#ccc" }
+                          }
+                        ></i>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
                         <Dropdown.Header>Rate this manga</Dropdown.Header>
@@ -134,24 +110,14 @@ export default function MangaDetail() {
                         </Dropdown.Item>
                         <Dropdown.Item>Remove rating</Dropdown.Item>
                       </Dropdown.Menu>
-                      <span className="rate">4.5</span>
+                      <span className="rating-number">4.5</span>
                     </Dropdown>
                   </div>
                 </Col>
                 <Col>
-                  <span>
-                    <Button
-                      variant="outline-danger"
-                      style={{
-                        border: "none",
-                        borderWidth: "0",
-                        fontSize: "18px",
-                        marginTop: "3px",
-                      }}
-                    >
-                      <i className="fa-regular fa-flag"></i> &nbsp;Report
-                    </Button>
-                  </span>
+                  <Button variant="outline-danger" className="btn-report-manga">
+                    <i className="fa-regular fa-flag"></i> &nbsp;Report
+                  </Button>
                 </Col>
               </Row>
             </Col>
@@ -159,7 +125,7 @@ export default function MangaDetail() {
               {manga ? (
                 <>
                   <Row>
-                    <h1 className="txt-rotate">{manga.originalTitle}</h1>
+                    <h1>{manga.originalTitle}</h1>
                     <p>Alternative Titles: {manga.alternativeTitles}</p>
                     <p>
                       Authors: {manga.authors.map((a) => a.name).join("; ")}
