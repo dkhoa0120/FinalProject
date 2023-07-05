@@ -120,7 +120,7 @@
   line-height: 20px;
   margin: 0 5px 10px 0;
   overflow: visible;
-  padding: 12px 40px;
+  padding: 12px 20px;
   text-align: center;
   text-transform: none;
   touch-action: manipulation;
@@ -146,10 +146,4 @@
 .button-50:not([disabled]):active {
   box-shadow: #000 2px 2px 0 0, #000 2px 2px 0 1px;
   transform: translate(2px, 2px);
-}
-
-@media (min-width: 768px) {
-  .button-50 {
-    padding: 10px 20px;
-  }
 }

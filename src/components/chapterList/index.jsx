@@ -3,44 +3,42 @@ import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
 import Chapters from "./chapter";
 
-function ChaptersList() {
-  const [buttonText, setButtonText] = useState("Descending");
+export default function ChaptersList() {
+  const [isDescending, setIsDescending] = useState(false);
   const handleClick = () => {
-    setButtonText(!buttonText);
+    setIsDescending(!isDescending);
   };
   return (
-    <Container>
-      <div className="Manga-Container">
+    <div className="Manga-Container">
+      <Container fluid>
         <Row>
-          <Col>
+          <Col xs={12} md={6} xl={8}>
             <div
               className="Manga-Container-title"
-              style={{ textDecorationLine: "underline", marginBottom: "0" }}
+              style={{ textDecorationLine: "underline" }}
             >
               Chapters list
             </div>
           </Col>
-          <Col>
-            <p
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <button className="btn-7 custom-btn">Start Reading</button>
+          <Col xs={12} md={6} xl={4}>
+            <p className="text-center">
+              <button className="button-50">Read First</button>
               &nbsp;
-              <button className="btn-7 custom-btn">Latest Chapter</button>
+              <button className="button-50">Read Last</button>
               &nbsp;
-              <button className="btn-7 custom-btn " onClick={handleClick}>
-                {buttonText ? "Descending" : "Ascending"}
+              <button className="button-50" onClick={handleClick}>
+                {!isDescending ? (
+                  <i class="fa-solid fa-arrow-down-short-wide"></i>
+                ) : (
+                  <i class="fa-solid fa-arrow-up-short-wide"></i>
+                )}
               </button>
             </p>
           </Col>
         </Row>
         <Chapters />
         <Chapters />
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 }
-export default ChaptersList;
