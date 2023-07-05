@@ -24,3 +24,6 @@ yarn-error.log*
 
 # vscode assets
 .vscode
+
+# Environment variables
+.env
