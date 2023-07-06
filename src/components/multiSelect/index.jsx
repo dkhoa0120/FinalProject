@@ -42,13 +42,14 @@ export default function MultiSelect({
   };
 
   return (
-    <div className="custom-input">
+    <div className="multi-select">
       {Object.entries(selectedOptions).map(([key, value]) => (
         <span className="selected-option" key={key}>
           {value}
-          &nbsp; &nbsp;
+          &nbsp;
           <i
             className="fa-solid fa-circle-xmark"
+            style={{ cursor: "pointer" }}
             onClick={() => handleRemoveOption(key)}
           ></i>
         </span>
@@ -65,11 +66,11 @@ export default function MultiSelect({
       </Form.Group>
       {search &&
         (Object.keys(options).length === 0 ? (
-          <div className="custom-dropdown">
+          <div className="dropdown">
             <p>No option found</p>
           </div>
         ) : (
-          <div className="custom-dropdown">
+          <div className="dropdown">
             {Object.entries(options).map(([key, value]) => (
               <label key={key} className="option">
                 <p onClick={() => handleSelectOption(key)}>{value}</p>

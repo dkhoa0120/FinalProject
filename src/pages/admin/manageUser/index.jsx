@@ -78,7 +78,7 @@ function ManageUser() {
       <ToastContainer />
       <div style={{ paddingTop: "50px" }}>
         <Row>
-          <div className="Manga-Container-title">
+          <div className="General-Container-title">
             <Form.Control
               type="search"
               placeholder="Search"

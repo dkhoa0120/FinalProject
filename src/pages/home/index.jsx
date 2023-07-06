@@ -62,7 +62,7 @@ function Home() {
         </Container>
       </div>
       <CarouselFade />
-      <div className="Manga-Container">
+      <div className="General-Container">
         <div
           style={{ display: "flex", paddingLeft: "20px", paddingRight: "20px" }}
         >

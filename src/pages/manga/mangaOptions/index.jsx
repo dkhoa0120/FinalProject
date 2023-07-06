@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import "./styles.css";
 import Pagination from "../../../components/pagination";
 import { getMangasForUser } from "../../../service/api.manga";
 
@@ -59,7 +58,7 @@ function Manga() {
     <div>
       <div style={{ paddingTop: "50px" }}>
         <Row>
-          <div className="Manga-Container-title">
+          <div className="General-Container-title">
             <Form.Control
               type="search"
               placeholder="Search"
@@ -72,7 +71,7 @@ function Manga() {
         </Row>
         <Row>
           <Col>
-            <div className="Manga-Container-title">
+            <div className="General-Container-title">
               <span>
                 {sortOption === "LatestManga"
                   ? "Latest Manga"
@@ -104,7 +103,7 @@ function Manga() {
                         <Card.Img
                           variant="top"
                           src={manga.coverPath}
-                          className="coverI"
+                          className="cover-image"
                         />
                       </Col>
                       <Col xl={10} style={{ padding: "20px" }}>

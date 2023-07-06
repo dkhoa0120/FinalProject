@@ -68,81 +68,79 @@ const Pagination = ({
 
   return (
     <div className="d-flex justify-content-center">
-      <div className="pagination">
+      <Button
+        key="<<"
+        onClick={() =>
+          setSearchParams({
+            ...(roleOption && { roleOption }),
+            ...(search && { search }), // Include search if available
+            ...(sortOption && { sortOption }), // Include sortOption if available
+            page: String(1),
+          })
+        }
+        variant="btn btn-dark"
+      >
+        <i className="fa-solid fa-angles-left"></i>
+      </Button>
+      &nbsp;
+      {page > 1 ? (
         <Button
-          key="<<"
+          key="<"
           onClick={() =>
             setSearchParams({
               ...(roleOption && { roleOption }),
               ...(search && { search }), // Include search if available
               ...(sortOption && { sortOption }), // Include sortOption if available
-              page: String(1),
+              page: String(page - 1),
             })
           }
           variant="btn btn-dark"
         >
-          <i className="fa-solid fa-angles-left"></i>
+          <i className="fa-solid fa-angle-left"></i>
         </Button>
-        &nbsp;
-        {page > 1 ? (
-          <Button
-            key="<"
-            onClick={() =>
-              setSearchParams({
-                ...(roleOption && { roleOption }),
-                ...(search && { search }), // Include search if available
-                ...(sortOption && { sortOption }), // Include sortOption if available
-                page: String(page - 1),
-              })
-            }
-            variant="btn btn-dark"
-          >
-            <i className="fa-solid fa-angle-left"></i>
-          </Button>
-        ) : (
-          <Button variant="btn btn-dark" disabled>
-            <i className="fa-solid fa-angle-left"></i>
-          </Button>
-        )}
-        &nbsp;
-        {renderPageNumbers()}
-        &nbsp;
-        {page < totalPages ? (
-          <Button
-            key=">"
-            variant="btn btn-dark"
-            onClick={() =>
-              setSearchParams({
-                ...(roleOption && { roleOption }),
-                ...(search && { search }), // Include search if available
-                ...(sortOption && { sortOption }), // Include sortOption if available
-                page: String(page + 1),
-              })
-            }
-          >
-            <i className="fa-solid fa-angle-right"></i>
-          </Button>
-        ) : (
-          <Button variant="btn btn-dark" disabled>
-            <i className="fa-solid fa-angle-right"></i>
-          </Button>
-        )}
-        &nbsp;
+      ) : (
+        <Button variant="btn btn-dark" disabled>
+          <i className="fa-solid fa-angle-left"></i>
+        </Button>
+      )}
+      &nbsp;
+      {renderPageNumbers()}
+      &nbsp;
+      {page < totalPages ? (
         <Button
-          key=">>"
+          key=">"
+          variant="btn btn-dark"
           onClick={() =>
             setSearchParams({
               ...(roleOption && { roleOption }),
               ...(search && { search }), // Include search if available
               ...(sortOption && { sortOption }), // Include sortOption if available
-              page: String(totalPages),
+              page: String(page + 1),
             })
           }
-          className="btn btn-dark"
         >
-          <i className="fa-solid fa-angles-right"></i>
+          <i className="fa-solid fa-angle-right"></i>
         </Button>
-      </div>
+      ) : (
+        <Button variant="btn btn-dark" disabled>
+          <i className="fa-solid fa-angle-right"></i>
+        </Button>
+      )}
+      &nbsp;
+      <Button
+        key=">>"
+        onClick={() =>
+          setSearchParams({
+            ...(roleOption && { roleOption }),
+            ...(search && { search }), // Include search if available
+            ...(sortOption && { sortOption }), // Include sortOption if available
+            page: String(totalPages),
+          })
+        }
+        className="btn btn-dark"
+      >
+        <i className="fa-solid fa-angles-right"></i>
+      </Button>
     </div>
   );
 };
