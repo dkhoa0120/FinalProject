@@ -5,24 +5,15 @@ import { useState } from "react";
 import Header from "./layout/header";
 import SideBar from "./layout/sidebar";
 
-function App() {
+export default function App() {
   const [showSidebar, setShowSidebar] = useState(true);
-  const [isNavMenuOpen, setIsNavMenuOpen] = useState(true);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const toggleSidebar = () => {
-    setIsNavMenuOpen(!isNavMenuOpen);
-    setShowSidebar(!showSidebar);
-  };
+
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1080) {
         setShowSidebar(false);
-        setIsNavMenuOpen(false);
       } else {
         setShowSidebar(true);
-        setIsNavMenuOpen(true);
       }
     };
 
@@ -38,22 +29,22 @@ function App() {
     };
   }, []);
 
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   return (
-    <div>
-      <div style={{ display: "flex", height: "100%" }}>
-        <div
-          style={{
-            flex: "1",
-            marginLeft: windowWidth > 1080 && isNavMenuOpen ? "230px" : "0",
-          }}
-        >
-          <Body showSidebar={showSidebar} isNavMenuOpen={isNavMenuOpen} />
-        </div>
-        <Header toggleSidebar={toggleSidebar} />
-        {showSidebar && <SideBar toggleSidebar={toggleSidebar} />}
+    <div style={{ display: "flex", height: "100%" }}>
+      <div
+        style={{
+          flex: "1",
+          marginLeft: window.innerWidth > 1080 && showSidebar ? "230px" : "0",
+        }}
+      >
+        <Body />
       </div>
+      <Header toggleSidebar={toggleSidebar} />
+      {showSidebar && <SideBar toggleSidebar={toggleSidebar} />}
     </div>
   );
 }
-
-export default App;
