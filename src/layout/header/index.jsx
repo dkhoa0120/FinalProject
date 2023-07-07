@@ -59,9 +59,12 @@ export default function Header(props) {
     <Navbar key={false} expand={false} className={scrolled ? "scrolled" : ""}>
       <Container fluid>
         <div>
-          <Navbar.Brand>
-            <i className="fa-solid fa-bars" onClick={props.toggleSidebar}></i>
-          </Navbar.Brand>
+          <i
+            className="fa-solid fa-bars"
+            style={{ cursor: "pointer", fontSize: "20px" }}
+            onClick={props.toggleSidebar}
+          ></i>
+          &nbsp; &nbsp;
           <Navbar.Brand>
             <img
               style={{ width: "40px", height: "100%" }}
@@ -106,105 +109,103 @@ export default function Header(props) {
               )}
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav>
-                <Row>
-                  <Col xl={6}>
-                    <Button className="mb-3 w-100" variant="outline-dark">
-                      <i className="fa-solid fa-gear"></i> Settings
-                    </Button>
-                  </Col>
-                  <Col xl={6}>
-                    <Button className="mb-3 w-100" variant="outline-dark">
-                      <i className="fa-solid fa-sun"></i> Theme
-                    </Button>
-                  </Col>
-                </Row>
-                {user && user.auth === true ? (
-                  <>
-                    {user.roles.includes("Admin") && (
-                      <>
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            className="mb-3 w-100"
-                            variant="outline-dark"
-                          >
-                            <i className="fa-solid fa-list-check"></i> Manage
-                          </Dropdown.Toggle>
+              <Row>
+                <Col xl={6}>
+                  <Button className="mb-3 w-100" variant="outline-dark">
+                    <i className="fa-solid fa-gear"></i> Settings
+                  </Button>
+                </Col>
+                <Col xl={6}>
+                  <Button className="mb-3 w-100" variant="outline-dark">
+                    <i className="fa-solid fa-sun"></i> Theme
+                  </Button>
+                </Col>
+              </Row>
+              {user && user.auth === true ? (
+                <>
+                  {user.roles.includes("Admin") && (
+                    <>
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          className="mb-3 w-100"
+                          variant="outline-dark"
+                        >
+                          <i className="fa-solid fa-list-check"></i> Manage
+                        </Dropdown.Toggle>
 
-                          <Dropdown.Menu className="mb-3 w-100">
-                            <Row className="px-2">
-                              <Col>
-                                <NavLink to="/manage/User">
-                                  <Button
-                                    className="w-100"
-                                    variant="outline-dark"
-                                  >
-                                    <i className="fa-solid fa-user"></i> Users
-                                  </Button>
-                                </NavLink>
-                              </Col>
-                              <Col>
-                                <NavLink to="/manage/Manga">
-                                  <Button
-                                    className="w-100"
-                                    variant="outline-dark"
-                                  >
-                                    <i className="fa-solid fa-book"></i> Mangas
-                                  </Button>
-                                </NavLink>
-                              </Col>
-                            </Row>
-                            <Row className="px-2 my-2">
-                              <Col>
-                                <NavLink to="/manage/Category">
-                                  <Button
-                                    className="w-100"
-                                    variant="outline-dark"
-                                  >
-                                    <i className="fa-solid fa-layer-group"></i>{" "}
-                                    Genres
-                                  </Button>
-                                </NavLink>
-                              </Col>
-                              <Col>
-                                <NavLink to="/manage/Author">
-                                  <Button
-                                    className="w-100"
-                                    variant="outline-dark"
-                                  >
-                                    <i className="fa-solid fa-compass-drafting"></i>{" "}
-                                    Authors
-                                  </Button>
-                                </NavLink>
-                              </Col>
-                            </Row>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </>
-                    )}
-                    <Button
-                      className="mb-3 w-100"
-                      variant="dark"
-                      onClick={handleLogout}
-                    >
-                      Logout
+                        <Dropdown.Menu className="mb-3 w-100">
+                          <Row className="px-2">
+                            <Col>
+                              <NavLink to="/manage/User">
+                                <Button
+                                  className="w-100"
+                                  variant="outline-dark"
+                                >
+                                  <i className="fa-solid fa-user"></i> Users
+                                </Button>
+                              </NavLink>
+                            </Col>
+                            <Col>
+                              <NavLink to="/manage/Manga">
+                                <Button
+                                  className="w-100"
+                                  variant="outline-dark"
+                                >
+                                  <i className="fa-solid fa-book"></i> Mangas
+                                </Button>
+                              </NavLink>
+                            </Col>
+                          </Row>
+                          <Row className="px-2 my-2">
+                            <Col>
+                              <NavLink to="/manage/Category">
+                                <Button
+                                  className="w-100"
+                                  variant="outline-dark"
+                                >
+                                  <i className="fa-solid fa-layer-group"></i>{" "}
+                                  Genres
+                                </Button>
+                              </NavLink>
+                            </Col>
+                            <Col>
+                              <NavLink to="/manage/Author">
+                                <Button
+                                  className="w-100"
+                                  variant="outline-dark"
+                                >
+                                  <i className="fa-solid fa-compass-drafting"></i>{" "}
+                                  Authors
+                                </Button>
+                              </NavLink>
+                            </Col>
+                          </Row>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </>
+                  )}
+                  <Button
+                    className="mb-3 w-100"
+                    variant="dark"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <NavLink to="/login">
+                    <Button className="mb-3 w-100" variant="dark">
+                      Login
                     </Button>
-                  </>
-                ) : (
-                  <>
-                    <NavLink to="/login">
-                      <Button className="mb-3 w-100" variant="dark">
-                        Login
-                      </Button>
-                    </NavLink>
-                    <NavLink to="/register">
-                      <Button className="mb-3 w-100" variant="light">
-                        Register
-                      </Button>
-                    </NavLink>
-                  </>
-                )}
-              </Nav>
+                  </NavLink>
+                  <NavLink to="/register">
+                    <Button className="mb-3 w-100" variant="light">
+                      Register
+                    </Button>
+                  </NavLink>
+                </>
+              )}
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </div>

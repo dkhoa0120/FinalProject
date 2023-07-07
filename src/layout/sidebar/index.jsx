@@ -79,14 +79,18 @@ function SideBar(props) {
         >
           <Menu>
             <h5 className="sidebar-title">
-              <i className="fa-solid fa-bars" onClick={props.toggleSidebar}></i>
+              <i
+                className="fa-solid fa-bars"
+                style={{ cursor: "pointer" }}
+                onClick={props.toggleSidebar}
+              ></i>
               &nbsp; &nbsp;
               <Navbar.Brand>
                 <Image
                   style={{ width: "40px", height: "100%" }}
                   src={process.env.PUBLIC_URL + "/favicon.ico"}
-                />{" "}
-                3K Manga{" "}
+                />
+                3K Manga
               </Navbar.Brand>
             </h5>
             <MenuItem
