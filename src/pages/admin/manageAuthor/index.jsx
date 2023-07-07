@@ -132,7 +132,7 @@ function ManageAuthor() {
                   <tr key={index}>
                     <td>{item.name}</td>
                     <td className="author-description-cell">
-                      <span className="text-limit">{item.biography}</span>
+                      <span className="text-limit-3">{item.biography}</span>
                     </td>
                     <td colSpan={2}>
                       {item.deletedAt != null ? (

@@ -39,7 +39,7 @@ function Home() {
   return (
     <div>
       <div className="home-header">
-        <Container>
+        <Container fluid>
           <Row>
             <Col xs={12} md={6} xl={9}>
               <div style={{ paddingTop: "30px" }}>

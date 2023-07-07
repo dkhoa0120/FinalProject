@@ -131,7 +131,7 @@ function ManageCategory() {
                   <tr key={index}>
                     <td>{item.name}</td>
                     <td className="cate-description-cell">
-                      <span className="text-limit">{item.description}</span>
+                      <span className="text-limit-3">{item.description}</span>
                     </td>
                     <td colSpan={2}>
                       {item.deletedAt != null ? (
