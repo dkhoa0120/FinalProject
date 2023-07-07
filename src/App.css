@@ -7,6 +7,10 @@
   font-family: "Lato", sans-serif;
 }
 
+body {
+  background-color: #eee !important;
+}
+
 .App {
   background: #eee;
   font-family: sans-serif;

@@ -1,15 +1,15 @@
 import "./styles.css";
-import { Button, Row, Image } from "react-bootstrap";
+import { Button, Row, Image, Container, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
 
 function MangasList({ data, link }) {
   return (
-    <>
+    <Container>
       <Row className="px-4 my-3">
         {data.length > 0 ? (
           data.map((manga) => (
-            <div key={manga.id} className="col-md-3 col-lg-3">
+            <Col md={3} lg={3} key={manga.id}>
               <div className="box">
                 <div className="image">
                   <Image className="cover" src={manga.coverPath} />
@@ -22,7 +22,7 @@ function MangasList({ data, link }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </Col>
           ))
         ) : (
           <div className="text-center">No data found.</div>
@@ -33,7 +33,7 @@ function MangasList({ data, link }) {
           <Button className="btn btn-dark"> See More </Button>
         </Link>
       </div>
-    </>
+    </Container>
   );
 }
 
