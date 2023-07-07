@@ -17,7 +17,7 @@ import SearchBar from "../../components/search";
 import { UserContext } from "../../context/UserContext";
 import "./styles.css";
 
-function Header(props) {
+export default function Header(props) {
   const navigate = useNavigate();
 
   const [scrolled, setScrolled] = useState(false);
@@ -212,5 +212,3 @@ function Header(props) {
     </Navbar>
   );
 }
-
-export default Header;

@@ -1,4 +1,4 @@
-.searchInputs {
+.search .searchInputs {
   margin-top: 0px;
   display: flex;
 }
@@ -15,11 +15,11 @@
   width: 100%;
 }
 
-input:focus {
+.search input:focus {
   outline: none;
 }
 
-.dataResult {
+.search .item-list {
   margin-top: 5px;
   width: 100%;
   height: 250px;
@@ -28,7 +28,7 @@ input:focus {
   overflow-y: auto;
 }
 
-.dataResult .dataItem {
+.search .item-list .item {
   width: 100%;
   height: 50px;
   display: flex;
@@ -36,17 +36,10 @@ input:focus {
   color: black;
 }
 
-.dataResult .dataItem:hover {
-  color: black;
+.search .item-list .item:hover {
+  color: blue;
 }
 
-.dataItem p {
+.search .item p {
   margin-left: 10px;
-}
-a {
-  text-decoration: none;
-}
-
-#clearBtn {
-  cursor: pointer;
 }

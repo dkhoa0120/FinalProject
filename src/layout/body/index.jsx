@@ -13,7 +13,7 @@ import Home from "../../pages/home";
 import ManageCategory from "../../pages/admin/manageCategory";
 import ManageAuthor from "../../pages/admin/manageAuthor";
 
-function Body() {
+export default function Body() {
   return (
     <div className="Body">
       <Routes>
@@ -32,5 +32,3 @@ function Body() {
     </div>
   );
 }
-
-export default Body;

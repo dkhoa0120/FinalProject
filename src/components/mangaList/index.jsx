@@ -5,15 +5,15 @@ import CountryFlag from "../countryFlag";
 
 function MangasList({ data, link }) {
   return (
-    <div>
-      <Row className="px-4 my-5">
+    <>
+      <Row className="px-4 my-3">
         {data.length > 0 ? (
           data.map((manga) => (
             <div key={manga.id} className="col-md-3 col-lg-3">
-              <div>
-                <div className="proj-imgbx">
+              <div className="box">
+                <div className="image">
                   <Image className="cover" src={manga.coverPath} />
-                  <div className="proj-txtx">
+                  <div className="text">
                     <Link to={`/Manga/${manga.id}`} className="card-link">
                       <CountryFlag lang={manga.originalLanguage} />
                       <h4>{manga.originalTitle}</h4>
@@ -33,7 +33,7 @@ function MangasList({ data, link }) {
           <Button className="btn btn-dark"> See More </Button>
         </Link>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -63,14 +63,11 @@ function SearchBar({ placeholder }) {
               )}
             </div>
             {filteredData.length !== 0 && (
-              <div className="dataResult">
+              <div className="item-list">
                 {filteredData.slice(0, 10).map((value, key) => {
                   return (
                     <React.Fragment key={value.id}>
-                      <Nav.Link
-                        href={`/Manga/${value.id}`}
-                        className="dataItem"
-                      >
+                      <Nav.Link href={`/Manga/${value.id}`} className="item">
                         <Image
                           style={{ height: "60px", width: "40px" }}
                           src={value.coverPath}

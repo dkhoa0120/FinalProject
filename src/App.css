@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Lato", sans-serif;
 }
+
 .App {
   background: #eee;
   font-family: sans-serif;
@@ -55,4 +59,35 @@
 }
 .card-link:hover {
   color: black;
+}
+
+.General-Container {
+  width: auto;
+  box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+  margin-bottom: 24px;
+}
+
+.General-Container-title {
+  padding-left: 30px;
+  margin-bottom: 1em;
+  font-size: 24px;
+  color: rgb(34, 34, 34);
+  font-weight: 800;
+}
+
+.wrapper {
+  padding-bottom: 10px;
+}
+
+.cover-image {
+  height: 240px;
+}
+@media (max-width: 768px) {
+  .cover-image {
+    height: 450px;
+  }
 }

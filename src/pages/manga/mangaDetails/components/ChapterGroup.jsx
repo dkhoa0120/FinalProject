@@ -4,8 +4,8 @@ import CountryFlag from "../../../../components/countryFlag";
 
 export default function ChapterGroup() {
   return (
-    <div className="Manga-Container">
-      <div className="Manga-Container-title" style={{ fontSize: "18px" }}>
+    <div className="General-Container">
+      <div className="General-Container-title" style={{ fontSize: "18px" }}>
         Chapter 1
       </div>
       <Container fluid style={{ paddingLeft: "30px" }}>
