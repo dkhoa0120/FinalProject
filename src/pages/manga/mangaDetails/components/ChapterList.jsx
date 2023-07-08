@@ -8,11 +8,11 @@ export default function ChapterList() {
     setIsDescending(!isDescending);
   };
   return (
-    <Container fluid className="General-Container">
+    <Container fluid className="general-container">
       <Row>
         <Col xs={12} md={6} xl={8}>
           <div
-            className="General-Container-title"
+            className="general-container-title"
             style={{ textDecorationLine: "underline" }}
           >
             Chapters list

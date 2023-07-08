@@ -4,9 +4,9 @@ import CommentList from "./commentList";
 
 export default function CommentSection() {
   return (
-    <div className="General-Container">
+    <div className="general-container">
       <div
-        className="General-Container-title"
+        className="general-container-title"
         style={{ textDecorationLine: "underline", marginBottom: "0" }}
       >
         Comments

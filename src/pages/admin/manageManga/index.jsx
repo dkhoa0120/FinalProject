@@ -135,7 +135,10 @@ function ManageManga() {
                 return (
                   <tr key={index}>
                     <td>
-                      <Image src={item.coverPath} style={{ width: "100px" }} />
+                      <Image
+                        src={item.coverPath || "/img/error/coverNotFound.png"}
+                        style={{ width: "100px" }}
+                      />
                     </td>
                     <td className="manga-title-cell">{item.originalTitle}</td>
                     <td>{item.originalLanguage}</td>

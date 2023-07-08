@@ -12,7 +12,10 @@ function MangasList({ data, link }) {
             <Col md={3} lg={3} key={manga.id}>
               <div className="box">
                 <div className="image">
-                  <Image className="cover" src={manga.coverPath} />
+                  <Image
+                    className="cover"
+                    src={manga.coverPath || "/img/error/coverNotFound.png"}
+                  />
                   <div className="text">
                     <Link to={`/Manga/${manga.id}`} className="card-link">
                       <CountryFlag lang={manga.originalLanguage} />

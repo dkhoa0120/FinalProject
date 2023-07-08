@@ -70,7 +70,9 @@ function SearchBar({ placeholder }) {
                       <Nav.Link href={`/Manga/${value.id}`} className="item">
                         <Image
                           style={{ height: "60px", width: "40px" }}
-                          src={value.coverPath}
+                          src={
+                            value.coverPath || "/img/error/coverNotFound.png"
+                          }
                         />
                         <p>{value.originalTitle} </p>
                       </Nav.Link>

@@ -25,7 +25,7 @@ export default function MangaBanner({ manga }) {
               >
                 {manga ? (
                   <img
-                    src={manga.coverPath}
+                    src={manga.coverPath || "/img/error/coverNotFound.png"}
                     style={{ width: "100%", height: "320px" }}
                     alt="Manga Cover"
                     className="coverPath"

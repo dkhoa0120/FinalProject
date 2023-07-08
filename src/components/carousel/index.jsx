@@ -56,8 +56,8 @@ function CarouselFade() {
   };
 
   return (
-    <div className="General-Container">
-      <div className="General-Container-title">Most popular</div>
+    <div className="general-container">
+      <div className="general-container-title">Most popular</div>
       {currentMangas.length > 0 ? (
         currentMangas.map((manga, index) => (
           <React.Fragment key={index}>
@@ -66,8 +66,7 @@ function CarouselFade() {
                 <Row>
                   <Col xl={2}>
                     <Card.Img
-                      variant="top"
-                      src={manga.coverPath}
+                      src={manga.coverPath || "/img/error/coverNotFound.png"}
                       className="cover-image"
                     />
                   </Col>
