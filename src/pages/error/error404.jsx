@@ -7,9 +7,7 @@ export default function Error404() {
 
   return (
     <div className="error">
-      <video autoPlay loop muted>
-        <source src={"/img/error/video404.mp4"} />
-      </video>
+      <img src={"/img/error/video404.gif"} alt="error404" />
       <h1> Page not found</h1>
       <button className="button-23" onClick={() => navigate(-1)}>
         Return
