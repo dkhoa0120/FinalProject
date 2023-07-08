@@ -100,7 +100,7 @@ export default function Header(props) {
                 />
               </div>
               &nbsp;
-              {user && user.auth === true ? (
+              {user ? (
                 <Offcanvas.Title>
                   {user && user.email && <span> {user.email}</span>}
                 </Offcanvas.Title>
@@ -122,7 +122,7 @@ export default function Header(props) {
                     </Button>
                   </Col>
                 </Row>
-                {user && user.auth === true ? (
+                {user ? (
                   <>
                     {user.roles.includes("Admin") && (
                       <>
