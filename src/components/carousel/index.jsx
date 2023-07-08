@@ -61,7 +61,7 @@ function CarouselFade() {
       {currentMangas.length > 0 ? (
         currentMangas.map((manga, index) => (
           <React.Fragment key={index}>
-            <Container>
+            <Container fluid>
               <div style={{ position: "relative" }}>
                 <Row>
                   <Col xl={2}>

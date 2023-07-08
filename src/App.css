@@ -48,8 +48,17 @@ body {
   }
 }
 
-.text-limit {
+.text-limit-3 {
   --max-lines: 3;
+
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--max-lines);
+}
+
+.text-limit-1 {
+  --max-lines: 1;
 
   display: -webkit-box;
   overflow: hidden;
