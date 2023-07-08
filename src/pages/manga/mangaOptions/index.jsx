@@ -86,7 +86,10 @@ function Manga() {
             <Card style={{ marginBottom: "10px" }}>
               <Row>
                 <Col xs={4} xl={2}>
-                  <Card.Img variant="top" src={manga.coverPath} />
+                  <Card.Img
+                    variant="top"
+                    src={manga.coverPath || "/img/error/coverNotFound.png"}
+                  />
                 </Col>
                 <Col xs={8} xl={10} style={{ padding: "20px" }}>
                   <Link to={`/Manga/${manga.id}`} className="card-link">

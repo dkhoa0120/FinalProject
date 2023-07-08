@@ -3,6 +3,7 @@ import "./styles.css";
 import { Route, Routes } from "react-router-dom";
 import Report from "../../pages/admin/manageReport";
 import About from "../../pages/about";
+import Error from "../../pages/error/error404";
 import Manga from "../../pages/manga/mangaOptions";
 import MangaDetail from "../../pages/manga/mangaDetails";
 import Login from "../../pages/auth/login";
@@ -28,6 +29,7 @@ export default function Body() {
         <Route path="/register" element={<Register />} />
         <Route path="/Manga/:mangaId" element={<MangaDetail />} />
         <Route path="/Manga" element={<Manga />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
