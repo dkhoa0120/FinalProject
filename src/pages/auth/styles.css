@@ -1,8 +1,7 @@
 @media screen and (min-width: 576px) {
   .auth-form-container {
     position: relative;
-    display: inline-flex;
-    flex-direction: column;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -11,8 +10,13 @@
 
   .anime-popup {
     position: absolute;
-    top: 33px;
-    align-items: center;
+    top: calc(50% - 413px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  label {
+    font-weight: bold;
   }
 
   .auth-form-container .auth-form {

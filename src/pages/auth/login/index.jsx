@@ -127,7 +127,7 @@ export default function Login() {
               <Col xs={6} md={6}>
                 <input type="checkbox" />
                 &nbsp;
-                <label>Remember Me</label>
+                <span>Remember Me</span>
               </Col>
               <Col xs={6} md={6}>
                 <a href="!#">Forgot password?</a>
