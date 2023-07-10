@@ -10,13 +10,13 @@ import Cookies from "universal-cookie";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { user, loginContext } = useContext(UserContext);
+  const { user, loadUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user.auth) {
+    if (user) {
       navigate("/");
     }
   }, [user, navigate]);
@@ -40,7 +40,7 @@ export default function Login() {
           path: "/",
           expires: new Date(response.data.expiration),
         });
-        loginContext();
+        loadUser();
         navigate("/");
       }
     } catch (error) {

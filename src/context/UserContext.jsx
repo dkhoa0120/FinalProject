@@ -2,25 +2,24 @@ import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { extendToken, getCurrentUserBasic } from "../service/api.auth";
 
-const UserContext = React.createContext({ email: "", auth: false, roles: [] });
+const UserContext = React.createContext(null);
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState({ email: "", auth: false, roles: [] });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = new Cookies().get("Token");
     if (token) {
       handleExtendToken();
-      loginContext();
+      loadUser();
     }
   }, []);
 
-  const loginContext = async () => {
+  const loadUser = async () => {
     const response = await getCurrentUserBasic();
     setUser({
       email: response.data.email,
       roles: response.data.roles,
-      auth: true,
     });
   };
 
@@ -36,15 +35,11 @@ function UserProvider({ children }) {
 
   const logout = () => {
     new Cookies().remove("Token");
-    setUser({
-      email: "",
-      auth: false,
-      roles: [],
-    });
+    setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, loginContext, logout }}>
+    <UserContext.Provider value={{ user, loadUser, logout }}>
       {children}
     </UserContext.Provider>
   );

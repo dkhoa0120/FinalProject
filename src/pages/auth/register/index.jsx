@@ -12,7 +12,7 @@ import Cookies from "universal-cookie";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { loginContext } = useContext(UserContext);
+  const { loadUser } = useContext(UserContext);
   const { user } = useContext(UserContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    if (user.auth) {
+    if (user) {
       navigate("/");
     }
   }, [user, navigate]);
@@ -53,7 +53,7 @@ export default function Register() {
         new Cookies().set("Token", response.data.token, {
           expires: new Date(response.data.expiration),
         });
-        loginContext();
+        loadUser();
         navigate("/");
       }
     } catch (error) {

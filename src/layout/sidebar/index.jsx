@@ -7,14 +7,14 @@ import React, { useState } from "react";
 function SideBar(props) {
   const [dropdownStates, setDropdownStates] = useState({
     browsing: true,
-    followes: true,
+    follows: true,
   });
 
   const handleDropdownClick = (section) => {
-    setDropdownStates((prevState) => ({
-      ...prevState,
-      [section]: !prevState[section],
-    }));
+    setDropdownStates({
+      ...dropdownStates,
+      [section]: !dropdownStates[section],
+    });
   };
 
   const menuItems = [
@@ -45,14 +45,14 @@ function SideBar(props) {
       ],
     },
     {
-      section: "followes",
+      section: "follows",
       heading: (
         <MenuItem
           className="sidebar-heading"
-          onClick={() => handleDropdownClick("followes")}
-          key="followes-heading"
+          onClick={() => handleDropdownClick("follows")}
+          key="follows-heading"
         >
-          <i className="fa-solid fa-bookmark"></i> &nbsp; Followes
+          <i className="fa-solid fa-bookmark"></i> &nbsp; Follows
         </MenuItem>
       ),
       items: [
@@ -68,60 +68,58 @@ function SideBar(props) {
   ];
 
   return (
-    <>
-      <Nav className="nav-menu">
-        <Sidebar
-          rootStyles={{
-            [`.${sidebarClasses.container}`]: {
-              backgroundColor: "#FEFEFA",
-            },
-          }}
-        >
-          <Menu>
-            <h5 className="sidebar-title">
-              <i
-                className="fa-solid fa-bars"
-                style={{ cursor: "pointer" }}
-                onClick={props.toggleSidebar}
-              ></i>
-              &nbsp; &nbsp;
-              <Navbar.Brand>
-                <Image
-                  style={{ width: "40px", height: "100%" }}
-                  src={process.env.PUBLIC_URL + "/favicon.ico"}
-                />
-                3K Manga
-              </Navbar.Brand>
-            </h5>
-            <MenuItem
-              className="sidebar-heading"
-              component={<Link to="/" />}
-              key="home"
-            >
-              <i className="fa-solid fa-house"></i> &nbsp; Home
-            </MenuItem>
-            <hr className="sidebar-divider" />
-            {menuItems.map((menuItem) => (
-              <React.Fragment key={menuItem.section}>
-                {menuItem.heading}
-                {menuItem.items.map((item, key) => (
-                  <MenuItem
-                    key={item.key}
-                    className={`nav-text drop-item${
-                      dropdownStates[menuItem.section] ? " active" : ""
-                    }`}
-                    component={<Link to={item.to} />}
-                  >
-                    {item.text}
-                  </MenuItem>
-                ))}
-                <hr className="sidebar-divider" />
-              </React.Fragment>
-            ))}
-          </Menu>
-        </Sidebar>
-      </Nav>
-    </>
+    <Nav className="nav-menu">
+      <Sidebar
+        rootStyles={{
+          [`.${sidebarClasses.container}`]: {
+            backgroundColor: "#FEFEFA",
+          },
+        }}
+      >
+        <Menu>
+          <h5 className="sidebar-title">
+            <i
+              className="fa-solid fa-bars"
+              style={{ cursor: "pointer" }}
+              onClick={props.toggleSidebar}
+            ></i>
+            &nbsp; &nbsp;
+            <Navbar.Brand>
+              <Image
+                style={{ width: "40px", height: "100%" }}
+                src={process.env.PUBLIC_URL + "/favicon.ico"}
+              />
+              3K Manga
+            </Navbar.Brand>
+          </h5>
+          <MenuItem
+            className="sidebar-heading"
+            component={<Link to="/" />}
+            key="home"
+          >
+            <i className="fa-solid fa-house"></i> &nbsp; Home
+          </MenuItem>
+          <hr className="sidebar-divider" />
+          {menuItems.map((menuItem) => (
+            <React.Fragment key={menuItem.section}>
+              {menuItem.heading}
+              {menuItem.items.map((item, key) => (
+                <MenuItem
+                  key={item.key}
+                  className={`nav-text drop-item${
+                    dropdownStates[menuItem.section] ? " active" : ""
+                  }`}
+                  component={<Link to={item.to} />}
+                >
+                  {item.text}
+                </MenuItem>
+              ))}
+              <hr className="sidebar-divider" />
+            </React.Fragment>
+          ))}
+        </Menu>
+      </Sidebar>
+    </Nav>
   );
 }
 
