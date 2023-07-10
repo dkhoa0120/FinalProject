@@ -15,6 +15,15 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [showGif, setShowGif] = useState(false);
+
+  const handleToggleGif = () => {
+    setShowGif(!showGif);
+  };
+  const handleResetGif = () => {
+    setShowGif((prevKey) => prevKey + 1);
+  };
+
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -36,12 +45,16 @@ export default function Login() {
     try {
       const response = await signIn(data);
       if (response && response.data.token && response.data.expiration) {
+        handleToggleGif();
+        handleResetGif();
         new Cookies().set("Token", response.data.token, {
           path: "/",
           expires: new Date(response.data.expiration),
         });
-        loadUser();
-        navigate("/");
+        setTimeout(() => {
+          loadUser();
+          navigate("/");
+        }, 1300);
       }
     } catch (error) {
       toast.error("Somethings went wrong!");
@@ -54,12 +67,18 @@ export default function Login() {
     <>
       <ToastContainer />
       <div className="auth-form-container">
+        {showGif && (
+          <img
+            className="anime-popup"
+            src="/img/banner/animePopup.gif"
+            alt="animePopup"
+          />
+        )}
         <img
           className="background"
           src="/img/banner/signup.png"
           alt="signup banner"
         />
-        {/* <img src="/img/banner/lmao.gif" alt="" /> */}
         <form className="auth-form">
           <div className="auth-form-content">
             <h3 className="auth-form-title">Sign In</h3>
