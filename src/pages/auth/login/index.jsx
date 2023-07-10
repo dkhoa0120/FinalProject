@@ -8,7 +8,7 @@ import { UserContext } from "../../../context/UserContext";
 import { signIn } from "../../../service/api.auth";
 import Cookies from "universal-cookie";
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
   const { user, loginContext } = useContext(UserContext);
   const [email, setEmail] = useState("");
@@ -51,12 +51,13 @@ function Login() {
   };
 
   return (
-    <div className="App">
+    <>
       <ToastContainer />
-      <div className="Auth-form-container">
-        <form className="Auth-form">
-          <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
+      <div className="auth-form-container">
+        <img className="background" src="/img/banner/signup.jpg" alt="" />
+        <form className="auth-form">
+          <div className="auth-form-content">
+            <h3 className="auth-form-title">Sign In</h3>
             <div className="text-center">
               Not registered yet? &nbsp;
               <NavLink to="/register">Sign Up</NavLink>
@@ -111,8 +112,6 @@ function Login() {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
-
-export default Login;
