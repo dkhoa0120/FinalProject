@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import TrackVisibility from "react-on-screen";
+import CountryFlag from "../../../../components/countryFlag";
 
 export default function MangaBanner({ manga }) {
   const [rate, setRate] = useState("");
@@ -95,7 +96,10 @@ export default function MangaBanner({ manga }) {
           {manga ? (
             <>
               <Row>
-                <h1>{manga.originalTitle}</h1>
+                <h1>
+                  <CountryFlag lang={manga.originalLanguage} size="50" />
+                  {manga.originalTitle}
+                </h1>
                 <p>Alternative Titles: {manga.alternativeTitles}</p>
                 <p>Authors: {manga.authors.map((a) => a.name).join("; ")}</p>
               </Row>

@@ -1,6 +1,6 @@
 import { Image } from "react-bootstrap";
 
-function CountryFlag({ lang }) {
+function CountryFlag({ lang, size = 30 }) {
   const flagImages = {
     Japanese: "Japan.png",
     Korean: "Korea.png",
@@ -12,7 +12,7 @@ function CountryFlag({ lang }) {
 
   return (
     <Image
-      style={{ height: "30px", width: "30px" }}
+      style={{ height: `${size}px`, width: `${size}px` }}
       src={`${process.env.PUBLIC_URL}/img/flag/${flagImage}`}
     />
   );
