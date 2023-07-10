@@ -54,7 +54,12 @@ export default function Login() {
     <>
       <ToastContainer />
       <div className="auth-form-container">
-        <img className="background" src="/img/banner/signup.jpg" alt="" />
+        <img
+          className="background"
+          src="/img/banner/signup.png"
+          alt="signup banner"
+        />
+        {/* <img src="/img/banner/lmao.gif" alt="" /> */}
         <form className="auth-form">
           <div className="auth-form-content">
             <h3 className="auth-form-title">Sign In</h3>

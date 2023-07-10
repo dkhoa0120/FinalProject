@@ -65,7 +65,11 @@ export default function Register() {
     <>
       <ToastContainer />
       <div className="auth-form-container">
-        <img className="background" src="/img/banner/signup.jpg" alt="" />
+        <img
+          className="background"
+          src="/img/banner/signup.png"
+          alt="signup banner"
+        />
         <form className="auth-form">
           <div className="auth-form-content">
             <h3 className="auth-form-title">Sign Up A New Account</h3>
