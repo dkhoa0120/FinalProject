@@ -14,15 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [showGif, setShowGif] = useState(false);
-
-  const handleToggleGif = () => {
-    setShowGif(!showGif);
-  };
-  const handleResetGif = () => {
-    setShowGif((prevKey) => prevKey + 1);
-  };
 
   useEffect(() => {
     if (user) {
@@ -45,8 +37,7 @@ export default function Login() {
     try {
       const response = await signIn(data);
       if (response && response.data.token && response.data.expiration) {
-        handleToggleGif();
-        handleResetGif();
+        setShowGif(!showGif);
         new Cookies().set("Token", response.data.token, {
           path: "/",
           expires: new Date(response.data.expiration),

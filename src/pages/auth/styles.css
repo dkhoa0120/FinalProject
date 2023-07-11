@@ -8,14 +8,14 @@
     height: 100%;
   }
 
-  .anime-popup {
+  .auth-form-container .anime-popup {
     position: absolute;
     top: calc(50% - 413px);
     left: 50%;
     transform: translateX(-50%);
   }
 
-  label {
+  .auth-form-container .form-group {
     font-weight: bold;
   }
 
@@ -39,12 +39,6 @@
   .auth-form-container .auth-form-content {
     padding-left: 12%;
     padding-right: 12%;
-  }
-
-  .auth-form-container .auth-form-container .label {
-    font-size: 14px;
-    font-weight: 600;
-    color: rgb(34, 34, 34);
   }
 }
 
