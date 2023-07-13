@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./styles.css";
-import ChaptersList from "./components/ChapterList";
 import CommentSection from "../../../components/comment";
-import { getMangaByIdForUser } from "../../../service/api.manga";
+import {
+  getChapterByMangaIdForUser,
+  getMangaByIdForUser,
+} from "../../../service/api.manga";
 import MangaBanner from "./components/MangaBanner";
+import ChapterGroup from "./components/ChapterGroup";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
+  const [chapters, setChapters] = useState(null);
   const { mangaId } = useParams();
 
   useEffect(() => {
     getMangaDetail(mangaId);
+    getChapter(mangaId);
   }, []);
 
   const getMangaDetail = async (id) => {
@@ -24,11 +29,33 @@ export default function MangaDetail() {
       }
     }
   };
-  console.log("manga", manga);
+  const getChapter = async (id) => {
+    try {
+      const result = await getChapterByMangaIdForUser(id);
+      const groupedChapters = result.data.reduce((result, chapter) => {
+        const { number } = chapter;
+        if (!result[number]) {
+          result[number] = [];
+        }
+        result[number].push(chapter);
+        return result;
+      }, {});
+      setChapters(groupedChapters);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setChapters(null);
+      }
+    }
+  };
+
+  console.log(chapters);
+  console.log(
+    Object.entries(chapters).sort(([numberA], [numberB]) => numberA - numberB)
+  );
   return (
     <>
       <MangaBanner manga={manga} />
-      <ChaptersList />
+      <ChapterGroup chapters={chapters} />
       <CommentSection />
     </>
   );

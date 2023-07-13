@@ -16,6 +16,10 @@ export const getMangaByIdForUser = (id) => {
   return userAxios.get(`/manga/${id}`);
 };
 
+export const getChapterByMangaIdForUser = (id) => {
+  return userAxios.get(`/manga/${id}/chapters`);
+};
+
 // manage/manga
 export const getMangasForManage = (filter) => {
   const search = filter?.search || "";
