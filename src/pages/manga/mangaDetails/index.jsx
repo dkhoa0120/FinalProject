@@ -48,10 +48,6 @@ export default function MangaDetail() {
     }
   };
 
-  console.log(chapters);
-  console.log(
-    Object.entries(chapters).sort(([numberA], [numberB]) => numberA - numberB)
-  );
   return (
     <>
       <MangaBanner manga={manga} />
