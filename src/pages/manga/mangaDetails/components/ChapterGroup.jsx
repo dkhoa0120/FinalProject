@@ -70,7 +70,7 @@ export default function ChapterGroup({ chapters }) {
                       <Row key={chapter.id}>
                         <Col xs={12} xl={4}>
                           <p className="text-truncate">
-                            <CountryFlag lang={chapter.language} />{" "}
+                            <CountryFlag lang={chapter.language} />
                             {chapter.name}
                           </p>
                         </Col>
@@ -86,7 +86,9 @@ export default function ChapterGroup({ chapters }) {
                           </p>
                         </Col>
                         <Col xs={6} xl={2}>
-                          <p title={chapter.createdAt}>
+                          <p
+                            title={new Date(chapter.createdAt).toLocaleString()}
+                          >
                             <i className="fa-regular fa-clock"></i>{" "}
                             {calculateTimeDifference(chapter.createdAt)}
                           </p>

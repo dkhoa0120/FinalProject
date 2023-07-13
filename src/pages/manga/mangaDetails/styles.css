@@ -55,8 +55,6 @@
   }
 }
 
-
-
 #dropdown-basic {
   outline: none !important;
   outline-offset: none !important;
@@ -131,14 +129,14 @@
   margin-top: 3px;
 }
 
-.btn-resize-description {
+.banner .btn-resize-description {
   border: none;
-  background-color: none;
+  background: none;
   color: #004759;
   font-weight: bold;
 }
 
-.btn-resize-description:hover {
+.banner .btn-resize-description:hover {
   text-decoration: underline;
 }
 
