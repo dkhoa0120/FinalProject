@@ -7,7 +7,7 @@ import {
   getMangaByIdForUser,
 } from "../../../service/api.manga";
 import MangaBanner from "./components/MangaBanner";
-import ChapterGroup from "./components/ChapterGroup";
+import ChapterSection from "./components/ChapterSection";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -51,7 +51,7 @@ export default function MangaDetail() {
   return (
     <>
       <MangaBanner manga={manga} />
-      <ChapterGroup chapters={chapters} />
+      <ChapterSection chapters={chapters} />
       <CommentSection />
     </>
   );

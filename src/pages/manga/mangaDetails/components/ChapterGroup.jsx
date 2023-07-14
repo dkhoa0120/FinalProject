@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Collapse } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 
-export default function ChapterGroup({ chapters }) {
-  const [isDescending, setIsDescending] = useState(false);
-  const handleClick = () => {
-    setIsDescending(!isDescending);
-  };
+export default function ChapterGroup({ number, chapterList }) {
+  const [showChapter, setShowChapter] = useState(false);
+
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
     const chapterDate = new Date(createdAt);
@@ -26,86 +24,77 @@ export default function ChapterGroup({ chapters }) {
 
   return (
     <>
-      <Container fluid className="general-container">
-        <Row>
-          <Col xs={12} md={6} xl={8}>
-            <div
-              className="general-container-title"
-              style={{ textDecorationLine: "underline" }}
-            >
-              Chapters list
+      <Container>
+        <Row className="d-flex">
+          <Col
+            key={number}
+            className="general-container-title"
+            style={{ fontSize: "18px" }}
+          >
+            Chapter {number}
+          </Col>
+          <Col
+            style={{
+              fontSize: "18px",
+              textAlign: "right",
+              cursor: "pointer",
+            }}
+          >
+            <div onClick={() => setShowChapter(!showChapter)}>
+              {showChapter ? (
+                <i className="fa-solid fa-arrow-up" />
+              ) : (
+                <>
+                  {chapterList.map((chapter) => (
+                    <CountryFlag lang={chapter.language} />
+                  ))}
+                  <i className="fa-solid fa-arrow-down" />
+                </>
+              )}
             </div>
           </Col>
-          <Col xs={12} md={6} xl={4}>
-            <p className="text-center">
-              <button className="button-50">Read First</button>
-              &nbsp;
-              <button className="button-50">Read Last</button>
-              &nbsp;
-              <button className="button-50" onClick={handleClick}>
-                {!isDescending ? (
-                  <i class="fa-solid fa-arrow-down-short-wide"></i>
-                ) : (
-                  <i class="fa-solid fa-arrow-up-short-wide"></i>
-                )}
-              </button>
-            </p>
-          </Col>
         </Row>
-        <div className="general-container">
-          {chapters &&
-            Object.entries(chapters)
-              .sort(([numberA], [numberB]) => numberA - numberB)
-              .map(([number, chapterList]) => (
-                <>
-                  <div
-                    key={number}
-                    className="general-container-title"
-                    style={{ fontSize: "18px" }}
-                  >
-                    Chapter {number}
-                  </div>
-                  <Container fluid style={{ paddingLeft: "30px" }}>
-                    {chapterList.map((chapter) => (
-                      <Row key={chapter.id}>
-                        <Col xs={12} xl={4}>
-                          <p className="text-truncate">
-                            <CountryFlag lang={chapter.language} />
-                            {chapter.name}
-                          </p>
-                        </Col>
-                        <Col xs={6} xl={2}>
-                          <p className="text-truncate">
-                            <i className="fa-regular fa-clock"></i> Group
-                          </p>
-                        </Col>
-                        <Col xs={6} xl={2}>
-                          <p className="text-truncate">
-                            <i className="fa-regular fa-clock"></i>{" "}
-                            {chapter.uploader.name}
-                          </p>
-                        </Col>
-                        <Col xs={6} xl={2}>
-                          <p
-                            title={new Date(chapter.createdAt).toLocaleString()}
-                          >
-                            <i className="fa-regular fa-clock"></i>{" "}
-                            {calculateTimeDifference(chapter.createdAt)}
-                          </p>
-                        </Col>
-                        <Col xs={6} xl={2}>
-                          <p>
-                            <i className="fa-regular fa-eye"></i>{" "}
-                            {chapter.viewCount} views
-                          </p>
-                        </Col>
-                      </Row>
-                    ))}
-                  </Container>
-                </>
-              ))}
-        </div>
       </Container>
+      <Container fluid style={{ paddingLeft: "30px" }}>
+        <Collapse in={showChapter}>
+          <div id="show-chapters">
+            {chapterList.map((chapter) => (
+              <Row key={chapter.id}>
+                <Col xs={12} xl={4}>
+                  <p className="text-truncate">
+                    <CountryFlag lang={chapter.language} />
+                    {chapter.name}
+                  </p>
+                </Col>
+                <Col xs={6} xl={2}>
+                  <p className="text-truncate">
+                    <i className="fa-regular fa-user"></i> Group
+                  </p>
+                </Col>
+                <Col xs={6} xl={2}>
+                  <p className="text-truncate">
+                    <i className="fa-regular fa-user"></i>{" "}
+                    {chapter.uploader.name}
+                  </p>
+                </Col>
+                <Col xs={6} xl={2}>
+                  <p title={new Date(chapter.createdAt).toLocaleString()}>
+                    <i className="fa-regular fa-clock"></i>{" "}
+                    {calculateTimeDifference(chapter.createdAt)}
+                  </p>
+                </Col>
+                <Col xs={6} xl={2}>
+                  <p>
+                    <i className="fa-regular fa-eye"></i> {chapter.viewCount}{" "}
+                    views
+                  </p>
+                </Col>
+              </Row>
+            ))}
+          </div>
+        </Collapse>
+      </Container>
+      <hr style={{ margin: "0rem 2rem 0.5rem" }}></hr>
     </>
   );
 }
