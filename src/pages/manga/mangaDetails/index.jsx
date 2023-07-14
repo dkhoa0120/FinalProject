@@ -50,7 +50,7 @@ export default function MangaDetail() {
 
   return (
     <>
-      <MangaBanner manga={manga} />
+      <MangaBanner manga={manga} chapters={chapters} />
       <ChapterGroup chapters={chapters} />
       <CommentSection />
     </>
