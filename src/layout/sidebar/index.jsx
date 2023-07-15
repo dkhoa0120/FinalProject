@@ -72,7 +72,7 @@ function SideBar(props) {
       <Sidebar
         rootStyles={{
           [`.${sidebarClasses.container}`]: {
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "#fff",
           },
         }}
       >

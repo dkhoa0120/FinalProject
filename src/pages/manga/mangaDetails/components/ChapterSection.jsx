@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ChapterGroup from "./ChapterGroup";
+import Pagination from "../../../../components/pagination";
 
-export default function ChapterSection({ chapters }) {
+export default function ChapterSection({
+  chapters,
+  page,
+  totalPages,
+  setSearchParams,
+}) {
   const [isDescending, setIsDescending] = useState(false);
   const handleClick = () => {
     setIsDescending(!isDescending);
@@ -36,7 +42,7 @@ export default function ChapterSection({ chapters }) {
             </p>
           </Col>
         </Row>
-        <div className="general-container">
+        <div style={{ paddingLeft: "20px" }}>
           {chapters &&
             Object.entries(chapters)
               .sort(([numberA], [numberB]) => numberA - numberB)
@@ -47,6 +53,13 @@ export default function ChapterSection({ chapters }) {
                   chapterList={chapterList}
                 />
               ))}
+        </div>
+        <div className="d-flex justify-content-center">
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            setSearchParams={setSearchParams}
+          />
         </div>
       </Container>
     </>

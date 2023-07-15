@@ -25,7 +25,7 @@ export default function ChapterGroup({ number, chapterList }) {
   return (
     <>
       <Container>
-        <Row className="d-flex">
+        <Row className="d-flex" onClick={() => setShowChapter(!showChapter)}>
           <Col
             key={number}
             className="general-container-title"
@@ -40,7 +40,7 @@ export default function ChapterGroup({ number, chapterList }) {
               cursor: "pointer",
             }}
           >
-            <div onClick={() => setShowChapter(!showChapter)}>
+            <div>
               {showChapter ? (
                 <i className="fa-solid fa-arrow-up" />
               ) : (

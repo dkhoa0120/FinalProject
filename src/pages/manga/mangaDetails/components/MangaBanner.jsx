@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import TrackVisibility from "react-on-screen";
 import CountryFlag from "../../../../components/countryFlag";
 
-export default function MangaBanner({ manga, chapters }) {
+export default function MangaBanner({ manga }) {
   const [rate, setRate] = useState("");
   const [isActive, setActive] = useState(null);
   const [moreDescription, setMoreDescription] = useState(false);
@@ -13,18 +13,6 @@ export default function MangaBanner({ manga, chapters }) {
   };
   const handleToggle = () => {
     setActive(!isActive);
-  };
-
-  const totalViewCount = () => {
-    let sum = 0;
-    if (chapters) {
-      Object.values(chapters).forEach((chapterArray) => {
-        chapterArray.forEach((chapter) => {
-          sum += chapter.viewCount;
-        });
-      });
-    }
-    return sum;
   };
 
   return (
@@ -66,7 +54,13 @@ export default function MangaBanner({ manga, chapters }) {
             </Col>
             <Col>
               <div className="view-manga">
-                <i className="fa-regular fa-eye"></i> {totalViewCount()}
+                {manga ? (
+                  <span>
+                    <i className="fa-regular fa-eye"></i> {manga.viewCount}
+                  </span>
+                ) : (
+                  <span>0</span>
+                )}
               </div>
             </Col>
             <Col>

@@ -16,10 +16,14 @@ export const getMangaByIdForUser = (id) => {
   return userAxios.get(`/manga/${id}`);
 };
 
-export const getChapterByMangaIdForUser = (id) => {
-  return userAxios.get(`/manga/${id}/chapters`);
-};
+export const getChapterByMangaIdForUser = (id, filter) => {
+  const page = filter?.page || 1;
+  const pageSize = filter?.pageSize || 3;
 
+  return userAxios.get(`/manga/${id}/chapters`, {
+    params: { page, pageSize },
+  });
+};
 // manage/manga
 export const getMangasForManage = (filter) => {
   const search = filter?.search || "";
