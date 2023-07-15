@@ -1,21 +1,9 @@
 .banner {
   margin-top: 0;
   padding-top: 50px;
+  margin-bottom: 10px;
 }
-.banner .tagline {
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  padding: 8px 10px;
-  background: linear-gradient(
-    90.21deg,
-    rgba(170, 54, 124, 0.5) -5.91%,
-    rgba(74, 47, 189, 0.5) 111.58%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  font-size: 20px;
-  margin-bottom: 16px;
-  display: inline-block;
-}
+
 .banner h1 {
   font-size: 50px;
   font-weight: 700;
@@ -24,11 +12,7 @@
   margin-bottom: 20px;
   display: block;
 }
-@media (max-width: 767px) {
-  .banner h1 {
-    font-size: 32px;
-  }
-}
+
 .banner p {
   color: black;
   font-size: 16px;
@@ -36,6 +20,7 @@
   line-height: 1.5em;
   width: 96%;
 }
+
 .banner .coverPath {
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
@@ -43,6 +28,7 @@
     rgba(0, 0, 0, 0.09) 0px 32px 16px;
   animation: updown 3s ease-in-out infinite;
 }
+
 @keyframes updown {
   0% {
     transform: translateY(-10px);
@@ -63,14 +49,14 @@
   outline-offset: none;
 }
 
-.heart.follow {
+.banner .heart .follow {
   display: flex;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.heart {
+.banner .heart {
   display: inline-block;
   position: absolute;
   background: url("/public/img/animation/heart.png") no-repeat;
@@ -94,31 +80,31 @@
   }
 }
 
-.btn-follow {
+.banner .btn-follow {
   border-width: 0;
   margin-left: 27px;
 }
 
-.follow-number {
+.banner .follow-number {
   display: flex;
   margin: 25px 0 0 60px;
   font-size: 18px;
   color: black;
 }
 
-.view-manga {
+.banner .view-manga {
   border-width: 0;
   margin-left: 10px;
   margin-top: 3px;
   font-size: 18px;
 }
 
-.rating {
+.banner .rating {
   border-width: 0;
   font-size: 21px;
 }
 
-.rating .rating-number {
+.banner .rating .rating-number {
   font-size: 18px;
 }
 
@@ -141,9 +127,7 @@
 }
 
 .button-50 {
-  appearance: button;
   background-color: white;
-  background-image: none;
   border: 1px solid #000;
   border-radius: 4px;
   box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
@@ -158,20 +142,7 @@
   overflow: visible;
   padding: 12px 20px;
   text-align: center;
-  text-transform: none;
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
   vertical-align: middle;
-  white-space: nowrap;
-}
-
-.button-50:focus {
-  text-decoration: none;
-}
-
-.button-50:hover {
-  text-decoration: none;
 }
 
 .button-50:active {
@@ -182,4 +153,24 @@
 .button-50:not([disabled]):active {
   box-shadow: #000 2px 2px 0 0, #000 2px 2px 0 1px;
   transform: translate(2px, 2px);
+}
+
+#show-chapters .chapter-row:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+#show-chapters p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 767px) {
+  .banner h1 {
+    font-size: 32px;
+  }
+
+  #show-chapters .chapter-name {
+    font-weight: bold;
+  }
 }

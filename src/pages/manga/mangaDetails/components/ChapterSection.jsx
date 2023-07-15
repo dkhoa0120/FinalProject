@@ -47,11 +47,13 @@ export default function ChapterSection({
             Object.entries(chapters)
               .sort(([numberA], [numberB]) => numberA - numberB)
               .map(([number, chapterList]) => (
-                <ChapterGroup
-                  key={number}
-                  number={number}
-                  chapterList={chapterList}
-                />
+                <Container fluid>
+                  <ChapterGroup
+                    key={number}
+                    number={number}
+                    chapterList={chapterList}
+                  />
+                </Container>
               ))}
         </div>
         <div className="d-flex justify-content-center">
