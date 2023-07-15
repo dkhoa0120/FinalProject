@@ -24,8 +24,10 @@ export default function MangaDetail() {
       const formData = new FormData();
       formData.append("inputRating", eventKey);
       try {
-        await postRating(manga.id, formData);
+        await postRating(mangaId, formData);
         setRate(eventKey);
+        getMangaDetail(mangaId);
+        fetchUserRating(mangaId);
       } catch {
         console.error("Somethings went wrong!");
       }
@@ -39,8 +41,8 @@ export default function MangaDetail() {
 
   useEffect(() => {
     getMangaDetail(mangaId);
-    getChaptersByPage(mangaId, page);
     fetchUserRating(mangaId);
+    getChaptersByPage(mangaId, page);
   }, [mangaId, page]);
 
   const fetchUserRating = async (mangaId) => {
