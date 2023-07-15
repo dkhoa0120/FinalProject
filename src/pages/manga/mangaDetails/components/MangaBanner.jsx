@@ -3,14 +3,10 @@ import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import TrackVisibility from "react-on-screen";
 import CountryFlag from "../../../../components/countryFlag";
 
-export default function MangaBanner({ manga }) {
-  const [rate, setRate] = useState("");
+export default function MangaBanner({ manga, handleSelectRate, rate }) {
   const [isActive, setActive] = useState(null);
   const [moreDescription, setMoreDescription] = useState(false);
 
-  const handleRate = (eventKey) => {
-    setRate(eventKey);
-  };
   const handleToggle = () => {
     setActive(!isActive);
   };
@@ -65,7 +61,7 @@ export default function MangaBanner({ manga }) {
             </Col>
             <Col>
               <div className="rating">
-                <Dropdown onSelect={handleRate}>
+                <Dropdown onSelect={handleSelectRate}>
                   <Dropdown.Toggle variant="outline" id="dropdown-basic">
                     <i
                       className="fa fa-star"
@@ -74,29 +70,27 @@ export default function MangaBanner({ manga }) {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Header>Rate this manga</Dropdown.Header>
-                    <Dropdown.Item eventKey={5} active={rate === "5"}>
+                    <Dropdown.Item eventKey={5} active={rate === 5}>
                       (5) Masterpice
                     </Dropdown.Item>
-                    <Dropdown.Item eventKey={4} active={rate === "4"}>
+                    <Dropdown.Item eventKey={4} active={rate === 4}>
                       (4) Good
                     </Dropdown.Item>
-                    <Dropdown.Item eventKey={3} active={rate === "3"}>
+                    <Dropdown.Item eventKey={3} active={rate === 3}>
                       (3) Fine
                     </Dropdown.Item>
-                    <Dropdown.Item eventKey={2} active={rate === "2"}>
+                    <Dropdown.Item eventKey={2} active={rate === 2}>
                       (2) Bad
                     </Dropdown.Item>
-                    <Dropdown.Item eventKey={1} active={rate === "1"}>
+                    <Dropdown.Item eventKey={1} active={rate === 1}>
                       (1) Horrible
                     </Dropdown.Item>
                     <Dropdown.Item>Remove rating</Dropdown.Item>
                   </Dropdown.Menu>
-                  {manga ? (
+                  {manga && (
                     <span className="rating-number">
                       {Math.round(manga.averageRating * 10) / 10}
                     </span>
-                  ) : (
-                    <span>3.5</span>
                   )}
                 </Dropdown>
               </div>

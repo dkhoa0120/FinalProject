@@ -8,6 +8,7 @@ import {
 } from "../../../service/api.manga";
 import MangaBanner from "./components/MangaBanner";
 import ChapterSection from "./components/ChapterSection";
+import { getCurrentUserRating, postRating } from "../../../service/api.rating";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -16,6 +17,21 @@ export default function MangaDetail() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const { mangaId } = useParams();
+  const [rate, setRate] = useState(null);
+
+  const handleSelectRate = async (eventKey) => {
+    if (!rate) {
+      const formData = new FormData();
+      formData.append("inputRating", eventKey);
+      try {
+        await postRating(manga.id, formData);
+        setRate(eventKey);
+      } catch {
+        console.error("Somethings went wrong!");
+      }
+    }
+  };
+  console.log(rate);
 
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
@@ -24,7 +40,20 @@ export default function MangaDetail() {
   useEffect(() => {
     getMangaDetail(mangaId);
     getChaptersByPage(mangaId, page);
+    fetchUserRating(mangaId);
   }, [mangaId, page]);
+
+  const fetchUserRating = async (mangaId) => {
+    try {
+      const response = await getCurrentUserRating(mangaId);
+      const userRating = response.data;
+      if (userRating) {
+        setRate(userRating);
+      }
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
+    }
+  };
 
   const getMangaDetail = async (id) => {
     try {
@@ -59,7 +88,11 @@ export default function MangaDetail() {
 
   return (
     <>
-      <MangaBanner manga={manga} />
+      <MangaBanner
+        manga={manga}
+        rate={rate}
+        handleSelectRate={handleSelectRate}
+      />
       <ChapterSection
         chapters={chapters}
         page={page}
