@@ -8,7 +8,12 @@ import {
 } from "../../../service/api.manga";
 import MangaBanner from "./components/MangaBanner";
 import ChapterSection from "./components/ChapterSection";
-import { getCurrentUserRating, postRating } from "../../../service/api.rating";
+import {
+  deleteRating,
+  getCurrentUserRating,
+  postRating,
+  putRating,
+} from "../../../service/api.rating";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -20,19 +25,32 @@ export default function MangaDetail() {
   const [rate, setRate] = useState(null);
 
   const handleSelectRate = async (eventKey) => {
-    if (!rate) {
-      const formData = new FormData();
-      formData.append("inputRating", eventKey);
-      try {
+    const formData = new FormData();
+    formData.append("inputRating", eventKey);
+    try {
+      if (!rate) {
         await postRating(mangaId, formData);
-        setRate(Number(eventKey));
+      } else {
+        await putRating(mangaId, formData);
+      }
+      setRate(Number(eventKey));
+      getMangaDetail(mangaId);
+    } catch {
+      console.error("Something went wrong!");
+    }
+  };
+
+  const handleRemoveRate = async () => {
+    if (rate !== null) {
+      try {
+        await deleteRating(mangaId);
+        setRate(null);
         getMangaDetail(mangaId);
       } catch {
-        console.error("Somethings went wrong!");
+        console.error("Something went wrong!");
       }
     }
   };
-  console.log(rate);
 
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
@@ -93,6 +111,7 @@ export default function MangaDetail() {
         manga={manga}
         rate={rate}
         handleSelectRate={handleSelectRate}
+        handleRemoveRate={handleRemoveRate}
       />
       <ChapterSection
         chapters={chapters}

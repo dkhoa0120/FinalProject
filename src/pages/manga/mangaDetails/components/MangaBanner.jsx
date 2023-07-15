@@ -3,7 +3,12 @@ import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import TrackVisibility from "react-on-screen";
 import CountryFlag from "../../../../components/countryFlag";
 
-export default function MangaBanner({ manga, handleSelectRate, rate }) {
+export default function MangaBanner({
+  manga,
+  handleSelectRate,
+  handleRemoveRate,
+  rate,
+}) {
   const [isActive, setActive] = useState(null);
   const [moreDescription, setMoreDescription] = useState(false);
 
@@ -85,7 +90,9 @@ export default function MangaBanner({ manga, handleSelectRate, rate }) {
                     <Dropdown.Item eventKey={1} active={rate === 1}>
                       (1) Horrible
                     </Dropdown.Item>
-                    <Dropdown.Item>Remove rating</Dropdown.Item>
+                    <Dropdown.Item onClick={handleRemoveRate}>
+                      Remove rating
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                   {manga && (
                     <span className="rating-number">

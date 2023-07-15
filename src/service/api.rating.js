@@ -16,3 +16,19 @@ export const postRating = (id, data) => {
     },
   });
 };
+
+export const putRating = (id, data) => {
+  return userAxios.put(`/rating/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const deleteRating = (id) => {
+  return userAxios.delete(`/rating/${id}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
