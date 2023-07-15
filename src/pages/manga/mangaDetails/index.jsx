@@ -25,9 +25,8 @@ export default function MangaDetail() {
       formData.append("inputRating", eventKey);
       try {
         await postRating(mangaId, formData);
-        setRate(eventKey);
+        setRate(Number(eventKey));
         getMangaDetail(mangaId);
-        fetchUserRating(mangaId);
       } catch {
         console.error("Somethings went wrong!");
       }
