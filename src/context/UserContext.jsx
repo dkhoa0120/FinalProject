@@ -34,7 +34,7 @@ function UserProvider({ children }) {
   };
 
   const logout = () => {
-    new Cookies().remove("Token");
+    new Cookies().remove("Token", { path: "/" });
     setUser(null);
   };
 
