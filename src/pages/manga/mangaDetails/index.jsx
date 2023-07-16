@@ -42,10 +42,14 @@ export default function MangaDetail() {
       }
       setRate(Number(eventKey));
       getMangaDetail(mangaId);
-    } catch {
-      toast.error("Please sign in to rate !", {
-        theme: "colored",
-      });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to rate!", {
+          theme: "colored",
+        });
+      } else {
+        console.error(error);
+      }
     }
   };
 
@@ -71,10 +75,14 @@ export default function MangaDetail() {
         setActive(false);
       }
       getMangaDetail(mangaId);
-    } catch {
-      toast.error("Please sign in to follow !", {
-        theme: "colored",
-      });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to rate!", {
+          theme: "colored",
+        });
+      } else {
+        console.error(error);
+      }
     }
   };
 
