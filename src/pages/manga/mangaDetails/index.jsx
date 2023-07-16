@@ -19,6 +19,7 @@ import {
   getCurrentUserFollow,
   postFollow,
 } from "../../../service/api.follow";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -42,7 +43,9 @@ export default function MangaDetail() {
       setRate(Number(eventKey));
       getMangaDetail(mangaId);
     } catch {
-      console.error("Something went wrong!");
+      toast.error("Please sign in to rate !", {
+        theme: "colored",
+      });
     }
   };
 
@@ -69,7 +72,9 @@ export default function MangaDetail() {
       }
       getMangaDetail(mangaId);
     } catch {
-      console.error("Something went wrong!");
+      toast.error("Please sign in to follow !", {
+        theme: "colored",
+      });
     }
   };
 
@@ -139,6 +144,7 @@ export default function MangaDetail() {
 
   return (
     <>
+      <ToastContainer />
       <MangaBanner
         manga={manga}
         rate={rate}
