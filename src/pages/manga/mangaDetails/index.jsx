@@ -14,6 +14,11 @@ import {
   postRating,
   putRating,
 } from "../../../service/api.rating";
+import {
+  deleteFollow,
+  getCurrentUserFollow,
+  postFollow,
+} from "../../../service/api.follow";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -22,7 +27,8 @@ export default function MangaDetail() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const { mangaId } = useParams();
-  const [rate, setRate] = useState(null);
+  const [rate, setRate] = useState(false);
+  const [isActive, setActive] = useState(null);
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
@@ -52,15 +58,20 @@ export default function MangaDetail() {
     }
   };
 
-  useEffect(() => {
-    setPage(parseInt(searchParams.get("page") || 1));
-  }, [searchParams]);
-
-  useEffect(() => {
-    getMangaDetail(mangaId);
-    fetchUserRating(mangaId);
-    getChaptersByPage(mangaId, page);
-  }, [mangaId, page]);
+  const handleFollow = async () => {
+    try {
+      if (!isActive) {
+        await postFollow(mangaId);
+        setActive(true);
+      } else {
+        await deleteFollow(mangaId);
+        setActive(false);
+      }
+      getMangaDetail(mangaId);
+    } catch {
+      console.error("Something went wrong!");
+    }
+  };
 
   const fetchUserRating = async (mangaId) => {
     try {
@@ -105,6 +116,27 @@ export default function MangaDetail() {
     }
   };
 
+  const fetchUserFollow = async () => {
+    try {
+      const response = await getCurrentUserFollow(mangaId);
+      console.log(response.data);
+      setActive(response.data);
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
+    }
+  };
+
+  useEffect(() => {
+    setPage(parseInt(searchParams.get("page") || 1));
+  }, [searchParams]);
+
+  useEffect(() => {
+    getMangaDetail(mangaId);
+    fetchUserRating(mangaId);
+    getChaptersByPage(mangaId, page);
+    fetchUserFollow(mangaId);
+  }, [mangaId, page]);
+
   return (
     <>
       <MangaBanner
@@ -112,6 +144,8 @@ export default function MangaDetail() {
         rate={rate}
         handleSelectRate={handleSelectRate}
         handleRemoveRate={handleRemoveRate}
+        isActive={isActive}
+        handleFollow={handleFollow}
       />
       <ChapterSection
         chapters={chapters}

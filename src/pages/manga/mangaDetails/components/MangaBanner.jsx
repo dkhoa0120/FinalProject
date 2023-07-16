@@ -2,19 +2,15 @@ import { useState } from "react";
 import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import TrackVisibility from "react-on-screen";
 import CountryFlag from "../../../../components/countryFlag";
-
 export default function MangaBanner({
   manga,
   handleSelectRate,
   handleRemoveRate,
   rate,
+  isActive,
+  handleFollow,
 }) {
-  const [isActive, setActive] = useState(null);
   const [moreDescription, setMoreDescription] = useState(false);
-
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
 
   return (
     <Container fluid className="banner">
@@ -43,7 +39,7 @@ export default function MangaBanner({
               <button className="btn-follow">
                 <span
                   className={`heart ${isActive ? "heart-active" : ""}`}
-                  onClick={handleToggle}
+                  onClick={handleFollow}
                 >
                   {manga ? (
                     <span className="follow-number">{manga.followCount}</span>
