@@ -29,7 +29,7 @@ export default function MangaDetail() {
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const { mangaId } = useParams();
   const [rate, setRate] = useState(false);
-  const [isActive, setActive] = useState(null);
+  const [follow, setFollow] = useState(null);
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
@@ -67,17 +67,17 @@ export default function MangaDetail() {
 
   const handleFollow = async () => {
     try {
-      if (!isActive) {
+      if (!follow) {
         await postFollow(mangaId);
-        setActive(true);
+        setFollow(true);
       } else {
         await deleteFollow(mangaId);
-        setActive(false);
+        setFollow(false);
       }
       getMangaDetail(mangaId);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to rate!", {
+        toast.error("Please sign in to follow!", {
           theme: "colored",
         });
       } else {
@@ -129,11 +129,11 @@ export default function MangaDetail() {
     }
   };
 
-  const fetchUserFollow = async () => {
+  const fetchUserFollow = async (mangaId) => {
     try {
       const response = await getCurrentUserFollow(mangaId);
       console.log(response.data);
-      setActive(response.data);
+      setFollow(response.data);
     } catch (error) {
       console.error("Error retrieving user rating:", error);
     }
@@ -158,7 +158,7 @@ export default function MangaDetail() {
         rate={rate}
         handleSelectRate={handleSelectRate}
         handleRemoveRate={handleRemoveRate}
-        isActive={isActive}
+        follow={follow}
         handleFollow={handleFollow}
       />
       <ChapterSection

@@ -7,7 +7,7 @@ export default function MangaBanner({
   handleSelectRate,
   handleRemoveRate,
   rate,
-  isActive,
+  follow,
   handleFollow,
 }) {
   const [moreDescription, setMoreDescription] = useState(false);
@@ -38,7 +38,7 @@ export default function MangaBanner({
             <Col>
               <button className="btn-follow">
                 <span
-                  className={`heart ${isActive ? "heart-active" : ""}`}
+                  className={`heart ${follow ? "heart-active" : ""}`}
                   onClick={handleFollow}
                 >
                   {manga ? (
