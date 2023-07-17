@@ -2,7 +2,7 @@ import { Card } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 
-export default function CommentSection() {
+export default function CommentSection({ comments }) {
   return (
     <div className="general-container">
       <div
@@ -17,7 +17,7 @@ export default function CommentSection() {
         </Card>
         <br></br>
         <Card style={{ padding: "20px" }}>
-          <CommentList />
+          <CommentList comments={comments} />
         </Card>
       </div>
     </div>

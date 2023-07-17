@@ -1,18 +1,8 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Dropdown,
-  Button,
-  Card,
-  Collapse,
-  Modal,
-  ModalBody,
-  ModalFooter,
-} from "react-bootstrap";
+import { Collapse, Modal, ModalBody, ModalFooter } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
+import { getUserChildComment } from "../../service/api.comment";
 
 function Comment({ comment }) {
   const [open, setOpen] = useState(false);
@@ -66,6 +56,30 @@ function Comment({ comment }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const calculateTimeDifference = (createdAt) => {
+    const currentDate = new Date();
+    const chapterDate = new Date(createdAt);
+    const timeDifference = Math.abs(currentDate - chapterDate);
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+
+    if (minutesDifference < 50) {
+      return `${minutesDifference} minutes ago`;
+    } else if (minutesDifference < 1440) {
+      const hoursDifference = Math.floor(minutesDifference / 60);
+      return `${hoursDifference} hours ago`;
+    } else {
+      const daysDifference = Math.floor(minutesDifference / 1440);
+      return `${daysDifference} days ago`;
+    }
+  };
+
+  const [childComment, setChildComment] = useState(null);
+
+  const fetchChildComments = async (comment) => {
+    const result = await getUserChildComment(comment.id);
+    console.log("childComment", result.data);
+  };
+
   return (
     <div className="mt-2">
       <div className="d-flex align-items-start">
@@ -76,8 +90,8 @@ function Comment({ comment }) {
           alt="Avatar"
         />
         <div className="comment-content">
-          <div className="comment-name">{comment.user}</div>
-          <div>{comment.context}</div>
+          <div className="comment-name">{comment.user.name}</div>
+          <div>{comment.content}</div>
           <div>
             <div style={{ paddingBottom: "5px" }}>
               {likeCount} &nbsp;
@@ -113,7 +127,7 @@ function Comment({ comment }) {
                   <Modal.Title>Report</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                  {comment.context}
+                  {comment.content}
                   <hr></hr>
                   <div>
                     <input
@@ -137,10 +151,13 @@ function Comment({ comment }) {
                   </button>
                 </ModalFooter>
               </Modal>
-              <span>1 hour ago</span>
+              <span title={new Date(comment.createdAt).toLocaleString()}>
+                <i className="fa-regular fa-clock"></i>{" "}
+                {calculateTimeDifference(comment.createdAt)}
+              </span>
             </div>
             <div>
-              {comment.childComments?.length > 0 && (
+              {comment.childCommentCount?.length > 0 && (
                 <>
                   &nbsp;&nbsp;
                   <button
@@ -152,8 +169,8 @@ function Comment({ comment }) {
                     ) : (
                       <i className="fa-solid fa-arrow-down" />
                     )}{" "}
-                    {comment.childComments?.length}{" "}
-                    {comment.childComments?.length >= 2
+                    {comment.childCommentCount?.length}{" "}
+                    {comment.childCommentCount?.length >= 2
                       ? "comments"
                       : "comment"}
                   </button>
@@ -166,10 +183,10 @@ function Comment({ comment }) {
               <CommentForm />
             </div>
           </Collapse>
-          {comment.childComments?.length > 0 && (
+          {comment.childCommentCount?.length > 0 && (
             <Collapse in={open}>
               <div id="reply-comments">
-                {comment.childComments.map((childComment) => (
+                {comment.childCommentCount.map((childComment) => (
                   <Comment key={childComment.id} comment={childComment} />
                 ))}
               </div>
@@ -181,49 +198,16 @@ function Comment({ comment }) {
   );
 }
 
-function CommentList() {
-  const dummyComments = [
-    {
-      id: "1",
-      user: "John",
-      context:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!",
-      childComments: [
-        {
-          id: "2",
-          user: "Alice",
-          context:
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!",
-          childComments: [
-            {
-              id: "5",
-              user: "Kiddo",
-              context:
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!",
-            },
-          ],
-        },
-        {
-          id: "3",
-          user: "Bob",
-          context:
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!",
-          childComments: [],
-        },
-      ],
-    },
-    {
-      id: "4",
-      user: "Jane",
-      context:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo amet ullam illo a tempore fugiat doloremque officia nobis. Cupiditate veniam hic minus accusamus nobis, dolorem ipsum assumenda ipsa soluta esse!",
-      childComments: [],
-    },
-  ];
+function CommentList({ comments }) {
+  console.log("commentList", comments);
+
+  if (!comments) {
+    return null;
+  }
 
   return (
     <div>
-      {dummyComments.map((comment) => (
+      {comments.map((comment) => (
         <Comment key={comment.id} comment={comment} />
       ))}
     </div>

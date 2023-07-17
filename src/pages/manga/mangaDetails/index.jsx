@@ -20,6 +20,7 @@ import {
   postFollow,
 } from "../../../service/api.follow";
 import { toast, ToastContainer } from "react-toastify";
+import { getUserComment } from "../../../service/api.comment";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -30,6 +31,7 @@ export default function MangaDetail() {
   const { mangaId } = useParams();
   const [rate, setRate] = useState(false);
   const [follow, setFollow] = useState(null);
+  const [comments, setComments] = useState(null);
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
@@ -109,6 +111,11 @@ export default function MangaDetail() {
     }
   };
 
+  const fetchUserComments = async (id) => {
+    const result = await getUserComment(id);
+    setComments(result.data.itemList);
+  };
+
   const getChaptersByPage = async (id, page) => {
     try {
       const result = await getChapterByMangaIdForUser(id, { page });
@@ -148,6 +155,7 @@ export default function MangaDetail() {
     fetchUserRating(mangaId);
     getChaptersByPage(mangaId, page);
     fetchUserFollow(mangaId);
+    fetchUserComments(mangaId);
   }, [mangaId, page]);
 
   return (
@@ -167,7 +175,7 @@ export default function MangaDetail() {
         totalPages={totalPages}
         setSearchParams={setSearchParams}
       />
-      <CommentSection />
+      <CommentSection comments={comments} />
     </>
   );
 }
