@@ -13,6 +13,7 @@ import ManageManga from "../../pages/admin/manageManga";
 import Home from "../../pages/home";
 import ManageCategory from "../../pages/admin/manageCategory";
 import ManageAuthor from "../../pages/admin/manageAuthor";
+import ChapterPage from "../../pages/manga/chapter";
 
 export default function Body() {
   return (
@@ -30,6 +31,7 @@ export default function Body() {
         <Route path="/Manga/:mangaId" element={<MangaDetail />} />
         <Route path="/Manga" element={<Manga />} />
         <Route path="*" element={<Error />} />
+        <Route path="/ChapterPage" element={<ChapterPage />} />
       </Routes>
     </div>
   );
