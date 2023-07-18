@@ -24,9 +24,9 @@ export default function PaginationWithoutSetParams({
       );
     };
 
-    const dot = () => {
+    const dot = (key) => {
       pageNumbers.push(
-        <Button key="..." variant="btn btn-light" disabled>
+        <Button key={key} variant="btn btn-light" disabled>
           ...
         </Button>
       );
@@ -41,18 +41,18 @@ export default function PaginationWithoutSetParams({
         for (let i = 1; i <= 4; i++) {
           addPageNumber(i);
         }
-        dot();
+        dot("dot1");
       } else if (page >= totalPages - 1) {
-        dot();
+        dot("dot2");
         for (let i = totalPages - 3; i <= totalPages; i++) {
           addPageNumber(i);
         }
       } else {
-        dot();
+        dot("dot1");
         for (let i = page - 1; i <= page + 1; i++) {
           addPageNumber(i);
         }
-        dot();
+        dot("dot2");
       }
     }
 
