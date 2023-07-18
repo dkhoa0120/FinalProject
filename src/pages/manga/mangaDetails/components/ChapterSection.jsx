@@ -56,13 +56,13 @@ export default function ChapterSection({
                 </Container>
               ))}
         </div>
-        <div className="d-flex justify-content-center">
+        {/* <div className="d-flex justify-content-center">
           <Pagination
             page={page}
             totalPages={totalPages}
             setSearchParams={setSearchParams}
           />
-        </div>
+        </div> */}
       </Container>
     </>
   );

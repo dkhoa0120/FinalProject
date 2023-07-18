@@ -5,40 +5,27 @@ import Pagination from "../../../components/pagination";
 import { getMangasForUser } from "../../../service/api.manga";
 
 function Manga() {
-  const [mangas, setMangas] = useState([]);
+  const [mangas, setMangas] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
-  const [sortOption, setOption] = useState(
-    searchParams.get("sortOption") || ""
-  );
   const [totalPages, setTotalPages] = useState(0);
 
-  useEffect(() => {
-    setPage(parseInt(searchParams.get("page") || 1));
-    setOption(searchParams.get("sortOption" || ""));
-    setSearchTerm(searchParams.get("search") || "");
-  }, [searchParams]);
+  const search = searchParams.get("search") || "";
+  const sortOption = searchParams.get("sortOption") || "";
+  const page = searchParams.get("page") || "1";
 
   // Fetch manga data
   useEffect(() => {
-    getMangasList();
-  }, [searchTerm, sortOption, page]);
+    getMangasList(search, sortOption, page);
+  }, [search, sortOption, page]);
 
-  const getMangasList = async () => {
+  const getMangasList = async (search, sortOption, page) => {
     try {
-      const result = await getMangasForUser({
-        search: searchTerm,
-        sortOption,
-        page,
-      });
+      const result = await getMangasForUser({ search, sortOption, page });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setMangas([]);
+        setMangas(null);
         setTotalPages(0);
       }
     }
@@ -48,9 +35,9 @@ function Manga() {
   const handleSearch = (e) => {
     const search = e.target.value;
     if (search) {
-      setSearchParams({ search, sortOption: sortOption, page: 1 });
+      setSearchParams({ search, sortOption, page: 1 });
     } else {
-      setSearchParams({ sortOption: sortOption, page: 1 });
+      setSearchParams({ sortOption, page: 1 });
     }
   };
 
@@ -75,12 +62,12 @@ function Manga() {
             placeholder="Search"
             className="me-2"
             aria-label="Search"
-            value={searchTerm}
+            value={search}
             onChange={handleSearch}
           />
         </Col>
       </Row>
-      {mangas.length > 0 ? (
+      {mangas ? (
         mangas.map((manga, index) => (
           <React.Fragment key={index}>
             <Card style={{ marginBottom: "10px" }}>
@@ -111,11 +98,9 @@ function Manga() {
       &nbsp;
       <div className="d-flex justify-content-center">
         <Pagination
-          page={page}
           totalPages={totalPages}
           setSearchParams={setSearchParams}
-          sortOption={sortOption}
-          search={searchTerm}
+          searchParams={searchParams}
         />
       </div>
     </Container>

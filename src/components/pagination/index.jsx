@@ -1,30 +1,36 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const Pagination = ({
+export default function Pagination({
   totalPages,
-  page,
   setSearchParams,
-  sortOption,
-  roleOption,
-  search,
-}) => {
+  searchParams,
+}) {
+  const page = searchParams.get("page") || "1";
+
+  const updatePageParam = (pageNum) => {
+    const roleOption = searchParams.get("roleOption");
+    const search = searchParams.get("search");
+    const sortOption = searchParams.get("sortOption");
+
+    setSearchParams({
+      ...(roleOption && { roleOption }),
+      ...(search && { search }), // Include search if available
+      ...(sortOption && { sortOption }), // Include sortOption if available
+      page: pageNum,
+    });
+
+    window.scrollTo(0, 0);
+  };
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
-
     const addPageNumber = (i) => {
       pageNumbers.push(
         <Button
           key={i} // Add unique "key" prop here
-          variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
-          onClick={() =>
-            setSearchParams({
-              ...(roleOption && { roleOption }),
-              ...(search && { search }), // Include search if available
-              ...(sortOption && { sortOption }), // Include sortOption if available
-              page: String(i),
-            })
-          }
+          variant={`btn ${page === String(i) ? "btn-dark" : "btn-light"}`}
+          onClick={() => updatePageParam(i)}
         >
           {i}
         </Button>
@@ -70,14 +76,7 @@ const Pagination = ({
     <div className="d-flex justify-content-center">
       <Button
         key="<<"
-        onClick={() =>
-          setSearchParams({
-            ...(roleOption && { roleOption }),
-            ...(search && { search }), // Include search if available
-            ...(sortOption && { sortOption }), // Include sortOption if available
-            page: String(1),
-          })
-        }
+        onClick={() => updatePageParam(1)}
         variant="btn btn-dark"
       >
         <i className="fa-solid fa-angles-left"></i>
@@ -86,14 +85,7 @@ const Pagination = ({
       {page > 1 ? (
         <Button
           key="<"
-          onClick={() =>
-            setSearchParams({
-              ...(roleOption && { roleOption }),
-              ...(search && { search }), // Include search if available
-              ...(sortOption && { sortOption }), // Include sortOption if available
-              page: String(page - 1),
-            })
-          }
+          onClick={() => updatePageParam(page - 1)}
           variant="btn btn-dark"
         >
           <i className="fa-solid fa-angle-left"></i>
@@ -110,14 +102,7 @@ const Pagination = ({
         <Button
           key=">"
           variant="btn btn-dark"
-          onClick={() =>
-            setSearchParams({
-              ...(roleOption && { roleOption }),
-              ...(search && { search }), // Include search if available
-              ...(sortOption && { sortOption }), // Include sortOption if available
-              page: String(page + 1),
-            })
-          }
+          onClick={() => updatePageParam(page + 1)}
         >
           <i className="fa-solid fa-angle-right"></i>
         </Button>
@@ -129,20 +114,11 @@ const Pagination = ({
       &nbsp;
       <Button
         key=">>"
-        onClick={() =>
-          setSearchParams({
-            ...(roleOption && { roleOption }),
-            ...(search && { search }), // Include search if available
-            ...(sortOption && { sortOption }), // Include sortOption if available
-            page: String(totalPages),
-          })
-        }
+        onClick={() => updatePageParam(totalPages)}
         className="btn btn-dark"
       >
         <i className="fa-solid fa-angles-right"></i>
       </Button>
     </div>
   );
-};
-
-export default Pagination;
+}
