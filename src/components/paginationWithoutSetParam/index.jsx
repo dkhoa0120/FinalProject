@@ -8,7 +8,6 @@ export default function PaginationWithoutSetParams({
 }) {
   const updatePageParam = (pageNum) => {
     onPageChange(pageNum);
-    window.scrollTo(0, 0);
   };
 
   const renderPageNumbers = () => {
@@ -16,7 +15,7 @@ export default function PaginationWithoutSetParams({
     const addPageNumber = (i) => {
       pageNumbers.push(
         <Button
-          key={i} // Add unique "key" prop here
+          key={i}
           variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() => updatePageParam(i)}
         >

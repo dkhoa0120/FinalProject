@@ -3,6 +3,7 @@ import { Collapse, Modal, ModalBody, ModalFooter } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
 import { getUserChildComment } from "../../service/api.comment";
+import { useEffect } from "react";
 
 function Comment({ comment }) {
   const [open, setOpen] = useState(false);
@@ -73,13 +74,20 @@ function Comment({ comment }) {
     }
   };
 
-  const [childComment, setChildComment] = useState(null);
+  const [childComment, setChildComment] = useState([]);
 
   const fetchChildComments = async (comment) => {
-    const result = await getUserChildComment(comment.id);
+    const result = await getUserChildComment(comment);
+    setChildComment(result.data.itemList);
     console.log("childComment", result.data);
   };
 
+  useEffect(() => {
+    fetchChildComments(comment.id);
+  }, [comment]);
+  if (!comment) {
+    return null;
+  }
   return (
     <div className="mt-2">
       <div className="d-flex align-items-start">
@@ -157,7 +165,7 @@ function Comment({ comment }) {
               </span>
             </div>
             <div>
-              {comment.childCommentCount?.length > 0 && (
+              {comment.childCommentCount > 0 && (
                 <>
                   &nbsp;&nbsp;
                   <button
@@ -183,11 +191,11 @@ function Comment({ comment }) {
               <CommentForm />
             </div>
           </Collapse>
-          {comment.childCommentCount?.length > 0 && (
+          {comment.childCommentCount > 0 && (
             <Collapse in={open}>
               <div id="reply-comments">
-                {comment.childCommentCount.map((childComment) => (
-                  <Comment key={childComment.id} comment={childComment} />
+                {childComment.map((c) => (
+                  <Comment key={c.id} comment={c} />
                 ))}
               </div>
             </Collapse>

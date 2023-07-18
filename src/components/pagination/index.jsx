@@ -6,7 +6,7 @@ export default function Pagination({
   setSearchParams,
   searchParams,
 }) {
-  const page = searchParams.get("page") || "1";
+  const page = parseInt(searchParams.get("page") || "1");
 
   const updatePageParam = (pageNum) => {
     const roleOption = searchParams.get("roleOption");
@@ -29,7 +29,7 @@ export default function Pagination({
       pageNumbers.push(
         <Button
           key={i} // Add unique "key" prop here
-          variant={`btn ${page === String(i) ? "btn-dark" : "btn-light"}`}
+          variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() => updatePageParam(i)}
         >
           {i}
@@ -64,6 +64,8 @@ export default function Pagination({
         dot();
         for (let i = page - 1; i <= page + 1; i++) {
           addPageNumber(i);
+          console.log("form", page - 1);
+          console.log("to", page + 1);
         }
         dot();
       }

@@ -49,7 +49,7 @@ function Manga() {
             className="mb-4 w-100"
             value={sortOption}
             onChange={(e) =>
-              setSearchParams({ sortOption: e.target.value, page: "1" })
+              setSearchParams({ sortOption: e.target.value, page: 1 })
             }
           >
             <option value="LatestManga">Latest Manga</option>

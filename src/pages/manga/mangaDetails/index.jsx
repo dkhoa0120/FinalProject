@@ -25,8 +25,10 @@ import { getUserComment } from "../../../service/api.comment";
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
   const [chapters, setChapters] = useState(null);
-  const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(1);
+  const [totalCommentPages, setTotalCommentPages] = useState(0);
+  const [totalChapterPages, setTotalChapterPages] = useState(0);
+  const [commentPage, setCommentPage] = useState(1);
+  const [chapterPage, setChapterPage] = useState(1);
   const { mangaId } = useParams();
   const [rate, setRate] = useState(false);
   const [follow, setFollow] = useState(null);
@@ -87,6 +89,14 @@ export default function MangaDetail() {
     }
   };
 
+  const hanldeChangeComment = (pageNum) => {
+    setCommentPage(pageNum);
+  };
+
+  const hanldeChangeChapter = (pageNum) => {
+    setChapterPage(pageNum);
+  };
+
   const fetchUserRating = async (mangaId) => {
     try {
       const response = await getCurrentUserRating(mangaId);
@@ -110,9 +120,10 @@ export default function MangaDetail() {
     }
   };
 
-  const fetchUserComments = async (id) => {
-    const result = await getUserComment(id);
+  const fetchUserComments = async (id, page) => {
+    const result = await getUserComment(id, { page });
     setComments(result.data.itemList);
+    setTotalCommentPages(result.data.totalPages);
   };
 
   const getChaptersByPage = async (id, page) => {
@@ -127,7 +138,7 @@ export default function MangaDetail() {
         return result;
       }, {});
       setChapters(groupedChapters);
-      setTotalPages(result.data.totalPages);
+      setTotalChapterPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setChapters(null);
@@ -145,17 +156,13 @@ export default function MangaDetail() {
     }
   };
 
-  const onPageChange = (pageNum) => {
-    setPage(pageNum);
-  };
-
   useEffect(() => {
     getMangaDetail(mangaId);
     fetchUserRating(mangaId);
-    getChaptersByPage(mangaId, page);
+    getChaptersByPage(mangaId, chapterPage);
     fetchUserFollow(mangaId);
-    fetchUserComments(mangaId);
-  }, [mangaId, page]);
+    fetchUserComments(mangaId, commentPage);
+  }, [mangaId, commentPage, chapterPage]);
 
   return (
     <>
@@ -170,11 +177,16 @@ export default function MangaDetail() {
       />
       <ChapterSection
         chapters={chapters}
-        page={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
+        page={chapterPage}
+        totalPages={totalChapterPages}
+        onPageChange={hanldeChangeChapter}
       />
-      <CommentSection comments={comments} />
+      <CommentSection
+        comments={comments}
+        page={commentPage}
+        totalPages={totalCommentPages}
+        onPageChange={hanldeChangeComment}
+      />
     </>
   );
 }

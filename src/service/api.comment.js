@@ -1,7 +1,11 @@
 import { userAxios } from "./api.base";
 
-export const getUserComment = (id) => {
-  return userAxios.get(`/manga/${id}/comments`);
+export const getUserComment = (id, filter) => {
+  const page = filter?.page || 1;
+  const pageSize = filter?.pageSize || 5;
+  return userAxios.get(`/manga/${id}/comments`, {
+    params: { page, pageSize },
+  });
 };
 
 export const getUserChildComment = (id) => {
