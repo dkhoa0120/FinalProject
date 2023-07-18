@@ -26,8 +26,7 @@ export default function MangaDetail() {
   const [manga, setManga] = useState(null);
   const [chapters, setChapters] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(searchParams.get("page") || 1);
+  const [page, setPage] = useState(1);
   const { mangaId } = useParams();
   const [rate, setRate] = useState(false);
   const [follow, setFollow] = useState(null);
@@ -146,9 +145,9 @@ export default function MangaDetail() {
     }
   };
 
-  useEffect(() => {
-    setPage(parseInt(searchParams.get("page") || 1));
-  }, [searchParams]);
+  const onPageChange = (pageNum) => {
+    setPage(pageNum);
+  };
 
   useEffect(() => {
     getMangaDetail(mangaId);
@@ -173,7 +172,7 @@ export default function MangaDetail() {
         chapters={chapters}
         page={page}
         totalPages={totalPages}
-        setSearchParams={setSearchParams}
+        onPageChange={onPageChange}
       />
       <CommentSection comments={comments} />
     </>

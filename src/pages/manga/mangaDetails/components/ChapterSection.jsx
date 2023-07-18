@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ChapterGroup from "./ChapterGroup";
 import Pagination from "../../../../components/pagination";
+import PaginationWithoutSetParams from "../../../../components/paginationWithoutSetParam";
 
 export default function ChapterSection({
   chapters,
   page,
   totalPages,
-  setSearchParams,
+  onPageChange,
 }) {
   const [isDescending, setIsDescending] = useState(false);
   const handleClick = () => {
@@ -56,13 +57,13 @@ export default function ChapterSection({
                 </Container>
               ))}
         </div>
-        {/* <div className="d-flex justify-content-center">
-          <Pagination
+        <div className="d-flex justify-content-center">
+          <PaginationWithoutSetParams
             page={page}
             totalPages={totalPages}
-            setSearchParams={setSearchParams}
+            onPageChange={onPageChange}
           />
-        </div> */}
+        </div>
       </Container>
     </>
   );
