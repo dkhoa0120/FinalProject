@@ -18,8 +18,8 @@ export default function ChapterButton() {
           <i class="fa-solid fa-arrow-left"></i>
         </button>
         <Dropdown>
-          <Dropdown.Toggle id="dropdown-basic" className="button-50">
-            <span className="align-text">Chapter 2</span>
+          <Dropdown.Toggle variant="dark" id="dropdown-basic">
+            <span className="dropdown-text">Chapter 2</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item>Chapter 1</Dropdown.Item>
