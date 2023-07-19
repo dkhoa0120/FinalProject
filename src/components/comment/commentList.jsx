@@ -8,6 +8,7 @@ import { useEffect } from "react";
 function Comment({ comment }) {
   const [open, setOpen] = useState(false);
   const handleToggleReplies = () => {
+    fetchChildComments(comment.id);
     setOpen(!open);
   };
 
@@ -82,9 +83,6 @@ function Comment({ comment }) {
     console.log("childComment", result.data);
   };
 
-  useEffect(() => {
-    fetchChildComments(comment.id);
-  }, [comment]);
   if (!comment) {
     return null;
   }
@@ -177,10 +175,8 @@ function Comment({ comment }) {
                     ) : (
                       <i className="fa-solid fa-arrow-down" />
                     )}{" "}
-                    {comment.childCommentCount?.length}{" "}
-                    {comment.childCommentCount?.length >= 2
-                      ? "comments"
-                      : "comment"}
+                    {comment.childCommentCount}{" "}
+                    {comment.childCommentCount >= 2 ? "replies" : "reply"}
                   </button>
                 </>
               )}
