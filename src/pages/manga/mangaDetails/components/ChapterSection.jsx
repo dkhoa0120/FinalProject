@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ChapterGroup from "./ChapterGroup";
-import Pagination from "../../../../components/pagination";
-import PaginationWithoutSetParams from "../../../../components/paginationWithoutSetParam";
+import PaginationNoParams from "../../../../components/paginationNoParams";
 
 export default function ChapterSection({
   chapters,
@@ -58,7 +57,7 @@ export default function ChapterSection({
               ))}
         </div>
         <div className="d-flex justify-content-center">
-          <PaginationWithoutSetParams
+          <PaginationNoParams
             page={page}
             totalPages={totalPages}
             onPageChange={onPageChange}

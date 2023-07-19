@@ -96,13 +96,11 @@ function Manga() {
         <div className="text-center">No data found.</div>
       )}
       &nbsp;
-      <div className="d-flex justify-content-center">
-        <Pagination
-          totalPages={totalPages}
-          setSearchParams={setSearchParams}
-          searchParams={searchParams}
-        />
-      </div>
+      <Pagination
+        totalPages={totalPages}
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
+      />
     </Container>
   );
 }

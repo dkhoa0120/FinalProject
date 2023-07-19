@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
-import PaginationWithoutSetParams from "../paginationWithoutSetParam";
+import PaginationNoParams from "../paginationNoParams";
 
 export default function CommentSection({
   comments,
@@ -26,7 +26,7 @@ export default function CommentSection({
           <CommentList comments={comments} />
         </Card>
         <div className="d-flex justify-content-center">
-          <PaginationWithoutSetParams
+          <PaginationNoParams
             page={page}
             totalPages={totalPages}
             onPageChange={onPageChange}

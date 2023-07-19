@@ -18,7 +18,7 @@ export const getMangaByIdForUser = (id) => {
 
 export const getChapterByMangaIdForUser = (id, filter) => {
   const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 1;
+  const pageSize = filter?.pageSize || 3;
 
   return userAxios.get(`/manga/${id}/chapters`, {
     params: { page, pageSize },

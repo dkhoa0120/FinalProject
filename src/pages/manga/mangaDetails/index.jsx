@@ -89,11 +89,11 @@ export default function MangaDetail() {
     }
   };
 
-  const hanldeChangeComment = (pageNum) => {
+  const handleChangeComment = (pageNum) => {
     setCommentPage(pageNum);
   };
 
-  const hanldeChangeChapter = (pageNum) => {
+  const handleChangeChapter = (pageNum) => {
     setChapterPage(pageNum);
   };
 
@@ -179,13 +179,13 @@ export default function MangaDetail() {
         chapters={chapters}
         page={chapterPage}
         totalPages={totalChapterPages}
-        onPageChange={hanldeChangeChapter}
+        onPageChange={handleChangeChapter}
       />
       <CommentSection
         comments={comments}
         page={commentPage}
         totalPages={totalCommentPages}
-        onPageChange={hanldeChangeComment}
+        onPageChange={handleChangeComment}
       />
     </>
   );

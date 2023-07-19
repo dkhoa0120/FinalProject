@@ -9,15 +9,9 @@ export default function Pagination({
   const page = parseInt(searchParams.get("page") || "1");
 
   const updatePageParam = (pageNum) => {
-    const roleOption = searchParams.get("roleOption");
-    const search = searchParams.get("search");
-    const sortOption = searchParams.get("sortOption");
-
-    setSearchParams({
-      ...(roleOption && { roleOption }),
-      ...(search && { search }), // Include search if available
-      ...(sortOption && { sortOption }), // Include sortOption if available
-      page: pageNum,
+    setSearchParams((params) => {
+      params.set("page", pageNum);
+      return params;
     });
 
     window.scrollTo(0, 0);
@@ -64,8 +58,6 @@ export default function Pagination({
         dot("dot1");
         for (let i = page - 1; i <= page + 1; i++) {
           addPageNumber(i);
-          console.log("form", page - 1);
-          console.log("to", page + 1);
         }
         dot("dot2");
       }
@@ -74,53 +66,55 @@ export default function Pagination({
     return pageNumbers;
   };
 
-  return (
-    <div className="d-flex justify-content-center">
-      <Button
-        key="<<"
-        onClick={() => updatePageParam(1)}
-        variant="btn btn-dark"
-      >
-        <i className="fa-solid fa-angles-left"></i>
-      </Button>
-      &nbsp;
-      {page > 1 ? (
+  if (totalPages > 1) {
+    return (
+      <div className="d-flex justify-content-center">
         <Button
-          key="<"
-          onClick={() => updatePageParam(page - 1)}
+          key="<<"
+          onClick={() => updatePageParam(1)}
           variant="btn btn-dark"
         >
-          <i className="fa-solid fa-angle-left"></i>
+          <i className="fa-solid fa-angles-left"></i>
         </Button>
-      ) : (
-        <Button variant="btn btn-dark" disabled>
-          <i className="fa-solid fa-angle-left"></i>
-        </Button>
-      )}
-      &nbsp;
-      {renderPageNumbers()}
-      &nbsp;
-      {page < totalPages ? (
+        &nbsp;
+        {page > 1 ? (
+          <Button
+            key="<"
+            onClick={() => updatePageParam(page - 1)}
+            variant="btn btn-dark"
+          >
+            <i className="fa-solid fa-angle-left"></i>
+          </Button>
+        ) : (
+          <Button variant="btn btn-dark" disabled>
+            <i className="fa-solid fa-angle-left"></i>
+          </Button>
+        )}
+        &nbsp;
+        {renderPageNumbers()}
+        &nbsp;
+        {page < totalPages ? (
+          <Button
+            key=">"
+            variant="btn btn-dark"
+            onClick={() => updatePageParam(page + 1)}
+          >
+            <i className="fa-solid fa-angle-right"></i>
+          </Button>
+        ) : (
+          <Button variant="btn btn-dark" disabled>
+            <i className="fa-solid fa-angle-right"></i>
+          </Button>
+        )}
+        &nbsp;
         <Button
-          key=">"
-          variant="btn btn-dark"
-          onClick={() => updatePageParam(page + 1)}
+          key=">>"
+          onClick={() => updatePageParam(totalPages)}
+          className="btn btn-dark"
         >
-          <i className="fa-solid fa-angle-right"></i>
+          <i className="fa-solid fa-angles-right"></i>
         </Button>
-      ) : (
-        <Button variant="btn btn-dark" disabled>
-          <i className="fa-solid fa-angle-right"></i>
-        </Button>
-      )}
-      &nbsp;
-      <Button
-        key=">>"
-        onClick={() => updatePageParam(totalPages)}
-        className="btn btn-dark"
-      >
-        <i className="fa-solid fa-angles-right"></i>
-      </Button>
-    </div>
-  );
+      </div>
+    );
+  }
 }

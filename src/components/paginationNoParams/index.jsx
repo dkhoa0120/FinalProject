@@ -1,11 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-export default function PaginationWithoutSetParams({
-  totalPages,
-  page,
-  onPageChange,
-}) {
+export default function PaginationNoParams({ totalPages, page, onPageChange }) {
   const updatePageParam = (pageNum) => {
     onPageChange(pageNum);
   };
@@ -59,53 +55,55 @@ export default function PaginationWithoutSetParams({
     return pageNumbers;
   };
 
-  return (
-    <div className="d-flex justify-content-center">
-      <Button
-        key="<<"
-        onClick={() => updatePageParam(1)}
-        variant="btn btn-dark"
-      >
-        <i className="fa-solid fa-angles-left"></i>
-      </Button>
-      &nbsp;
-      {page > 1 ? (
+  if (totalPages > 1) {
+    return (
+      <div className="d-flex justify-content-center">
         <Button
-          key="<"
-          onClick={() => updatePageParam(page - 1)}
+          key="<<"
+          onClick={() => updatePageParam(1)}
           variant="btn btn-dark"
         >
-          <i className="fa-solid fa-angle-left"></i>
+          <i className="fa-solid fa-angles-left"></i>
         </Button>
-      ) : (
-        <Button variant="btn btn-dark" disabled>
-          <i className="fa-solid fa-angle-left"></i>
-        </Button>
-      )}
-      &nbsp;
-      {renderPageNumbers()}
-      &nbsp;
-      {page < totalPages ? (
+        &nbsp;
+        {page > 1 ? (
+          <Button
+            key="<"
+            onClick={() => updatePageParam(page - 1)}
+            variant="btn btn-dark"
+          >
+            <i className="fa-solid fa-angle-left"></i>
+          </Button>
+        ) : (
+          <Button variant="btn btn-dark" disabled>
+            <i className="fa-solid fa-angle-left"></i>
+          </Button>
+        )}
+        &nbsp;
+        {renderPageNumbers()}
+        &nbsp;
+        {page < totalPages ? (
+          <Button
+            key=">"
+            variant="btn btn-dark"
+            onClick={() => updatePageParam(page + 1)}
+          >
+            <i className="fa-solid fa-angle-right"></i>
+          </Button>
+        ) : (
+          <Button variant="btn btn-dark" disabled>
+            <i className="fa-solid fa-angle-right"></i>
+          </Button>
+        )}
+        &nbsp;
         <Button
-          key=">"
-          variant="btn btn-dark"
-          onClick={() => updatePageParam(page + 1)}
+          key=">>"
+          onClick={() => updatePageParam(totalPages)}
+          className="btn btn-dark"
         >
-          <i className="fa-solid fa-angle-right"></i>
+          <i className="fa-solid fa-angles-right"></i>
         </Button>
-      ) : (
-        <Button variant="btn btn-dark" disabled>
-          <i className="fa-solid fa-angle-right"></i>
-        </Button>
-      )}
-      &nbsp;
-      <Button
-        key=">>"
-        onClick={() => updatePageParam(totalPages)}
-        className="btn btn-dark"
-      >
-        <i className="fa-solid fa-angles-right"></i>
-      </Button>
-    </div>
-  );
+      </div>
+    );
+  }
 }
