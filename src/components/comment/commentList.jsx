@@ -3,23 +3,28 @@ import { Collapse, Modal, ModalBody, ModalFooter } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
 import { getUserChildComment } from "../../service/api.comment";
-import { useEffect } from "react";
 
 function Comment({ comment }) {
-  const [open, setOpen] = useState(false);
-  const handleToggleReplies = () => {
-    fetchChildComments(comment.id);
-    setOpen(!open);
-  };
-
-  const [reply, setReply] = useState(false);
-  const handleReplyComment = () => {
-    setReply(!reply);
-  };
-
+  const [childComments, setChildComments] = useState(null);
+  const [showChildComments, setShowChildComments] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDisLikeCount] = useState(0);
   const [activeBtn, setActiveBtn] = useState("none");
+  const [reply, setReply] = useState(false);
+  const [showModal, setShow] = useState(false);
+
+  const handleToggleReplies = async () => {
+    if (!childComments) {
+      const result = await getUserChildComment(comment.id);
+      console.log("result", result);
+      setChildComments(result.data.itemList);
+    }
+    setShowChildComments(!showChildComments);
+  };
+
+  const handleReplyComment = () => {
+    setReply(!reply);
+  };
 
   const handleLikeClick = () => {
     if (activeBtn === "none") {
@@ -53,8 +58,6 @@ function Comment({ comment }) {
     }
   };
 
-  const [showModal, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -73,14 +76,6 @@ function Comment({ comment }) {
       const daysDifference = Math.floor(minutesDifference / 1440);
       return `${daysDifference} days ago`;
     }
-  };
-
-  const [childComment, setChildComment] = useState([]);
-
-  const fetchChildComments = async (comment) => {
-    const result = await getUserChildComment(comment);
-    setChildComment(result.data.itemList);
-    console.log("childComment", result.data);
   };
 
   if (!comment) {
@@ -170,7 +165,7 @@ function Comment({ comment }) {
                     className="btn-base btn-toggle-children"
                     onClick={handleToggleReplies}
                   >
-                    {open ? (
+                    {showChildComments ? (
                       <i className="fa-solid fa-arrow-up" />
                     ) : (
                       <i className="fa-solid fa-arrow-down" />
@@ -188,9 +183,9 @@ function Comment({ comment }) {
             </div>
           </Collapse>
           {comment.childCommentCount > 0 && (
-            <Collapse in={open}>
+            <Collapse in={showChildComments}>
               <div id="reply-comments">
-                {childComment.map((c) => (
+                {childComments?.map((c) => (
                   <Comment key={c.id} comment={c} />
                 ))}
               </div>
