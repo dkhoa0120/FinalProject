@@ -1,16 +1,12 @@
-.center {
+.general-container .chapter-image {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 400px;
-  height: 400px;
+  height: auto;
 }
 
-.button-50 button {
-  background: none;
-}
-
-.align-text {
+.dropdown-text {
   position: relative;
   bottom: 4px;
   font-size: 18px;

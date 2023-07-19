@@ -5,11 +5,11 @@ export default function ChapterImage() {
   return (
     <>
       <div className="general-container">
-        <img className="center" src="/img/banner/banner.png" alt="" />
+        <img className="chapter-image" src="/img/banner/banner.png" alt="" />
         <br />
-        <img className="center" src="/img/banner/banner.png" alt="" />
+        <img className="chapter-image" src="/img/banner/banner.png" alt="" />
         <br />
-        <img className="center" src="/img/banner/banner.png" alt="" />
+        <img className="chapter-image" src="/img/banner/banner.png" alt="" />
         <br />
         <ChapterButton />
       </div>

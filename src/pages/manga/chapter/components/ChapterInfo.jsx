@@ -15,7 +15,6 @@ export default function ChapterInfo() {
         }}
       >
         <div style={{ fontWeight: "bold", fontSize: "20px" }}>
-          {" "}
           Sau Khi Có Được Năng Lực Bá Đạo Ở Dị Giới, Tôi Cũng Vô Đối Ở Thế Giới
           Thực: Thăng Cấp Xong Thì Cuộc Đời Cũng Thay Đổi
         </div>
