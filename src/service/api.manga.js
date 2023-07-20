@@ -29,7 +29,7 @@ export const getMangasForManage = (filter) => {
   const search = filter?.search || "";
   const excludeDeleted = filter?.excludeDeleted || false;
   const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 12;
+  const pageSize = filter?.pageSize || 1;
 
   return getManageAxios().get("/manga", {
     params: { search, excludeDeleted, page, pageSize },

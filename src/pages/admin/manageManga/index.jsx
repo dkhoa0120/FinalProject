@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import "./styles.css";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Col, Form, Image, Row } from "react-bootstrap";
-import CreateManga from "./components/CreateManga";
+import { Button, Col, Form, Image, Row, Table } from "react-bootstrap";
+import "./styles.css";
 import { ToastContainer, toast } from "react-toastify";
+import CreateManga from "./components/CreateManga";
 import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
@@ -15,15 +13,11 @@ import {
   getMangasForManage,
 } from "../../../service/api.manga";
 
-function ManageManga() {
+export default function ManageManga() {
   // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
-  const [mangas, setMangas] = useState([]);
+  const [mangas, setMangas] = useState(null);
   const [totalPages, setTotalPages] = useState();
 
   // Component state variables for modal controls
@@ -32,29 +26,25 @@ function ManageManga() {
   const [showDelete, setShowDelete] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
 
-  // Set page and search term from URL search params
-  useEffect(() => {
-    setPage(parseInt(searchParams.get("page") || 1));
-    setSearchTerm(searchParams.get("search") || "");
-  }, [searchParams]);
+  const search = searchParams.get("search") || "";
+  const page = searchParams.get("page") || "1";
 
   // Fetch manga data
   useEffect(() => {
-    getMangas();
-  }, [searchTerm, page]);
+    getMangas(search, page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, page]);
 
-  const getMangas = async () => {
+  const getMangas = async (search, page) => {
     try {
-      const result = await getMangasForManage({ search: searchTerm, page });
+      const result = await getMangasForManage({ search, page });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        // Redirect to another page
         navigate("/login");
       } else if (error.response && error.response.status === 404) {
-        // Handle not found
-        setMangas([]);
+        setMangas(null);
         setTotalPages(0);
       }
     }
@@ -112,7 +102,7 @@ function ManageManga() {
             placeholder="Search"
             className="me-2"
             aria-label="Search"
-            value={searchTerm}
+            value={search}
             onChange={handleSearch}
           />
         </Col>
@@ -130,7 +120,7 @@ function ManageManga() {
             </tr>
           </thead>
           <tbody>
-            {mangas.length > 0 ? (
+            {mangas ? (
               mangas.map((item, index) => {
                 return (
                   <tr key={index}>
@@ -179,14 +169,11 @@ function ManageManga() {
           </tbody>
         </Table>
         &nbsp;
-        <div className="d-flex justify-content-center">
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            setSearchParams={setSearchParams}
-            search={searchTerm}
-          />
-        </div>
+        <Pagination
+          totalPages={totalPages}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+        />
       </div>
       <CreateManga
         show={showCreate}
@@ -208,5 +195,3 @@ function ManageManga() {
     </div>
   );
 }
-
-export default ManageManga;

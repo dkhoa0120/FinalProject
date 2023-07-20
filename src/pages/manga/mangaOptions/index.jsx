@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import Pagination from "../../../components/pagination";
+import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
 import { getMangasForUser } from "../../../service/api.manga";
+import Pagination from "../../../components/pagination";
 
-function Manga() {
+export default function Manga() {
   const [mangas, setMangas] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
@@ -13,11 +13,12 @@ function Manga() {
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
 
-  // Fetch manga data
+  // Re-fetch manga when search params change
   useEffect(() => {
     getMangasList(search, sortOption, page);
   }, [search, sortOption, page]);
 
+  // Fetch manga data
   const getMangasList = async (search, sortOption, page) => {
     try {
       const result = await getMangasForUser({ search, sortOption, page });
@@ -35,10 +36,27 @@ function Manga() {
   const handleSearch = (e) => {
     const search = e.target.value;
     if (search) {
-      setSearchParams({ search, sortOption, page: 1 });
+      setSearchParams((params) => {
+        params.set("search", search);
+        params.set("page", 1);
+        return params;
+      });
     } else {
-      setSearchParams({ sortOption, page: 1 });
+      setSearchParams((params) => {
+        params.delete("search");
+        params.set("page", 1);
+        return params;
+      });
     }
+  };
+
+  // Event handler for sort option
+  const handleSortOption = (e) => {
+    setSearchParams((params) => {
+      params.set("sortOption", e.target.value);
+      params.set("page", 1);
+      return params;
+    });
   };
 
   return (
@@ -48,9 +66,7 @@ function Manga() {
           <FormSelect
             className="mb-4 w-100"
             value={sortOption}
-            onChange={(e) =>
-              setSearchParams({ sortOption: e.target.value, page: 1 })
-            }
+            onChange={handleSortOption}
           >
             <option value="LatestManga">Latest Manga</option>
             <option value="LatestChapter">Latest Chapter</option>
@@ -104,5 +120,3 @@ function Manga() {
     </Container>
   );
 }
-
-export default Manga;
