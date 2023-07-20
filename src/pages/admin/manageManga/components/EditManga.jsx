@@ -160,7 +160,9 @@ function EditManga(props) {
               <Form.Label>Category</Form.Label>
               <MultiSelect
                 placeholder="Search category"
-                initialSelectedOptions={mapToOptions(props.dataEdit.categories)}
+                initialSelectedOptions={mapToOptions(
+                  props.dataEdit?.categories
+                )}
                 onSearchOptions={handleCategoryOptions}
                 onChangeOptions={(options) => setCategoryIds(options)}
               />
@@ -172,7 +174,7 @@ function EditManga(props) {
               <Form.Label>Author</Form.Label>
               <MultiSelect
                 placeholder="Search author"
-                initialSelectedOptions={mapToOptions(props.dataEdit.authors)}
+                initialSelectedOptions={mapToOptions(props.dataEdit?.authors)}
                 onSearchOptions={handleAuthorOptions}
                 onChangeOptions={(options) => setAuthorIds(options)}
               />

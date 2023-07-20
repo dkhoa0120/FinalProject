@@ -21,10 +21,8 @@ export default function ManageManga() {
   const [totalPages, setTotalPages] = useState();
 
   // Component state variables for modal controls
-  const [showCreate, setShowCreate] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
-  const [dataEdit, setDataEdit] = useState({});
+  const [shownModal, setShownModal] = useState(null);
+  const [dataEdit, setDataEdit] = useState(null);
 
   const search = searchParams.get("search") || "";
   const page = searchParams.get("page") || "1";
@@ -65,15 +63,16 @@ export default function ManageManga() {
     await getMangaByIdForManage(id).then((result) => {
       setDataEdit(result.data);
     });
-    setShowEdit(true);
+    setShownModal("edit");
   };
 
   // Event handler for deleting manga
   const handleDelete = (manga) => {
     setDataEdit(manga);
-    setShowDelete(true);
+    setShownModal("delete");
   };
 
+  // Event handler for undeleting manga
   const handleUndelete = async (id) => {
     try {
       await deleteManga(id, true);
@@ -86,13 +85,12 @@ export default function ManageManga() {
     }
   };
 
-  // JSX rendering
   return (
     <div className="manage-manga">
       <ToastContainer />
       <Row>
         <Col>
-          <Button variant="success" onClick={() => setShowCreate(true)}>
+          <Button variant="success" onClick={() => setShownModal("create")}>
             <i className="fa-solid fa-circle-plus"></i> Create
           </Button>
         </Col>
@@ -107,7 +105,6 @@ export default function ManageManga() {
           />
         </Col>
       </Row>
-
       <div className="manage-table">
         <Table striped bordered hover>
           <thead>
@@ -176,19 +173,19 @@ export default function ManageManga() {
         />
       </div>
       <CreateManga
-        show={showCreate}
-        handleClose={() => setShowCreate(false)}
+        show={shownModal === "create"}
+        handleClose={() => setShownModal(null)}
         getMangas={getMangas}
       />
       <EditManga
-        show={showEdit}
-        handleClose={() => setShowEdit(false)}
+        show={shownModal === "edit"}
+        handleClose={() => setShownModal(null)}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
       <DeleteManga
-        show={showDelete}
-        handleClose={() => setShowDelete(false)}
+        show={shownModal === "delete"}
+        handleClose={() => setShownModal(null)}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
