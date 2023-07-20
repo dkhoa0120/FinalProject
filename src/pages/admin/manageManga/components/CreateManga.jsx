@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import MultiSelect from "../../../../components/multiSelect";
 import { createManga } from "../../../../service/api.manga";
@@ -9,7 +7,7 @@ import { getLanguage } from "../../../../service/api.helper";
 import { getCategories } from "../../../../service/api.category";
 import { getAuthors } from "../../../../service/api.author";
 
-function CreateManga(props) {
+export default function CreateManga({ show, handleClose, getMangas }) {
   const [originalTitle, setOriginalTitle] = useState("");
   const [coverImage, setCoverImage] = useState(null);
   const [alternativeTitles, setAlternativeTitles] = useState("");
@@ -32,7 +30,7 @@ function CreateManga(props) {
 
     try {
       await createManga(formData);
-      props.handleClose();
+      handleClose();
       setOriginalTitle("");
       setCoverImage(null);
       setAlternativeTitles("");
@@ -42,7 +40,7 @@ function CreateManga(props) {
       setAuthorIds([]);
       setPublishYear("");
       toast.success("A manga has been created");
-      props.getMangas();
+      getMangas();
     } catch (error) {
       toast.error(error);
     }
@@ -100,7 +98,7 @@ function CreateManga(props) {
 
   return (
     <div>
-      <Modal show={props.show} onHide={props.handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Create New Manga</Modal.Title>
         </Modal.Header>
@@ -211,5 +209,3 @@ function CreateManga(props) {
     </div>
   );
 }
-
-export default CreateManga;
