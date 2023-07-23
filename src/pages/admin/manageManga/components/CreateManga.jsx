@@ -8,42 +8,41 @@ import { getCategories } from "../../../../service/api.category";
 import { getAuthors } from "../../../../service/api.author";
 
 export default function CreateManga({ show, handleClose, getMangas }) {
-  const [originalTitle, setOriginalTitle] = useState("");
-  const [coverImage, setCoverImage] = useState(null);
-  const [alternativeTitles, setAlternativeTitles] = useState("");
-  const [originalLanguage, setOriginalLanguage] = useState("");
-  const [description, setDescription] = useState("");
-  const [categoryIds, setCategoryIds] = useState([]);
-  const [authorIds, setAuthorIds] = useState([]);
-  const [publishYear, setPublishYear] = useState("");
+  const [mangaInput, setMangaInput] = useState({
+    categoryIds: [],
+    authorIds: [],
+  });
 
   const handleSave = async () => {
     const formData = new FormData();
-    formData.append("originalTitle", originalTitle);
-    formData.append("coverImage", coverImage);
-    formData.append("alternativeTitles", alternativeTitles);
-    formData.append("originalLanguage", originalLanguage);
-    formData.append("description", description);
-    formData.append("categoryIds", categoryIds);
-    formData.append("authorIds", authorIds);
-    formData.append("publishYear", publishYear);
+    for (const key in mangaInput) {
+      formData.append(key, mangaInput[key]);
+    }
 
     try {
       await createManga(formData);
       handleClose();
-      setOriginalTitle("");
-      setCoverImage(null);
-      setAlternativeTitles("");
-      setOriginalLanguage("");
-      setDescription("");
-      setCategoryIds([]);
-      setAuthorIds([]);
-      setPublishYear("");
+      setMangaInput({
+        categoryIds: [],
+        authorIds: [],
+      });
       toast.success("A manga has been created");
       getMangas();
     } catch (error) {
-      toast.error(error);
+      const errors = error.response.data.errors;
+      const firstErrorKey = Object.keys(errors)[0];
+      toast.error(`${firstErrorKey}: ${errors[firstErrorKey]}`);
     }
+  };
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setMangaInput({ ...mangaInput, [name]: value });
+  };
+
+  const handleSelectImage = (e) => {
+    const { name, files } = e.target;
+    setMangaInput({ ...mangaInput, [name]: files[0] });
   };
 
   //handle selected language
@@ -72,7 +71,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     try {
       let res = await getCategories({ search, excludeDeleted: true });
       let categories = res.data.itemList.filter(
-        (category) => !categoryIds.includes(category.id)
+        (category) => !mangaInput.categoryIds.includes(category.id)
       );
       return mapToOptions(categories);
     } catch (err) {
@@ -86,7 +85,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     try {
       let res = await getAuthors({ search, excludeDeleted: true });
       let authors = res.data.itemList.filter(
-        (author) => !authorIds.includes(author.id)
+        (author) => !mangaInput.authorIds.includes(author.id)
       );
       return mapToOptions(authors);
     } catch (err) {
@@ -109,8 +108,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <Form.Label>Original Title</Form.Label>
               <Form.Control
                 type="text"
-                value={originalTitle}
-                onChange={(e) => setOriginalTitle(e.target.value)}
+                name="originalTitle"
+                value={mangaInput.originalTitle || ""}
+                onChange={handleChangeInput}
                 required
               />
             </Col>
@@ -119,7 +119,8 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <Form.Label>Cover</Form.Label>
               <Form.Control
                 type="file"
-                onChange={(e) => setCoverImage(e.target.files[0])}
+                name="coverImage"
+                onChange={handleSelectImage}
                 required
               />
             </Col>
@@ -131,7 +132,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <MultiSelect
                 placeholder="Search category"
                 onSearchOptions={handleCategoryOptions}
-                onChangeOptions={(options) => setCategoryIds(options)}
+                onChangeOptions={(options) =>
+                  setMangaInput({ ...mangaInput, categoryIds: options })
+                }
               />
             </Col>
           </Row>{" "}
@@ -142,7 +145,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <MultiSelect
                 placeholder="Search author"
                 onSearchOptions={handleAuthorOptions}
-                onChangeOptions={(options) => setAuthorIds(options)}
+                onChangeOptions={(options) =>
+                  setMangaInput({ ...mangaInput, authorIds: options })
+                }
               />
             </Col>
           </Row>{" "}
@@ -153,8 +158,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <Form.Label>Publish Year</Form.Label>
               <Form.Control
                 type="number"
-                value={publishYear}
-                onChange={(e) => setPublishYear(e.target.value)}
+                name="publishYear"
+                value={mangaInput.publishYear || ""}
+                onChange={handleChangeInput}
                 required
               />
             </Col>
@@ -163,8 +169,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <Form.Label>Alternative Titles</Form.Label>
               <Form.Control
                 type="text"
-                value={alternativeTitles}
-                onChange={(e) => setAlternativeTitles(e.target.value)}
+                name="alternativeTitles"
+                value={mangaInput.alternativeTitles || ""}
+                onChange={handleChangeInput}
               />
             </Col>
             <Col>
@@ -172,8 +179,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <Form.Label>Original Language</Form.Label>
               <Form.Select
                 as="select"
-                value={originalLanguage}
-                onChange={(e) => setOriginalLanguage(e.target.value)}
+                name="originalLanguage"
+                value={mangaInput.originalLanguage || ""}
+                onChange={handleChangeInput}
                 required
               >
                 <option>Select Language</option>
@@ -194,8 +202,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               <Form.Control
                 as="textarea"
                 rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                value={mangaInput.description}
+                onChange={handleChangeInput}
               />
             </Col>
           </Row>
