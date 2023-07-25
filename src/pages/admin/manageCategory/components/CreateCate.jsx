@@ -7,24 +7,24 @@ import { createCategory } from "../../../../service/api.category";
 import { toast } from "react-toastify";
 
 function CreateCate(props) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [categoryInput, setCategoryInput] = useState({});
 
   const handleAdd = async () => {
-    const data = {
-      name: name,
-      description: description,
-    };
+    let data = { ...categoryInput };
     try {
       await createCategory(data);
       props.handleClose();
       props.getCategories();
-      setName("");
-      setDescription("");
+      setCategoryInput({});
       toast.success("Category has been created");
     } catch {
       toast.error("Somethings went wrong!");
     }
+  };
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setCategoryInput({ ...categoryInput, [name]: value });
   };
 
   return (
@@ -38,15 +38,17 @@ function CreateCate(props) {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            value={categoryInput.name || ""}
+            onChange={handleChangeInput}
             required
           />{" "}
           <Form.Label>Description</Form.Label>
           <Form.Control
             as="textarea"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            name="description"
+            value={categoryInput.description || ""}
+            onChange={handleChangeInput}
             required
           />
         </Modal.Body>

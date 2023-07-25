@@ -19,12 +19,10 @@ function ManageCategory() {
   // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
   const [categories, setCategories] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const search = searchParams.get("search") || "";
+  const page = searchParams.get("page") || "1";
 
   // Component state variables for modal controls
   const [showCreate, setShowCreate] = useState(false);
@@ -32,20 +30,14 @@ function ManageCategory() {
   const [showDelete, setShowDelete] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
 
-  // Set page and search term from URL search params
-  useEffect(() => {
-    setPage(parseInt(searchParams.get("page") || 1));
-    setSearchTerm(searchParams.get("search") || "");
-  }, [searchParams]);
-
   // Fetch manga data
   useEffect(() => {
-    handleGetCategories();
-  }, [searchTerm, page]);
+    handleGetCategories(search, page);
+  }, [search, page]);
 
-  const handleGetCategories = async () => {
+  const handleGetCategories = async (search, page) => {
     try {
-      const result = await getCategories({ search: searchTerm, page });
+      const result = await getCategories({ search, page });
       setCategories(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -110,7 +102,7 @@ function ManageCategory() {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
-              value={searchTerm}
+              value={search}
               onChange={handleSearch}
             />
           </Col>
@@ -169,10 +161,9 @@ function ManageCategory() {
         &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination
-            page={page}
             totalPages={totalPages}
+            searchParams={searchParams}
             setSearchParams={setSearchParams}
-            search={searchTerm}
           />
         </div>
         <CreateCate
