@@ -102,112 +102,114 @@ export default function CreateManga({ show, handleClose, getMangas }) {
           <Modal.Title>Create New Manga</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col xl={8}>
-              {" "}
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="originalTitle"
-                value={mangaInput.originalTitle || ""}
-                onChange={handleChangeInput}
-                required
-              />
-            </Col>
-            <Col xl={4}>
-              {" "}
-              <Form.Label>Cover</Form.Label>
-              <Form.Control
-                type="file"
-                name="coverImage"
-                onChange={handleSelectImage}
-                required
-              />
-            </Col>
-          </Row>{" "}
-          &nbsp;
-          <Row>
-            <Col>
-              <Form.Label>Category</Form.Label>
-              <MultiSelect
-                placeholder="Search category"
-                onSearchOptions={handleCategoryOptions}
-                onChangeOptions={(options) =>
-                  setMangaInput({ ...mangaInput, categoryIds: options })
-                }
-              />
-            </Col>
-          </Row>{" "}
-          &nbsp;
-          <Row>
-            <Col>
-              <Form.Label>Author</Form.Label>
-              <MultiSelect
-                placeholder="Search author"
-                onSearchOptions={handleAuthorOptions}
-                onChangeOptions={(options) =>
-                  setMangaInput({ ...mangaInput, authorIds: options })
-                }
-              />
-            </Col>
-          </Row>{" "}
-          &nbsp;
-          <Row>
-            <Col>
-              {" "}
-              <Form.Label>Publish Year</Form.Label>
-              <Form.Control
-                type="number"
-                name="publishYear"
-                value={mangaInput.publishYear || ""}
-                onChange={handleChangeInput}
-                required
-              />
-            </Col>
-            <Col>
-              {" "}
-              <Form.Label>Alternative Titles</Form.Label>
-              <Form.Control
-                type="text"
-                name="alternativeTitles"
-                value={mangaInput.alternativeTitles || ""}
-                onChange={handleChangeInput}
-              />
-            </Col>
-            <Col>
-              {" "}
-              <Form.Label>Original Language</Form.Label>
-              <Form.Select
-                as="select"
-                name="originalLanguage"
-                value={mangaInput.originalLanguage || ""}
-                onChange={handleChangeInput}
-                required
-              >
-                <option>Select Language</option>
-                {languageOptions.map((language, index) => (
-                  <option key={index} value={language}>
-                    {language}
-                  </option>
-                ))}
-              </Form.Select>
-            </Col>{" "}
+          <Form>
+            <Row>
+              <Col xl={8}>
+                {" "}
+                <Form.Label>Original Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="originalTitle"
+                  value={mangaInput.originalTitle || ""}
+                  onChange={handleChangeInput}
+                  required
+                />
+              </Col>
+              <Col xl={4}>
+                {" "}
+                <Form.Label>Cover</Form.Label>
+                <Form.Control
+                  type="file"
+                  name="coverImage"
+                  onChange={handleSelectImage}
+                  required
+                />
+              </Col>
+            </Row>{" "}
             &nbsp;
-          </Row>{" "}
-          &nbsp;
-          <Row>
-            <Col>
-              {" "}
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="description"
-                value={mangaInput.description}
-                onChange={handleChangeInput}
-              />
-            </Col>
-          </Row>
+            <Row>
+              <Col>
+                <Form.Label>Category</Form.Label>
+                <MultiSelect
+                  placeholder="Search category"
+                  onSearchOptions={handleCategoryOptions}
+                  onChangeOptions={(options) =>
+                    setMangaInput({ ...mangaInput, categoryIds: options })
+                  }
+                />
+              </Col>
+            </Row>{" "}
+            &nbsp;
+            <Row>
+              <Col>
+                <Form.Label>Author</Form.Label>
+                <MultiSelect
+                  placeholder="Search author"
+                  onSearchOptions={handleAuthorOptions}
+                  onChangeOptions={(options) =>
+                    setMangaInput({ ...mangaInput, authorIds: options })
+                  }
+                />
+              </Col>
+            </Row>{" "}
+            &nbsp;
+            <Row>
+              <Col>
+                {" "}
+                <Form.Label>Publish Year</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="publishYear"
+                  value={mangaInput.publishYear || ""}
+                  onChange={handleChangeInput}
+                  required
+                />
+              </Col>
+              <Col>
+                {" "}
+                <Form.Label>Alternative Titles</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="alternativeTitles"
+                  value={mangaInput.alternativeTitles || ""}
+                  onChange={handleChangeInput}
+                />
+              </Col>
+              <Col>
+                {" "}
+                <Form.Label>Original Language</Form.Label>
+                <Form.Select
+                  as="select"
+                  name="originalLanguage"
+                  value={mangaInput.originalLanguage || ""}
+                  onChange={handleChangeInput}
+                  required
+                >
+                  <option>Select Language</option>
+                  {languageOptions.map((language, index) => (
+                    <option key={index} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>{" "}
+              &nbsp;
+            </Row>{" "}
+            &nbsp;
+            <Row>
+              <Col>
+                {" "}
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="description"
+                  value={mangaInput.description}
+                  onChange={handleChangeInput}
+                />
+              </Col>
+            </Row>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="success" onClick={handleSave}>
