@@ -1,49 +1,23 @@
 import { useState, useEffect } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
-import MultiSelect from "../../../../components/multiSelect";
 import { createManga } from "../../../../service/api.manga";
 import { getLanguage } from "../../../../service/api.helper";
 import { getCategories } from "../../../../service/api.category";
 import { getAuthors } from "../../../../service/api.author";
+import { Controller, useForm } from "react-hook-form";
+import AsyncSelect from "react-select/async";
 
 export default function CreateManga({ show, handleClose, getMangas }) {
-  const [mangaInput, setMangaInput] = useState({
-    categoryIds: [],
-    authorIds: [],
+  const {
+    register,
+    control,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
   });
-
-  const handleSave = async () => {
-    const formData = new FormData();
-    for (const key in mangaInput) {
-      formData.append(key, mangaInput[key]);
-    }
-
-    try {
-      await createManga(formData);
-      handleClose();
-      setMangaInput({
-        categoryIds: [],
-        authorIds: [],
-      });
-      toast.success("A manga has been created");
-      getMangas();
-    } catch (error) {
-      const errors = error.response.data.errors;
-      const firstErrorKey = Object.keys(errors)[0];
-      toast.error(`${firstErrorKey}: ${errors[firstErrorKey]}`);
-    }
-  };
-
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setMangaInput({ ...mangaInput, [name]: value });
-  };
-
-  const handleSelectImage = (e) => {
-    const { name, files } = e.target;
-    setMangaInput({ ...mangaInput, [name]: files[0] });
-  };
 
   //handle selected language
   const [languageOptions, setLanguageOptions] = useState([]);
@@ -60,23 +34,16 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     fetchLanguageOptions();
   }, []);
 
-  const mapToOptions = (items) => {
-    return items.reduce((options, item) => {
-      options[item.id] = item.name;
-      return options;
-    }, {});
-  };
-
   const handleCategoryOptions = async (search) => {
     try {
       let res = await getCategories({ search, excludeDeleted: true });
-      let categories = res.data.itemList.filter(
-        (category) => !mangaInput.categoryIds.includes(category.id)
-      );
-      return mapToOptions(categories);
+      return res.data.itemList.map((category) => ({
+        value: category.id,
+        label: category.name,
+      }));
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        return {};
+        return [];
       }
     }
   };
@@ -84,14 +51,37 @@ export default function CreateManga({ show, handleClose, getMangas }) {
   const handleAuthorOptions = async (search) => {
     try {
       let res = await getAuthors({ search, excludeDeleted: true });
-      let authors = res.data.itemList.filter(
-        (author) => !mangaInput.authorIds.includes(author.id)
-      );
-      return mapToOptions(authors);
+      return res.data.itemList.map((author) => ({
+        value: author.id,
+        label: author.name,
+      }));
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        return {};
+        return [];
       }
+    }
+  };
+
+  const onSubmit = async (data) => {
+    console.log("data", data);
+    const formData = new FormData();
+    for (const key in data) {
+      if (key === "categoryIds" || key === "authorIds") {
+        let itemIds = data[key].map((item) => item.value);
+        formData.append(key, itemIds);
+        continue;
+      }
+      formData.append(key, data[key]);
+    }
+
+    try {
+      await createManga(formData);
+      handleClose();
+      reset();
+      toast.success("A manga has been created");
+      getMangas();
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -102,117 +92,128 @@ export default function CreateManga({ show, handleClose, getMangas }) {
           <Modal.Title>Create New Manga</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form id="create-manga-form" onSubmit={handleSubmit(onSubmit)}>
             <Row>
               <Col xl={8}>
-                {" "}
-                <Form.Label>Original Title</Form.Label>
+                <Form.Label>
+                  Original Title{" "}
+                  {errors.originalTitle && (
+                    <i
+                      title={errors.originalTitle.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
                 <Form.Control
                   type="text"
-                  name="originalTitle"
-                  value={mangaInput.originalTitle || ""}
-                  onChange={handleChangeInput}
-                  required
+                  {...register("originalTitle", {
+                    required: "This field is required",
+                    minLength: {
+                      value: 3,
+                      message: "This field must be at least 3 characters",
+                    },
+                  })}
                 />
               </Col>
               <Col xl={4}>
-                {" "}
                 <Form.Label>Cover</Form.Label>
-                <Form.Control
-                  type="file"
-                  name="coverImage"
-                  onChange={handleSelectImage}
-                  required
-                />
+                <Form.Control type="file" {...register("coverImage")} />
               </Col>
-            </Row>{" "}
+            </Row>
             &nbsp;
             <Row>
               <Col>
-                <Form.Label>Category</Form.Label>
-                <MultiSelect
-                  placeholder="Search category"
-                  onSearchOptions={handleCategoryOptions}
-                  onChangeOptions={(options) =>
-                    setMangaInput({ ...mangaInput, categoryIds: options })
-                  }
+                <Form.Label>
+                  Category{" "}
+                  {errors.categoryIds && (
+                    <i
+                      title={errors.categoryIds.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Controller
+                  name="categoryIds"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <AsyncSelect
+                      {...field}
+                      isMulti
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={handleCategoryOptions}
+                    />
+                  )}
                 />
               </Col>
-            </Row>{" "}
+            </Row>
             &nbsp;
             <Row>
               <Col>
                 <Form.Label>Author</Form.Label>
-                <MultiSelect
-                  placeholder="Search author"
-                  onSearchOptions={handleAuthorOptions}
-                  onChangeOptions={(options) =>
-                    setMangaInput({ ...mangaInput, authorIds: options })
-                  }
+                <Controller
+                  name="authorIds"
+                  control={control}
+                  render={({ field }) => (
+                    <AsyncSelect
+                      {...field}
+                      isMulti
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={handleAuthorOptions}
+                    />
+                  )}
                 />
               </Col>
-            </Row>{" "}
+            </Row>
             &nbsp;
             <Row>
               <Col>
-                {" "}
                 <Form.Label>Publish Year</Form.Label>
                 <Form.Control
                   type="number"
-                  name="publishYear"
-                  value={mangaInput.publishYear || ""}
-                  onChange={handleChangeInput}
-                  required
+                  {...register("publishYear", {
+                    required: true,
+                  })}
                 />
               </Col>
               <Col>
-                {" "}
                 <Form.Label>Alternative Titles</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="alternativeTitles"
-                  value={mangaInput.alternativeTitles || ""}
-                  onChange={handleChangeInput}
-                />
+                <Form.Control type="text" {...register("alternativeTitles")} />
               </Col>
               <Col>
-                {" "}
                 <Form.Label>Original Language</Form.Label>
                 <Form.Select
-                  as="select"
-                  name="originalLanguage"
-                  value={mangaInput.originalLanguage || ""}
-                  onChange={handleChangeInput}
-                  required
+                  {...register("originalLanguage", { required: true })}
                 >
-                  <option>Select Language</option>
+                  <option value="">Select...</option>
                   {languageOptions.map((language, index) => (
                     <option key={index} value={language}>
                       {language}
                     </option>
                   ))}
                 </Form.Select>
-              </Col>{" "}
+              </Col>
               &nbsp;
-            </Row>{" "}
+            </Row>
             &nbsp;
             <Row>
               <Col>
-                {" "}
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  name="description"
-                  value={mangaInput.description}
-                  onChange={handleChangeInput}
+                  {...register("description")}
                 />
               </Col>
             </Row>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleSave}>
+          <Button variant="success" type="submit" form="create-manga-form">
             Add New
           </Button>
         </Modal.Footer>
