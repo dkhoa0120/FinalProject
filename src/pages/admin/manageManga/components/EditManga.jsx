@@ -3,22 +3,44 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import MultiSelect from "../../../../components/multiSelect";
 import { editManga } from "../../../../service/api.manga";
 import { getLanguage } from "../../../../service/api.helper";
-import { getAuthors } from "../../../../service/api.author";
-import { getCategories } from "../../../../service/api.category";
+import { Controller, useForm } from "react-hook-form";
+import AsyncSelect from "react-select/async";
+import {
+  handleAuthorOptions,
+  handleCateOptions,
+  mapToOption,
+} from "./SelectOptions";
 
-function EditManga(props) {
-  const [id, setId] = useState("");
-  const [originalTitle, setOriginalTitle] = useState("");
-  const [coverImage, setCoverImage] = useState(null);
-  const [alternativeTitles, setAlternativeTitles] = useState("");
-  const [originalLanguage, setOriginalLanguage] = useState("");
-  const [description, setDescription] = useState("");
-  const [publishYear, setPublishYear] = useState("");
-  const [categoryIds, setCategoryIds] = useState([]);
-  const [authorIds, setAuthorIds] = useState([]);
+function EditManga({ dataEdit, show, handleClose, getMangas }) {
+  const {
+    register,
+    control,
+    reset,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+  });
+
+  console.log("predata", dataEdit);
+  useEffect(() => {
+    if (dataEdit) {
+      const authorOptions = mapToOption(dataEdit.authors);
+      const cateOptions = mapToOption(dataEdit.categories);
+      setValue("id", dataEdit.id);
+      setValue("originalTitle", dataEdit.originalTitle);
+      setValue("authorIds", authorOptions);
+      setValue("categoryIds", cateOptions);
+      setValue("publishYear", dataEdit.publishYear);
+      setValue("alternativeTitles", dataEdit.alternativeTitles || "");
+      setValue("originalLanguage", dataEdit.originalLanguage);
+      setValue("description", dataEdit.description || "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataEdit, setValue]);
 
   const [languageOptions, setLanguageOptions] = useState([]);
   useEffect(() => {
@@ -33,204 +55,215 @@ function EditManga(props) {
 
     fetchLanguageOptions();
   }, []);
-
-  useEffect(() => {
-    if (props.show) {
-      const {
-        originalTitle,
-        alternativeTitles,
-        originalLanguage,
-        description,
-        publishYear,
-        categories,
-        authors,
-        id,
-      } = props.dataEdit;
-      setId(id || "");
-      setOriginalTitle(originalTitle || "");
-      setAlternativeTitles(alternativeTitles || "");
-      setOriginalLanguage(originalLanguage || "");
-      setDescription(description || "");
-      setPublishYear(publishYear || "");
-      if (categories) {
-        setCategoryIds(categories.map((category) => category.id));
-      }
-      if (authors) {
-        setAuthorIds(authors.map((author) => author.id));
-      }
-    }
-  }, [props.dataEdit, props.show]);
-
-  const handleSave = async () => {
+  const onSubmit = async (data) => {
+    console.log("data", data);
     const formData = new FormData();
-    formData.append("id", id);
-    formData.append("originalTitle", originalTitle);
-    formData.append("coverImage", coverImage);
-    formData.append("alternativeTitles", alternativeTitles);
-    formData.append("originalLanguage", originalLanguage);
-    formData.append("description", description);
-    formData.append("publishYear", publishYear);
-    formData.append("categoryIds", categoryIds);
-    formData.append("authorIds", authorIds);
+    for (const key in data) {
+      if (key === "categoryIds" || key === "authorIds") {
+        let itemIds = data[key].map((item) => item.value);
+        formData.append(key, itemIds);
+        continue;
+      }
+      if (key === "coverImage") {
+        let coverImageFile = data[key][0];
+        formData.append(key, coverImageFile);
+        continue;
+      }
+      formData.append(key, data[key]);
+    }
 
     try {
-      await editManga(id, formData);
-      props.handleClose();
-      setOriginalTitle("");
-      setCoverImage(null);
-      setAlternativeTitles("");
-      setOriginalLanguage("");
-      setDescription("");
-      setPublishYear("");
+      await editManga(data.id, formData);
+      handleClose();
+      reset();
       toast.success("A manga has been updated");
-      props.getMangas();
+      getMangas();
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message);
     }
   };
-
-  const mapToOptions = (items) => {
-    if (typeof items === "undefined") {
-      return {};
-    }
-    const options = items.reduce((options, item) => {
-      options[item.id] = item.name;
-      return options;
-    }, {});
-    return options;
-  };
-
-  const handleCategoryOptions = async (search) => {
-    try {
-      let res = await getCategories({ search, excludeDeleted: true });
-      let categories = res.data.itemList.filter(
-        (category) => !categoryIds.includes(category.id)
-      );
-      return mapToOptions(categories);
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        return {};
-      }
-    }
-  };
-
-  const handleAuthorOptions = async (search) => {
-    try {
-      let res = await getAuthors({ search, excludeDeleted: true });
-      let authors = res.data.itemList.filter(
-        (author) => !authorIds.includes(author.id)
-      );
-      return mapToOptions(authors);
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        return {};
-      }
-    }
-  };
-
   return (
     <div>
-      <Modal show={props.show} onHide={props.handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Edit Manga</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col xl={8}>
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control
-                type="text"
-                value={originalTitle}
-                onChange={(e) => setOriginalTitle(e.target.value)}
-                required
-              />
-            </Col>
-            <Col xl={4}>
-              <Form.Label>Cover</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(e) => setCoverImage(e.target.files[0])}
-                required
-              />
-            </Col>
-          </Row>
-          &nbsp;
-          <Row>
-            <Col>
-              <Form.Label>Category</Form.Label>
-              <MultiSelect
-                placeholder="Search category"
-                initialSelectedOptions={mapToOptions(
-                  props.dataEdit?.categories
-                )}
-                onSearchOptions={handleCategoryOptions}
-                onChangeOptions={(options) => setCategoryIds(options)}
-              />
-            </Col>
-          </Row>{" "}
-          &nbsp;
-          <Row>
-            <Col>
-              <Form.Label>Author</Form.Label>
-              <MultiSelect
-                placeholder="Search author"
-                initialSelectedOptions={mapToOptions(props.dataEdit?.authors)}
-                onSearchOptions={handleAuthorOptions}
-                onChangeOptions={(options) => setAuthorIds(options)}
-              />
-            </Col>
-          </Row>{" "}
-          &nbsp;
-          <Row>
-            <Col>
-              <Form.Label>Publish Year</Form.Label>
-              <Form.Control
-                type="number"
-                value={publishYear}
-                onChange={(e) => setPublishYear(e.target.value)}
-                required
-              />
-            </Col>
-            <Col>
-              <Form.Label>Alternative Titles</Form.Label>
-              <Form.Control
-                type="text"
-                value={alternativeTitles}
-                onChange={(e) => setAlternativeTitles(e.target.value)}
-              />
-            </Col>
-            <Col>
-              <Form.Label>Original Language</Form.Label>
-              <Form.Control
-                as="select"
-                value={originalLanguage}
-                onChange={(e) => setOriginalLanguage(e.target.value)}
-                required
-              >
-                <option value="">Select Language</option>
-                {languageOptions.map((language, index) => (
-                  <option key={index} value={language}>
-                    {language}
-                  </option>
-                ))}
-              </Form.Control>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Col>
-          </Row>
+          <Form id="edit-manga-form" onSubmit={handleSubmit(onSubmit)}>
+            <Row>
+              <Col xl={8}>
+                <Form.Label>
+                  Original Title{" "}
+                  {errors.originalTitle && (
+                    <i
+                      title={errors.originalTitle.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  {...register("originalTitle", {
+                    required: "This field is required",
+                    minLength: {
+                      value: 3,
+                      message: "This field must be at least 3 characters",
+                    },
+                  })}
+                />
+              </Col>
+              <Col xl={4}>
+                <Form.Label>Cover</Form.Label>
+                <Form.Control type="file" {...register("coverImage")} />
+              </Col>
+            </Row>
+            &nbsp;
+            <Row>
+              <Col>
+                <Form.Label>
+                  Category{" "}
+                  {errors.categoryIds && (
+                    <i
+                      title={errors.categoryIds.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Controller
+                  name="categoryIds"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <AsyncSelect
+                      {...field}
+                      isMulti
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={handleCateOptions}
+                    />
+                  )}
+                />
+              </Col>
+            </Row>
+            &nbsp;
+            <Row>
+              <Col>
+                <Form.Label>
+                  Author{" "}
+                  {errors.authorIds && (
+                    <i
+                      title={errors.authorIds.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Controller
+                  name="authorIds"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <AsyncSelect
+                      {...field}
+                      isMulti
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={handleAuthorOptions}
+                    />
+                  )}
+                />
+              </Col>
+            </Row>
+            &nbsp;
+            <Row>
+              <Col>
+                <Form.Label>
+                  Publish Year{" "}
+                  {errors.publishYear && (
+                    <i
+                      title={errors.publishYear.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  type="number"
+                  {...register("publishYear", {
+                    required: "This field is required",
+                    min: {
+                      value: 1000,
+                      message: "Publish Year must be after 1000",
+                    },
+                    max: {
+                      value: 2100,
+                      message: "Publish Year must be before 2100",
+                    },
+                  })}
+                />
+              </Col>
+              <Col>
+                <Form.Label>Alternative Titles</Form.Label>
+                <Form.Control type="text" {...register("alternativeTitles")} />
+              </Col>
+              <Col>
+                <Form.Label>
+                  Original Language{" "}
+                  {errors.originalLanguage && (
+                    <i
+                      title={errors.originalLanguage.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Form.Select
+                  {...register("originalLanguage", {
+                    required: "This field is required",
+                  })}
+                >
+                  <option value="">Select...</option>
+                  {languageOptions.map((language, index) => (
+                    <option key={index} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+              &nbsp;
+            </Row>
+            &nbsp;
+            <Row>
+              <Col>
+                <Form.Label>
+                  Description {""}
+                  {errors.description && (
+                    <i
+                      title={errors.description.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  {...register("description", {
+                    maxLength: {
+                      value: 1000,
+                      message: "This field must be less than 1000 characters",
+                    },
+                  })}
+                />
+              </Col>
+            </Row>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleSave}>
-            Save Change
+          <Button variant="primary" type="submit" form="edit-manga-form">
+            Update
           </Button>
         </Modal.Footer>
       </Modal>

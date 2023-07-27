@@ -3,10 +3,9 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { createManga } from "../../../../service/api.manga";
 import { getLanguage } from "../../../../service/api.helper";
-import { getCategories } from "../../../../service/api.category";
-import { getAuthors } from "../../../../service/api.author";
 import { Controller, useForm } from "react-hook-form";
 import AsyncSelect from "react-select/async";
+import { handleAuthorOptions, handleCateOptions } from "./SelectOptions";
 
 export default function CreateManga({ show, handleClose, getMangas }) {
   const {
@@ -34,34 +33,6 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     fetchLanguageOptions();
   }, []);
 
-  const handleCategoryOptions = async (search) => {
-    try {
-      let res = await getCategories({ search, excludeDeleted: true });
-      return res.data.itemList.map((category) => ({
-        value: category.id,
-        label: category.name,
-      }));
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        return [];
-      }
-    }
-  };
-
-  const handleAuthorOptions = async (search) => {
-    try {
-      let res = await getAuthors({ search, excludeDeleted: true });
-      return res.data.itemList.map((author) => ({
-        value: author.id,
-        label: author.name,
-      }));
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        return [];
-      }
-    }
-  };
-
   const onSubmit = async (data) => {
     console.log("data", data);
     const formData = new FormData();
@@ -69,6 +40,11 @@ export default function CreateManga({ show, handleClose, getMangas }) {
       if (key === "categoryIds" || key === "authorIds") {
         let itemIds = data[key].map((item) => item.value);
         formData.append(key, itemIds);
+        continue;
+      }
+      if (key === "coverImage") {
+        let coverImageFile = data[key][0];
+        formData.append(key, coverImageFile);
         continue;
       }
       formData.append(key, data[key]);
@@ -118,7 +94,11 @@ export default function CreateManga({ show, handleClose, getMangas }) {
               </Col>
               <Col xl={4}>
                 <Form.Label>Cover</Form.Label>
-                <Form.Control type="file" {...register("coverImage")} />
+                <Form.Control
+                  name="coverImage"
+                  type="file"
+                  {...register("coverImage")}
+                />
               </Col>
             </Row>
             &nbsp;
@@ -144,7 +124,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
                       isMulti
                       cacheOptions
                       defaultOptions
-                      loadOptions={handleCategoryOptions}
+                      loadOptions={handleCateOptions}
                     />
                   )}
                 />
@@ -153,10 +133,20 @@ export default function CreateManga({ show, handleClose, getMangas }) {
             &nbsp;
             <Row>
               <Col>
-                <Form.Label>Author</Form.Label>
+                <Form.Label>
+                  Author{" "}
+                  {errors.authorIds && (
+                    <i
+                      title={errors.authorIds.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
                 <Controller
                   name="authorIds"
                   control={control}
+                  rules={{ required: "This field is required" }}
                   render={({ field }) => (
                     <AsyncSelect
                       {...field}
@@ -172,11 +162,28 @@ export default function CreateManga({ show, handleClose, getMangas }) {
             &nbsp;
             <Row>
               <Col>
-                <Form.Label>Publish Year</Form.Label>
+                <Form.Label>
+                  Publish Year{" "}
+                  {errors.publishYear && (
+                    <i
+                      title={errors.publishYear.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
                 <Form.Control
                   type="number"
                   {...register("publishYear", {
-                    required: true,
+                    required: "This field is required",
+                    min: {
+                      value: 1000,
+                      message: "Publish Year must be after 1000",
+                    },
+                    max: {
+                      value: 2100,
+                      message: "Publish Year must be before 2100",
+                    },
                   })}
                 />
               </Col>
@@ -185,9 +192,20 @@ export default function CreateManga({ show, handleClose, getMangas }) {
                 <Form.Control type="text" {...register("alternativeTitles")} />
               </Col>
               <Col>
-                <Form.Label>Original Language</Form.Label>
+                <Form.Label>
+                  Original Language{" "}
+                  {errors.originalLanguage && (
+                    <i
+                      title={errors.originalLanguage.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
                 <Form.Select
-                  {...register("originalLanguage", { required: true })}
+                  {...register("originalLanguage", {
+                    required: "This field is required",
+                  })}
                 >
                   <option value="">Select...</option>
                   {languageOptions.map((language, index) => (
@@ -202,11 +220,25 @@ export default function CreateManga({ show, handleClose, getMangas }) {
             &nbsp;
             <Row>
               <Col>
-                <Form.Label>Description</Form.Label>
+                <Form.Label>
+                  Description {""}
+                  {errors.description && (
+                    <i
+                      title={errors.description.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  {...register("description")}
+                  {...register("description", {
+                    maxLength: {
+                      value: 1000,
+                      message: "This field must be less than 1000 characters",
+                    },
+                  })}
                 />
               </Col>
             </Row>
