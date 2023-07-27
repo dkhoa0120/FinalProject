@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { deleteCategory } from "../../../../service/api.category";
 import { toast } from "react-toastify";
 
-function DeleteCate(props) {
+export default function DeleteCate(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
 
@@ -17,7 +17,7 @@ function DeleteCate(props) {
     }
   }, [props.dataEdit, props.show]);
 
-  const handleConfirm = async () => {
+  const onSubmit = async () => {
     try {
       await deleteCategory(id);
       toast.success("Category has been deleted", {
@@ -45,7 +45,7 @@ function DeleteCate(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleConfirm}>
+          <Button variant="danger" onClick={onSubmit}>
             Confirm Delete
           </Button>
         </Modal.Footer>
@@ -53,5 +53,3 @@ function DeleteCate(props) {
     </div>
   );
 }
-
-export default DeleteCate;

@@ -146,11 +146,9 @@ function ManageUser() {
         &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination
-            page={page}
             totalPages={totalPages}
+            searchParams={searchParams}
             setSearchParams={setSearchParams}
-            roleOption={roleOption}
-            search={searchTerm}
           />
         </div>
       </div>

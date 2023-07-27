@@ -17,7 +17,7 @@ function DeleteManga(props) {
     }
   }, [props.dataEdit, props.show]);
 
-  const handleConfirm = async () => {
+  const onSubmit = async () => {
     try {
       await deleteManga(id);
       toast.success("Manga has been deleted", {
@@ -45,7 +45,7 @@ function DeleteManga(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleConfirm}>
+          <Button variant="danger" onClick={onSubmit}>
             Confirm Delete
           </Button>
         </Modal.Footer>

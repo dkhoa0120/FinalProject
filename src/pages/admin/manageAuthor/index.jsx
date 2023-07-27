@@ -170,10 +170,9 @@ function ManageAuthor() {
         &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination
-            page={page}
             totalPages={totalPages}
+            searchParams={searchParams}
             setSearchParams={setSearchParams}
-            search={searchTerm}
           />
         </div>
         <CreateAuthor

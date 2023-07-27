@@ -1,26 +1,27 @@
 import React from "react";
-import { useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { createAuthor } from "../../../../service/api.author";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
-function CreateAuthor(props) {
-  const [name, setName] = useState("");
-  const [biography, setBiography] = useState("");
+export default function CreateAuthor({ show, handleClose, getAuthors }) {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+  });
 
-  const handleAdd = async () => {
-    const data = {
-      name: name,
-      biography: biography,
-    };
+  const onSubmit = async (data) => {
     try {
       await createAuthor(data);
-      props.handleClose();
-      props.getAuthors();
-      setName("");
-      setBiography("");
+      handleClose();
+      getAuthors();
+      reset();
       toast.success("Authors has been created");
     } catch {
       toast.error("Somethings went wrong!");
@@ -29,29 +30,58 @@ function CreateAuthor(props) {
 
   return (
     <div>
-      <Modal show={props.show} onHide={props.handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Create New Author</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {" "}
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />{" "}
-          <Form.Label>Biography</Form.Label>
-          <Form.Control
-            as="textarea"
-            value={biography}
-            onChange={(e) => setBiography(e.target.value)}
-            required
-          />
+          <Form id="create-author-form" onSubmit={handleSubmit(onSubmit)}>
+            <Form.Label>
+              Name{" "}
+              {errors.name && (
+                <i
+                  title={errors.name.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}{" "}
+            </Form.Label>
+            <Form.Control
+              type="text"
+              {...register("name", {
+                required: "This field is required",
+                maxLength: {
+                  value: 100,
+                  message: "This field must be no more than 100 characters",
+                },
+              })}
+            />
+            <br />
+            <Form.Label>
+              Biography{" "}
+              {errors.biography && (
+                <i
+                  title={errors.biography.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+            </Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              {...register("biography", {
+                required: "This field is required",
+                maxLength: {
+                  value: 1000,
+                  message: "This field must be no more than 1000 characters",
+                },
+              })}
+            />
+          </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleAdd}>
+          <Button variant="success" type="submit" form="create-author-form">
             Add New
           </Button>
         </Modal.Footer>
@@ -59,5 +89,3 @@ function CreateAuthor(props) {
     </div>
   );
 }
-
-export default CreateAuthor;

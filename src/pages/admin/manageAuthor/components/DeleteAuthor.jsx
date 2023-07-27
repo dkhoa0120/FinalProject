@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { deleteAuthor } from "../../../../service/api.author";
 import { toast } from "react-toastify";
 
-function DeleteAuthor(props) {
+export default function DeleteAuthor(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
 
@@ -17,7 +17,7 @@ function DeleteAuthor(props) {
     }
   }, [props.dataEdit, props.show]);
 
-  const handleConfirm = async () => {
+  const onSubmit = async () => {
     try {
       await deleteAuthor(id);
       toast.success("Author has been deleted", {
@@ -45,7 +45,7 @@ function DeleteAuthor(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleConfirm}>
+          <Button variant="danger" onClick={onSubmit}>
             Confirm Delete
           </Button>
         </Modal.Footer>
@@ -53,5 +53,3 @@ function DeleteAuthor(props) {
     </div>
   );
 }
-
-export default DeleteAuthor;

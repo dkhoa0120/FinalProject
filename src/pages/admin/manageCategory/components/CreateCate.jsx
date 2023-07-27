@@ -6,7 +6,7 @@ import { createCategory } from "../../../../service/api.category";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
-function CreateCate({ show, handleClose, getCategories }) {
+export default function CreateCate({ show, handleClose, getCategories }) {
   const {
     register,
     reset,
@@ -52,14 +52,15 @@ function CreateCate({ show, handleClose, getCategories }) {
               type="text"
               {...register("name", {
                 required: "This field is required",
-                minLength: {
-                  value: 3,
-                  message: "This field must be at least 3 characters",
+                maxLength: {
+                  value: 100,
+                  message: "This field must be no more than 100 characters",
                 },
               })}
             />
+            <br />
             <Form.Label>
-              Description {""}
+              Description{" "}
               {errors.description && (
                 <i
                   title={errors.description.message}
@@ -72,9 +73,10 @@ function CreateCate({ show, handleClose, getCategories }) {
               as="textarea"
               rows={3}
               {...register("description", {
+                required: "This field is required",
                 maxLength: {
                   value: 1000,
-                  message: "This field must be less than 1000 characters",
+                  message: "This field must be no more than 1000 characters",
                 },
               })}
             />
@@ -89,5 +91,3 @@ function CreateCate({ show, handleClose, getCategories }) {
     </div>
   );
 }
-
-export default CreateCate;

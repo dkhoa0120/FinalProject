@@ -1,37 +1,39 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { editCategory } from "../../../../service/api.category";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-function EditCate(props) {
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+export default function EditCate({
+  dataEdit,
+  show,
+  handleClose,
+  getCategories,
+}) {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+  });
 
   useEffect(() => {
-    if (props.show) {
-      const { name, description, id } = props.dataEdit;
-      setId(id || "");
-      setName(name || "");
-      setDescription(description || "");
+    if (dataEdit) {
+      setValue("id", dataEdit.id);
+      setValue("name", dataEdit.name);
+      setValue("description", dataEdit.description);
     }
-  }, [props.dataEdit, props.show]);
+  }, [dataEdit, setValue]);
 
-  const handleUpdate = async () => {
-    const data = {
-      id: id,
-      name: name,
-      description: description,
-    };
+  const onSubmit = async (data) => {
     try {
-      await editCategory(id, data);
-      props.handleClose();
-      props.getCategories();
-      setName("");
-      setDescription("");
+      await editCategory(data.id, data);
+      handleClose();
+      getCategories();
       toast.success("Category has been updated!");
     } catch (error) {
       toast.error("Somethings went wrong!");
@@ -40,29 +42,58 @@ function EditCate(props) {
 
   return (
     <div>
-      <Modal show={props.show} onHide={props.handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Edit Manga</Modal.Title>
+          <Modal.Title>Edit Category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {" "}
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />{" "}
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            as="textarea"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
+          <Form id="edit-cate-form" onSubmit={handleSubmit(onSubmit)}>
+            <Form.Label>
+              Name{" "}
+              {errors.name && (
+                <i
+                  title={errors.name.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+            </Form.Label>
+            <Form.Control
+              type="text"
+              {...register("name", {
+                required: "This field is required",
+                maxLength: {
+                  value: 100,
+                  message: "This field must be no more than 100 characters",
+                },
+              })}
+            />
+            <br />
+            <Form.Label>
+              Description{" "}
+              {errors.description && (
+                <i
+                  title={errors.description.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}{" "}
+            </Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              {...register("description", {
+                required: "This field is required",
+                maxLength: {
+                  value: 1000,
+                  message: "This field must be no more than 1000 characters",
+                },
+              })}
+            />
+          </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleUpdate}>
+          <Button variant="primary" type="submit" form="edit-cate-form">
             Save Change
           </Button>
         </Modal.Footer>
@@ -70,5 +101,3 @@ function EditCate(props) {
     </div>
   );
 }
-
-export default EditCate;

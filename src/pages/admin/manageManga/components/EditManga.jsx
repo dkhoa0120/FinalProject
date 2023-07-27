@@ -13,7 +13,7 @@ import {
   mapToOption,
 } from "./SelectOptions";
 
-function EditManga({ dataEdit, show, handleClose, getMangas }) {
+export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
   const {
     register,
     control,
@@ -270,5 +270,3 @@ function EditManga({ dataEdit, show, handleClose, getMangas }) {
     </div>
   );
 }
-
-export default EditManga;
