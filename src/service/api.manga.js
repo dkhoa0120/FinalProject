@@ -1,4 +1,4 @@
-import { userAxios, getManageAxios } from "./api.base";
+import { userAxios, getManageAxios, baseAxios } from "./api.base";
 
 // user/manga
 export const getMangasForUser = (filter) => {
@@ -7,20 +7,20 @@ export const getMangasForUser = (filter) => {
   const page = filter?.page || 1;
   const pageSize = filter?.pageSize || 1;
 
-  return userAxios.get("/manga", {
+  return baseAxios.get("/mangas", {
     params: { search, sortOption, page, pageSize },
   });
 };
 
 export const getMangaByIdForUser = (id) => {
-  return userAxios.get(`/manga/${id}`);
+  return baseAxios.get(`/mangas/${id}`);
 };
 
 export const getChapterByMangaIdForUser = (id, filter) => {
   const page = filter?.page || 1;
   const pageSize = filter?.pageSize || 3;
 
-  return userAxios.get(`/manga/${id}/chapters`, {
+  return baseAxios.get(`/mangas/${id}/chapters`, {
     params: { page, pageSize },
   });
 };

@@ -7,6 +7,10 @@ export const userAxios = axios.create({
   baseURL: `${API_URL}/user`,
 });
 
+export const baseAxios = axios.create({
+  baseURL: `${API_URL}`,
+});
+
 export const getManageAxios = () =>
   axios.create({
     baseURL: `${API_URL}/manage`,

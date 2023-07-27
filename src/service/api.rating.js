@@ -2,7 +2,7 @@ import Cookies from "universal-cookie";
 import { userAxios } from "./api.base";
 
 export const getCurrentUserRating = (id) => {
-  return userAxios.get(`/rating/${id}`, {
+  return userAxios.get(`/rating/mangas/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
@@ -10,7 +10,7 @@ export const getCurrentUserRating = (id) => {
 };
 
 export const postRating = (id, data) => {
-  return userAxios.post(`/rating/${id}`, data, {
+  return userAxios.post(`/rating/mangas/${id}`, data, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
@@ -18,7 +18,7 @@ export const postRating = (id, data) => {
 };
 
 export const putRating = (id, data) => {
-  return userAxios.put(`/rating/${id}`, data, {
+  return userAxios.put(`/rating/mangas/${id}`, data, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
@@ -26,7 +26,7 @@ export const putRating = (id, data) => {
 };
 
 export const deleteRating = (id) => {
-  return userAxios.delete(`/rating/${id}`, {
+  return userAxios.delete(`/rating/mangas/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },

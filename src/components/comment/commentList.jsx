@@ -7,8 +7,8 @@ import { getUserChildComment } from "../../service/api.comment";
 function Comment({ comment }) {
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [dislikeCount, setDisLikeCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(comment.likeCount);
+  const [dislikeCount, setDisLikeCount] = useState(comment.dislikeCount);
   const [activeBtn, setActiveBtn] = useState("none");
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
