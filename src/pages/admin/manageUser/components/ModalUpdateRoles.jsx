@@ -1,30 +1,45 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import RoleSelector from "./RoleSelector";
 import { updateRoles } from "../../../../service/api.user";
+import { useForm, Controller } from "react-hook-form";
+import Select from "react-select";
 
-function ModalUpdateRoles(props) {
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [roles, setRoles] = useState([]);
+export default function ModalUpdateRoles({
+  dataEdit,
+  show,
+  handleClose,
+  getUsers,
+}) {
+  const {
+    register,
+    control,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
-    if (props.show) {
-      setId(props.dataEdit.id || "");
-      setName(props.dataEdit.name || "");
-      setRoles(props.dataEdit.roles || []);
+    if (dataEdit) {
+      setValue("id", dataEdit.id);
+      setValue("name", dataEdit.name);
+      setValue(
+        "roles",
+        dataEdit.roles.map((r) => ({ value: r, label: r }))
+      );
     }
-  }, [props.dataEdit, props.show]);
+  }, [dataEdit, setValue]);
 
-  const handleConfirm = async () => {
+  const onSubmit = async (data) => {
     try {
-      await updateRoles(id, roles);
-      props.getUsers();
-      props.handleClose();
+      await updateRoles(
+        data.id,
+        data.roles.map((r) => r.value)
+      );
+      getUsers();
+      handleClose();
       toast.success("User's roles have been updated");
     } catch (error) {
       toast.error(error);
@@ -33,32 +48,61 @@ function ModalUpdateRoles(props) {
 
   return (
     <div>
-      <Modal show={props.show} onHide={props.handleClose}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Update Roles</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col>
-              <Form.Label>User Id</Form.Label>
-              <Form.Control type="text" value={id} disabled />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Label>User Name</Form.Label>
-              <Form.Control type="text" value={name} disabled />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Label>Roles</Form.Label>
-              <RoleSelector selectedRoles={roles} onChangeRoles={setRoles} />
-            </Col>
-          </Row>
+          <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
+            <Row>
+              <Col>
+                <Form.Label>User Id</Form.Label>
+                <Form.Control readOnly type="text" {...register("id")} />
+              </Col>
+            </Row>
+            <br />
+            <Row>
+              <Col>
+                <Form.Label>User Name</Form.Label>
+                <Form.Control readOnly type="text" {...register("name")} />
+              </Col>
+            </Row>
+            <br />
+            <Row>
+              <Col>
+                <Form.Label>
+                  Roles{" "}
+                  {errors.roles && (
+                    <i
+                      title={errors.roles.message}
+                      className="fa-solid fa-circle-exclamation"
+                      style={{ color: "red" }}
+                    ></i>
+                  )}
+                </Form.Label>
+                <Controller
+                  name="roles"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { value: "User", label: "User" },
+                        { value: "Uploader", label: "Uploader" },
+                        { value: "Manager", label: "Manager" },
+                        { value: "Admin", label: "Admin" },
+                      ]}
+                      isMulti
+                    />
+                  )}
+                />
+              </Col>
+            </Row>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleConfirm}>
+          <Button variant="success" type="submit" form="update-roles-form">
             Confirm Update
           </Button>
         </Modal.Footer>
@@ -66,5 +110,3 @@ function ModalUpdateRoles(props) {
     </div>
   );
 }
-
-export default ModalUpdateRoles;

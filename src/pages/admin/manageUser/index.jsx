@@ -27,7 +27,7 @@ function ManageUser() {
     searchParams.get("roleOption") || "All"
   );
   const [totalPages, setTotalPages] = useState(0);
-  const [updateData, setUpdateData] = useState({});
+  const [updateData, setUpdateData] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
 
