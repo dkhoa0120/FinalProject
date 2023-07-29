@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Collapse, Modal, ModalBody, ModalFooter } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
 import { getUserChildComment } from "../../service/api.comment";
+import {
+  deleteReactComment,
+  getUserReactComment,
+  postReactComment,
+  putReactComment,
+} from "../../service/api.commentreact";
+import { toast } from "react-toastify";
 
 function Comment({ comment }) {
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCount);
   const [dislikeCount, setDisLikeCount] = useState(comment.dislikeCount);
-  const [activeBtn, setActiveBtn] = useState("none");
+  const [reactFlag, setReactFlag] = useState(0);
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
 
@@ -26,35 +33,79 @@ function Comment({ comment }) {
     setReply(!reply);
   };
 
-  const handleLikeClick = () => {
-    if (activeBtn === "none") {
-      setLikeCount(likeCount + 1);
-      setActiveBtn("like");
-    }
-    if (activeBtn === "like") {
-      setLikeCount(likeCount - 1);
-      setActiveBtn("none");
-    }
-    if (activeBtn === "dislike") {
-      setLikeCount(likeCount + 1);
-      setDisLikeCount(dislikeCount - 1);
-      setActiveBtn("like");
+  const fetchUserReactComment = async (commentId) => {
+    try {
+      const response = await getUserReactComment(commentId);
+      const userReact = response.data;
+      if (userReact) {
+        setReactFlag(userReact);
+      }
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
     }
   };
 
-  const handleDislikeClick = () => {
-    if (activeBtn === "none") {
-      setDisLikeCount(dislikeCount + 1);
-      setActiveBtn("dislike");
+  useEffect(() => {
+    fetchUserReactComment(comment.id);
+  }, [comment.id]);
+
+  const handleLikeClick = async () => {
+    try {
+      if (reactFlag === 0) {
+        const formData = new FormData();
+        formData.append("reactFlag", 1);
+        await postReactComment(comment.id, formData);
+        setLikeCount(likeCount + 1);
+        setReactFlag(1);
+      }
+      if (reactFlag === 1) {
+        await deleteReactComment(comment.id);
+        fetchUserReactComment(comment.id);
+        setLikeCount(likeCount - 1);
+        setReactFlag(0);
+      }
+      if (reactFlag === -1) {
+        const formData = new FormData();
+        formData.append("reactFlag", 1);
+        await putReactComment(comment.id, formData);
+        setLikeCount(likeCount + 1);
+        setDisLikeCount(dislikeCount - 1);
+        setReactFlag(1);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in!");
+      }
     }
-    if (activeBtn === "dislike") {
-      setDisLikeCount(dislikeCount - 1);
-      setActiveBtn("none");
-    }
-    if (activeBtn === "like") {
-      setDisLikeCount(dislikeCount + 1);
-      setLikeCount(likeCount - 1);
-      setActiveBtn("dislike");
+  };
+
+  const handleDislikeClick = async () => {
+    try {
+      if (reactFlag === 0) {
+        const formData = new FormData();
+        formData.append("reactFlag", -1);
+        await postReactComment(comment.id, formData);
+        setDisLikeCount(dislikeCount + 1);
+        setReactFlag(-1);
+      }
+      if (reactFlag === -1) {
+        await deleteReactComment(comment.id);
+        fetchUserReactComment(comment.id);
+        setDisLikeCount(dislikeCount - 1);
+        setReactFlag(0);
+      }
+      if (reactFlag === 1) {
+        const formData = new FormData();
+        formData.append("reactFlag", -1);
+        await putReactComment(comment.id, formData);
+        setLikeCount(likeCount - 1);
+        setDisLikeCount(dislikeCount + 1);
+        setReactFlag(-1);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in!");
+      }
     }
   };
 
@@ -97,7 +148,7 @@ function Comment({ comment }) {
             <div style={{ paddingBottom: "5px" }}>
               {likeCount} &nbsp;
               <button className="btn-base btn-like" onClick={handleLikeClick}>
-                {activeBtn === "like" ? (
+                {reactFlag === 1 ? (
                   <i className="fa-solid fa-thumbs-up" />
                 ) : (
                   <i className="fa-regular fa-thumbs-up" />
@@ -108,7 +159,7 @@ function Comment({ comment }) {
                 className="btn-base btn-dislike"
                 onClick={handleDislikeClick}
               >
-                {activeBtn === "dislike" ? (
+                {reactFlag === -1 ? (
                   <i className="fa-solid fa-thumbs-down" />
                 ) : (
                   <i className="fa-regular fa-thumbs-down" />
