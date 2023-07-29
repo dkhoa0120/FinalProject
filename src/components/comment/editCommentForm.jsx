@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Collapse, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
@@ -7,6 +7,7 @@ export function EditCommentForm({ editComment, setIsEditing, comment }) {
     register,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: { content: comment.content },
@@ -16,6 +17,7 @@ export function EditCommentForm({ editComment, setIsEditing, comment }) {
     editComment(comment.id, data);
     setIsEditing(false);
   };
+
   return (
     <>
       <div className="d-flex flex-row mt-3 mb-3">

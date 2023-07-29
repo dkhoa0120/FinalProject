@@ -175,7 +175,14 @@ export default function MangaDetail() {
     const formData = new FormData();
     formData.append("content", data.content);
     formData.append("id", commentId);
-    await putComment(commentId, formData);
+    let updatedComment = await putComment(commentId, formData);
+    updatedComment.data.user = { name: user.name, id: user.id };
+    console.log("newCmt", updatedComment.data);
+    setComments(
+      comments.map((comment) =>
+        comment.id === commentId ? updatedComment.data : comment
+      )
+    );
   };
 
   useEffect(() => {
