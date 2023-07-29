@@ -16,6 +16,7 @@
 
 .comment-footer {
   display: flex;
+  align-items: center;
   padding-bottom: 5px;
 }
 
@@ -49,4 +50,31 @@
 .btn-toggle-children {
   color: #124699;
   font-weight: bold;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+#button-toggle.show,
+#button-toggle,
+#button-toggle:hover {
+  border: none !important;
+}
+
+.custom-input {
+  margin-left: 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+  border-color: black;
+  /* box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5); */
+  outline: none;
 }

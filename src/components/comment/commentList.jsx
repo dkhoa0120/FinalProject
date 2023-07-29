@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Collapse,
   Modal,
@@ -9,8 +9,10 @@ import {
 import CommentForm from "./commentForm";
 import "./style.css";
 import { getUserChildComment } from "../../service/api.comment";
+import { UserContext } from "../../context/UserContext";
 
 function Comment({ comment }) {
+  const { user } = useContext(UserContext);
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCount);
@@ -132,42 +134,55 @@ function Comment({ comment }) {
               </span>
             </div>
             <Dropdown>
-              <Dropdown.Toggle variant="outline">Other</Dropdown.Toggle>
+              <Dropdown.Toggle
+                variant="outline"
+                id="button-toggle"
+                style={{ marginTop: "5px" }}
+              >
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item>
-                  <div onClick={handleShow}>Report</div>
-                  <Modal show={showModal} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Report</Modal.Title>
-                    </Modal.Header>
-                    <ModalBody>
-                      {comment.content}
-                      <hr></hr>
-                      <div>
-                        <input
-                          type="text"
-                          className="form-control mr-3"
-                          placeholder="..."
-                        ></input>
-                      </div>
-                    </ModalBody>
-                    <ModalFooter>
-                      <button
-                        style={{
-                          borderWidth: "0",
-                          backgroundColor: "white",
-                          fontSize: "15px",
-                          color: "#730000",
-                        }}
-                        onClick={handleClose}
-                      >
-                        Accept
-                      </button>
-                    </ModalFooter>
-                  </Modal>
-                </Dropdown.Item>
-                <Dropdown.Item>Edit</Dropdown.Item>
-                <Dropdown.Item>Delete</Dropdown.Item>
+                {user.id === comment.user.id ? (
+                  <>
+                    <Dropdown.Item>Edit</Dropdown.Item>
+                    <Dropdown.Item>Delete</Dropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <Dropdown.Item>
+                      <div onClick={handleShow}>Report</div>
+                      <Modal show={showModal} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Report</Modal.Title>
+                        </Modal.Header>
+                        <ModalBody>
+                          {comment.content}
+                          <hr></hr>
+                          <div>
+                            <input
+                              type="text"
+                              className="form-control mr-3"
+                              placeholder="..."
+                            ></input>
+                          </div>
+                        </ModalBody>
+                        <ModalFooter>
+                          <button
+                            style={{
+                              borderWidth: "0",
+                              backgroundColor: "white",
+                              fontSize: "15px",
+                              color: "#730000",
+                            }}
+                            onClick={handleClose}
+                          >
+                            Accept
+                          </button>
+                        </ModalFooter>
+                      </Modal>
+                    </Dropdown.Item>
+                  </>
+                )}
               </Dropdown.Menu>
             </Dropdown>
           </div>
