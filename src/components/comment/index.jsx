@@ -18,13 +18,9 @@ export default function CommentSection({
         Comments
       </div>
       <div className="comment-section">
-        <Card style={{ padding: "20px" }}>
-          <CommentForm />
-        </Card>
-        <br></br>
-        <Card style={{ padding: "20px" }}>
-          <CommentList comments={comments} />
-        </Card>
+        <CommentForm />
+        <br />
+        <CommentList comments={comments} />
         <div className="d-flex justify-content-center">
           <PaginationNoParams
             page={page}
