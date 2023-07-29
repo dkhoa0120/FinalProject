@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Collapse, Modal, ModalBody, ModalFooter } from "react-bootstrap";
+import {
+  Collapse,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Dropdown,
+} from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
 import { getUserChildComment } from "../../service/api.comment";
@@ -93,8 +99,8 @@ function Comment({ comment }) {
         <div className="comment-content">
           <div className="comment-name">{comment.user.name}</div>
           <div>{comment.content}</div>
-          <div>
-            <div style={{ paddingBottom: "5px" }}>
+          <div className="comment-footer">
+            <div>
               {likeCount} &nbsp;
               <button className="btn-base btn-like" onClick={handleLikeClick}>
                 {activeBtn === "like" ? (
@@ -120,62 +126,69 @@ function Comment({ comment }) {
               >
                 Reply
               </button>
-              <button className="btn-base btn-report" onClick={handleShow}>
-                Report
-              </button>
-              <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Report</Modal.Title>
-                </Modal.Header>
-                <ModalBody>
-                  {comment.content}
-                  <hr></hr>
-                  <div>
-                    <input
-                      type="text"
-                      className="form-control mr-3"
-                      placeholder="..."
-                    ></input>
-                  </div>
-                </ModalBody>
-                <ModalFooter>
-                  <button
-                    style={{
-                      borderWidth: "0",
-                      backgroundColor: "white",
-                      fontSize: "15px",
-                      color: "#730000",
-                    }}
-                    onClick={handleClose}
-                  >
-                    Accept
-                  </button>
-                </ModalFooter>
-              </Modal>
               <span title={new Date(comment.createdAt).toLocaleString()}>
                 <i className="fa-regular fa-clock"></i>{" "}
                 {calculateTimeDifference(comment.createdAt)}
               </span>
             </div>
-            <div>
-              {comment.childCommentCount > 0 && (
-                <>
-                  &nbsp;&nbsp;
-                  <button
-                    className="btn-base btn-toggle-children"
-                    onClick={handleToggleReplies}
-                  >
-                    {showChildComments ? (
-                      <i className="fa-solid fa-arrow-up" />
-                    ) : (
-                      <i className="fa-solid fa-arrow-down" />
-                    )}{" "}
-                    {comment.childCommentCount}{" "}
-                    {comment.childCommentCount >= 2 ? "replies" : "reply"}
-                  </button>
-                </>
-              )}
-            </div>
+            <Dropdown>
+              <Dropdown.Toggle variant="outline">Other</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <div onClick={handleShow}>Report</div>
+                  <Modal show={showModal} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Report</Modal.Title>
+                    </Modal.Header>
+                    <ModalBody>
+                      {comment.content}
+                      <hr></hr>
+                      <div>
+                        <input
+                          type="text"
+                          className="form-control mr-3"
+                          placeholder="..."
+                        ></input>
+                      </div>
+                    </ModalBody>
+                    <ModalFooter>
+                      <button
+                        style={{
+                          borderWidth: "0",
+                          backgroundColor: "white",
+                          fontSize: "15px",
+                          color: "#730000",
+                        }}
+                        onClick={handleClose}
+                      >
+                        Accept
+                      </button>
+                    </ModalFooter>
+                  </Modal>
+                </Dropdown.Item>
+                <Dropdown.Item>Edit</Dropdown.Item>
+                <Dropdown.Item>Delete</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          <div>
+            {comment.childCommentCount > 0 && (
+              <>
+                &nbsp;&nbsp;
+                <button
+                  className="btn-base btn-toggle-children"
+                  onClick={handleToggleReplies}
+                >
+                  {showChildComments ? (
+                    <i className="fa-solid fa-arrow-up" />
+                  ) : (
+                    <i className="fa-solid fa-arrow-down" />
+                  )}{" "}
+                  {comment.childCommentCount}{" "}
+                  {comment.childCommentCount >= 2 ? "replies" : "reply"}
+                </button>
+              </>
+            )}
           </div>
           <Collapse in={reply}>
             <div id="handleReplyComment">

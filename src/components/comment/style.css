@@ -14,6 +14,11 @@
   flex-grow: 1;
 }
 
+.comment-footer {
+  display: flex;
+  padding-bottom: 5px;
+}
+
 .btn-base {
   font-size: 15px;
   border-width: 0;
