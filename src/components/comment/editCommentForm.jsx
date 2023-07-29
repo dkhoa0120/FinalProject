@@ -1,22 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Collapse, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
-export default function CommentForm({ handleComment }) {
-  const [showSubmit, setShowsSubmit] = useState(false);
-
+export function EditCommentForm({ editComment, setIsEditing, comment }) {
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: { content: comment.content },
   });
 
   const onSubmit = async (data) => {
-    handleComment(data);
-    reset();
+    editComment(comment.id, data);
+    setIsEditing(false);
   };
   return (
     <>
@@ -30,14 +28,13 @@ export default function CommentForm({ handleComment }) {
         &nbsp;
         <Form
           style={{ width: "100%" }}
-          id="create-cmt-form"
+          id="edit-cmt-form"
           onSubmit={handleSubmit(onSubmit)}
         >
           <Form.Control
             type="text"
             className="custom-input"
             placeholder="Add comment"
-            onFocus={() => setShowsSubmit(true)}
             {...register("content", {
               required: "This field is required",
               maxLength: {
@@ -55,35 +52,29 @@ export default function CommentForm({ handleComment }) {
           <p style={{ color: "red" }}>{errors.content.message}</p>
         )}
       </span>
-      {showSubmit ? (
-        <>
-          <Collapse in={showSubmit}>
-            <div id="showOption" style={{ textAlign: "right" }}>
-              <Button
-                variant="outline-dark"
-                className="rounded"
-                onClick={() => {
-                  setShowsSubmit(false);
-                  reset();
-                }}
-              >
-                Cancel
-              </Button>
-              &nbsp;
-              <Button
-                variant="outline-dark"
-                className="rounded"
-                type="submit"
-                form="create-cmt-form"
-              >
-                Comment
-              </Button>
-            </div>
-          </Collapse>
-        </>
-      ) : (
-        <></>
-      )}
+      <>
+        <div id="showOption" style={{ textAlign: "right" }}>
+          <Button
+            variant="outline-dark"
+            className="rounded"
+            onClick={() => {
+              setIsEditing(false);
+              reset();
+            }}
+          >
+            Cancel
+          </Button>
+          &nbsp;
+          <Button
+            variant="outline-dark"
+            className="rounded"
+            type="submit"
+            form="edit-cmt-form"
+          >
+            Edit
+          </Button>
+        </div>
+      </>
     </>
   );
 }

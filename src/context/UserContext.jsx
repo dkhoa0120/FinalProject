@@ -18,6 +18,8 @@ function UserProvider({ children }) {
   const loadUser = async () => {
     const response = await getCurrentUserBasic();
     setUser({
+      id: response.data.id,
+      name: response.data.name,
       email: response.data.email,
       roles: response.data.roles,
     });

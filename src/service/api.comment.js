@@ -12,3 +12,19 @@ export const getUserComment = (id, filter) => {
 export const getUserChildComment = (id) => {
   return baseAxios.get(`/manga-comments/${id}/children`);
 };
+
+export const postComment = (id, formData) => {
+  return baseAxios.post(`/mangas/${id}/comments`, formData, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
+
+export const putComment = (id, formData) => {
+  return baseAxios.put(`/manga-comments/${id}`, formData, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};

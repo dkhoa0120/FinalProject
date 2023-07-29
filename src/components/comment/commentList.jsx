@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Collapse, Modal, ModalBody, ModalFooter } from "react-bootstrap";
+import React, { useEffect, useContext, useState } from "react";
+import {
+  Collapse,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Dropdown,
+} from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
 import { getUserChildComment } from "../../service/api.comment";
@@ -10,8 +16,11 @@ import {
   putReactComment,
 } from "../../service/api.commentreact";
 import { toast } from "react-toastify";
+import { UserContext } from "../../context/UserContext";
+import { EditCommentForm } from "./editCommentForm";
 
-function Comment({ comment }) {
+export function Comment({ comment, editComment }) {
+  const { user } = useContext(UserContext);
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCount);
@@ -19,6 +28,7 @@ function Comment({ comment }) {
   const [reactFlag, setReactFlag] = useState(0);
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleToggleReplies = async () => {
     if (!childComments) {
@@ -134,79 +144,109 @@ function Comment({ comment }) {
   }
   return (
     <div className="mt-2">
-      <div className="d-flex align-items-start">
-        <img
-          className="avatar"
-          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-          width="38"
-          alt="Avatar"
+      {isEditing ? (
+        <EditCommentForm
+          setIsEditing={setIsEditing}
+          editComment={editComment}
+          comment={comment}
         />
-        <div className="comment-content">
-          <div className="comment-name">{comment.user.name}</div>
-          <div>{comment.content}</div>
-          <div>
-            <div style={{ paddingBottom: "5px" }}>
-              {likeCount} &nbsp;
-              <button className="btn-base btn-like" onClick={handleLikeClick}>
-                {reactFlag === 1 ? (
-                  <i className="fa-solid fa-thumbs-up" />
-                ) : (
-                  <i className="fa-regular fa-thumbs-up" />
-                )}
-              </button>
-              {dislikeCount} &nbsp;
-              <button
-                className="btn-base btn-dislike"
-                onClick={handleDislikeClick}
-              >
-                {reactFlag === -1 ? (
-                  <i className="fa-solid fa-thumbs-down" />
-                ) : (
-                  <i className="fa-regular fa-thumbs-down" />
-                )}
-              </button>
-              <button
-                className="btn-base btn-toggle-reply"
-                onClick={handleReplyComment}
-              >
-                Reply
-              </button>
-              <button className="btn-base btn-report" onClick={handleShow}>
-                Report
-              </button>
-              <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Report</Modal.Title>
-                </Modal.Header>
-                <ModalBody>
-                  {comment.content}
-                  <hr></hr>
-                  <div>
-                    <input
-                      type="text"
-                      className="form-control mr-3"
-                      placeholder="..."
-                    ></input>
-                  </div>
-                </ModalBody>
-                <ModalFooter>
-                  <button
-                    style={{
-                      borderWidth: "0",
-                      backgroundColor: "white",
-                      fontSize: "15px",
-                      color: "#730000",
-                    }}
-                    onClick={handleClose}
-                  >
-                    Accept
-                  </button>
-                </ModalFooter>
-              </Modal>
-              <span title={new Date(comment.createdAt).toLocaleString()}>
-                <i className="fa-regular fa-clock"></i>{" "}
-                {calculateTimeDifference(comment.createdAt)}
-              </span>
+      ) : (
+        <div className="d-flex align-items-start">
+          <img
+            className="avatar"
+            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            width="38"
+            alt="Avatar"
+          />
+          <div className="comment-content">
+            <div className="comment-name">{comment.user.name}</div>
+            <div>{comment.content}</div>
+            <div className="comment-footer">
+              <div>
+                {likeCount || 0} &nbsp;
+                <button className="btn-base btn-like" onClick={handleLikeClick}>
+                  {reactFlag === 1 ? (
+                    <i className="fa-solid fa-thumbs-up" />
+                  ) : (
+                    <i className="fa-regular fa-thumbs-up" />
+                  )}
+                </button>
+                {dislikeCount || 0} &nbsp;
+                <button
+                  className="btn-base btn-dislike"
+                  onClick={handleDislikeClick}
+                >
+                  {reactFlag === -1 ? (
+                    <i className="fa-solid fa-thumbs-down" />
+                  ) : (
+                    <i className="fa-regular fa-thumbs-down" />
+                  )}
+                </button>
+                <button
+                  className="btn-base btn-toggle-reply"
+                  onClick={handleReplyComment}
+                >
+                  Reply
+                </button>
+                <span title={new Date(comment.createdAt).toLocaleString()}>
+                  <i className="fa-regular fa-clock"></i>{" "}
+                  {calculateTimeDifference(comment.createdAt)}
+                </span>
+              </div>
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="outline"
+                  id="button-toggle"
+                  style={{ marginTop: "5px" }}
+                >
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {user && user.id === comment.user.id ? (
+                    <>
+                      <Dropdown.Item onClick={() => setIsEditing(true)}>
+                        Edit
+                      </Dropdown.Item>
+                      <Dropdown.Item>Delete</Dropdown.Item>
+                    </>
+                  ) : (
+                    <>
+                      <Dropdown.Item>
+                        <div onClick={handleShow}>Report</div>
+                        <Modal show={showModal} onHide={handleClose}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>Report</Modal.Title>
+                          </Modal.Header>
+                          <ModalBody>
+                            {comment.content}
+                            <hr></hr>
+                            <div>
+                              <input
+                                type="text"
+                                className="form-control mr-3"
+                                placeholder="..."
+                              ></input>
+                            </div>
+                          </ModalBody>
+                          <ModalFooter>
+                            <button
+                              style={{
+                                borderWidth: "0",
+                                backgroundColor: "white",
+                                fontSize: "15px",
+                                color: "#730000",
+                              }}
+                              onClick={handleClose}
+                            >
+                              Accept
+                            </button>
+                          </ModalFooter>
+                        </Modal>
+                      </Dropdown.Item>
+                    </>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
             <div>
               {comment.childCommentCount > 0 && (
@@ -227,28 +267,28 @@ function Comment({ comment }) {
                 </>
               )}
             </div>
-          </div>
-          <Collapse in={reply}>
-            <div id="handleReplyComment">
-              <CommentForm />
-            </div>
-          </Collapse>
-          {comment.childCommentCount > 0 && (
-            <Collapse in={showChildComments}>
-              <div id="reply-comments">
-                {childComments?.map((c) => (
-                  <Comment key={c.id} comment={c} />
-                ))}
+            <Collapse in={reply}>
+              <div id="handleReplyComment">
+                <CommentForm />
               </div>
             </Collapse>
-          )}
+            {comment.childCommentCount > 0 && (
+              <Collapse in={showChildComments}>
+                <div id="reply-comments">
+                  {childComments?.map((c) => (
+                    <Comment key={c.id} comment={c} />
+                  ))}
+                </div>
+              </Collapse>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
-function CommentList({ comments }) {
+function CommentList({ comments, editComment }) {
   console.log("commentList", comments);
 
   if (!comments) {
@@ -258,7 +298,7 @@ function CommentList({ comments }) {
   return (
     <div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} editComment={editComment} />
       ))}
     </div>
   );

@@ -49,6 +49,12 @@
   outline-offset: none;
 }
 
+#dropdown-basic.show,
+#dropdown-basic,
+#dropdown-basic:hover {
+  border: none !important;
+}
+
 .banner .heart .follow {
   display: flex;
   border: none;

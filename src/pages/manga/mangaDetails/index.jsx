@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./styles.css";
 import CommentSection from "../../../components/comment";
@@ -20,7 +20,12 @@ import {
   postFollow,
 } from "../../../service/api.follow";
 import { toast, ToastContainer } from "react-toastify";
-import { getUserComment } from "../../../service/api.comment";
+import {
+  getUserComment,
+  postComment,
+  putComment,
+} from "../../../service/api.comment";
+import { UserContext } from "../../../context/UserContext";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
@@ -33,6 +38,7 @@ export default function MangaDetail() {
   const [rate, setRate] = useState(false);
   const [follow, setFollow] = useState(null);
   const [comments, setComments] = useState(null);
+  const { user } = useContext(UserContext);
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
@@ -156,6 +162,22 @@ export default function MangaDetail() {
     }
   };
 
+  const addComment = async (data) => {
+    const formData = new FormData();
+    formData.append("content", data.content);
+    let res = await postComment(manga.id, formData);
+    res.data.user = { name: user.name, id: user.id };
+    setComments([res.data, ...comments]);
+    console.log("data", res.data);
+  };
+
+  const editComment = async (commentId, data) => {
+    const formData = new FormData();
+    formData.append("content", data.content);
+    formData.append("id", commentId);
+    await putComment(commentId, formData);
+  };
+
   useEffect(() => {
     getMangaDetail(mangaId);
     fetchUserRating(mangaId);
@@ -182,6 +204,9 @@ export default function MangaDetail() {
         onPageChange={handleChangeChapter}
       />
       <CommentSection
+        manga={manga}
+        editComment={editComment}
+        addComment={addComment}
         comments={comments}
         page={commentPage}
         totalPages={totalCommentPages}

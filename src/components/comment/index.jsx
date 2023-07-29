@@ -5,7 +5,10 @@ import PaginationNoParams from "../paginationNoParams";
 
 export default function CommentSection({
   comments,
+  manga,
   page,
+  addComment,
+  editComment,
   totalPages,
   onPageChange,
 }) {
@@ -18,13 +21,9 @@ export default function CommentSection({
         Comments
       </div>
       <div className="comment-section">
-        <Card style={{ padding: "20px" }}>
-          <CommentForm />
-        </Card>
-        <br></br>
-        <Card style={{ padding: "20px" }}>
-          <CommentList comments={comments} />
-        </Card>
+        <CommentForm handleComment={addComment} />
+        <br />
+        <CommentList comments={comments} editComment={editComment} />
         <div className="d-flex justify-content-center">
           <PaginationNoParams
             page={page}
