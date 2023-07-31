@@ -17,7 +17,6 @@ import {
 } from "../../service/api.commentreact";
 import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
-import { EditCommentForm } from "./editCommentForm";
 
 export function Comment({ comment, editComment }) {
   const { user } = useContext(UserContext);
@@ -145,9 +144,10 @@ export function Comment({ comment, editComment }) {
   return (
     <div className="mt-2">
       {isEditing ? (
-        <EditCommentForm
+        <CommentForm
           setIsEditing={setIsEditing}
-          editComment={editComment}
+          isEditing={isEditing}
+          handleComment={editComment}
           comment={comment}
         />
       ) : (

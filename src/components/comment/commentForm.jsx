@@ -1,23 +1,34 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Collapse, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
-export default function CommentForm({ handleComment }) {
-  const [showSubmit, setShowsSubmit] = useState(false);
-
+export default function CommentForm({
+  handleComment,
+  isEditing = false,
+  comment,
+  setIsEditing,
+}) {
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: { content: isEditing ? comment.content : "" },
   });
 
+  const [showSubmit, setShowsSubmit] = useState(false);
+
   const onSubmit = async (data) => {
-    handleComment(data);
-    reset();
+    if (isEditing) {
+      handleComment(comment.id, data);
+      setIsEditing(false);
+    } else {
+      handleComment(data);
+      reset();
+    }
   };
+
   return (
     <>
       <div className="d-flex flex-row mt-3 mb-3">
@@ -30,7 +41,7 @@ export default function CommentForm({ handleComment }) {
         &nbsp;
         <Form
           style={{ width: "100%" }}
-          id="create-cmt-form"
+          id={isEditing ? "edit-cmt-form" : "create-cmt-form"}
           onSubmit={handleSubmit(onSubmit)}
         >
           <Form.Control
@@ -63,7 +74,7 @@ export default function CommentForm({ handleComment }) {
                 variant="outline-dark"
                 className="rounded"
                 onClick={() => {
-                  setShowsSubmit(false);
+                  setIsEditing ? setIsEditing(false) : setShowsSubmit(false);
                   reset();
                 }}
               >
@@ -74,9 +85,9 @@ export default function CommentForm({ handleComment }) {
                 variant="outline-dark"
                 className="rounded"
                 type="submit"
-                form="create-cmt-form"
+                form={isEditing ? "edit-cmt-form" : "create-cmt-form"}
               >
-                Comment
+                {isEditing ? "Edit" : "Comment"}
               </Button>
             </div>
           </Collapse>
