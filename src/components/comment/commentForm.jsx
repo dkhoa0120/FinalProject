@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form";
 export default function CommentForm({
   handleComment,
   isEditing = false,
+  reply = false,
   comment,
   setIsEditing,
+  setReply,
 }) {
   const {
     register,
@@ -23,6 +25,10 @@ export default function CommentForm({
     if (isEditing) {
       handleComment(comment.id, data);
       setIsEditing(false);
+    } else if (setReply) {
+      handleComment(data);
+      setReply(false);
+      reset();
     } else {
       handleComment(data);
       reset();
@@ -41,7 +47,13 @@ export default function CommentForm({
         &nbsp;
         <Form
           style={{ width: "100%" }}
-          id={isEditing ? "edit-cmt-form" : "create-cmt-form"}
+          id={
+            isEditing
+              ? "edit-cmt-form"
+              : reply
+              ? "reply-cmt-form"
+              : "create-cmt-form"
+          }
           onSubmit={handleSubmit(onSubmit)}
         >
           <Form.Control
@@ -74,7 +86,11 @@ export default function CommentForm({
                 variant="outline-dark"
                 className="rounded"
                 onClick={() => {
-                  setIsEditing ? setIsEditing(false) : setShowsSubmit(false);
+                  setIsEditing
+                    ? setIsEditing(false)
+                    : setReply
+                    ? setReply(false)
+                    : setShowsSubmit(false);
                   reset();
                 }}
               >
@@ -85,7 +101,13 @@ export default function CommentForm({
                 variant="outline-dark"
                 className="rounded"
                 type="submit"
-                form={isEditing ? "edit-cmt-form" : "create-cmt-form"}
+                form={
+                  isEditing
+                    ? "edit-cmt-form"
+                    : reply
+                    ? "reply-cmt-form"
+                    : "create-cmt-form"
+                }
               >
                 {isEditing ? "Edit" : "Comment"}
               </Button>

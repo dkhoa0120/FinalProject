@@ -12,6 +12,7 @@ import {
   deleteComment,
   getUserChildComment,
   getUserComment,
+  postCommentChildren,
   putComment,
 } from "../../service/api.comment";
 import {
@@ -29,6 +30,9 @@ export function Comment({ comment, editComment, removeComment }) {
   const [showChildComments, setShowChildComments] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCount);
   const [dislikeCount, setDisLikeCount] = useState(comment.dislikeCount);
+  const [childCommentCount, setChildCommentCount] = useState(
+    comment.childCommentCount
+  );
   const [reactFlag, setReactFlag] = useState(0);
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
@@ -37,7 +41,6 @@ export function Comment({ comment, editComment, removeComment }) {
   const handleToggleReplies = async () => {
     if (!childComments) {
       const result = await getUserChildComment(comment.id);
-      console.log("result", result);
       setChildComments(result.data.itemList);
     }
     setShowChildComments(!showChildComments);
@@ -153,6 +156,18 @@ export function Comment({ comment, editComment, removeComment }) {
     } else {
       const daysDifference = Math.floor(minutesDifference / 1440);
       return `${daysDifference} days ago`;
+    }
+  };
+
+  const addChildComment = async (data) => {
+    const formData = new FormData();
+    formData.append("content", data.content);
+    let res = await postCommentChildren(comment.id, formData);
+    res.data.user = { name: user.name, id: user.id };
+    if (childComments != null) {
+      setChildComments([res.data, ...childComments]);
+    } else {
+      setChildCommentCount(childCommentCount + 1);
     }
   };
 
@@ -309,7 +324,7 @@ export function Comment({ comment, editComment, removeComment }) {
               </Dropdown>
             </div>
             <div>
-              {comment.childCommentCount > 0 && (
+              {childCommentCount > 0 && (
                 <>
                   &nbsp;&nbsp;
                   <button
@@ -321,18 +336,22 @@ export function Comment({ comment, editComment, removeComment }) {
                     ) : (
                       <i className="fa-solid fa-arrow-down" />
                     )}{" "}
-                    {comment.childCommentCount}{" "}
-                    {comment.childCommentCount >= 2 ? "replies" : "reply"}
+                    {childCommentCount}{" "}
+                    {childCommentCount >= 2 ? "replies" : "reply"}
                   </button>
                 </>
               )}
             </div>
             <Collapse in={reply}>
               <div id="handleReplyComment">
-                <CommentForm />
+                <CommentForm
+                  handleComment={addChildComment}
+                  reply={reply}
+                  setReply={setReply}
+                />
               </div>
             </Collapse>
-            {comment.childCommentCount > 0 && (
+            {childCommentCount > 0 && (
               <Collapse in={showChildComments}>
                 <div id="reply-comments">
                   {childComments?.map((c) => (
@@ -354,8 +373,6 @@ export function Comment({ comment, editComment, removeComment }) {
 }
 
 function CommentList({ comments, editComment, removeComment }) {
-  console.log("commentList", comments);
-
   if (!comments) {
     return null;
   }

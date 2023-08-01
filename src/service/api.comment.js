@@ -36,3 +36,11 @@ export const deleteComment = (id) => {
     },
   });
 };
+
+export const postCommentChildren = (id, formData) => {
+  return baseAxios.post(`/comments/${id}/children`, formData, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};
