@@ -10,7 +10,7 @@ export const getUserComment = (id, filter) => {
 };
 
 export const getUserChildComment = (id) => {
-  return baseAxios.get(`/manga-comments/${id}/children`);
+  return baseAxios.get(`/comments/${id}/children`);
 };
 
 export const postComment = (id, formData) => {
@@ -22,7 +22,7 @@ export const postComment = (id, formData) => {
 };
 
 export const putComment = (id, formData) => {
-  return baseAxios.put(`/manga-comments/${id}`, formData, {
+  return baseAxios.put(`/comments/${id}`, formData, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
@@ -30,7 +30,7 @@ export const putComment = (id, formData) => {
 };
 
 export const deleteComment = (id) => {
-  return baseAxios.delete(`/manga-comments/${id}`, {
+  return baseAxios.delete(`/comments/${id}`, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
