@@ -24,7 +24,7 @@ export async function handleCateOptions(search) {
 }
 
 export function mapToOption(items) {
-  return items.map((i) => ({
+  return items?.map((i) => ({
     value: i.id,
     label: i.name,
   }));
