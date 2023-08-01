@@ -11,6 +11,7 @@ import "./style.css";
 import {
   deleteComment,
   getUserChildComment,
+  getUserComment,
   putComment,
 } from "../../service/api.comment";
 import {
@@ -44,6 +45,19 @@ export function Comment({ comment, editComment, removeComment }) {
 
   const handleReplyComment = () => {
     setReply(!reply);
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      await removeComment(comment.id);
+      toast.success("Comment has been deleted", {
+        theme: "dark",
+      });
+      getUserComment();
+      handleClose();
+    } catch (error) {
+      toast.error("Failed to delete comment");
+    }
   };
 
   const fetchUserReactComment = async (commentId) => {
@@ -232,15 +246,28 @@ export function Comment({ comment, editComment, removeComment }) {
                       <Dropdown.Item onClick={() => setIsEditing(true)}>
                         Edit
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={async () => {
-                          if (window.confirm("Confirm delete comment?")) {
-                            await removeComment(comment.id);
-                          }
-                        }}
-                      >
-                        Delete
+                      <Dropdown.Item>
+                        <div onClick={handleShow}>Delete</div>
                       </Dropdown.Item>
+                      <Modal show={showModal} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Delete Comment</Modal.Title>
+                        </Modal.Header>
+                        <ModalBody>{comment.content}</ModalBody>
+                        <ModalFooter>
+                          <button
+                            style={{
+                              borderWidth: "0",
+                              backgroundColor: "white",
+                              fontSize: "15px",
+                              color: "#730000",
+                            }}
+                            onClick={handleDeleteComment}
+                          >
+                            Confirm Delete
+                          </button>
+                        </ModalFooter>
+                      </Modal>
                     </>
                   ) : (
                     <>

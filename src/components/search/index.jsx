@@ -53,6 +53,7 @@ function SearchBar({ placeholder }) {
                 placeholder={placeholder}
                 value={wordEntered}
                 onChange={handleFilter}
+                autoFocus
               />
               {filteredData.length === 0 ? (
                 <p></p>
