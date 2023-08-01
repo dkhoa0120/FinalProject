@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Collapse, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 export default function CommentForm({
@@ -20,6 +20,9 @@ export default function CommentForm({
   });
 
   const [showSubmit, setShowsSubmit] = useState(false);
+
+  // const [value, setValue] = useState("");
+  // const onInput = (e) => setValue(e.target.value);
 
   const onSubmit = async (data) => {
     if (isEditing) {
@@ -60,6 +63,8 @@ export default function CommentForm({
             type="text"
             className="custom-input"
             placeholder="Add comment"
+            // value={value}
+            // onInput={onInput}
             onFocus={() => setShowsSubmit(true)}
             {...register("content", {
               required: "This field is required",
@@ -73,46 +78,44 @@ export default function CommentForm({
         &nbsp;
       </div>
       <span>
-        {" "}
         {errors.content && (
           <p style={{ color: "red" }}>{errors.content.message}</p>
         )}
       </span>
       {showSubmit ? (
         <>
-          <Collapse in={showSubmit}>
-            <div id="showOption" style={{ textAlign: "right" }}>
-              <Button
-                variant="outline-dark"
-                className="rounded"
-                onClick={() => {
-                  setIsEditing
-                    ? setIsEditing(false)
-                    : setReply
-                    ? setReply(false)
-                    : setShowsSubmit(false);
-                  reset();
-                }}
-              >
-                Cancel
-              </Button>
-              &nbsp;
-              <Button
-                variant="outline-dark"
-                className="rounded"
-                type="submit"
-                form={
-                  isEditing
-                    ? "edit-cmt-form"
-                    : reply
-                    ? "reply-cmt-form"
-                    : "create-cmt-form"
-                }
-              >
-                {isEditing ? "Edit" : "Comment"}
-              </Button>
-            </div>
-          </Collapse>
+          <div id="showOption" style={{ textAlign: "right" }}>
+            <Button
+              variant="outline-dark"
+              className="rounded"
+              onClick={() => {
+                setIsEditing
+                  ? setIsEditing(false)
+                  : setReply
+                  ? setReply(false)
+                  : setShowsSubmit(false);
+                reset();
+              }}
+            >
+              Cancel
+            </Button>
+            &nbsp;
+            <Button
+              variant="outline-dark"
+              className="rounded"
+              type="submit"
+              // disabled={!value}
+              form={
+                isEditing
+                  ? "edit-cmt-form"
+                  : reply
+                  ? "reply-cmt-form"
+                  : "create-cmt-form"
+              }
+            >
+              {isEditing ? "Edit" : "Comment"}
+            </Button>
+          </div>
         </>
       ) : (
         <></>
