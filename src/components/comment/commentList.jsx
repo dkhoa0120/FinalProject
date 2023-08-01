@@ -8,7 +8,11 @@ import {
 } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import "./style.css";
-import { getUserChildComment } from "../../service/api.comment";
+import {
+  deleteComment,
+  getUserChildComment,
+  putComment,
+} from "../../service/api.comment";
 import {
   deleteReactComment,
   getUserReactComment,
@@ -18,7 +22,7 @@ import {
 import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
 
-export function Comment({ comment, editComment }) {
+export function Comment({ comment, editComment, removeComment }) {
   const { user } = useContext(UserContext);
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
@@ -138,6 +142,27 @@ export function Comment({ comment, editComment }) {
     }
   };
 
+  const editChildComment = async (commentId, data) => {
+    const formData = new FormData();
+    formData.append("content", data.content);
+    formData.append("id", commentId);
+    await putComment(commentId, formData);
+    setChildComments(
+      childComments.map((comment) =>
+        comment.id === commentId
+          ? { ...comment, content: data.content }
+          : comment
+      )
+    );
+  };
+
+  const removeChildComment = async (commentId) => {
+    await deleteComment(commentId);
+    setChildComments(
+      childComments.filter((comment) => comment.id !== commentId)
+    );
+  };
+
   if (!comment) {
     return null;
   }
@@ -207,7 +232,15 @@ export function Comment({ comment, editComment }) {
                       <Dropdown.Item onClick={() => setIsEditing(true)}>
                         Edit
                       </Dropdown.Item>
-                      <Dropdown.Item>Delete</Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={async () => {
+                          if (window.confirm("Confirm delete comment?")) {
+                            await removeComment(comment.id);
+                          }
+                        }}
+                      >
+                        Delete
+                      </Dropdown.Item>
                     </>
                   ) : (
                     <>
@@ -276,7 +309,12 @@ export function Comment({ comment, editComment }) {
               <Collapse in={showChildComments}>
                 <div id="reply-comments">
                   {childComments?.map((c) => (
-                    <Comment key={c.id} comment={c} />
+                    <Comment
+                      key={c.id}
+                      comment={c}
+                      editComment={editChildComment}
+                      removeComment={removeChildComment}
+                    />
                   ))}
                 </div>
               </Collapse>
@@ -288,7 +326,7 @@ export function Comment({ comment, editComment }) {
   );
 }
 
-function CommentList({ comments, editComment }) {
+function CommentList({ comments, editComment, removeComment }) {
   console.log("commentList", comments);
 
   if (!comments) {
@@ -298,7 +336,12 @@ function CommentList({ comments, editComment }) {
   return (
     <div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} editComment={editComment} />
+        <Comment
+          key={comment.id}
+          comment={comment}
+          editComment={editComment}
+          removeComment={removeComment}
+        />
       ))}
     </div>
   );

@@ -1,14 +1,13 @@
-import { Card } from "react-bootstrap";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import PaginationNoParams from "../paginationNoParams";
 
 export default function CommentSection({
   comments,
-  manga,
   page,
   addComment,
   editComment,
+  removeComment,
   totalPages,
   onPageChange,
 }) {
@@ -23,7 +22,11 @@ export default function CommentSection({
       <div className="comment-section">
         <CommentForm handleComment={addComment} />
         <br />
-        <CommentList comments={comments} editComment={editComment} />
+        <CommentList
+          comments={comments}
+          editComment={editComment}
+          removeComment={removeComment}
+        />
         <div className="d-flex justify-content-center">
           <PaginationNoParams
             page={page}

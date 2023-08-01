@@ -28,3 +28,11 @@ export const putComment = (id, formData) => {
     },
   });
 };
+
+export const deleteComment = (id) => {
+  return baseAxios.delete(`/manga-comments/${id}`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
+};

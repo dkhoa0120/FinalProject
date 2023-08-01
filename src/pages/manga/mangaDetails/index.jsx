@@ -21,6 +21,7 @@ import {
 } from "../../../service/api.follow";
 import { toast, ToastContainer } from "react-toastify";
 import {
+  deleteComment,
   getUserComment,
   postComment,
   putComment,
@@ -175,14 +176,19 @@ export default function MangaDetail() {
     const formData = new FormData();
     formData.append("content", data.content);
     formData.append("id", commentId);
-    let updatedComment = await putComment(commentId, formData);
-    updatedComment.data.user = { name: user.name, id: user.id };
-    console.log("newCmt", updatedComment.data);
+    await putComment(commentId, formData);
     setComments(
       comments.map((comment) =>
-        comment.id === commentId ? updatedComment.data : comment
+        comment.id === commentId
+          ? { ...comment, content: data.content }
+          : comment
       )
     );
+  };
+
+  const removeComment = async (commentId) => {
+    await deleteComment(commentId);
+    setComments(comments.filter((comment) => comment.id !== commentId));
   };
 
   useEffect(() => {
@@ -214,6 +220,7 @@ export default function MangaDetail() {
         manga={manga}
         editComment={editComment}
         addComment={addComment}
+        removeComment={removeComment}
         comments={comments}
         page={commentPage}
         totalPages={totalCommentPages}
