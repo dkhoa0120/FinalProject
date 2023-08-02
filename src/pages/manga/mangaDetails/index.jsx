@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./styles.css";
-import CommentSection from "../../../components/comment";
+import CommentSection from "../../../components/commentSection";
 import {
   getChapterByMangaIdForUser,
   getMangaByIdForUser,

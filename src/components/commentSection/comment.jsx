@@ -24,7 +24,7 @@ import {
 import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
 
-export function Comment({ comment, editComment, removeComment }) {
+export default function Comment({ comment, editComment, removeComment }) {
   const { user } = useContext(UserContext);
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
@@ -371,24 +371,3 @@ export function Comment({ comment, editComment, removeComment }) {
     </div>
   );
 }
-
-function CommentList({ comments, editComment, removeComment }) {
-  if (!comments) {
-    return null;
-  }
-
-  return (
-    <div>
-      {comments.map((comment) => (
-        <Comment
-          key={comment.id}
-          comment={comment}
-          editComment={editComment}
-          removeComment={removeComment}
-        />
-      ))}
-    </div>
-  );
-}
-
-export default CommentList;

@@ -1,6 +1,6 @@
 import CommentForm from "./commentForm";
-import CommentList from "./commentList";
 import PaginationNoParams from "../paginationNoParams";
+import Comment from "./comment";
 
 export default function CommentSection({
   comments,
@@ -22,11 +22,17 @@ export default function CommentSection({
       <div className="comment-section">
         <CommentForm handleComment={addComment} />
         <br />
-        <CommentList
-          comments={comments}
-          editComment={editComment}
-          removeComment={removeComment}
-        />
+
+        {comments &&
+          comments.map((comment) => (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              editComment={editComment}
+              removeComment={removeComment}
+            />
+          ))}
+
         <div className="d-flex justify-content-center">
           <PaginationNoParams
             page={page}
