@@ -42,19 +42,17 @@ export default function Header(props) {
     navigate("/");
   };
 
+  const defaultAvatarURL =
+    "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
   const CustomNavbarToggle = ({ onClick }) => (
     <img
       className="avatar"
-      src="https://cdn-icons-png.flaticon.com/512/149/149071.png" // Replace with the path to your image
+      src={user?.avatarPath || defaultAvatarURL}
       alt="Toggle Navigation"
-      style={{
-        width: 40,
-        height: 40,
-      }}
       onClick={onClick}
     />
   );
-
   return (
     <Navbar key={false} expand={false} className={scrolled ? "scrolled" : ""}>
       <Container fluid>
@@ -91,22 +89,12 @@ export default function Header(props) {
               <div>
                 <img
                   className="avatar"
-                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png" // Replace with the path to your image
-                  alt="Toggle Navigation"
-                  style={{
-                    width: 60,
-                    height: 60,
-                  }}
+                  src={user?.avatarPath || defaultAvatarURL}
+                  alt="Avatar"
                 />
               </div>
               &nbsp;
-              {user ? (
-                <Offcanvas.Title>
-                  {user && user.email && <span> {user.email}</span>}
-                </Offcanvas.Title>
-              ) : (
-                <Offcanvas.Title>GUEST</Offcanvas.Title>
-              )}
+              <Offcanvas.Title>{user ? user.name : "GUEST"}</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav>

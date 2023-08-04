@@ -15,6 +15,7 @@
     right: 50%;
   }
 }
+
 .offcanvas-body::-webkit-scrollbar {
   display: none;
 }
@@ -36,4 +37,16 @@ nav.navbar {
 
 nav.navbar.scrolled {
   background-color: white;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.offcanvas-header .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }

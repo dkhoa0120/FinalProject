@@ -21,6 +21,7 @@ function UserProvider({ children }) {
       id: response.data.id,
       name: response.data.name,
       email: response.data.email,
+      avatarPath: response.data.avatarPath,
       roles: response.data.roles,
     });
   };
