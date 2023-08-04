@@ -85,7 +85,6 @@ export default function Header(props) {
               style={{ textAlign: "center", display: "block" }}
               closeButton
             >
-              &nbsp;
               <div>
                 <img
                   className="avatar"
@@ -93,8 +92,9 @@ export default function Header(props) {
                   alt="Avatar"
                 />
               </div>
-              &nbsp;
-              <Offcanvas.Title>{user ? user.name : "GUEST"}</Offcanvas.Title>
+              <Offcanvas.Title style={{ fontWeight: "bold" }}>
+                {user ? user.name : "GUEST"}
+              </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav>

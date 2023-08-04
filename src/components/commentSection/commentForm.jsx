@@ -15,6 +15,8 @@ export function CommentForm({
   onCancel,
   onInput,
 }) {
+  const [count, setCount] = useState(0);
+
   return (
     <>
       <div className="d-flex flex-row mt-3 mb-3">
@@ -29,12 +31,16 @@ export function CommentForm({
             onInput={onInput}
             onFocus={onFocus}
             autoFocus={autoFocus}
+            onChange={(e) => setCount(e.target.value.length)}
           />
         </Form>
         &nbsp;
       </div>
       {showButtons && (
-        <div style={{ textAlign: "right" }}>
+        <div className="d-flex align-items-center">
+          <div className="flex-grow-1">
+            <p style={{ margin: "0 0 0 55px" }}>{count}/2000</p>
+          </div>
           <Button variant="outline-dark" className="rounded" onClick={onCancel}>
             Cancel
           </Button>

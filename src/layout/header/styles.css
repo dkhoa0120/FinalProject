@@ -5,8 +5,9 @@
     top: 50px;
     right: 30px;
     width: 20%;
-    bottom: 40%;
+    bottom: auto;
     overflow: hidden auto;
+    border-radius: 10px;
   }
   .offcanvas-header .btn-close {
     display: none;
@@ -46,7 +47,7 @@ nav.navbar.scrolled {
 }
 
 .offcanvas-header .avatar {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
