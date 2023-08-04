@@ -13,8 +13,8 @@ export const getUserChildComment = (id) => {
   return baseAxios.get(`/comments/${id}/children`);
 };
 
-export const postComment = (id, formData) => {
-  return baseAxios.post(`/mangas/${id}/comments`, formData, {
+export const postComment = (type, typeId, formData) => {
+  return baseAxios.post(`/${type}s/${typeId}/comments`, formData, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },
@@ -37,7 +37,7 @@ export const deleteComment = (id) => {
   });
 };
 
-export const postCommentChildren = (id, formData) => {
+export const postReply = (id, formData) => {
   return baseAxios.post(`/comments/${id}/children`, formData, {
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,

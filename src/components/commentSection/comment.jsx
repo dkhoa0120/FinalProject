@@ -6,14 +6,12 @@ import {
   ModalFooter,
   Dropdown,
 } from "react-bootstrap";
-import CommentForm from "./commentForm";
+// import CommentForm from "./commentForm";
 import "./style.css";
 import {
   deleteComment,
   getUserChildComment,
   getUserComment,
-  postCommentChildren,
-  putComment,
 } from "../../service/api.comment";
 import {
   deleteReactComment,
@@ -23,6 +21,7 @@ import {
 } from "../../service/api.commentreact";
 import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
+import { EditCommentForm, ReplyCommentForm } from "./commentForm";
 
 export default function Comment({ comment, editComment, removeComment }) {
   const { user } = useContext(UserContext);
@@ -159,31 +158,22 @@ export default function Comment({ comment, editComment, removeComment }) {
     }
   };
 
-  const addChildComment = async (data) => {
-    const formData = new FormData();
-    formData.append("content", data.content);
-    let res = await postCommentChildren(comment.id, formData);
-    res.data.user = { name: user.name, id: user.id };
+  const addChildComment = (comment) => {
     if (childComments != null) {
-      setChildComments([res.data, ...childComments]);
+      setChildComments([comment, ...childComments]);
     } else {
       setChildCommentCount(childCommentCount + 1);
     }
   };
 
-  const editChildComment = async (commentId, data) => {
-    const formData = new FormData();
-    formData.append("content", data.content);
-    formData.append("id", commentId);
-    await putComment(commentId, formData);
+  const editChildComment = (commentId, commentContent) =>
     setChildComments(
       childComments.map((comment) =>
         comment.id === commentId
-          ? { ...comment, content: data.content }
+          ? { ...comment, content: commentContent }
           : comment
       )
     );
-  };
 
   const removeChildComment = async (commentId) => {
     await deleteComment(commentId);
@@ -198,11 +188,10 @@ export default function Comment({ comment, editComment, removeComment }) {
   return (
     <div className="mt-2">
       {isEditing ? (
-        <CommentForm
-          setIsEditing={setIsEditing}
-          isEditing={isEditing}
-          handleComment={editComment}
+        <EditCommentForm
           comment={comment}
+          editCommentInState={editComment}
+          stopEdit={() => setIsEditing(false)}
         />
       ) : (
         <div className="d-flex align-items-start">
@@ -342,15 +331,15 @@ export default function Comment({ comment, editComment, removeComment }) {
                 </>
               )}
             </div>
-            <Collapse in={reply}>
+            {reply && (
               <div id="handleReplyComment">
-                <CommentForm
-                  handleComment={addChildComment}
-                  reply={reply}
-                  setReply={setReply}
+                <ReplyCommentForm
+                  comment={comment}
+                  addReplyInState={addChildComment}
+                  stopReply={() => setReply(false)}
                 />
               </div>
-            </Collapse>
+            )}
             {childCommentCount > 0 && (
               <Collapse in={showChildComments}>
                 <div id="reply-comments">

@@ -1,8 +1,9 @@
-import CommentForm from "./commentForm";
 import PaginationNoParams from "../paginationNoParams";
 import Comment from "./comment";
+import { AddCommentForm } from "./commentForm";
 
 export default function CommentSection({
+  manga,
   comments,
   page,
   addComment,
@@ -20,7 +21,7 @@ export default function CommentSection({
         Comments
       </div>
       <div className="comment-section">
-        <CommentForm handleComment={addComment} />
+        <AddCommentForm typeId={manga?.id} addCommentToState={addComment} />
         <br />
 
         {comments &&
