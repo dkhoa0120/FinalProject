@@ -7,7 +7,6 @@ export function CommentForm({
   value,
   placeholder = "Add a comment...",
   saveButtonLabel = "Comment",
-  avatarPath = "https://cdn-icons-png.flaticon.com/512/149/149071.png",
   showButtons = true,
   autoFocus = false,
   onFocus,
@@ -31,7 +30,10 @@ export function CommentForm({
       <div className="d-flex gap-3">
         <img
           className="avatar"
-          src={user?.avatarPath}
+          src={
+            user?.avatarPath ||
+            "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          }
           width="38px"
           alt="avatar"
         />
@@ -89,7 +91,11 @@ export function AddCommentForm({ type = "manga", typeId, addCommentToState }) {
 
     // handle api result
     let comment = res.data;
-    comment.user = { name: user.name, id: user.id };
+    comment.user = {
+      name: user.name,
+      id: user.id,
+      avatarPath: user.avatarPath,
+    };
     addCommentToState(comment);
     handleCancel();
   };
@@ -153,7 +159,7 @@ export function ReplyCommentForm({ comment, addReplyInState, stopReply }) {
 
     // handle api result
     let reply = res.data;
-    reply.user = { name: user.name, id: user.id };
+    reply.user = { name: user.name, id: user.id, avatarPath: user.avatarPath };
     addReplyInState(reply);
     stopReply();
   };
