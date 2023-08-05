@@ -24,10 +24,17 @@ export function CommentForm({
     }
   }, [textAreaRef, value]);
 
+  const { user } = useContext(UserContext);
+
   return (
     <>
       <div className="d-flex gap-3">
-        <img className="avatar" src={avatarPath} width="38px" alt="avatar" />
+        <img
+          className="avatar"
+          src={user?.avatarPath}
+          width="38px"
+          alt="avatar"
+        />
         <div className="flex-grow-1">
           <textarea
             className="custom-textarea"

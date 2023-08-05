@@ -197,7 +197,10 @@ export default function Comment({ comment, editComment, removeComment }) {
         <div className="d-flex gap-3">
           <img
             className="avatar"
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            src={
+              comment.user.avatarPath ||
+              "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            }
             width="38"
             alt="Avatar"
           />
