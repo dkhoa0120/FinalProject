@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Button } from "react-bootstrap";
 import { postComment, postReply, putComment } from "../../service/api.comment";
 import { UserContext } from "../../context/UserContext";
 
@@ -15,47 +15,56 @@ export function CommentForm({
   onCancel,
   onInput,
 }) {
-  const [count, setCount] = useState(0);
+  const textAreaRef = useRef(null);
+  useEffect(() => {
+    const textArea = textAreaRef.current;
+    if (textArea) {
+      textArea.style.height = "0px";
+      textArea.style.height = textArea.scrollHeight + "px";
+    }
+  }, [textAreaRef, value]);
 
   return (
     <>
-      <div className="d-flex flex-row mt-3 mb-3">
-        <img className="avatar" src={avatarPath} width="38" alt="avatar" />
-        &nbsp;
-        <Form style={{ width: "100%" }}>
-          <Form.Control
-            type="text"
-            className="custom-input"
+      <div className="d-flex gap-3">
+        <img className="avatar" src={avatarPath} width="38px" alt="avatar" />
+        <div className="flex-grow-1">
+          <textarea
+            className="custom-textarea"
             placeholder={placeholder}
             value={value}
             onInput={onInput}
             onFocus={onFocus}
             autoFocus={autoFocus}
-            onChange={(e) => setCount(e.target.value.length)}
+            ref={textAreaRef}
           />
-        </Form>
-        &nbsp;
-      </div>
-      {showButtons && (
-        <div className="d-flex align-items-center">
-          <div className="flex-grow-1">
-            <p style={{ margin: "0 0 0 55px" }}>{count}/2000</p>
-          </div>
-          <Button variant="outline-dark" className="rounded" onClick={onCancel}>
-            Cancel
-          </Button>
-          &nbsp;
-          <Button
-            variant="outline-dark"
-            className="rounded"
-            type="submit"
-            disabled={!value || value.length > 2000}
-            onClick={onSave}
-          >
-            {saveButtonLabel}
-          </Button>
+          {showButtons && (
+            <div className="d-flex align-items-center justify-content-between mt-2">
+              <p className={value.length > 2000 ? "char-limit-error" : ""}>
+                {value.length}/2000
+              </p>
+              <div className="d-flex gap-2">
+                <Button
+                  variant="outline-dark"
+                  className="rounded"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="outline-dark"
+                  className="rounded"
+                  type="submit"
+                  disabled={!value || value.length > 2000}
+                  onClick={onSave}
+                >
+                  {saveButtonLabel}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 }

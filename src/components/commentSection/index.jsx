@@ -20,9 +20,10 @@ export default function CommentSection({
       >
         Comments
       </div>
-      <div className="comment-section">
-        <AddCommentForm typeId={manga?.id} addCommentToState={addComment} />
-        <br />
+      <div id="comment-section">
+        <div id="comment-section-header">
+          <AddCommentForm typeId={manga?.id} addCommentToState={addComment} />
+        </div>
 
         {comments &&
           comments.map((comment) => (

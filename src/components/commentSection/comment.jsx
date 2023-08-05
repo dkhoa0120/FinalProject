@@ -194,7 +194,7 @@ export default function Comment({ comment, editComment, removeComment }) {
           stopEdit={() => setIsEditing(false)}
         />
       ) : (
-        <div className="d-flex align-items-start">
+        <div className="d-flex gap-3">
           <img
             className="avatar"
             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -202,45 +202,50 @@ export default function Comment({ comment, editComment, removeComment }) {
             alt="Avatar"
           />
           <div className="comment-content">
-            <div className="comment-name">{comment.user.name}</div>
+            <div>
+              <span className="comment-name">{comment.user.name} </span>
+              <span
+                className="comment-time"
+                title={new Date(comment.createdAt).toLocaleString()}
+              >
+                {calculateTimeDifference(comment.createdAt)}
+              </span>
+            </div>
             <div>{comment.content}</div>
             <div className="comment-footer">
-              <div>
-                {likeCount || 0} &nbsp;
-                <button className="btn-base btn-like" onClick={handleLikeClick}>
-                  {reactFlag === 1 ? (
-                    <i className="fa-solid fa-thumbs-up" />
-                  ) : (
-                    <i className="fa-regular fa-thumbs-up" />
-                  )}
-                </button>
-                {dislikeCount || 0} &nbsp;
-                <button
-                  className="btn-base btn-dislike"
-                  onClick={handleDislikeClick}
-                >
-                  {reactFlag === -1 ? (
-                    <i className="fa-solid fa-thumbs-down" />
-                  ) : (
-                    <i className="fa-regular fa-thumbs-down" />
-                  )}
-                </button>
-                <button
-                  className="btn-base btn-toggle-reply"
-                  onClick={handleReplyComment}
-                >
-                  Reply
-                </button>
-                <span title={new Date(comment.createdAt).toLocaleString()}>
-                  <i className="fa-regular fa-clock"></i>{" "}
-                  {calculateTimeDifference(comment.createdAt)}
-                </span>
+              <div className="comment-reacts">
+                <div>
+                  {likeCount || 0} &nbsp;
+                  <button className="btn-base" onClick={handleLikeClick}>
+                    {reactFlag === 1 ? (
+                      <i className="fa-solid fa-thumbs-up" />
+                    ) : (
+                      <i className="fa-regular fa-thumbs-up" />
+                    )}
+                  </button>
+                </div>
+                <div>
+                  {dislikeCount || 0} &nbsp;
+                  <button className="btn-base" onClick={handleDislikeClick}>
+                    {reactFlag === -1 ? (
+                      <i className="fa-solid fa-thumbs-down" />
+                    ) : (
+                      <i className="fa-regular fa-thumbs-down" />
+                    )}
+                  </button>
+                </div>
               </div>
+              <button
+                className="btn-base btn-toggle-reply"
+                onClick={handleReplyComment}
+              >
+                Reply
+              </button>
+
               <Dropdown>
                 <Dropdown.Toggle
                   variant="outline"
-                  id="button-toggle"
-                  style={{ marginTop: "5px" }}
+                  className="comment-options-toggle"
                 >
                   <i class="fa-solid fa-ellipsis-vertical"></i>
                 </Dropdown.Toggle>
@@ -312,37 +317,30 @@ export default function Comment({ comment, editComment, removeComment }) {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <div>
-              {childCommentCount > 0 && (
-                <>
-                  &nbsp;&nbsp;
-                  <button
-                    className="btn-base btn-toggle-children"
-                    onClick={handleToggleReplies}
-                  >
-                    {showChildComments ? (
-                      <i className="fa-solid fa-arrow-up" />
-                    ) : (
-                      <i className="fa-solid fa-arrow-down" />
-                    )}{" "}
-                    {childCommentCount}{" "}
-                    {childCommentCount >= 2 ? "replies" : "reply"}
-                  </button>
-                </>
-              )}
-            </div>
+            {childCommentCount > 0 && (
+              <button
+                className="btn-base btn-toggle-children"
+                onClick={handleToggleReplies}
+              >
+                {showChildComments ? (
+                  <i className="fa-solid fa-arrow-up" />
+                ) : (
+                  <i className="fa-solid fa-arrow-down" />
+                )}{" "}
+                {childCommentCount}{" "}
+                {childCommentCount >= 2 ? "replies" : "reply"}
+              </button>
+            )}
             {reply && (
-              <div id="handleReplyComment">
-                <ReplyCommentForm
-                  comment={comment}
-                  addReplyInState={addChildComment}
-                  stopReply={() => setReply(false)}
-                />
-              </div>
+              <ReplyCommentForm
+                comment={comment}
+                addReplyInState={addChildComment}
+                stopReply={() => setReply(false)}
+              />
             )}
             {childCommentCount > 0 && (
               <Collapse in={showChildComments}>
-                <div id="reply-comments">
+                <div>
                   {childComments?.map((c) => (
                     <Comment
                       key={c.id}
