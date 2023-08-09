@@ -1,30 +1,15 @@
-import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { getRelatedChapters } from "../../../../service/api.chapter";
-import { useEffect } from "react";
 
-export default function ChapterNav({ chapter }) {
-  const [chapterList, setChapterList] = useState(null);
+export default function ChapterNav({ chapter, relatedChapters }) {
   const navigate = useNavigate();
-
-  const getChapterList = async (id) => {
-    try {
-      const result = await getRelatedChapters(id);
-      setChapterList(result.data);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setChapterList(null);
-      }
-    }
-  };
 
   function handleClick() {
     navigate(`/Manga/${chapter.manga.id}`);
   }
 
   const findChapter = (number, groupId) => {
-    const foundChapters = chapterList.filter((c) => c.number === number);
+    const foundChapters = relatedChapters.filter((c) => c.number === number);
     return (
       foundChapters.find((c) => c.groupId === chapter.groupId) ||
       foundChapters[0]
@@ -37,7 +22,9 @@ export default function ChapterNav({ chapter }) {
 
     // in case there is a gap between chapters
     if (!prevChapter) {
-      const earlierChapters = chapterList.filter((c) => c.number < prevNumber);
+      const earlierChapters = relatedChapters.filter(
+        (c) => c.number < prevNumber
+      );
       prevChapter =
         earlierChapters.find((c) => c.groupId === chapter.groupId) ||
         earlierChapters[0];
@@ -57,7 +44,9 @@ export default function ChapterNav({ chapter }) {
 
     // in case there is a gap between chapters
     if (!nextChapter) {
-      const earlierChapters = chapterList.filter((c) => c.number > nextChapter);
+      const earlierChapters = relatedChapters.filter(
+        (c) => c.number > nextChapter
+      );
       nextChapter =
         earlierChapters.findLast((c) => c.groupId === chapter.groupId) ||
         earlierChapters[earlierChapters.length - 1];
@@ -72,19 +61,16 @@ export default function ChapterNav({ chapter }) {
   };
 
   const isPrevDisable = () => {
-    if (!chapterList) return false;
-    const firstChapterNumber = chapterList[chapterList.length - 1].number;
+    if (!relatedChapters) return false;
+    const firstChapterNumber =
+      relatedChapters[relatedChapters.length - 1].number;
     return firstChapterNumber === chapter.number;
   };
   const isNextDisable = () => {
-    if (!chapterList) return false;
-    const lastChapterNumber = chapterList[0].number;
+    if (!relatedChapters) return false;
+    const lastChapterNumber = relatedChapters[0].number;
     return lastChapterNumber === chapter.number;
   };
-
-  useEffect(() => {
-    getChapterList(chapter.id);
-  }, [chapter.id]);
 
   return (
     <>
@@ -109,8 +95,8 @@ export default function ChapterNav({ chapter }) {
             <span className="dropdown-text">Chapter {chapter.number}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu style={{ minWidth: "auto" }}>
-            {chapterList &&
-              chapterList.map((c) => (
+            {relatedChapters &&
+              relatedChapters.map((c) => (
                 <Link
                   key={c.id}
                   to={`/Chapter/${c.id}`}

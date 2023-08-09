@@ -1,15 +1,14 @@
-import React from "react";
 import "./styles.css";
 import CommentSection from "../../../components/commentSection";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { getChapter } from "../../../service/api.chapter";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
 
 export default function ChapterPage() {
   const { chapterId } = useParams();
   const [chapter, setChapter] = useState(null);
+  const [relatedChapters, setRelatedChapters] = useState(null);
 
   const getChapterDetail = async (id) => {
     try {
@@ -22,8 +21,20 @@ export default function ChapterPage() {
     }
   };
 
+  const getChapterList = async (id) => {
+    try {
+      const result = await getRelatedChapters(id);
+      setRelatedChapters(result.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setRelatedChapters(null);
+      }
+    }
+  };
+
   useEffect(() => {
     getChapterDetail(chapterId);
+    getChapterList(chapterId);
   }, [chapterId]);
 
   if (!chapter) {
@@ -32,32 +43,25 @@ export default function ChapterPage() {
 
   return (
     <>
-      <div
-        className="general-container"
-        style={{
-          textAlign: "center",
-          width: "700px",
-          height: "auto",
-          margin: "0 auto",
-        }}
-      >
+      <div className="chapter-nav">
         <div style={{ fontWeight: "bold", fontSize: "25px" }}>
           {chapter.name}
         </div>
-        <ChapterNav chapter={chapter} />
+        <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
       </div>
-      <br />
-      <div>
-        {chapter.pageUrls.map((url, index) => (
-          <img
-            className="chapter-image"
-            key={index}
-            src={url}
-            alt={`page ${index}`}
-          />
-        ))}
+
+      {chapter.pageUrls.map((url, index) => (
+        <img
+          className="chapter-image"
+          key={index}
+          src={url}
+          alt={`page ${index}`}
+        />
+      ))}
+
+      <div className="chapter-nav">
+        <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
       </div>
-      <br />
       <CommentSection />
     </>
   );
