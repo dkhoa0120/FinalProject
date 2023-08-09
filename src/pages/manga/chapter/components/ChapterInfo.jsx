@@ -2,7 +2,7 @@ import React from "react";
 
 import ChapterButton from "./ChapterButton";
 
-export default function ChapterInfo() {
+export default function ChapterInfo({ chapter }) {
   return (
     <>
       <div
@@ -14,11 +14,21 @@ export default function ChapterInfo() {
           margin: "0 auto",
         }}
       >
-        <div style={{ fontWeight: "bold", fontSize: "20px" }}>
-          Sau Khi Có Được Năng Lực Bá Đạo Ở Dị Giới, Tôi Cũng Vô Đối Ở Thế Giới
-          Thực: Thăng Cấp Xong Thì Cuộc Đời Cũng Thay Đổi
+        <div style={{ fontWeight: "bold", fontSize: "25px" }}>
+          {chapter.name}
         </div>
-        <ChapterButton />
+        <ChapterButton chapter={chapter} />
+      </div>
+      <br />
+      <div>
+        {chapter.pageUrls.map((url, index) => (
+          <img
+            className="chapter-image"
+            key={index}
+            src={url}
+            alt={`page ${index}`}
+          />
+        ))}
       </div>
       <br />
     </>

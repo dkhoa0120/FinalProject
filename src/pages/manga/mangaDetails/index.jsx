@@ -147,6 +147,7 @@ export default function MangaDetail() {
       }
     }
   };
+  console.log("manga", manga);
 
   const fetchUserFollow = async (mangaId) => {
     try {

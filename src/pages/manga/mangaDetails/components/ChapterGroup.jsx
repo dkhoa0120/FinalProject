@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Collapse } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
+import { Link } from "react-router-dom";
 
 export default function ChapterGroup({ number, chapterList }) {
   const [showChapter, setShowChapter] = useState(false);
@@ -61,10 +62,12 @@ export default function ChapterGroup({ number, chapterList }) {
           {chapterList.map((chapter) => (
             <Row className="chapter-row" key={chapter.id}>
               <Col xs={12} xl={4}>
-                <p className="chapter-name text-truncate">
-                  <CountryFlag lang={chapter.language} />
-                  {chapter.name}
-                </p>
+                <Link to={`/Chapter/${chapter.id}`} className="card-link">
+                  <p className="chapter-name text-truncate">
+                    <CountryFlag lang={chapter.language} />
+                    {chapter.name}
+                  </p>
+                </Link>
               </Col>
               <Col xs={6} xl={2}>
                 <p className="text-truncate">
