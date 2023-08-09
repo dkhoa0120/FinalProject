@@ -1,24 +1,23 @@
 import React from "react";
 import "./styles.css";
 import CommentSection from "../../../components/commentSection";
-import ChapterInfo from "./components/ChapterInfo";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { getChapterPages } from "../../../service/api.chapter";
+import { getChapter } from "../../../service/api.chapter";
 import { useEffect } from "react";
+import ChapterNav from "./components/ChapterNav";
 
 export default function ChapterPage() {
   const { chapterId } = useParams();
-  const [chapterPage, setChapterPage] = useState(null);
+  const [chapter, setChapter] = useState(null);
 
   const getChapterDetail = async (id) => {
     try {
-      const result = await getChapterPages(id);
-      console.log("result", result.data);
-      setChapterPage(result.data);
+      const result = await getChapter(id);
+      setChapter(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setChapterPage(null);
+        setChapter(null);
       }
     }
   };
@@ -27,14 +26,38 @@ export default function ChapterPage() {
     getChapterDetail(chapterId);
   }, [chapterId]);
 
-  console.log("chapter", chapterPage);
-  if (!chapterPage) {
+  if (!chapter) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
-      <ChapterInfo chapter={chapterPage} />
+      <div
+        className="general-container"
+        style={{
+          textAlign: "center",
+          width: "700px",
+          height: "auto",
+          margin: "0 auto",
+        }}
+      >
+        <div style={{ fontWeight: "bold", fontSize: "25px" }}>
+          {chapter.name}
+        </div>
+        <ChapterNav chapter={chapter} />
+      </div>
+      <br />
+      <div>
+        {chapter.pageUrls.map((url, index) => (
+          <img
+            className="chapter-image"
+            key={index}
+            src={url}
+            alt={`page ${index}`}
+          />
+        ))}
+      </div>
+      <br />
       <CommentSection />
     </>
   );
