@@ -73,3 +73,31 @@ body {
   height: 40px;
   border-radius: 50%;
 }
+
+.button-50 {
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
+  color: black;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 5px 10px 0;
+  padding: 12px 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.button-50:active {
+  box-shadow: rgba(0, 0, 0, 0.125) 0 3px 5px inset;
+  outline: 0;
+}
+.button-50:enabled {
+  cursor: pointer;
+}
+
+.button-50:disabled {
+  background-color: lightgray;
+  box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
+}

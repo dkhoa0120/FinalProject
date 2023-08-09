@@ -132,35 +132,6 @@
   text-decoration: underline;
 }
 
-.button-50 {
-  background-color: white;
-  border: 1px solid #000;
-  border-radius: 4px;
-  box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
-  box-sizing: border-box;
-  color: black;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  margin: 0 5px 10px 0;
-  overflow: visible;
-  padding: 12px 20px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.button-50:active {
-  box-shadow: rgba(0, 0, 0, 0.125) 0 3px 5px inset;
-  outline: 0;
-}
-
-.button-50:not([disabled]):active {
-  box-shadow: #000 2px 2px 0 0, #000 2px 2px 0 1px;
-  transform: translate(2px, 2px);
-}
-
 #show-chapters .chapter-row:hover {
   background-color: #f2f2f2;
   cursor: pointer;

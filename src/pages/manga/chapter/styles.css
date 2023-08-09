@@ -2,12 +2,16 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 900px;
-  height: auto;
+  max-width: 100%;
 }
 
 .dropdown-text {
   position: relative;
   bottom: 4px;
   font-size: 18px;
+}
+
+.chapter-nav {
+  text-align: center;
+  margin: 20px;
 }
