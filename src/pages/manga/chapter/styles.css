@@ -15,3 +15,74 @@
   text-align: center;
   margin: 20px;
 }
+
+.nav-button {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+}
+
+.nav-buttons {
+  position: fixed;
+  bottom: 75px;
+  right: 30px;
+}
+
+.dropdown-toggle::before {
+  display: none !important;
+}
+
+.circle-button {
+  margin: 2px 0;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #212529;
+  color: #ffffff;
+  font-size: 18px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.circle-button:disabled {
+  pointer-events: none;
+  background-color: gray;
+}
+
+.circle-button:hover {
+  transform: scale(1.1);
+}
+
+.btn-primary,
+.btn-primary.show {
+  padding: 0 !important;
+  --bs-btn-bg: none !important;
+  --bs-btn-border-color: none !important;
+  --bs-btn-hover-color: none !important;
+  --bs-btn-hover-bg: none !important;
+  --bs-btn-hover-border-color: none !important;
+  --bs-btn-active-bg: none !important;
+}
+
+.chapter-nav .manga-title {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+}
+.chapter-nav .manga-title:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.nav-chapters {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.nav-chapters::-webkit-scrollbar {
+  display: none;
+}

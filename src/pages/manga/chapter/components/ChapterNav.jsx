@@ -75,26 +75,28 @@ export default function ChapterNav({ chapter, relatedChapters }) {
   return (
     <>
       <div
-        className="d-flex justify-content-center"
-        style={{ marginTop: "10px" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "10px",
+        }}
       >
-        <button className="button-50" onClick={handleClick}>
+        <button className="circle-button" onClick={handleClick}>
           <i className="fa-solid fa-list-ul"></i>
         </button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
         <button
-          className="button-50"
+          className="circle-button"
           onClick={navigateToPrevChapter}
           disabled={isPrevDisable()}
         >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
-        &nbsp;&nbsp;
-        <Dropdown>
-          <Dropdown.Toggle variant="dark" id="dropdown-basic">
-            <span className="dropdown-text">Chapter {chapter.number}</span>
+        <Dropdown drop="start">
+          <Dropdown.Toggle>
+            <button className="circle-button">{chapter.number}</button>
           </Dropdown.Toggle>
-          <Dropdown.Menu style={{ minWidth: "auto" }}>
+          <Dropdown.Menu className="nav-chapters" style={{ minWidth: "auto" }}>
             {relatedChapters &&
               relatedChapters.map((c) => (
                 <Link
@@ -102,24 +104,22 @@ export default function ChapterNav({ chapter, relatedChapters }) {
                   to={`/Chapter/${c.id}`}
                   className="card-link dropdown-item"
                 >
-                  Chapter {c.number}{" "}
+                  Chapter {c.number}
                 </Link>
               ))}
           </Dropdown.Menu>
         </Dropdown>
-        &nbsp;&nbsp;
         <button
-          className="button-50"
+          className="circle-button"
           onClick={navigateToNextChapter}
           disabled={isNextDisable()}
         >
           <i className="fa-solid fa-arrow-right"></i>
         </button>
-        &nbsp;&nbsp;&nbsp;
-        <button className="button-50">
+        <button className="circle-button">
           <i className="fa-regular fa-heart"></i>
         </button>
-        <button className="button-50">
+        <button className="circle-button">
           <i className="fa-regular fa-flag"></i>
         </button>
       </div>

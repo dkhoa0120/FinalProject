@@ -1,11 +1,12 @@
 import "./styles.css";
 import CommentSection from "../../../components/commentSection";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
 
 export default function ChapterPage() {
+  const [show, setShow] = useState(false);
   const { chapterId } = useParams();
   const [chapter, setChapter] = useState(null);
   const [relatedChapters, setRelatedChapters] = useState(null);
@@ -47,8 +48,22 @@ export default function ChapterPage() {
         <div style={{ fontWeight: "bold", fontSize: "25px" }}>
           {chapter.name}
         </div>
-        <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
+        <Link className="manga-title" to={`/Manga/${chapter.manga.id}`}>
+          {chapter.manga.originalTitle}
+        </Link>
       </div>
+
+      <button
+        className="circle-button nav-button"
+        onClick={() => setShow(!show)}
+      >
+        <i className="fa-regular fa-compass"></i>
+      </button>
+      {show && (
+        <div className="nav-buttons">
+          <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
+        </div>
+      )}
 
       {chapter.pageUrls.map((url, index) => (
         <img
@@ -58,10 +73,7 @@ export default function ChapterPage() {
           alt={`page ${index}`}
         />
       ))}
-
-      <div className="chapter-nav">
-        <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
-      </div>
+      <br />
       <CommentSection />
     </>
   );
