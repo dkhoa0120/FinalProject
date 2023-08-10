@@ -86,3 +86,18 @@
 .nav-chapters::-webkit-scrollbar {
   display: none;
 }
+
+.chapter-title {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+@media screen and (max-width: 767px) {
+  .chapter-title {
+    font-size: 20px;
+  }
+
+  .chapter-nav .manga-title {
+    font-size: 18px;
+  }
+}
