@@ -1,13 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "./styles.css";
+import MangaBanner from "./components/MangaBanner";
 import CommentSection from "../../../components/commentSection";
+import ChapterSection from "./components/ChapterSection";
 import {
   getChapterByMangaIdForUser,
   getMangaByIdForUser,
 } from "../../../service/api.manga";
-import MangaBanner from "./components/MangaBanner";
-import ChapterSection from "./components/ChapterSection";
 import {
   deleteRating,
   getCurrentUserRating,
@@ -19,22 +20,15 @@ import {
   getCurrentUserFollow,
   postFollow,
 } from "../../../service/api.follow";
-import { toast, ToastContainer } from "react-toastify";
-import { deleteComment, getUserComment } from "../../../service/api.comment";
-import { UserContext } from "../../../context/UserContext";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
   const [chapters, setChapters] = useState(null);
-  const [totalCommentPages, setTotalCommentPages] = useState(0);
   const [totalChapterPages, setTotalChapterPages] = useState(0);
-  const [commentPage, setCommentPage] = useState(1);
   const [chapterPage, setChapterPage] = useState(1);
   const { mangaId } = useParams();
   const [rate, setRate] = useState(false);
   const [follow, setFollow] = useState(null);
-  const [comments, setComments] = useState(null);
-  const { user } = useContext(UserContext);
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
@@ -91,10 +85,6 @@ export default function MangaDetail() {
     }
   };
 
-  const handleChangeComment = (pageNum) => {
-    setCommentPage(pageNum);
-  };
-
   const handleChangeChapter = (pageNum) => {
     setChapterPage(pageNum);
   };
@@ -122,12 +112,6 @@ export default function MangaDetail() {
     }
   };
 
-  const fetchUserComments = async (id, page) => {
-    const result = await getUserComment(id, { page });
-    setComments(result.data.itemList);
-    setTotalCommentPages(result.data.totalPages);
-  };
-
   const getChaptersByPage = async (id, page) => {
     try {
       const result = await getChapterByMangaIdForUser(id, { page });
@@ -147,31 +131,14 @@ export default function MangaDetail() {
       }
     }
   };
-  console.log("manga", manga);
 
   const fetchUserFollow = async (mangaId) => {
     try {
       const response = await getCurrentUserFollow(mangaId);
-      console.log(response.data);
       setFollow(response.data);
     } catch (error) {
       console.error("Error retrieving user rating:", error);
     }
-  };
-
-  const addComment = (comment) => setComments([comment, ...comments]);
-  const editComment = (commentId, commentContent) =>
-    setComments(
-      comments.map((comment) =>
-        comment.id === commentId
-          ? { ...comment, content: commentContent }
-          : comment
-      )
-    );
-
-  const removeComment = async (commentId) => {
-    await deleteComment(commentId);
-    setComments(comments.filter((comment) => comment.id !== commentId));
   };
 
   useEffect(() => {
@@ -179,8 +146,7 @@ export default function MangaDetail() {
     fetchUserRating(mangaId);
     getChaptersByPage(mangaId, chapterPage);
     fetchUserFollow(mangaId);
-    fetchUserComments(mangaId, commentPage);
-  }, [mangaId, commentPage, chapterPage]);
+  }, [mangaId, chapterPage]);
 
   return (
     <>
@@ -199,16 +165,7 @@ export default function MangaDetail() {
         totalPages={totalChapterPages}
         onPageChange={handleChangeChapter}
       />
-      <CommentSection
-        manga={manga}
-        editComment={editComment}
-        addComment={addComment}
-        removeComment={removeComment}
-        comments={comments}
-        page={commentPage}
-        totalPages={totalCommentPages}
-        onPageChange={handleChangeComment}
-      />
+      <CommentSection type="manga" typeId={mangaId} />
     </>
   );
 }

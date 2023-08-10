@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
+import { toast } from "react-toastify";
 import {
   Collapse,
   Modal,
@@ -6,25 +7,18 @@ import {
   ModalFooter,
   Dropdown,
 } from "react-bootstrap";
-// import CommentForm from "./commentForm";
 import "./style.css";
-import {
-  deleteComment,
-  getUserChildComment,
-  getUserComment,
-} from "../../service/api.comment";
+import { deleteComment, getChildComments } from "../../service/api.comment";
 import {
   deleteReactComment,
   getUserReactComment,
   postReactComment,
   putReactComment,
 } from "../../service/api.commentreact";
-import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
 import { EditCommentForm, ReplyCommentForm } from "./commentForm";
 
 export default function Comment({ comment, editComment, removeComment }) {
-  const { user } = useContext(UserContext);
   const [childComments, setChildComments] = useState(null);
   const [showChildComments, setShowChildComments] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCount);
@@ -36,10 +30,15 @@ export default function Comment({ comment, editComment, removeComment }) {
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    fetchUserReactComment(comment.id);
+  }, [comment.id]);
 
   const handleToggleReplies = async () => {
     if (!childComments) {
-      const result = await getUserChildComment(comment.id);
+      const result = await getChildComments(comment.id);
       setChildComments(result.data.itemList);
     }
     setShowChildComments(!showChildComments);
@@ -55,7 +54,6 @@ export default function Comment({ comment, editComment, removeComment }) {
       toast.success("Comment has been deleted", {
         theme: "dark",
       });
-      getUserComment();
       handleClose();
     } catch (error) {
       toast.error("Failed to delete comment");
@@ -73,10 +71,6 @@ export default function Comment({ comment, editComment, removeComment }) {
       console.error("Error retrieving user rating:", error);
     }
   };
-
-  useEffect(() => {
-    fetchUserReactComment(comment.id);
-  }, [comment.id]);
 
   const handleLikeClick = async () => {
     try {

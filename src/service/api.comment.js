@@ -1,15 +1,15 @@
 import { baseAxios } from "./api.base";
 import Cookies from "universal-cookie";
 
-export const getUserComment = (id, filter) => {
+export const getComments = (type, typeId, filter) => {
   const page = filter?.page || 1;
   const pageSize = filter?.pageSize || 6;
-  return baseAxios.get(`/mangas/${id}/comments`, {
+  return baseAxios.get(`/${type}s/${typeId}/comments`, {
     params: { page, pageSize },
   });
 };
 
-export const getUserChildComment = (id) => {
+export const getChildComments = (id) => {
   return baseAxios.get(`/comments/${id}/children`);
 };
 

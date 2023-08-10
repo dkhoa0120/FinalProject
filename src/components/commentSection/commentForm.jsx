@@ -78,7 +78,7 @@ export function CommentForm({
   );
 }
 
-export function AddCommentForm({ type = "manga", typeId, addCommentToState }) {
+export function AddCommentForm({ type, typeId, addCommentToState }) {
   const [showButtons, setShowButtons] = useState(false);
   const [value, setValue] = useState("");
   const { user } = useContext(UserContext);
