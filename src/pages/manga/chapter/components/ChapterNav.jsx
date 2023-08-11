@@ -60,21 +60,15 @@ export default function ChapterNav({ chapter, relatedChapters }) {
     }
   };
   const navigateToChapter = (chapterId) => {
-    navigate(`/Chapter/${chapterId}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate(`/Chapter/${chapterId}`);
   };
 
-  const isPrevDisable = () => {
-    if (!relatedChapters) return false;
-    const firstChapterNumber =
-      relatedChapters[relatedChapters.length - 1].number;
-    return firstChapterNumber === chapter.number;
-  };
-  const isNextDisable = () => {
-    if (!relatedChapters) return false;
-    const lastChapterNumber = relatedChapters[0].number;
-    return lastChapterNumber === chapter.number;
-  };
+  const isPrevDisable =
+    relatedChapters &&
+    relatedChapters[relatedChapters.length - 1].number === chapter.number;
+  const isNextDisable =
+    relatedChapters && relatedChapters[0].number === chapter.number;
 
   return (
     <div className="chapter-nav">
@@ -82,9 +76,8 @@ export default function ChapterNav({ chapter, relatedChapters }) {
         <i className="fa-solid fa-list-ul"></i>
       </button>
       <button
-        className="circle-button"
+        className={"circle-button" + (isPrevDisable ? " disabled" : "")}
         onClick={navigateToPrevChapter}
-        disabled={isPrevDisable()}
       >
         <i className="fa-solid fa-arrow-left"></i>
       </button>
@@ -106,9 +99,8 @@ export default function ChapterNav({ chapter, relatedChapters }) {
         </Dropdown.Menu>
       </Dropdown>
       <button
-        className="circle-button"
+        className={"circle-button" + (isNextDisable ? " disabled" : "")}
         onClick={navigateToNextChapter}
-        disabled={isNextDisable()}
       >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
