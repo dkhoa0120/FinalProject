@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import { postComment, postReply, putComment } from "../../service/api.comment";
 import { UserContext } from "../../context/UserContext";
+import { toast } from "react-toastify";
 
 export function CommentForm({
   value,
@@ -84,20 +85,26 @@ export function AddCommentForm({ type, typeId, addCommentToState }) {
   const { user } = useContext(UserContext);
 
   const handleSave = async () => {
-    // use type and typeId to call to api
-    const formData = new FormData();
-    formData.append("content", value);
-    let res = await postComment(type, typeId, formData);
+    try {
+      // use type and typeId to call to api
+      const formData = new FormData();
+      formData.append("content", value);
+      let res = await postComment(type, typeId, formData);
 
-    // handle api result
-    let comment = res.data;
-    comment.user = {
-      name: user.name,
-      id: user.id,
-      avatarPath: user.avatarPath,
-    };
-    addCommentToState(comment);
-    handleCancel();
+      // handle api result
+      let comment = res.data;
+      comment.user = {
+        name: user.name,
+        id: user.id,
+        avatarPath: user.avatarPath,
+      };
+      addCommentToState(comment);
+      handleCancel();
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to comment!");
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -152,16 +159,26 @@ export function ReplyCommentForm({ comment, addReplyInState, stopReply }) {
   const { user } = useContext(UserContext);
 
   const handleSave = async () => {
-    console.log(comment);
-    const formData = new FormData();
-    formData.append("content", value);
-    let res = await postReply(comment.id, formData);
+    try {
+      console.log(comment);
+      const formData = new FormData();
+      formData.append("content", value);
+      let res = await postReply(comment.id, formData);
 
-    // handle api result
-    let reply = res.data;
-    reply.user = { name: user.name, id: user.id, avatarPath: user.avatarPath };
-    addReplyInState(reply);
-    stopReply();
+      // handle api result
+      let reply = res.data;
+      reply.user = {
+        name: user.name,
+        id: user.id,
+        avatarPath: user.avatarPath,
+      };
+      addReplyInState(reply);
+      stopReply();
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to reply!");
+      }
+    }
   };
 
   const handleInput = (e) => setValue(e.target.value);

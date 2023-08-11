@@ -5,12 +5,6 @@
   max-width: 100%;
 }
 
-.dropdown-text {
-  position: relative;
-  bottom: 4px;
-  font-size: 18px;
-}
-
 .chapter-nav {
   text-align: center;
   margin: 20px;
@@ -26,6 +20,8 @@
   position: fixed;
   bottom: 75px;
   right: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdown-toggle::before {
@@ -43,7 +39,6 @@
   font-size: 18px;
   text-align: center;
   line-height: 50px;
-  cursor: pointer;
   border: none;
   transition: background-color 0.3s, transform 0.2s;
 }
@@ -57,15 +52,14 @@
   transform: scale(1.1);
 }
 
-.btn-primary,
-.btn-primary.show {
-  padding: 0 !important;
-  --bs-btn-bg: none !important;
-  --bs-btn-border-color: none !important;
-  --bs-btn-hover-color: none !important;
-  --bs-btn-hover-bg: none !important;
-  --bs-btn-hover-border-color: none !important;
-  --bs-btn-active-bg: none !important;
+.dropstart button {
+  padding: 0;
+  --bs-btn-bg: none;
+  --bs-btn-border-color: none;
+  --bs-btn-hover-color: none;
+  --bs-btn-hover-bg: none;
+  --bs-btn-hover-border-color: none;
+  --bs-btn-active-bg: none;
 }
 
 .chapter-nav .manga-title {
@@ -79,6 +73,7 @@
 }
 
 .nav-chapters {
+  min-width: auto !important;
   max-height: 200px;
   overflow-y: scroll;
 }
@@ -87,13 +82,13 @@
   display: none;
 }
 
-.chapter-title {
+.chapter-nav .chapter-title {
   font-weight: bold;
   font-size: 25px;
 }
 
 @media screen and (max-width: 767px) {
-  .chapter-title {
+  .chapter-nav .chapter-title {
     font-size: 20px;
   }
 
