@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
+import { ToastContainer } from "react-toastify";
 
 export default function ChapterPage() {
   const { chapterId } = useParams();
@@ -44,6 +45,7 @@ export default function ChapterPage() {
 
   return (
     <>
+      <ToastContainer />
       <div className="chapter-header">
         <div style={{ fontWeight: "bold", fontSize: "25px" }}>
           {chapter.name}

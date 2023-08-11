@@ -15,17 +15,16 @@ export default function ChapterNav({ chapter, relatedChapters }) {
   const mangaId = chapter.manga.id;
 
   useEffect(() => {
+    const fetchUserFollow = async (id) => {
+      try {
+        const response = await getCurrentUserFollow(id);
+        setFollow(response.data);
+      } catch (error) {
+        console.error("Error retrieving user rating:", error);
+      }
+    };
     fetchUserFollow(mangaId);
   }, [mangaId]);
-
-  const fetchUserFollow = async (id) => {
-    try {
-      const response = await getCurrentUserFollow(id);
-      setFollow(response.data);
-    } catch (error) {
-      console.error("Error retrieving user rating:", error);
-    }
-  };
 
   const handleFollow = async () => {
     try {
