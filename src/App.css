@@ -34,7 +34,7 @@ body {
   color: black;
 }
 .card-link:hover {
-  color: black;
+  cursor: pointer;
 }
 
 .general-container {
@@ -100,4 +100,8 @@ body {
 .button-50:disabled {
   background-color: lightgray;
   box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
+}
+
+.dropdown-toggle::before {
+  display: none !important;
 }

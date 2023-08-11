@@ -1,5 +1,5 @@
 import { Dropdown } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ChapterNav({ chapter, relatedChapters }) {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function ChapterNav({ chapter, relatedChapters }) {
     }
 
     if (confirmNavigate) {
-      navigate(`/Chapter/${prevChapter.id}`);
+      navigateToChapter(prevChapter.id);
     }
   };
   const navigateToNextChapter = () => {
@@ -56,8 +56,12 @@ export default function ChapterNav({ chapter, relatedChapters }) {
     }
 
     if (confirmNavigate) {
-      navigate(`/Chapter/${nextChapter.id}`);
+      navigateToChapter(nextChapter.id);
     }
+  };
+  const navigateToChapter = (chapterId) => {
+    navigate(`/Chapter/${chapterId}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const isPrevDisable = () => {
@@ -73,7 +77,7 @@ export default function ChapterNav({ chapter, relatedChapters }) {
   };
 
   return (
-    <>
+    <div className="chapter-nav">
       <button className="circle-button" onClick={handleClick}>
         <i className="fa-solid fa-list-ul"></i>
       </button>
@@ -88,16 +92,16 @@ export default function ChapterNav({ chapter, relatedChapters }) {
         <Dropdown.Toggle>
           <button className="circle-button">{chapter.number}</button>
         </Dropdown.Toggle>
-        <Dropdown.Menu className="nav-chapters">
+        <Dropdown.Menu className="chapter-dropdown">
           {relatedChapters &&
             relatedChapters.map((c) => (
-              <Link
+              <span
                 key={c.id}
-                to={`/Chapter/${c.id}`}
                 className="card-link dropdown-item"
+                onClick={() => navigateToChapter(c.id)}
               >
                 Chapter {c.number}
-              </Link>
+              </span>
             ))}
         </Dropdown.Menu>
       </Dropdown>
@@ -114,6 +118,6 @@ export default function ChapterNav({ chapter, relatedChapters }) {
       <button className="circle-button">
         <i className="fa-regular fa-flag"></i>
       </button>
-    </>
+    </div>
   );
 }

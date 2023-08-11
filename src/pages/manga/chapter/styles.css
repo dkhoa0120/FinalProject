@@ -5,27 +5,49 @@
   max-width: 100%;
 }
 
-.chapter-nav {
+.chapter-header {
   text-align: center;
   margin: 20px;
 }
 
-.nav-button {
+.chapter-header .manga-title {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+}
+
+.chapter-header .manga-title:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.chapter-header .chapter-title {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+@media screen and (max-width: 767px) {
+  .chapter-header .chapter-title {
+    font-size: 20px;
+  }
+
+  .chapter-header .manga-title {
+    font-size: 18px;
+  }
+}
+
+.chapter-nav-button {
   position: fixed;
   bottom: 20px;
   right: 30px;
 }
 
-.nav-buttons {
+.chapter-nav {
   position: fixed;
   bottom: 75px;
   right: 30px;
   display: flex;
   flex-direction: column;
-}
-
-.dropdown-toggle::before {
-  display: none !important;
 }
 
 .circle-button {
@@ -52,7 +74,7 @@
   transform: scale(1.1);
 }
 
-.dropstart button {
+.chapter-nav .dropstart button {
   padding: 0;
   --bs-btn-bg: none;
   --bs-btn-border-color: none;
@@ -62,37 +84,12 @@
   --bs-btn-active-bg: none;
 }
 
-.chapter-nav .manga-title {
-  text-decoration: none;
-  color: black;
-  font-size: 22px;
-}
-.chapter-nav .manga-title:hover {
-  color: gray;
-  cursor: pointer;
-}
-
-.nav-chapters {
+.chapter-dropdown {
   min-width: auto !important;
   max-height: 200px;
   overflow-y: scroll;
 }
 
-.nav-chapters::-webkit-scrollbar {
+.chapter-dropdown::-webkit-scrollbar {
   display: none;
-}
-
-.chapter-nav .chapter-title {
-  font-weight: bold;
-  font-size: 25px;
-}
-
-@media screen and (max-width: 767px) {
-  .chapter-nav .chapter-title {
-    font-size: 20px;
-  }
-
-  .chapter-nav .manga-title {
-    font-size: 18px;
-  }
 }

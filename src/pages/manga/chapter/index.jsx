@@ -6,10 +6,10 @@ import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
 
 export default function ChapterPage() {
-  const [show, setShow] = useState(false);
   const { chapterId } = useParams();
   const [chapter, setChapter] = useState(null);
   const [relatedChapters, setRelatedChapters] = useState(null);
+  const [showChapterNav, setShowChapterNav] = useState(false);
 
   const getChapterDetail = async (id) => {
     try {
@@ -44,23 +44,23 @@ export default function ChapterPage() {
 
   return (
     <>
-      <div className="chapter-nav">
-        <div className="chapter-title">{chapter.name}</div>
+      <div className="chapter-header">
+        <div style={{ fontWeight: "bold", fontSize: "25px" }}>
+          {chapter.name}
+        </div>
         <Link className="manga-title" to={`/Manga/${chapter.manga.id}`}>
           {chapter.manga.originalTitle}
         </Link>
       </div>
 
       <button
-        className="circle-button nav-button"
-        onClick={() => setShow(!show)}
+        className="circle-button chapter-nav-button"
+        onClick={() => setShowChapterNav(!showChapterNav)}
       >
         <i className="fa-regular fa-compass"></i>
       </button>
-      {show && (
-        <div className="nav-buttons">
-          <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
-        </div>
+      {showChapterNav && (
+        <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
       )}
 
       {chapter.pageUrls.map((url, index) => (
@@ -71,8 +71,9 @@ export default function ChapterPage() {
           alt={`page ${index}`}
         />
       ))}
+
       <br />
-      <CommentSection />
+      <CommentSection type="chapter" typeId={chapterId} />
     </>
   );
 }
