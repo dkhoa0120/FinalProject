@@ -1,11 +1,54 @@
+import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import {
+  deleteFollow,
+  getCurrentUserFollow,
+  postFollow,
+} from "../../../../service/api.follow";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function ChapterNav({ chapter, relatedChapters }) {
   const navigate = useNavigate();
+  const [follow, setFollow] = useState(null);
+  const mangaId = chapter.manga.id;
+
+  useEffect(() => {
+    fetchUserFollow(mangaId);
+  }, [mangaId]);
+
+  const fetchUserFollow = async (id) => {
+    try {
+      const response = await getCurrentUserFollow(id);
+      setFollow(response.data);
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
+    }
+  };
+
+  const handleFollow = async () => {
+    try {
+      if (!follow) {
+        await postFollow(mangaId);
+        setFollow(true);
+      } else {
+        await deleteFollow(mangaId);
+        setFollow(false);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to follow!", {
+          theme: "colored",
+        });
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
   function handleClick() {
-    navigate(`/Manga/${chapter.manga.id}`);
+    navigate(`/Manga/${mangaId}`);
   }
 
   const findChapter = (number, groupId) => {
@@ -112,8 +155,12 @@ export default function ChapterNav({ chapter, relatedChapters }) {
       >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
-      <button className="circle-button">
-        <i className="fa-regular fa-heart"></i>
+
+      <button className="circle-button" onClick={handleFollow}>
+        {!follow && <i className="fa-regular fa-heart"></i>}
+        {follow && (
+          <i className="fa-solid fa-heart" style={{ color: "#eb0f0f" }}></i>
+        )}
       </button>
       <button className="circle-button">
         <i className="fa-regular fa-flag"></i>
