@@ -24,7 +24,9 @@ export default function CreateAuthor({ show, handleClose, getAuthors }) {
       reset();
       toast.success("Authors has been created");
     } catch {
-      toast.error("Somethings went wrong!");
+      toast.error("Somethings went wrong!", {
+        theme: "colored",
+      });
     }
   };
 

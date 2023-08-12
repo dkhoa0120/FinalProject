@@ -48,7 +48,9 @@ export default function Login() {
         }, 1300);
       }
     } catch (error) {
-      toast.error("Somethings went wrong!");
+      toast.error("Somethings went wrong!", {
+        theme: "colored",
+      });
     }
 
     setLoading(false);

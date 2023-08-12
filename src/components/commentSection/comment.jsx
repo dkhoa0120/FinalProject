@@ -97,7 +97,9 @@ export default function Comment({ comment, editComment, removeComment }) {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in!");
+        toast.error("Please sign in to like!", {
+          theme: "colored",
+        });
       }
     }
   };
@@ -127,7 +129,9 @@ export default function Comment({ comment, editComment, removeComment }) {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in!");
+        toast.error("Please sign in to dislike!", {
+          theme: "colored",
+        });
       }
     }
   };

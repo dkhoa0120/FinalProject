@@ -59,7 +59,9 @@ export default function MangaDetail() {
         setRate(null);
         getMangaDetail(mangaId);
       } catch {
-        console.error("Something went wrong!");
+        console.error("Something went wrong!", {
+          theme: "colored",
+        });
       }
     }
   };

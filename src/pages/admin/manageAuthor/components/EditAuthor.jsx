@@ -36,7 +36,9 @@ export default function EditAuthor({
       getAuthors();
       toast.success("Author has been updated!");
     } catch (error) {
-      toast.error("Somethings went wrong!");
+      toast.error("Somethings went wrong!", {
+        theme: "colored",
+      });
     }
   };
 

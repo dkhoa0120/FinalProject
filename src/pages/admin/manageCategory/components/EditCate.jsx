@@ -36,7 +36,9 @@ export default function EditCate({
       getCategories();
       toast.success("Category has been updated!");
     } catch (error) {
-      toast.error("Somethings went wrong!");
+      toast.error("Somethings went wrong!", {
+        theme: "colored",
+      });
     }
   };
 

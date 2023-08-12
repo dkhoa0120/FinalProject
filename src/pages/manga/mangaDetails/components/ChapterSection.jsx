@@ -19,7 +19,7 @@ export default function ChapterSection({
     <>
       <Container fluid className="general-container">
         <Row>
-          <Col xs={12} md={6} xl={10}>
+          <Col>
             <div
               className="general-container-title"
               style={{ textDecorationLine: "underline" }}
@@ -27,13 +27,11 @@ export default function ChapterSection({
               Chapters list
             </div>
           </Col>
-          <Col xs={12} md={6} xl={2}>
-            <p className="text-center">
-              <button className="button-50" onClick={handleShowFirstChapter}>
-                <i className="fa-regular fa-newspaper"></i>
-                &nbsp; &nbsp; Start Reading
-              </button>
-            </p>
+          <Col style={{ textAlign: "right" }}>
+            <button className="button-50" onClick={handleShowFirstChapter}>
+              <i className="fa-regular fa-newspaper"></i>
+              &nbsp; &nbsp; Start Reading
+            </button>
           </Col>
         </Row>
         <div style={{ paddingLeft: "20px" }}>
