@@ -3,8 +3,8 @@ import { Row, Col, Collapse } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 import { Link } from "react-router-dom";
 
-export default function ChapterGroup({ number, chapterList }) {
-  const [showChapter, setShowChapter] = useState(false);
+export default function ChapterGroup({ number, chapterList, show = false }) {
+  const [showChapter, setShowChapter] = useState(show);
 
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
