@@ -159,9 +159,9 @@ export default function ManageManga() {
                 );
               })
             ) : (
-              <tr className="text-center">
-                <td colSpan={5}>No DATA found</td>
-              </tr>
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status"></div>
+              </div>
             )}
           </tbody>
         </Table>

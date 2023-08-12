@@ -3,7 +3,7 @@ import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getMangasForUser } from "../../service/api.manga";
 
-function CarouselFade() {
+export default function CarouselFade() {
   const [mangas, setMangas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(1); // Number of items to show per page
@@ -82,7 +82,9 @@ function CarouselFade() {
           </React.Fragment>
         ))
       ) : (
-        <div className="text-center">No data found.</div>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
       )}
       &nbsp;
       {/* Pagination controls */}
@@ -101,5 +103,3 @@ function CarouselFade() {
     </div>
   );
 }
-
-export default CarouselFade;

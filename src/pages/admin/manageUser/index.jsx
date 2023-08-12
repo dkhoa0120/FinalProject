@@ -1,22 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  Col,
-  Row,
-  Card,
-  Container,
-  FormSelect,
-  Form,
-  Image,
-  Button,
-  Table,
-} from "react-bootstrap";
-import { Link, useSearchParams } from "react-router-dom";
+import { Col, Row, FormSelect, Form, Button, Table } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
 import { getUsers } from "../../../service/api.user";
 import { ToastContainer } from "react-toastify";
 
-function ManageUser() {
+export default function ManageUser() {
   const [users, setUsers] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(searchParams.get("page") || 1);
@@ -137,9 +127,9 @@ function ManageUser() {
                 );
               })
             ) : (
-              <tr className="text-center">
-                <td colSpan={5}>No DATA found</td>
-              </tr>
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status"></div>
+              </div>
             )}
           </tbody>
         </Table>
@@ -161,5 +151,3 @@ function ManageUser() {
     </div>
   );
 }
-
-export default ManageUser;

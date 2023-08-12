@@ -3,7 +3,7 @@ import { Button, Row, Image, Container, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
 
-function MangasList({ data, link }) {
+export default function MangasList({ data, link }) {
   return (
     <Container fluid>
       <Row className="px-4 my-3">
@@ -28,7 +28,9 @@ function MangasList({ data, link }) {
             </Col>
           ))
         ) : (
-          <div className="text-center">No data found.</div>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status"></div>
+          </div>
         )}
       </Row>
       <div className="d-flex justify-content-center">
@@ -39,5 +41,3 @@ function MangasList({ data, link }) {
     </Container>
   );
 }
-
-export default MangasList;

@@ -109,7 +109,9 @@ export default function Manga() {
           </React.Fragment>
         ))
       ) : (
-        <div className="text-center">No data found.</div>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
       )}
       &nbsp;
       <Pagination

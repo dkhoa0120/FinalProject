@@ -15,7 +15,7 @@ import EditCate from "./components/EditCate";
 import DeleteCate from "./components/DeleteCate";
 import { Col, Row, Form } from "react-bootstrap";
 
-function ManageCategory() {
+export default function ManageCategory() {
   // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -152,9 +152,9 @@ function ManageCategory() {
                 );
               })
             ) : (
-              <tr className="text-center">
-                <td colSpan={3}>No DATA found</td>
-              </tr>
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status"></div>
+              </div>
             )}
           </tbody>
         </Table>
@@ -187,5 +187,3 @@ function ManageCategory() {
     </div>
   );
 }
-
-export default ManageCategory;

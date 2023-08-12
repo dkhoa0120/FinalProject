@@ -15,7 +15,7 @@ import CreateAuthor from "./components/CreateAuthor";
 import EditAuthor from "./components/EditAuthor";
 import DeleteAuthor from "./components/DeleteAuthor";
 
-function ManageAuthor() {
+export default function ManageAuthor() {
   // Component state variables
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -161,9 +161,9 @@ function ManageAuthor() {
                 );
               })
             ) : (
-              <tr className="text-center">
-                <td colSpan={3}>No DATA found</td>
-              </tr>
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status"></div>
+              </div>
             )}
           </tbody>
         </Table>
@@ -196,5 +196,3 @@ function ManageAuthor() {
     </div>
   );
 }
-
-export default ManageAuthor;
