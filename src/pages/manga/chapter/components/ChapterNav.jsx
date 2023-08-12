@@ -124,8 +124,8 @@ export default function ChapterNav({ chapter, relatedChapters }) {
         <i className="fa-solid fa-arrow-left"></i>
       </button>
       <Dropdown drop="start">
-        <Dropdown.Toggle>
-          <button className="circle-button">{chapter.number}</button>
+        <Dropdown.Toggle className="circle-button">
+          {chapter.number}
         </Dropdown.Toggle>
         <Dropdown.Menu className="chapter-dropdown">
           {relatedChapters &&

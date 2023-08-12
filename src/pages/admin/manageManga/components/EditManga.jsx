@@ -25,7 +25,6 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
     defaultValues: {},
   });
 
-  console.log("predata", dataEdit);
   useEffect(() => {
     if (dataEdit) {
       const authorOptions = mapToOption(dataEdit.authors);

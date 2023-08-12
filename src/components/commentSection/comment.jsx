@@ -245,7 +245,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                   variant="outline"
                   className="comment-options-toggle"
                 >
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                  <i className="fa-solid fa-ellipsis-vertical"></i>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   {user && user.id === comment.user.id ? (

@@ -152,9 +152,13 @@ export default function ManageCategory() {
                 );
               })
             ) : (
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status"></div>
-              </div>
+              <tr>
+                <td>
+                  <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status"></div>
+                  </div>
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>

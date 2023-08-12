@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Container, Row, Col, Modal } from "react-bootstrap";
 import ChapterGroup from "./ChapterGroup";
 import PaginationNoParams from "../../../../components/paginationNoParams";
-import { Link } from "react-router-dom";
-import CountryFlag from "../../../../components/countryFlag";
 
 export default function ChapterSection({
   chapters,
@@ -11,10 +9,6 @@ export default function ChapterSection({
   totalPages,
   onPageChange,
 }) {
-  const [isDescending, setIsDescending] = useState(false);
-  const handleClick = () => {
-    setIsDescending(!isDescending);
-  };
   const [showModalChapter, setShowModalChapter] = useState(false);
 
   const handleShowFirstChapter = () => setShowModalChapter(true);
@@ -47,13 +41,11 @@ export default function ChapterSection({
             Object.entries(chapters)
               .sort(([numberA], [numberB]) => numberA - numberB)
               .map(([number, chapterList]) => (
-                <Container fluid>
-                  <ChapterGroup
-                    key={number}
-                    number={number}
-                    chapterList={chapterList}
-                  />
-                </Container>
+                <ChapterGroup
+                  key={number}
+                  number={number}
+                  chapterList={chapterList}
+                />
               ))}
         </div>
 

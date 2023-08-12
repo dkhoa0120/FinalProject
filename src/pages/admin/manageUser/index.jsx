@@ -9,33 +9,22 @@ import { ToastContainer } from "react-toastify";
 export default function ManageUser() {
   const [users, setUsers] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
-  const [roleOption, setRoleOption] = useState(
-    searchParams.get("roleOption") || "All"
-  );
   const [totalPages, setTotalPages] = useState(0);
   const [updateData, setUpdateData] = useState(null);
-
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    setPage(parseInt(searchParams.get("page") || 1));
-    setRoleOption(searchParams.get("roleOption" || "All"));
-    setSearchTerm(searchParams.get("search") || "");
-  }, [searchParams]);
+  const search = searchParams.get("search") || "";
+  const roleOption = searchParams.get("roleOption") || "";
+  const page = searchParams.get("page") || "1";
 
   // Fetch manga data
   useEffect(() => {
     getUsersList();
-  }, [roleOption, searchTerm, page]);
+  }, [roleOption, search, page]);
 
   const getUsersList = async () => {
     try {
-      const result = await getUsers({ search: searchTerm, page, roleOption });
-      console.log("Check users", result);
+      const result = await getUsers({ search, page, roleOption });
       setUsers(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -44,7 +33,6 @@ export default function ManageUser() {
         setTotalPages(0);
       }
     }
-    console.log("check User", users);
   };
 
   // Event handler for search manga
@@ -74,7 +62,7 @@ export default function ManageUser() {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
-              value={searchTerm}
+              value={search}
               onChange={handleSearch}
             />
           </div>
@@ -127,9 +115,13 @@ export default function ManageUser() {
                 );
               })
             ) : (
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status"></div>
-              </div>
+              <tr>
+                <td>
+                  <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status"></div>
+                  </div>
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>

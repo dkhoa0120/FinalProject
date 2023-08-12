@@ -59,7 +59,6 @@ export default function ManageAuthor() {
       }
     }
   };
-  console.log(authors);
 
   // Event handler for search manga
   const handleSearch = (e) => {
@@ -161,9 +160,13 @@ export default function ManageAuthor() {
                 );
               })
             ) : (
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status"></div>
-              </div>
+              <tr>
+                <td>
+                  <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status"></div>
+                  </div>
+                </td>
+              </tr>
             )}
           </tbody>
         </Table>

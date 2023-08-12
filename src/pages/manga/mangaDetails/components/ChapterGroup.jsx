@@ -24,7 +24,7 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
   };
 
   return (
-    <>
+    <Container fluid>
       <Row
         className="d-flex"
         style={{ cursor: "pointer" }}
@@ -64,7 +64,7 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
               <Col xs={12} xl={4}>
                 <Link to={`/Chapter/${chapter.id}`} className="card-link">
                   <p className="chapter-name text-truncate">
-                    <CountryFlag lang={chapter.language} />
+                    <CountryFlag key={chapter.id} lang={chapter.language} />
                     {chapter.name}
                   </p>
                 </Link>
@@ -96,6 +96,6 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
         </div>
       </Collapse>
       <hr style={{ margin: "1rem 2rem 0.5rem" }}></hr>
-    </>
+    </Container>
   );
 }

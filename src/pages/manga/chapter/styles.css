@@ -74,14 +74,14 @@
   transform: scale(1.1);
 }
 
-.chapter-nav .dropstart button {
-  padding: 0;
-  --bs-btn-bg: none;
+.chapter-nav .dropstart .btn {
+  border-radius: 50%;
+  --bs-btn-bg: #212529;
   --bs-btn-border-color: none;
-  --bs-btn-hover-color: none;
-  --bs-btn-hover-bg: none;
+  --bs-btn-hover-bg: #212529;
+  --bs-btn-active-bg: #212529;
   --bs-btn-hover-border-color: none;
-  --bs-btn-active-bg: none;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .chapter-dropdown {
