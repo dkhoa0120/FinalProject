@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Modal } from "react-bootstrap";
 import ChapterGroup from "./ChapterGroup";
 import PaginationNoParams from "../../../../components/paginationNoParams";
+import { Link } from "react-router-dom";
+import CountryFlag from "../../../../components/countryFlag";
 
 export default function ChapterSection({
   chapters,
@@ -13,6 +15,11 @@ export default function ChapterSection({
   const handleClick = () => {
     setIsDescending(!isDescending);
   };
+  const [showModalChapter, setShowModalChapter] = useState(false);
+
+  const handleShowFirstChapter = () => setShowModalChapter(true);
+
+  const firstChapter = chapters && chapters["1"];
 
   return (
     <>
@@ -28,7 +35,9 @@ export default function ChapterSection({
           </Col>
           <Col xs={12} md={6} xl={4}>
             <p className="text-center">
-              <button className="button-50">Read First</button>
+              <button className="button-50" onClick={handleShowFirstChapter}>
+                Read First
+              </button>
               &nbsp;
               <button className="button-50">Read Last</button>
               &nbsp;
@@ -56,6 +65,40 @@ export default function ChapterSection({
                 </Container>
               ))}
         </div>
+
+        <Modal show={showModalChapter} size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Select Group</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div id="show-chapters">
+              {firstChapter &&
+                firstChapter.map((chapter) => (
+                  <Row className="chapter-row" key={chapter.id}>
+                    <Col xs={12} xl={6}>
+                      <Link to={`/Chapter/${chapter.id}`} className="card-link">
+                        <p className="chapter-name">
+                          <CountryFlag lang={chapter.language} />
+                          {chapter.name}
+                        </p>
+                      </Link>
+                    </Col>
+                    <Col xs={6} xl={2}>
+                      <p>
+                        <i className="fa-regular fa-user"></i> Group
+                      </p>
+                    </Col>
+                    <Col xs={6} xl={2}>
+                      <p>
+                        <i className="fa-regular fa-user"></i>{" "}
+                        {chapter.uploader.name}
+                      </p>
+                    </Col>
+                  </Row>
+                ))}
+            </div>
+          </Modal.Body>
+        </Modal>
         <div className="d-flex justify-content-center">
           <PaginationNoParams
             page={page}
