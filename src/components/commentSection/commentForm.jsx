@@ -102,7 +102,9 @@ export function AddCommentForm({ type, typeId, addCommentToState }) {
       handleCancel();
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to comment!");
+        toast.error("Please sign in to comment!", {
+          theme: "colored",
+        });
       }
     }
   };
@@ -176,7 +178,9 @@ export function ReplyCommentForm({ comment, addReplyInState, stopReply }) {
       stopReply();
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to reply!");
+        toast.error("Please sign in to reply!", {
+          theme: "colored",
+        });
       }
     }
   };
