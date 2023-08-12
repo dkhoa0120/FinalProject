@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Row, Col, Collapse } from "react-bootstrap";
+import { Row, Col, Collapse, Container } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 import { Link } from "react-router-dom";
 
@@ -49,7 +49,7 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
             ) : (
               <div>
                 {chapterList.map((chapter) => (
-                  <CountryFlag lang={chapter.language} />
+                  <CountryFlag key={chapter.id} lang={chapter.language} />
                 ))}
                 <i className="fa-solid fa-arrow-down" />
               </div>

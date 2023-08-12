@@ -27,20 +27,36 @@ export default function MangaDetail() {
   const [totalChapterPages, setTotalChapterPages] = useState(0);
   const [chapterPage, setChapterPage] = useState(1);
   const { mangaId } = useParams();
-  const [rate, setRate] = useState(false);
+  const [rate, setRate] = useState(0);
   const [follow, setFollow] = useState(null);
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
     formData.append("inputRating", eventKey);
     try {
-      if (!rate) {
+      if (rate === 0) {
         await postRating(mangaId, formData);
-      } else {
+        setManga((prevManga) => ({
+          ...prevManga,
+          ratingSum: prevManga.ratingSum + Number(eventKey),
+          ratingCount: prevManga.ratingCount + 1,
+        }));
+      } else if (eventKey !== "0") {
         await putRating(mangaId, formData);
+        setManga((prevManga) => ({
+          ...prevManga,
+          ratingSum: prevManga.ratingSum - rate + Number(eventKey),
+          ratingCount: prevManga.ratingCount,
+        }));
+      } else {
+        await deleteRating(mangaId);
+        setManga((prevManga) => ({
+          ...prevManga,
+          ratingSum: prevManga.ratingSum - rate,
+          ratingCount: prevManga.ratingCount - 1,
+        }));
       }
       setRate(Number(eventKey));
-      getMangaDetail(mangaId);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error("Please sign in to rate!", {
@@ -52,28 +68,23 @@ export default function MangaDetail() {
     }
   };
 
-  const handleRemoveRate = async () => {
-    if (rate !== null) {
-      try {
-        await deleteRating(mangaId);
-        setRate(null);
-        getMangaDetail(mangaId);
-      } catch {
-        console.error("Something went wrong!");
-      }
-    }
-  };
-
   const handleFollow = async () => {
     try {
       if (!follow) {
         await postFollow(mangaId);
         setFollow(true);
+        setManga((prevManga) => ({
+          ...prevManga,
+          followCount: prevManga.followCount + 1,
+        }));
       } else {
         await deleteFollow(mangaId);
         setFollow(false);
+        setManga((prevManga) => ({
+          ...prevManga,
+          followCount: prevManga.followCount - 1,
+        }));
       }
-      getMangaDetail(mangaId);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error("Please sign in to follow!", {
@@ -155,7 +166,6 @@ export default function MangaDetail() {
         manga={manga}
         rate={rate}
         handleSelectRate={handleSelectRate}
-        handleRemoveRate={handleRemoveRate}
         follow={follow}
         handleFollow={handleFollow}
       />

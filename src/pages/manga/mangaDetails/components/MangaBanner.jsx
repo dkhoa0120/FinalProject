@@ -86,7 +86,7 @@ export default function MangaBanner({
                     <Dropdown.Item eventKey={1} active={rate === 1}>
                       (1) Horrible
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={handleRemoveRate}>
+                    <Dropdown.Item disabled={rate === 0} eventKey={0}>
                       Remove rating
                     </Dropdown.Item>
                   </Dropdown.Menu>
