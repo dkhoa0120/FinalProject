@@ -54,10 +54,10 @@ export default function Register() {
           expires: new Date(response.data.expiration),
         });
         loadUser();
-        navigate("/");
+        navigate(-1);
       }
     } catch (error) {
-      toast.error("Failed to register or log in");
+      toast.error(error.response.data);
     }
   };
 
