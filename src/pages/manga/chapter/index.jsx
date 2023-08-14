@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
 import { ToastContainer } from "react-toastify";
+import { postView } from "../../../service/api.view";
 
 export default function ChapterPage() {
   const { chapterId } = useParams();
@@ -34,9 +35,18 @@ export default function ChapterPage() {
     }
   };
 
+  const postViewForChapter = async (id) => {
+    try {
+      await postView("chapter", id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getChapterDetail(chapterId);
     getChapterList(chapterId);
+    postViewForChapter(chapterId);
   }, [chapterId]);
 
   if (!chapter) {
