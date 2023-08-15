@@ -27,6 +27,11 @@ export default function ManageManga() {
   const search = searchParams.get("search") || "";
   const page = searchParams.get("page") || "1";
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Manage Manga - 3K Manga";
+  }, []);
+
   // Fetch manga data
   useEffect(() => {
     getMangas(search, page);

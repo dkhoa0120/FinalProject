@@ -16,6 +16,11 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showGif, setShowGif] = useState(false);
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Sign In - 3K Manga";
+  }, []);
+
   useEffect(() => {
     if (user) {
       navigate("/");

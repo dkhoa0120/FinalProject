@@ -13,6 +13,11 @@ export default function Manga() {
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Manga Options - 3K Manga";
+  }, []);
+
   // Re-fetch manga when search params change
   useEffect(() => {
     getMangasList(search, sortOption, page);

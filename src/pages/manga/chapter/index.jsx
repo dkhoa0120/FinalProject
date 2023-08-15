@@ -16,7 +16,9 @@ export default function ChapterPage() {
   const getChapterDetail = async (id) => {
     try {
       const result = await getChapter(id);
-      setChapter(result.data);
+      const chapter = result.data;
+      setChapter(chapter);
+      document.title = `Chapter ${chapter.number} | ${chapter.manga.originalTitle} - 3K Manga`;
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setChapter(null);

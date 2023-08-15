@@ -18,6 +18,7 @@ function Home() {
 
   useEffect(() => {
     callAPI("", activeButton, 1, 8);
+    document.title = "3K Manga";
   }, [activeButton]);
 
   const callAPI = async (search, sortOption, page, pageSize) => {

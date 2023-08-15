@@ -32,6 +32,11 @@ export default function ManageAuthor() {
   const [showDelete, setShowDelete] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Manage Author - 3K Manga";
+  }, []);
+
   // Set page and search term from URL search params
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));

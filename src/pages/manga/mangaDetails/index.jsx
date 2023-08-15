@@ -116,6 +116,7 @@ export default function MangaDetail() {
     try {
       const result = await getMangaByIdForUser(id);
       setManga(result.data);
+      document.title = `${result.data.originalTitle} - 3K Manga`;
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setManga(null);

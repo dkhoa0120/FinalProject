@@ -19,6 +19,11 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Sign Up - 3K Manga";
+  }, []);
+
   useEffect(() => {
     if (user) {
       navigate("/");

@@ -30,6 +30,11 @@ export default function ManageCategory() {
   const [showDelete, setShowDelete] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Manage Category - 3K Manga";
+  }, []);
+
   // Fetch manga data
   useEffect(() => {
     handleGetCategories(search, page);

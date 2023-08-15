@@ -17,6 +17,11 @@ export default function ManageUser() {
   const roleOption = searchParams.get("roleOption") || "";
   const page = searchParams.get("page") || "1";
 
+  // Update the document title
+  useEffect(() => {
+    document.title = "Manage User - 3K Manga";
+  }, []);
+
   // Fetch manga data
   useEffect(() => {
     getUsersList();
