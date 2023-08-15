@@ -49,7 +49,7 @@ export default function Login() {
         });
         setTimeout(() => {
           loadUser();
-          navigate("/");
+          navigate(-1);
         }, 1300);
       }
     } catch (error) {

@@ -71,7 +71,8 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
               </Col>
               <Col xs={6} xl={2}>
                 <p className="text-truncate">
-                  <i className="fa-regular fa-user"></i> Group
+                  <i className="fa-regular fa-user"></i>{" "}
+                  {chapter.uploadingGroup.name}
                 </p>
               </Col>
               <Col xs={6} xl={2}>
