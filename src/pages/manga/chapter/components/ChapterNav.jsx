@@ -50,53 +50,49 @@ export default function ChapterNav({ chapter, relatedChapters }) {
     navigate(`/Manga/${mangaId}`);
   }
 
-  const findChapter = (number, groupId) => {
-    const foundChapters = relatedChapters.filter((c) => c.number === number);
-    return (
-      foundChapters.find((c) => c.groupId === chapter.groupId) ||
-      foundChapters[0]
-    );
-  };
   const navigateToPrevChapter = () => {
-    const prevNumber = chapter.number - 1;
-    let prevChapter = findChapter(prevNumber);
-    let confirmNavigate = true;
+    const earlierChapters = relatedChapters.filter(
+      (c) => c.number < chapter.number
+    );
+    let prevChapter = earlierChapters[0];
+    prevChapter =
+      earlierChapters.find(
+        (c) =>
+          c.uploadingGroup.id === chapter.uploadingGroup.id &&
+          c.number === prevChapter.number
+      ) || prevChapter;
 
     // in case there is a gap between chapters
-    if (!prevChapter) {
-      const earlierChapters = relatedChapters.filter(
-        (c) => c.number < prevNumber
-      );
-      prevChapter =
-        earlierChapters.find((c) => c.groupId === chapter.groupId) ||
-        earlierChapters[0];
+    let confirmNavigate = true;
+    if (Math.floor(chapter.number) - Math.floor(prevChapter.number) > 1) {
       confirmNavigate = window.confirm(
         `There is a gap between chapters: ${chapter.number} -> ${prevChapter.number}. Do you want to jump anyway?`
       );
     }
-
     if (confirmNavigate) {
       navigateToChapter(prevChapter.id);
     }
   };
+
   const navigateToNextChapter = () => {
-    const nextNumber = chapter.number + 1;
-    let nextChapter = findChapter(nextNumber);
-    let confirmNavigate = true;
+    const laterChapters = relatedChapters.filter(
+      (c) => c.number > chapter.number
+    );
+    let nextChapter = laterChapters[laterChapters.length - 1];
+    nextChapter =
+      laterChapters.findLast(
+        (c) =>
+          c.uploadingGroup.id === chapter.uploadingGroup.id &&
+          c.number === nextChapter.number
+      ) || nextChapter;
 
     // in case there is a gap between chapters
-    if (!nextChapter) {
-      const earlierChapters = relatedChapters.filter(
-        (c) => c.number > nextChapter
-      );
-      nextChapter =
-        earlierChapters.findLast((c) => c.groupId === chapter.groupId) ||
-        earlierChapters[earlierChapters.length - 1];
+    let confirmNavigate = true;
+    if (Math.floor(nextChapter.number) - Math.floor(chapter.number) > 1) {
       confirmNavigate = window.confirm(
-        `There is a gap between chapters: ${chapter.number} -> ${nextChapter.number}. Do you want to jump anyway?`
+        `There is a gap between chapters: ${chapter?.number} -> ${nextChapter?.number}. Do you want to jump anyway?`
       );
     }
-
     if (confirmNavigate) {
       navigateToChapter(nextChapter.id);
     }
@@ -129,15 +125,20 @@ export default function ChapterNav({ chapter, relatedChapters }) {
         </Dropdown.Toggle>
         <Dropdown.Menu className="chapter-dropdown">
           {relatedChapters &&
-            relatedChapters.map((c) => (
-              <span
-                key={c.id}
-                className="card-link dropdown-item"
-                onClick={() => navigateToChapter(c.id)}
-              >
-                Chapter {c.number}
-              </span>
-            ))}
+            relatedChapters
+              .filter((c) => c.uploadingGroup.id === chapter.uploadingGroup.id)
+              .map((c) => (
+                <span
+                  key={c.id}
+                  className={
+                    "card-link dropdown-item" +
+                    (c.number === chapter.number ? " selected" : "")
+                  }
+                  onClick={() => navigateToChapter(c.id)}
+                >
+                  Chapter {c.number}
+                </span>
+              ))}
         </Dropdown.Menu>
       </Dropdown>
       <button
@@ -146,7 +147,30 @@ export default function ChapterNav({ chapter, relatedChapters }) {
       >
         <i className="fa-solid fa-arrow-right"></i>
       </button>
-
+      <Dropdown drop="start">
+        <Dropdown.Toggle className="circle-button">
+          <i className="fa-solid fa-user-group" style={{ color: "white" }}></i>
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="chapter-dropdown">
+          {relatedChapters &&
+            relatedChapters
+              .filter((c) => c.number === chapter.number)
+              .map((c) => (
+                <span
+                  key={c.id}
+                  className={
+                    "card-link dropdown-item" +
+                    (c.uploadingGroup.id === chapter.uploadingGroup.id
+                      ? " selected"
+                      : "")
+                  }
+                  onClick={() => navigateToChapter(c.id)}
+                >
+                  {c.uploadingGroup.name}
+                </span>
+              ))}
+        </Dropdown.Menu>
+      </Dropdown>
       <button className="circle-button" onClick={handleFollow}>
         {!follow && <i className="fa-regular fa-heart"></i>}
         {follow && (

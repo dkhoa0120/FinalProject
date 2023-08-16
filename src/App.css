@@ -36,6 +36,9 @@ body {
 .card-link:hover {
   cursor: pointer;
 }
+.card-link.selected {
+  background-color: #e0e0e0;
+}
 
 .general-container {
   width: auto;
