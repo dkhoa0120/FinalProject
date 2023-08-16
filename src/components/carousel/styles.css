@@ -1,0 +1,28 @@
+.card-text.cover-description {
+  margin-top: 8px;
+  --max-lines: 4;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--max-lines);
+}
+
+.card-img.cover-image {
+  aspect-ratio: 1/1.41;
+  border-radius: 5%;
+}
+
+.card-title.cover-title {
+  font-size: 30px;
+  --max-lines: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--max-lines);
+}
+
+@media screen and (max-width: 767px) {
+  .card-title.cover-title {
+    font-size: 20px;
+  }
+}

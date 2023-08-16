@@ -1,86 +1,73 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getMangasForUser } from "../../service/api.manga";
+import "./styles.css";
 
-export default function CarouselFade() {
-  const [mangas, setMangas] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(1); // Number of items to show per page
+function indexReducer(index, action) {
+  switch (action.type) {
+    case "next": {
+      return index >= action.length - 1 ? 0 : index + 1;
+    }
+    case "prev": {
+      return index <= 0 ? action.length - 1 : index - 1;
+    }
+    default: {
+      throw Error("Unknown action: " + action.type);
+    }
+  }
+}
+
+export default function CarouselFade({ mangas }) {
+  const [mangaIndex, updateMangaIndex] = useReducer(indexReducer, 0);
+  const intervalRef = useRef(null);
+
+  const setCarouselInterval = useCallback(() => {
+    return setInterval(
+      () => updateMangaIndex({ type: "next", length: mangas.length }),
+      10000
+    ); // Change manga every 10 seconds
+  }, [mangas.length]);
 
   useEffect(() => {
-    getMangas();
-    const intervalId = setInterval(nextPage, 15000); // Change page every 10 seconds
-
+    intervalRef.current = setCarouselInterval();
     return () => {
-      clearInterval(intervalId); // Clean up the interval when the component unmounts
+      clearInterval(intervalRef.current);
     };
-  }, []);
+  }, [setCarouselInterval]);
 
-  const getMangas = async () => {
-    try {
-      const result = await getMangasForUser();
-      setMangas(result.data.itemList);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setMangas([]);
-      }
-    }
+  const handleClick = (type) => {
+    updateMangaIndex({ type, length: mangas.length });
+    clearInterval(intervalRef.current);
+    intervalRef.current = setCarouselInterval();
   };
 
-  // Calculate the index range of the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentMangas = mangas.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Go to next page
-  const nextPage = () => {
-    setCurrentPage((prevPage) => {
-      const nextPage = prevPage + 1;
-      if (nextPage > Math.ceil(mangas.length / itemsPerPage)) {
-        return 1; // Go back to the first page if reached the last page
-      }
-      return nextPage;
-    });
-  };
-
-  // Go to previous page
-  const previousPage = () => {
-    setCurrentPage((prevPage) => {
-      const nextPage = prevPage - 1;
-      if (nextPage < 1) {
-        return Math.ceil(mangas.length / itemsPerPage); // Go to the last page if reached the first page
-      }
-      return nextPage;
-    });
-  };
+  const currentManga = mangas[mangaIndex];
 
   return (
     <div className="general-container">
       <div className="general-container-title">Most popular</div>
-      {currentMangas.length > 0 ? (
-        currentMangas.map((manga, index) => (
-          <React.Fragment key={index}>
-            <Container fluid>
-              <div style={{ position: "relative" }}>
-                <Row>
-                  <Col xl={2}>
-                    <Card.Img
-                      src={manga.coverPath || "/img/error/coverNotFound.png"}
-                      className="cover-image"
-                    />
-                  </Col>
-                  <Col xl={10} style={{ padding: "20px" }}>
-                    <Link to={`/Manga/${manga.id}`} className="card-link">
-                      <Card.Title>{manga.originalTitle}</Card.Title>
-                    </Link>
-                    <Card.Text>{manga.description}</Card.Text>
-                  </Col>
-                </Row>
-              </div>
-            </Container>
-          </React.Fragment>
-        ))
+      {currentManga ? (
+        <Container fluid className="px-4">
+          <Link to={`/Manga/${currentManga.id}`} className="card-link">
+            <Row>
+              <Col xl={2} md={3} xs={5}>
+                <Card.Img
+                  className="cover-image"
+                  src={currentManga.coverPath || "/img/error/coverNotFound.png"}
+                  alt={`${currentManga.originalTitle}'s cover`}
+                />
+              </Col>
+              <Col xl={10} md={9} xs={7}>
+                <Card.Title className="cover-title">
+                  {currentManga.originalTitle}
+                </Card.Title>
+                <Card.Text className="cover-description">
+                  {currentManga.description}
+                </Card.Text>
+              </Col>
+            </Row>
+          </Link>
+        </Container>
       ) : (
         <div className="d-flex justify-content-center">
           <div className="spinner-border" role="status"></div>
@@ -88,15 +75,12 @@ export default function CarouselFade() {
       )}
       &nbsp;
       {/* Pagination controls */}
-      <div
-        className="d-flex justify-content-end"
-        style={{ paddingRight: "80px" }}
-      >
-        <Button variant="dark" onClick={previousPage}>
+      <div className="d-flex justify-content-end px-4">
+        <Button variant="dark" onClick={() => handleClick("prev")}>
           <i className="fa-solid fa-chevron-left"></i>
         </Button>
         &nbsp;
-        <Button variant="dark" onClick={nextPage}>
+        <Button variant="dark" onClick={() => handleClick("next")}>
           <i className="fa-solid fa-chevron-right"></i>
         </Button>
       </div>

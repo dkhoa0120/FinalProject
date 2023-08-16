@@ -62,15 +62,6 @@ body {
   padding-bottom: 10px;
 }
 
-.cover-image {
-  height: 240px;
-}
-@media (max-width: 768px) {
-  .cover-image {
-    height: 450px;
-  }
-}
-
 .avatar {
   width: 40px;
   height: 40px;

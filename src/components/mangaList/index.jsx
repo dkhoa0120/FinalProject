@@ -9,12 +9,13 @@ export default function MangasList({ data, link }) {
       <Row className="px-4 my-3">
         {data.length > 0 ? (
           data.map((manga) => (
-            <Col md={3} lg={3} key={manga.id}>
+            <Col xs={6} md={4} lg={3} key={manga.id}>
               <div className="box">
                 <div className="image">
                   <Image
                     className="cover"
                     src={manga.coverPath || "/img/error/coverNotFound.png"}
+                    alt={`${manga.originalTitle}'s cover`}
                   />
                   <div className="text">
                     <Link to={`/Manga/${manga.id}`} className="card-link">

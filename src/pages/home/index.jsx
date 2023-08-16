@@ -1,38 +1,44 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import MangasList from "../../components/mangaList";
 import "./styles.css";
 import CarouselFade from "../../components/carousel";
 import { getMangasForUser } from "../../service/api.manga";
 
-function Home() {
+export default function Home() {
   const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
-
-  const [activeButton, setActiveButton] = useState("LatestManga");
-
-  const handleButtonClick = (sortOption) => {
-    setActiveButton(sortOption);
-  };
-
+  const sortOptions = ["LatestManga", "LatestChapter"];
+  const [sortOption, setSortOption] = useState(sortOptions[0]);
   const [mangas, setMangas] = useState([]);
+  const [carouselMangas, setCarouselMangas] = useState([]);
 
   useEffect(() => {
-    callAPI("", activeButton, 1, 8);
     document.title = "3K Manga";
-  }, [activeButton]);
+    loadCarouselMangas();
+  }, []);
 
-  const callAPI = async (search, sortOption, page, pageSize) => {
+  useEffect(() => {
+    loadMangas(sortOption);
+  }, [sortOption]);
+
+  const loadMangas = async (sortOption) => {
     try {
-      const result = await getMangasForUser({
-        search,
-        sortOption,
-        page,
-        pageSize,
-      });
+      const result = await getMangasForUser({ sortOption });
       setMangas(result.data.itemList);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setMangas([]);
+      }
+    }
+  };
+
+  const loadCarouselMangas = async () => {
+    try {
+      const result = await getMangasForUser();
+      setCarouselMangas(result.data.itemList);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setCarouselMangas([]);
       }
     }
   };
@@ -42,7 +48,7 @@ function Home() {
       <div className="home-header">
         <Container fluid>
           <Row>
-            <Col xs={12} md={6} xl={9}>
+            <Col xs={12} md={8} xl={9}>
               <div style={{ paddingTop: "30px" }}>
                 <span className="tagline">
                   Welcome to the captivating world of manga!
@@ -54,54 +60,32 @@ function Home() {
                 </p>
               </div>
             </Col>
-            <Col xs={12} md={6} xl={3}>
+            <Col xs={12} md={4} xl={3}>
               <div>
-                <Image style={{ width: "60%", height: "50%" }} src={banner} />
+                <Image className="deco-image" src={banner} />
               </div>
             </Col>
           </Row>
         </Container>
       </div>
-      <CarouselFade />
+      <CarouselFade mangas={carouselMangas} />
       <div className="general-container">
-        <div
-          style={{ display: "flex", paddingLeft: "20px", paddingRight: "20px" }}
-        >
-          <Button
-            className="mb-4 w-100"
-            variant={activeButton === "LatestManga" ? "dark" : "light"}
-            onClick={() => handleButtonClick("LatestManga")}
-          >
-            Latest Manga
-          </Button>
-          &nbsp;
-          <Button
-            className="mb-4 w-100"
-            variant={activeButton === "LatestChapter" ? "dark" : "light"}
-            onClick={() => handleButtonClick("LatestChapter")}
-          >
-            Latest Chapter
-          </Button>
+        <div className="d-flex px-4 gap-1">
+          {sortOptions.map((option, index) => (
+            <Button
+              key={index}
+              className="mb-4 w-100"
+              variant={sortOption === option ? "dark" : "light"}
+              onClick={() => setSortOption(option)}
+            >
+              {option}
+            </Button>
+          ))}
         </div>
         <div>
-          {activeButton === "LatestManga" && (
-            <MangasList
-              header="Latest Updated Manga"
-              link="/Manga?sortOption=LatestManga"
-              data={mangas}
-            />
-          )}
-          {activeButton === "LatestChapter" && (
-            <MangasList
-              header="Latest Updated Chapter"
-              link="/Manga?sortOption=LatestChapter"
-              data={mangas}
-            />
-          )}
+          <MangasList link={`/Manga?sortOption=${sortOption}`} data={mangas} />
         </div>
       </div>
     </div>
   );
 }
-
-export default Home;

@@ -36,6 +36,16 @@
   color: black;
 }
 
+.home-header .deco-image {
+  max-width: 200px;
+}
+
+@media screen and (max-width: 767px) {
+  .home-header .deco-image {
+    display: none;
+  }
+}
+
 .txt-rotate > .wrap {
   border-right: 0.08em solid #666;
 }

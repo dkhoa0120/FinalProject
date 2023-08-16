@@ -1,4 +1,4 @@
-import { userAxios, getManageAxios, baseAxios } from "./api.base";
+import { getManageAxios, baseAxios } from "./api.base";
 
 // user/manga
 export const getMangasForUser = (filter) => {

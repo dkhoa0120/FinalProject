@@ -3,8 +3,8 @@
   border-radius: 30px;
   border: black;
   overflow: hidden;
-  height: 50vh;
   margin-bottom: 24px;
+  aspect-ratio: 1/1.41;
 }
 
 .box .image::before {
