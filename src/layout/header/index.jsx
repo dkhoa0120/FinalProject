@@ -1,5 +1,3 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable jsx-a11y/alt-text */
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -67,6 +65,7 @@ export default function Header(props) {
             <img
               style={{ width: "40px", height: "100%" }}
               src={process.env.PUBLIC_URL + "/favicon.ico"}
+              alt="3KManga logo"
             />
             <span style={{ fontWeight: "800" }}>3K Manga </span>
           </Navbar.Brand>

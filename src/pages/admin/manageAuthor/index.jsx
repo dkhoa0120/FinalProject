@@ -20,9 +20,7 @@ export default function ManageAuthor() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(searchParams.get("page") || 1);
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
+  const [search, setSearch] = useState(searchParams.get("search") || "");
   const [authors, setAuthors] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -40,17 +38,18 @@ export default function ManageAuthor() {
   // Set page and search term from URL search params
   useEffect(() => {
     setPage(parseInt(searchParams.get("page") || 1));
-    setSearchTerm(searchParams.get("search") || "");
+    setSearch(searchParams.get("search") || "");
   }, [searchParams]);
 
   // Fetch manga data
   useEffect(() => {
     handleGetAuthors();
-  }, [searchTerm, page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, page]);
 
   const handleGetAuthors = async () => {
     try {
-      const result = await getAuthors({ search: searchTerm, page });
+      const result = await getAuthors({ search, page });
       setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -115,7 +114,7 @@ export default function ManageAuthor() {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
-              value={searchTerm}
+              value={search}
               onChange={handleSearch}
             />
           </Col>

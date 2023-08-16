@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Row, FormSelect, Form, Button, Table } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
 import { getUsers } from "../../../service/api.user";
@@ -16,6 +16,7 @@ export default function ManageUser() {
   const search = searchParams.get("search") || "";
   const roleOption = searchParams.get("roleOption") || "";
   const page = searchParams.get("page") || "1";
+  const navigate = useNavigate();
 
   // Update the document title
   useEffect(() => {
@@ -25,7 +26,8 @@ export default function ManageUser() {
   // Fetch manga data
   useEffect(() => {
     getUsersList();
-  }, [roleOption, search, page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, page, roleOption]);
 
   const getUsersList = async () => {
     try {
@@ -33,7 +35,10 @@ export default function ManageUser() {
       setUsers(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (error.response && error.response.status === 401) {
+        // Redirect to another page
+        navigate("/login");
+      } else if (error.response && error.response.status === 404) {
         setUsers([]);
         setTotalPages(0);
       }

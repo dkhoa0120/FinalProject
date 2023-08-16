@@ -38,6 +38,7 @@ export default function ManageCategory() {
   // Fetch manga data
   useEffect(() => {
     handleGetCategories(search, page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, page]);
 
   const handleGetCategories = async (search, page) => {
