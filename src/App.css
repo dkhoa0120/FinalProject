@@ -11,22 +11,32 @@ body {
   background-color: #f9f9f9 !important;
 }
 
-.text-limit-3 {
-  --max-lines: 3;
-
+.text-limit-1 {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--max-lines);
+  -webkit-line-clamp: 1;
 }
 
-.text-limit-1 {
-  --max-lines: 1;
-
+.text-limit-2 {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--max-lines);
+  -webkit-line-clamp: 2;
+}
+
+.text-limit-3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.text-limit-4 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .card-link {
@@ -68,34 +78,29 @@ body {
   border-radius: 50%;
 }
 
-.button-50 {
-  background-color: white;
-  border: 1px solid #000;
-  border-radius: 4px;
-  box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
-  color: black;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0 5px 10px 0;
-  padding: 12px 20px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.button-50:active {
-  box-shadow: rgba(0, 0, 0, 0.125) 0 3px 5px inset;
-  outline: 0;
-}
-.button-50:enabled {
-  cursor: pointer;
-}
-
-.button-50:disabled {
-  background-color: lightgray;
-  box-shadow: black 4px 4px 0 0, #000 4px 4px 0 1px;
-}
-
 .dropdown-toggle::before {
   display: none !important;
+}
+
+.btn-pill {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  border-radius: 8px;
+  border: none;
+  background-color: #e0e0e0;
+  margin: 0 8px 8px 0;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.btn-pill.clickable:hover {
+  background: linear-gradient(
+    90.21deg,
+    rgba(170, 54, 124, 0.5) -5.91%,
+    rgba(74, 47, 189, 0.5) 111.58%
+  );
+  color: white;
 }

@@ -44,21 +44,19 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <>
       <div className="home-header">
         <Container fluid>
           <Row>
-            <Col xs={12} md={8} xl={9}>
-              <div style={{ paddingTop: "30px" }}>
-                <span className="tagline">
-                  Welcome to the captivating world of manga!
-                </span>
-                <p className="tagline-p ">
-                  Immerse yourself in an extraordinary assortment of manga.
-                  Action, adventure, fantasy, mystery, romance, and
-                  more—thousands of manga volumes for every fan!!
-                </p>
-              </div>
+            <Col xs={12} md={8} xl={9} style={{ paddingTop: "30px" }}>
+              <span className="tagline">
+                Welcome to the captivating world of manga!
+              </span>
+              <p className="tagline-p ">
+                Immerse yourself in an extraordinary assortment of manga.
+                Action, adventure, fantasy, mystery, romance, and more—thousands
+                of manga volumes for every fan!!
+              </p>
             </Col>
             <Col xs={12} md={4} xl={3}>
               <div>
@@ -86,6 +84,6 @@ export default function Home() {
           <MangasList link={`/Manga?sortOption=${sortOption}`} data={mangas} />
         </div>
       </div>
-    </div>
+    </>
   );
 }

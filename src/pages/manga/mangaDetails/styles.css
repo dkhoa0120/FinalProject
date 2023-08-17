@@ -1,6 +1,6 @@
 .banner {
   margin-top: 0;
-  padding-top: 50px;
+  padding-top: 35px;
   margin-bottom: 10px;
 }
 
@@ -21,8 +21,15 @@
   width: 96%;
 }
 
+.banner .cover-container {
+  padding: 0 50px;
+}
+
+/* jumping cover */
 .banner .coverPath {
-  border-radius: 10px;
+  border-radius: 5%;
+  width: 100%;
+  aspect-ratio: 1/1.41;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
     rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
     rgba(0, 0, 0, 0.09) 0px 32px 16px;
@@ -40,85 +47,20 @@
     transform: translateY(-10px);
   }
 }
+/* end jumping cover */
 
 #dropdown-basic {
   outline: none !important;
   outline-offset: none !important;
-  font-size: 25px;
+  padding: 0 !important;
+  font-size: 20px;
   outline: none;
   outline-offset: none;
 }
-
 #dropdown-basic.show,
 #dropdown-basic,
 #dropdown-basic:hover {
   border: none !important;
-}
-
-.banner .heart .follow {
-  display: flex;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.banner .heart {
-  display: inline-block;
-  position: absolute;
-  background: url("/public/img/animation/heart.png") no-repeat;
-  background-size: 2900%;
-  height: 80px;
-  width: 80px;
-  transform: translate(-50%, -50%);
-}
-
-.heart.heart-active {
-  animation: animate 0.8s steps(28);
-  background-position: right;
-}
-
-@keyframes animate {
-  0% {
-    background-position: left;
-  }
-  100% {
-    background-position: right;
-  }
-}
-
-.banner .btn-follow {
-  border-width: 0;
-  margin-left: 27px;
-}
-
-.banner .follow-number {
-  display: flex;
-  margin: 25px 0 0 60px;
-  font-size: 18px;
-  color: black;
-}
-
-.banner .view-manga {
-  border-width: 0;
-  margin-left: 10px;
-  margin-top: 3px;
-  font-size: 18px;
-}
-
-.banner .rating {
-  border-width: 0;
-  font-size: 21px;
-}
-
-.banner .rating .rating-number {
-  font-size: 18px;
-}
-
-.banner .btn-report-manga {
-  border: none;
-  border-width: 0;
-  font-size: 18px;
-  margin-top: 3px;
 }
 
 .banner .btn-resize-description {
@@ -127,9 +69,27 @@
   color: #004759;
   font-weight: bold;
 }
-
 .banner .btn-resize-description:hover {
   text-decoration: underline;
+}
+
+.banner .under-cover {
+  border: 1px solid lightgray;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 15px 5px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px 20px;
+}
+
+.banner .btn-under-cover {
+  background: none;
+  border-width: 0;
+  font-size: 20px;
 }
 
 #show-chapters .chapter-row:hover {
@@ -150,4 +110,10 @@
   #show-chapters .chapter-name {
     font-weight: bold;
   }
+}
+
+#btn-start-reading {
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 8px;
 }

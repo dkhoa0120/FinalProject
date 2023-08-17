@@ -174,7 +174,7 @@ export default function ChapterNav({ chapter, relatedChapters }) {
       <button className="circle-button" onClick={handleFollow}>
         {!follow && <i className="fa-regular fa-heart"></i>}
         {follow && (
-          <i className="fa-solid fa-heart" style={{ color: "#eb0f0f" }}></i>
+          <i className="fa-solid fa-heart" style={{ color: "#f60056" }}></i>
         )}
       </button>
       <button className="circle-button">

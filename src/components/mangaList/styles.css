@@ -1,6 +1,6 @@
 .box .image {
   position: relative;
-  border-radius: 30px;
+  border-radius: 5%;
   border: black;
   overflow: hidden;
   margin-bottom: 24px;
@@ -30,6 +30,7 @@
   transition: 0.5s ease-in-out;
   opacity: 0;
   width: 100%;
+  padding: 0 15px;
 }
 
 .box .image:hover .text {
@@ -49,6 +50,16 @@
   font-weight: 400;
   font-size: 15px;
   letter-spacing: 0.8px;
+}
+
+@media screen and (max-width: 767px) {
+  .box .text h4 {
+    font-size: 20px;
+  }
+
+  .box .text span {
+    font-size: 12px;
+  }
 }
 
 .box .cover {

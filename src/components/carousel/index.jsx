@@ -44,7 +44,7 @@ export default function CarouselFade({ mangas }) {
   const currentManga = mangas[mangaIndex];
 
   return (
-    <div className="general-container">
+    <div id="carousel" className="general-container">
       <div className="general-container-title">Most popular</div>
       {currentManga ? (
         <Container fluid className="px-4">
@@ -52,16 +52,23 @@ export default function CarouselFade({ mangas }) {
             <Row>
               <Col xl={2} md={3} xs={5}>
                 <Card.Img
-                  className="cover-image"
+                  className="cover"
                   src={currentManga.coverPath || "/img/error/coverNotFound.png"}
                   alt={`${currentManga.originalTitle}'s cover`}
                 />
               </Col>
               <Col xl={10} md={9} xs={7}>
-                <Card.Title className="cover-title">
+                <Card.Title className="title">
                   {currentManga.originalTitle}
                 </Card.Title>
-                <Card.Text className="cover-description">
+                <Card.Text className="text-limit-1 my-3">
+                  {currentManga.categories.map((category) => (
+                    <span className="btn-pill" key={category.id}>
+                      {category.name}
+                    </span>
+                  ))}
+                </Card.Text>
+                <Card.Text className="text-limit-4 mt-3">
                   {currentManga.description}
                 </Card.Text>
               </Col>

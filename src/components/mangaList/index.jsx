@@ -6,7 +6,7 @@ import CountryFlag from "../countryFlag";
 export default function MangasList({ data, link }) {
   return (
     <Container fluid>
-      <Row className="px-4 my-3">
+      <Row className="px-3 my-3">
         {data.length > 0 ? (
           data.map((manga) => (
             <Col xs={6} md={4} lg={3} key={manga.id}>
@@ -19,10 +19,10 @@ export default function MangasList({ data, link }) {
                   />
                   <div className="text">
                     <Link to={`/Manga/${manga.id}`} className="card-link">
-                      <CountryFlag lang={manga.originalLanguage} />
-                      <h4>{manga.originalTitle}</h4>
+                      <CountryFlag lang={manga.originalLanguage} size={30} />
+                      <h4 className="text-limit-2">{manga.originalTitle}</h4>
                     </Link>
-                    <span className="text-limit-3">{manga.description}</span>
+                    <span className="text-limit-4">{manga.description}</span>
                   </div>
                 </div>
               </div>

@@ -28,9 +28,13 @@ export default function ChapterSection({
             </div>
           </Col>
           <Col style={{ textAlign: "right" }}>
-            <button className="button-50" onClick={handleShowFirstChapter}>
-              <i className="fa-regular fa-newspaper"></i>
-              &nbsp; &nbsp; Start Reading
+            <button
+              id="btn-start-reading"
+              className="btn-pill clickable"
+              onClick={handleShowFirstChapter}
+            >
+              <i className="fa-solid fa-angles-right"></i>
+              &nbsp;&nbsp;Start Reading
             </button>
           </Col>
         </Row>
