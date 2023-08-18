@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./styles.css";
 import { Button, Image, Modal, Nav } from "react-bootstrap";
 import { getMangasForUser } from "../../service/api.manga";
+import { Link } from "react-router-dom";
 
 function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);
@@ -68,15 +69,24 @@ function SearchBar({ placeholder }) {
                 {filteredData.slice(0, 10).map((value, key) => {
                   return (
                     <React.Fragment key={value.id}>
-                      <Nav.Link href={`/Manga/${value.id}`} className="item">
-                        <Image
-                          style={{ height: "60px", width: "40px" }}
-                          src={
-                            value.coverPath || "/img/error/coverNotFound.png"
-                          }
-                        />
-                        <p>{value.originalTitle} </p>
-                      </Nav.Link>
+                      <Nav>
+                        <Link
+                          onClick={() => {
+                            clearInput();
+                            handleClose();
+                          }}
+                          to={`/Manga/${value.id}`}
+                          className="item card-link"
+                        >
+                          <Image
+                            style={{ height: "60px", width: "40px" }}
+                            src={
+                              value.coverPath || "/img/error/coverNotFound.png"
+                            }
+                          />
+                          <p>{value.originalTitle} </p>
+                        </Link>
+                      </Nav>
                       <hr />
                     </React.Fragment>
                   );
