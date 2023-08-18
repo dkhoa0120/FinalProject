@@ -1,0 +1,18 @@
+#manga-option {
+  padding-top: 50px;
+}
+
+#manga-option .manga-category {
+  display: none;
+}
+
+@media screen and (min-width: 767px) {
+  #manga-option .manga-category {
+    display: block;
+    margin: 10px 0 6px 0;
+  }
+
+  #manga-option .manga-title {
+    font-size: 24px;
+  }
+}

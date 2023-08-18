@@ -45,7 +45,7 @@ export default function CarouselFade({ mangas }) {
 
   return (
     <div id="carousel" className="general-container">
-      <div className="general-container-title">Most popular</div>
+      <div className="general-container-title">Trending</div>
       {currentManga ? (
         <Container fluid className="px-4">
           <Link to={`/Manga/${currentManga.id}`} className="card-link">

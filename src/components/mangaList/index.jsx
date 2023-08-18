@@ -9,7 +9,7 @@ export default function MangasList({ data, link }) {
       <Row className="px-3 my-3">
         {data.length > 0 ? (
           data.map((manga) => (
-            <Col xs={6} md={4} lg={3} key={manga.id}>
+            <Col xs={6} md={3} lg={2} key={manga.id}>
               <div className="box">
                 <div className="image">
                   <Image

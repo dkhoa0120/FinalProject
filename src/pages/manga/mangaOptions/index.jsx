@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
 import { getMangasForUser } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
+import "./styles.css";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
@@ -65,7 +66,7 @@ export default function Manga() {
   };
 
   return (
-    <Container fluid style={{ paddingTop: "50px" }}>
+    <Container id="manga-option" fluid>
       <Row>
         <Col xs={6} lg={4}>
           <FormSelect
@@ -101,10 +102,21 @@ export default function Manga() {
                 </Col>
                 <Col xs={8} xl={10} style={{ padding: "20px" }}>
                   <Link to={`/Manga/${manga.id}`} className="card-link">
-                    <Card.Title className="text-limit-1">
+                    <Card.Title className="manga-title text-limit-1">
                       {manga.originalTitle}
                     </Card.Title>
                   </Link>
+                  <Card.Text className="manga-category">
+                    {manga.categories.map((c) => (
+                      <Link
+                        to={`/manga?category=${c.id}`}
+                        className="btn-pill clickable"
+                        key={c.id}
+                      >
+                        {c.name}
+                      </Link>
+                    ))}
+                  </Card.Text>
                   <Card.Text className="text-limit-3">
                     {manga.description}
                   </Card.Text>

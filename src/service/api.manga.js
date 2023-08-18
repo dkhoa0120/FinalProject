@@ -5,10 +5,9 @@ export const getMangasForUser = (filter) => {
   const search = filter?.search || "";
   const sortOption = filter?.sortOption || 0;
   const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 8;
 
   return baseAxios.get("/mangas", {
-    params: { search, sortOption, page, pageSize },
+    params: { search, sortOption, page },
   });
 };
 

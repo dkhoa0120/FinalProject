@@ -7,7 +7,14 @@ import { getMangasForUser } from "../../service/api.manga";
 
 export default function Home() {
   const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
-  const sortOptions = ["LatestManga", "LatestChapter"];
+  const sortOptions = [
+    "LatestManga",
+    "LatestChapter",
+    "MostViewDaily",
+    "MostFollowDaily",
+    "BestRating",
+    "NewToYou",
+  ];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
   const [mangas, setMangas] = useState([]);
   const [carouselMangas, setCarouselMangas] = useState([]);
@@ -43,6 +50,10 @@ export default function Home() {
     }
   };
 
+  const toLabel = (item) => {
+    return item.replace(/([A-Z])/g, " $1").trim();
+  };
+
   return (
     <>
       <div className="home-header">
@@ -68,15 +79,15 @@ export default function Home() {
       </div>
       <CarouselFade mangas={carouselMangas} />
       <div className="general-container">
-        <div className="d-flex px-4 gap-1">
+        <div className="d-flex px-4 gap-1 flex-wrap">
           {sortOptions.map((option, index) => (
             <Button
               key={index}
-              className="mb-4 w-100"
+              className="mb-4 flex-fill"
               variant={sortOption === option ? "dark" : "light"}
               onClick={() => setSortOption(option)}
             >
-              {option}
+              {toLabel(option)}
             </Button>
           ))}
         </div>
