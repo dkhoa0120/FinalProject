@@ -96,6 +96,7 @@ export default function Manga() {
               <Row>
                 <Col xs={4} xl={2}>
                   <Card.Img
+                    className="manga-image"
                     variant="top"
                     src={manga.coverPath || "/img/error/coverNotFound.png"}
                   />
