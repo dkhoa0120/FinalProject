@@ -3,7 +3,7 @@ import { Row, Col, Collapse, Container } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 import { Link } from "react-router-dom";
 
-export default function ChapterGroup({ number, chapterList, show = false }) {
+export default function ChapterGroup({ number, chapterList, show = true }) {
   const [showChapter, setShowChapter] = useState(show);
 
   const calculateTimeDifference = (createdAt) => {
@@ -22,6 +22,8 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
       return `${daysDifference} days ago`;
     }
   };
+
+  const flagList = [...new Set(chapterList.map((c) => c.language))];
 
   return (
     <Container fluid>
@@ -48,8 +50,8 @@ export default function ChapterGroup({ number, chapterList, show = false }) {
               <i className="fa-solid fa-arrow-up" />
             ) : (
               <div>
-                {chapterList.map((chapter) => (
-                  <CountryFlag key={chapter.id} lang={chapter.language} />
+                {flagList.map((flag) => (
+                  <CountryFlag key={flag} lang={flag} />
                 ))}
                 <i className="fa-solid fa-arrow-down" />
               </div>

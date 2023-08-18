@@ -41,7 +41,7 @@ export default function ChapterSection({
         <div style={{ paddingLeft: "20px" }}>
           {chapters &&
             Object.entries(chapters)
-              .sort(([numberA], [numberB]) => numberA - numberB)
+              .sort(([numberA], [numberB]) => numberB - numberA)
               .map(([number, chapterList]) => (
                 <ChapterGroup
                   key={number}
@@ -56,7 +56,7 @@ export default function ChapterSection({
             <Modal.Title>Select Group</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ChapterGroup chapterList={firstChapter} show={true} />
+            <ChapterGroup chapterList={firstChapter} />
           </Modal.Body>
         </Modal>
         <div className="d-flex justify-content-center">
