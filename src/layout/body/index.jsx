@@ -1,4 +1,3 @@
-import React from "react";
 import "./styles.css";
 import { Route, Routes } from "react-router-dom";
 import Report from "../../pages/admin/manageReport";
@@ -17,7 +16,7 @@ import ChapterPage from "../../pages/manga/chapter";
 
 export default function Body() {
   return (
-    <div className="Body">
+    <div id="main-content">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/manage/Manga" element={<ManageManga />} />

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import Body from "./layout/body";
 import { useState } from "react";
@@ -34,10 +34,9 @@ export default function App() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <>
       <div
         style={{
-          flex: "1",
           marginLeft: window.innerWidth > 1080 && showSidebar ? "230px" : "0",
         }}
       >
@@ -45,6 +44,6 @@ export default function App() {
       </div>
       <Header toggleSidebar={toggleSidebar} />
       {showSidebar && <SideBar toggleSidebar={toggleSidebar} />}
-    </div>
+    </>
   );
 }

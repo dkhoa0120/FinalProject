@@ -128,7 +128,8 @@ export default function Compass({ chapter, relatedChapters }) {
             relatedChapters
               .filter((c) => c.uploadingGroup.id === chapter.uploadingGroup.id)
               .map((c) => (
-                <span
+                <Dropdown.Item
+                  as="span"
                   key={c.id}
                   className={
                     "card-link dropdown-item" +
@@ -137,7 +138,7 @@ export default function Compass({ chapter, relatedChapters }) {
                   onClick={() => navigateToChapter(c.id)}
                 >
                   Chapter {c.number}
-                </span>
+                </Dropdown.Item>
               ))}
         </Dropdown.Menu>
       </Dropdown>

@@ -81,16 +81,17 @@ export default function ChapterNav({ chapter, relatedChapters }) {
             relatedChapters
               .filter((c) => c.uploadingGroup.id === chapter.uploadingGroup.id)
               .map((c) => (
-                <span
+                <Dropdown.Item
+                  as="span"
                   key={c.id}
                   className={
-                    "card-link dropdown-item" +
+                    "card-link" +
                     (c.number === chapter.number ? " selected" : "")
                   }
                   onClick={() => navigateToChapter(c.id)}
                 >
                   Chapter {c.number}
-                </span>
+                </Dropdown.Item>
               ))}
         </Dropdown.Menu>
       </Dropdown>

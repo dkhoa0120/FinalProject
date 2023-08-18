@@ -83,13 +83,16 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
                 </p>
               </Col>
               <Col xs={6} xl={2}>
-                <p title={new Date(chapter.createdAt).toLocaleString()}>
+                <p
+                  className="text-truncate"
+                  title={new Date(chapter.createdAt).toLocaleString()}
+                >
                   <i className="fa-regular fa-clock"></i>{" "}
                   {calculateTimeDifference(chapter.createdAt)}
                 </p>
               </Col>
               <Col xs={6} xl={2}>
-                <p>
+                <p className="text-truncate">
                   <i className="fa-regular fa-eye"></i> {chapter.viewCount}{" "}
                   views
                 </p>
