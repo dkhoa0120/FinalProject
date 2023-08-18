@@ -79,11 +79,10 @@ export default function Home() {
       </div>
       <CarouselFade mangas={carouselMangas} />
       <div className="general-container">
-        <div className="d-flex px-4 gap-1 flex-wrap">
+        <div className="sort-option-container">
           {sortOptions.map((option, index) => (
             <Button
               key={index}
-              className="mb-4 flex-fill"
               variant={sortOption === option ? "dark" : "light"}
               onClick={() => setSortOption(option)}
             >

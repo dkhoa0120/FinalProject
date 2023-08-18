@@ -46,8 +46,25 @@
   .home-header .deco-image {
     display: none;
   }
+  .sort-option-container {
+    width: 90vw;
+  }
 }
 
 .txt-rotate > .wrap {
   border-right: 0.08em solid #666;
+}
+
+.sort-option-container {
+  display: flex;
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  padding-bottom: 1rem;
+  gap: 0.25rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.sort-option-container > button {
+  flex-grow: 1;
+  flex-shrink: 0;
 }
