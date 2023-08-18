@@ -1,54 +1,8 @@
-import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteFollow,
-  getCurrentUserFollow,
-  postFollow,
-} from "../../../../service/api.follow";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 export default function ChapterNav({ chapter, relatedChapters }) {
   const navigate = useNavigate();
-  const [follow, setFollow] = useState(null);
-  const mangaId = chapter.manga.id;
-
-  useEffect(() => {
-    const fetchUserFollow = async (id) => {
-      try {
-        const response = await getCurrentUserFollow(id);
-        setFollow(response.data);
-      } catch (error) {
-        console.error("Error retrieving user rating:", error);
-      }
-    };
-    fetchUserFollow(mangaId);
-  }, [mangaId]);
-
-  const handleFollow = async () => {
-    try {
-      if (!follow) {
-        await postFollow(mangaId);
-        setFollow(true);
-      } else {
-        await deleteFollow(mangaId);
-        setFollow(false);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to follow!", {
-          theme: "colored",
-        });
-      } else {
-        console.error(error);
-      }
-    }
-  };
-
-  function handleClick() {
-    navigate(`/Manga/${mangaId}`);
-  }
 
   const navigateToPrevChapter = () => {
     const earlierChapters = relatedChapters.filter(
@@ -109,19 +63,18 @@ export default function ChapterNav({ chapter, relatedChapters }) {
     relatedChapters && relatedChapters[0].number === chapter.number;
 
   return (
-    <div className="chapter-nav">
-      <button className="circle-button" onClick={handleClick}>
-        <i className="fa-solid fa-list-ul"></i>
-      </button>
-      <button
-        className={"circle-button" + (isPrevDisable ? " disabled" : "")}
+    <div className="d-flex justify-content-center align-items-center gap-1">
+      <Button
+        className={isPrevDisable ? " disabled" : ""}
+        variant="dark"
         onClick={navigateToPrevChapter}
       >
         <i className="fa-solid fa-arrow-left"></i>
-      </button>
-      <Dropdown drop="start">
-        <Dropdown.Toggle className="circle-button">
-          {chapter.number}
+      </Button>
+
+      <Dropdown drop="down-centered" style={{ display: "inline" }}>
+        <Dropdown.Toggle variant="dark">
+          Chapter {chapter.number}
         </Dropdown.Toggle>
         <Dropdown.Menu className="chapter-dropdown">
           {relatedChapters &&
@@ -141,45 +94,14 @@ export default function ChapterNav({ chapter, relatedChapters }) {
               ))}
         </Dropdown.Menu>
       </Dropdown>
-      <button
-        className={"circle-button" + (isNextDisable ? " disabled" : "")}
+
+      <Button
+        className={isNextDisable ? " disabled" : ""}
+        variant="dark"
         onClick={navigateToNextChapter}
       >
         <i className="fa-solid fa-arrow-right"></i>
-      </button>
-      <Dropdown drop="start">
-        <Dropdown.Toggle className="circle-button">
-          <i className="fa-solid fa-user-group" style={{ color: "white" }}></i>
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="chapter-dropdown">
-          {relatedChapters &&
-            relatedChapters
-              .filter((c) => c.number === chapter.number)
-              .map((c) => (
-                <span
-                  key={c.id}
-                  className={
-                    "card-link dropdown-item" +
-                    (c.uploadingGroup.id === chapter.uploadingGroup.id
-                      ? " selected"
-                      : "")
-                  }
-                  onClick={() => navigateToChapter(c.id)}
-                >
-                  {c.uploadingGroup.name}
-                </span>
-              ))}
-        </Dropdown.Menu>
-      </Dropdown>
-      <button className="circle-button" onClick={handleFollow}>
-        {!follow && <i className="fa-regular fa-heart"></i>}
-        {follow && (
-          <i className="fa-solid fa-heart" style={{ color: "#f60056" }}></i>
-        )}
-      </button>
-      <button className="circle-button">
-        <i className="fa-regular fa-flag"></i>
-      </button>
+      </Button>
     </div>
   );
 }

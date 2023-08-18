@@ -6,6 +6,7 @@ import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
 import { ToastContainer } from "react-toastify";
 import { postView } from "../../../service/api.view";
+import Compass from "./components/Compass";
 
 export default function ChapterPage() {
   const { chapterId } = useParams();
@@ -78,7 +79,7 @@ export default function ChapterPage() {
         <i className="fa-regular fa-compass"></i>
       </button>
       {showChapterNav && (
-        <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
+        <Compass chapter={chapter} relatedChapters={relatedChapters} />
       )}
 
       {chapter.pageUrls.map((url, index) => (
@@ -89,6 +90,8 @@ export default function ChapterPage() {
           alt={`page ${index}`}
         />
       ))}
+      <br />
+      <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
 
       <br />
       <CommentSection type="chapter" typeId={chapterId} />

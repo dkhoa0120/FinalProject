@@ -43,6 +43,7 @@ function SearchBar({ placeholder }) {
     <>
       <Button variant="outline-dark" onClick={handleShow}>
         <i className="fa-solid fa-magnifying-glass"></i>
+        <span className="d-none d-md-inline"> Search</span>
       </Button>
 
       <Modal show={show} onHide={handleClose}>
