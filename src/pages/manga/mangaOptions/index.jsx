@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Col,
@@ -19,11 +19,18 @@ import {
   handleCateOptions,
 } from "../../admin/manageManga/components/SelectOptions";
 import Select from "react-select";
+import { LanguageContext } from "../../../context/LanguageContext";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
+
+  const { languageOptions } = useContext(LanguageContext);
+  const language = languageOptions.map((lang) => ({
+    value: lang,
+    label: lang,
+  }));
 
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
@@ -33,10 +40,9 @@ export default function Manga() {
     "LatestManga",
     "LatestChapter",
     "MostViewDaily",
-    "Most View All",
+    "MostView",
+    "MostFollow",
     "BestRating",
-    "MostFollowDaily",
-    "Trending",
     "NewToYou",
   ];
 
@@ -103,7 +109,7 @@ export default function Manga() {
   return (
     <Container id="manga-option" fluid>
       <Row className="mb-3">
-        <Col xs={12} md={6} xl={7} className="mb-2">
+        <Col xs={12} md={6} lg={7} className="mb-2">
           <Form.Control
             type="search"
             placeholder="Search"
@@ -112,7 +118,7 @@ export default function Manga() {
             onChange={handleSearch}
           />
         </Col>
-        <Col xs={9} md={4} xl={4}>
+        <Col xs={9} md={4} lg={3}>
           <FormSelect value={sortOption} onChange={handleSortOption}>
             {sortOptions.map((option, index) => (
               <option key={index} value={option}>
@@ -121,7 +127,7 @@ export default function Manga() {
             ))}
           </FormSelect>
         </Col>
-        <Col xs={3} md={2} xl={1} onClick={handleShow}>
+        <Col xs={3} md={2} lg={2} onClick={handleShow}>
           <Button variant="outline-dark" style={{ width: "100%" }}>
             <i className="fa-solid fa-filter"></i>{" "}
             <span className="d-none d-sm-inline">Filter</span>
@@ -145,7 +151,7 @@ export default function Manga() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Original Language </Form.Label>
-              <Select isMulti />
+              <Select isMulti options={language} />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Inclusion Categories</Form.Label>

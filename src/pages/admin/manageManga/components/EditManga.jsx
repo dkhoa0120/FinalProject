@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { editManga } from "../../../../service/api.manga";
-import { getLanguage } from "../../../../service/api.helper";
 import { Controller, useForm } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import {
@@ -12,6 +11,7 @@ import {
   handleCateOptions,
   mapToOption,
 } from "./SelectOptions";
+import { LanguageContext } from "../../../../context/LanguageContext";
 
 export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
   const {
@@ -24,6 +24,8 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
   } = useForm({
     defaultValues: {},
   });
+
+  const { languageOptions } = useContext(LanguageContext);
 
   useEffect(() => {
     if (dataEdit) {
@@ -41,19 +43,6 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataEdit, setValue]);
 
-  const [languageOptions, setLanguageOptions] = useState([]);
-  useEffect(() => {
-    const fetchLanguageOptions = async () => {
-      try {
-        const response = await getLanguage();
-        setLanguageOptions(response.data);
-      } catch (error) {
-        console.error("Error fetching language options:", error);
-      }
-    };
-
-    fetchLanguageOptions();
-  }, []);
   const onSubmit = async (data) => {
     console.log("data", data);
     const formData = new FormData();

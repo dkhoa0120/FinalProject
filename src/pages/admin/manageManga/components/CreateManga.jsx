@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { createManga } from "../../../../service/api.manga";
-import { getLanguage } from "../../../../service/api.helper";
 import { Controller, useForm } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import { handleAuthorOptions, handleCateOptions } from "./SelectOptions";
+import { LanguageContext } from "../../../../context/LanguageContext";
 
 export default function CreateManga({ show, handleClose, getMangas }) {
   const {
@@ -18,20 +18,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     defaultValues: {},
   });
 
-  //handle selected language
-  const [languageOptions, setLanguageOptions] = useState([]);
-  useEffect(() => {
-    const fetchLanguageOptions = async () => {
-      try {
-        const response = await getLanguage();
-        setLanguageOptions(response.data);
-      } catch (error) {
-        console.error("Error fetching language options:", error);
-      }
-    };
-
-    fetchLanguageOptions();
-  }, []);
+  const { languageOptions } = useContext(LanguageContext);
 
   const onSubmit = async (data) => {
     console.log("data", data);

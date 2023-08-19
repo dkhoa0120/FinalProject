@@ -8,16 +8,19 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./context/UserContext";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <ProSidebarProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ProSidebarProvider>
+      <LanguageProvider>
+        <ProSidebarProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ProSidebarProvider>
+      </LanguageProvider>
     </UserProvider>
   </React.StrictMode>
 );

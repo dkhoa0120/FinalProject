@@ -11,7 +11,7 @@ export default function Home() {
     "LatestManga",
     "LatestChapter",
     "MostViewDaily",
-    "MostFollowDaily",
+    "MostFollow",
     "BestRating",
     "NewToYou",
   ];
@@ -41,7 +41,7 @@ export default function Home() {
 
   const loadCarouselMangas = async () => {
     try {
-      const result = await getMangasForUser();
+      const result = await getMangasForUser({ sortOption: "Trending" });
       setCarouselMangas(result.data.itemList);
     } catch (error) {
       if (error.response && error.response.status === 404) {
