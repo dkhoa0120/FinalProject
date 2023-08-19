@@ -8,10 +8,17 @@ import {
   FormSelect,
   Form,
   Button,
+  Modal,
 } from "react-bootstrap";
 import { getMangasForUser } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
+import AsyncSelect from "react-select/async";
+import {
+  handleAuthorOptions,
+  handleCateOptions,
+} from "../../admin/manageManga/components/SelectOptions";
+import Select from "react-select";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
@@ -36,6 +43,11 @@ export default function Manga() {
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
   };
+
+  const [showFilter, setShowFilter] = useState(false);
+
+  const handleClose = () => setShowFilter(false);
+  const handleShow = () => setShowFilter(true);
 
   // Update the document title
   useEffect(() => {
@@ -109,13 +121,58 @@ export default function Manga() {
             ))}
           </FormSelect>
         </Col>
-        <Col xs={3} md={2} className="text-end">
+        <Col xs={3} md={2} className="text-end" onClick={handleShow}>
           <Button variant="outline-dark">
             <i className="fa-solid fa-filter"></i>{" "}
             <span className="d-none d-md-inline">Filter</span>
           </Button>
         </Col>
       </Row>
+      <Modal show={showFilter} onHide={handleClose} size="xl">
+        <Modal.Header>
+          <Modal.Title>Filters</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Authors</Form.Label>
+              <AsyncSelect
+                isMulti
+                cacheOptions
+                defaultOptions
+                loadOptions={handleAuthorOptions}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Original Language </Form.Label>
+              <Select isMulti />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Inclusion Categories</Form.Label>
+              <AsyncSelect
+                isMulti
+                cacheOptions
+                defaultOptions
+                loadOptions={handleCateOptions}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Exclusion Categories</Form.Label>
+              <AsyncSelect
+                isMulti
+                cacheOptions
+                defaultOptions
+                loadOptions={handleCateOptions}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={handleClose}>
+            Apply
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {mangas ? (
         mangas.map((manga, index) => (
           <React.Fragment key={index}>
