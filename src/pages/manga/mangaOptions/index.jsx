@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Col, Row, Card, Container, FormSelect, Form } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Card,
+  Container,
+  FormSelect,
+  Form,
+  Button,
+} from "react-bootstrap";
 import { getMangasForUser } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
@@ -13,6 +21,21 @@ export default function Manga() {
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
+
+  const sortOptions = [
+    "LatestManga",
+    "LatestChapter",
+    "MostViewDaily",
+    "Most View All",
+    "BestRating",
+    "MostFollowDaily",
+    "Trending",
+    "NewToYou",
+  ];
+
+  const toLabel = (item) => {
+    return item.replace(/([A-Z])/g, " $1").trim();
+  };
 
   // Update the document title
   useEffect(() => {
@@ -67,26 +90,30 @@ export default function Manga() {
 
   return (
     <Container id="manga-option" fluid>
-      <Row>
-        <Col xs={6} lg={4}>
-          <FormSelect
-            className="mb-4 w-100"
-            value={sortOption}
-            onChange={handleSortOption}
-          >
-            <option value="LatestManga">Latest Manga</option>
-            <option value="LatestChapter">Latest Chapter</option>
-          </FormSelect>
-        </Col>
-        <Col xs={6} lg={8}>
+      <Row className="mb-4">
+        <Col xs={12} md={6}>
           <Form.Control
             type="search"
             placeholder="Search"
-            className="me-2"
             aria-label="Search"
             value={search}
             onChange={handleSearch}
           />
+        </Col>
+        <Col xs={9} md={4}>
+          <FormSelect value={sortOption} onChange={handleSortOption}>
+            {sortOptions.map((option, index) => (
+              <option key={index} value={option}>
+                {toLabel(option)}
+              </option>
+            ))}
+          </FormSelect>
+        </Col>
+        <Col xs={3} md={2} className="text-end">
+          <Button variant="outline-dark">
+            <i className="fa-solid fa-filter"></i>{" "}
+            <span className="d-none d-md-inline">Filter</span>
+          </Button>
         </Col>
       </Row>
       {mangas ? (
