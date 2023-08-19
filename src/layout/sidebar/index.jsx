@@ -93,6 +93,7 @@ function SideBar(props) {
             </Navbar.Brand>
           </h5>
           <MenuItem
+            onClick={window.innerWidth <= 767 ? props.toggleSidebar : ""}
             className="sidebar-heading"
             component={<Link to="/" />}
             key="home"
@@ -105,6 +106,9 @@ function SideBar(props) {
               {menuItem.heading}
               {menuItem.items.map((item, key) => (
                 <MenuItem
+                  onClick={
+                    window.innerWidth <= 767 ? props.toggleSidebar : null
+                  }
                   key={item.key}
                   className={`nav-text drop-item${
                     dropdownStates[menuItem.section] ? " active" : ""

@@ -35,6 +35,8 @@ export default function Header(props) {
   }, []);
   const { logout, user } = useContext(UserContext);
 
+  const [show, setShow] = useState(false);
+
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -43,14 +45,15 @@ export default function Header(props) {
   const defaultAvatarURL =
     "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
-  const CustomNavbarToggle = ({ onClick }) => (
+  const CustomNavbarToggle = () => (
     <img
       className="avatar"
       src={user?.avatarPath || defaultAvatarURL}
       alt="Toggle Navigation"
-      onClick={onClick}
+      onClick={() => setShow(true)}
     />
   );
+
   return (
     <Navbar key={false} expand={false} className={scrolled ? "scrolled" : ""}>
       <Container fluid>
@@ -76,6 +79,8 @@ export default function Header(props) {
           &nbsp; &nbsp;
           <Navbar.Toggle as={CustomNavbarToggle} />
           <Navbar.Offcanvas
+            show={show}
+            onHide={() => setShow(false)}
             id={`offcanvasNavbar-expand-false`}
             aria-labelledby={`offcanvasNavbarLabel-expand-false`}
             placement="end"
@@ -175,7 +180,10 @@ export default function Header(props) {
                     <Button
                       className="mb-3 w-100"
                       variant="dark"
-                      onClick={handleLogout}
+                      onClick={() => {
+                        handleLogout();
+                        setShow(false);
+                      }}
                     >
                       Logout
                     </Button>
@@ -183,12 +191,20 @@ export default function Header(props) {
                 ) : (
                   <>
                     <NavLink to="/login">
-                      <Button className="mb-3 w-100" variant="dark">
+                      <Button
+                        onClick={() => setShow(false)}
+                        className="mb-3 w-100"
+                        variant="dark"
+                      >
                         Login
                       </Button>
                     </NavLink>
                     <NavLink to="/register">
-                      <Button className="mb-3 w-100" variant="light">
+                      <Button
+                        onClick={() => setShow(false)}
+                        className="mb-3 w-100"
+                        variant="light"
+                      >
                         Register
                       </Button>
                     </NavLink>
