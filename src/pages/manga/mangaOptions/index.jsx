@@ -102,8 +102,8 @@ export default function Manga() {
 
   return (
     <Container id="manga-option" fluid>
-      <Row className="mb-4">
-        <Col xs={12} md={6}>
+      <Row className="mb-3">
+        <Col xs={12} md={6} xl={7} className="mb-2">
           <Form.Control
             type="search"
             placeholder="Search"
@@ -112,7 +112,7 @@ export default function Manga() {
             onChange={handleSearch}
           />
         </Col>
-        <Col xs={9} md={4}>
+        <Col xs={9} md={4} xl={4}>
           <FormSelect value={sortOption} onChange={handleSortOption}>
             {sortOptions.map((option, index) => (
               <option key={index} value={option}>
@@ -121,10 +121,10 @@ export default function Manga() {
             ))}
           </FormSelect>
         </Col>
-        <Col xs={3} md={2} className="text-end" onClick={handleShow}>
-          <Button variant="outline-dark">
+        <Col xs={3} md={2} xl={1} onClick={handleShow}>
+          <Button variant="outline-dark" style={{ width: "100%" }}>
             <i className="fa-solid fa-filter"></i>{" "}
-            <span className="d-none d-md-inline">Filter</span>
+            <span className="d-none d-sm-inline">Filter</span>
           </Button>
         </Col>
       </Row>
