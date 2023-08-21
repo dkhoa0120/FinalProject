@@ -105,7 +105,9 @@ export default function Home() {
         <div className="sort-option-container">
           {user ? (
             <button
-              className="new-to-you"
+              className={
+                "new-to-you" + (sortOption === "NewToYou" ? " active" : "")
+              }
               onClick={() => {
                 hanldeShowNewToYou();
                 setSortOption("NewToYou");
