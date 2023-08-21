@@ -45,7 +45,18 @@ export default function CarouselFade({ mangas }) {
 
   return (
     <div id="carousel" className="general-container">
-      <div className="general-container-title">Trending</div>
+      <div className="d-flex justify-content-between align-items-center mx-4 mb-3">
+        <div id="carousel-title">Trending</div>
+        <div className="d-flex justify-content-end align-items-center gap-1">
+          <span id="carousel-top-number">Top {mangaIndex + 1}</span>
+          <Button variant="dark" onClick={() => handleClick("prev")}>
+            <i className="fa-solid fa-chevron-left"></i>
+          </Button>
+          <Button variant="dark" onClick={() => handleClick("next")}>
+            <i className="fa-solid fa-chevron-right"></i>
+          </Button>
+        </div>
+      </div>
       {currentManga ? (
         <Container fluid className="px-4">
           <Link to={`/Manga/${currentManga.id}`} className="card-link">
@@ -58,7 +69,7 @@ export default function CarouselFade({ mangas }) {
                 />
               </Col>
               <Col xl={10} md={9} xs={7}>
-                <Card.Title className="title">
+                <Card.Title className="manga-title">
                   {currentManga.originalTitle}
                 </Card.Title>
                 <Card.Text className="text-limit-1 my-3">
@@ -82,15 +93,6 @@ export default function CarouselFade({ mangas }) {
       )}
       &nbsp;
       {/* Pagination controls */}
-      <div className="d-flex justify-content-end px-4">
-        <Button variant="dark" onClick={() => handleClick("prev")}>
-          <i className="fa-solid fa-chevron-left"></i>
-        </Button>
-        &nbsp;
-        <Button variant="dark" onClick={() => handleClick("next")}>
-          <i className="fa-solid fa-chevron-right"></i>
-        </Button>
-      </div>
     </div>
   );
 }

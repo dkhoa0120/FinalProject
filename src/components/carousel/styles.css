@@ -3,7 +3,7 @@
   border-radius: 5%;
 }
 
-#carousel .title {
+#carousel .manga-title {
   font-size: 30px;
   display: -webkit-box;
   overflow: hidden;
@@ -11,7 +11,21 @@
   -webkit-line-clamp: 1;
 }
 @media screen and (max-width: 767px) {
-  #carousel .title {
+  #carousel .manga-title {
     font-size: 20px;
   }
+}
+
+#carousel-title {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+#carousel-top-number {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  border-radius: 8px;
+  background-color: #e0e0e0;
 }
