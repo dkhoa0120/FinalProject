@@ -11,6 +11,10 @@ export const getMangasForUser = (filter) => {
   });
 };
 
+export const getTrendingMangas = () => {
+  return baseAxios.get("/mangas/trending");
+};
+
 export const getMangaByIdForUser = (id) => {
   return baseAxios.get(`/mangas/${id}`);
 };

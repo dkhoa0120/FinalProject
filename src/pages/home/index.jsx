@@ -3,7 +3,7 @@ import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import MangasList from "../../components/mangaList";
 import "./styles.css";
 import CarouselFade from "../../components/carousel";
-import { getMangasForUser } from "../../service/api.manga";
+import { getMangasForUser, getTrendingMangas } from "../../service/api.manga";
 
 export default function Home() {
   const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
@@ -41,8 +41,8 @@ export default function Home() {
 
   const loadCarouselMangas = async () => {
     try {
-      const result = await getMangasForUser({ sortOption: "Trending" });
-      setCarouselMangas(result.data.itemList);
+      const result = await getTrendingMangas();
+      setCarouselMangas(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setCarouselMangas([]);
