@@ -27,6 +27,11 @@ export const getChapterByMangaIdForUser = (id, filter) => {
     params: { page, pageSize },
   });
 };
+
+export const getNewToYouManga = () => {
+  return baseAxios.get(`/mangas/new-to-you`);
+};
+
 // manage/manga
 export const getMangasForManage = (filter) => {
   const search = filter?.search || "";

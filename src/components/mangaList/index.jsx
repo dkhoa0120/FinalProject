@@ -34,11 +34,6 @@ export default function MangasList({ data, link }) {
           </div>
         )}
       </Row>
-      <div className="d-flex justify-content-center">
-        <Link to={link}>
-          <Button className="btn btn-dark"> See More </Button>
-        </Link>
-      </div>
     </Container>
   );
 }

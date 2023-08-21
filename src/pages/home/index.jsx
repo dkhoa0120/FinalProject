@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import MangasList from "../../components/mangaList";
 import "./styles.css";
 import CarouselFade from "../../components/carousel";
-import { getMangasForUser, getTrendingMangas } from "../../service/api.manga";
+import {
+  getMangasForUser,
+  getNewToYouManga,
+  getTrendingMangas,
+} from "../../service/api.manga";
+import { UserContext } from "../../context/UserContext";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
@@ -13,16 +19,33 @@ export default function Home() {
     "MostViewDaily",
     "MostFollow",
     "BestRating",
-    "NewToYou",
   ];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
   const [mangas, setMangas] = useState([]);
   const [carouselMangas, setCarouselMangas] = useState([]);
+  const { user } = useContext(UserContext);
+
+  const hanldeShowNewToYou = async () => {
+    try {
+      const result = await getNewToYouManga();
+      setMangas(result.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setMangas([]);
+      }
+    }
+  };
 
   useEffect(() => {
     document.title = "3K Manga";
     loadCarouselMangas();
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      setSortOption("LatestManga");
+    }
+  }, [user]);
 
   useEffect(() => {
     loadMangas(sortOption);
@@ -80,6 +103,17 @@ export default function Home() {
       <CarouselFade mangas={carouselMangas} />
       <div className="general-container">
         <div className="sort-option-container">
+          {user ? (
+            <button
+              className="new-to-you"
+              onClick={() => {
+                hanldeShowNewToYou();
+                setSortOption("NewToYou");
+              }}
+            >
+              New To You
+            </button>
+          ) : null}
           {sortOptions.map((option, index) => (
             <Button
               key={index}
@@ -91,7 +125,14 @@ export default function Home() {
           ))}
         </div>
         <div>
-          <MangasList link={`/Manga?sortOption=${sortOption}`} data={mangas} />
+          <MangasList data={mangas} />
+          {sortOption && sortOption !== "NewToYou" ? (
+            <div className="d-flex justify-content-center">
+              <Link to={`/Manga?sortOption=${sortOption}`}>
+                <Button className="btn btn-dark"> See More </Button>
+              </Link>
+            </div>
+          ) : null}
         </div>
       </div>
     </>
