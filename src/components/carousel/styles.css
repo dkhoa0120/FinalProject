@@ -5,27 +5,59 @@
 
 #carousel .manga-title {
   font-size: 30px;
+  font-family: "Keep Calm", sans-serif;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
-@media screen and (max-width: 767px) {
-  #carousel .manga-title {
-    font-size: 20px;
-  }
-}
 
 #carousel-title {
-  font-size: 24px;
-  font-weight: 800;
+  font-family: "Heavitas", sans-serif;
+  font-size: 30px;
+}
+
+.carousel-category {
+  margin: 10px 0 5px 0;
+}
+
+.carousel-button {
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  padding: 6px 12px;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.carousel-button:hover {
+  background-color: #e0e0e0;
 }
 
 #carousel-top-number {
   font-size: 18px;
   font-weight: bold;
+  color: rgb(91, 91, 91);
   text-transform: uppercase;
-  padding: 2px 10px;
+  padding: 6px 10px;
   border-radius: 8px;
   background-color: #e0e0e0;
+  cursor: context-menu;
+}
+
+@media screen and (max-width: 767px) {
+  #carousel .manga-title {
+    font-size: 20px;
+  }
+
+  #carousel-title {
+    font-size: 23px;
+  }
+
+  #carousel-top-number {
+    font-size: 15px;
+  }
+
+  #carousel .manga-title {
+    font-size: 20px;
+  }
 }

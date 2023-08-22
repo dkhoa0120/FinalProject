@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from "react";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import { Container, Card, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
@@ -46,15 +46,21 @@ export default function CarouselFade({ mangas }) {
   return (
     <div id="carousel" className="general-container">
       <div className="d-flex justify-content-between align-items-center mx-4 mb-3">
-        <div id="carousel-title">Trending</div>
-        <div className="d-flex justify-content-end align-items-center gap-1">
+        <div id="carousel-title">🔥Trending</div>
+        <div className="d-flex justify-content-end align-items-center gap-1 trending-nav">
           <span id="carousel-top-number">Top {mangaIndex + 1}</span>
-          <Button variant="dark" onClick={() => handleClick("prev")}>
+          <button
+            className="carousel-button"
+            onClick={() => handleClick("prev")}
+          >
             <i className="fa-solid fa-chevron-left"></i>
-          </Button>
-          <Button variant="dark" onClick={() => handleClick("next")}>
+          </button>
+          <button
+            className="carousel-button"
+            onClick={() => handleClick("next")}
+          >
             <i className="fa-solid fa-chevron-right"></i>
-          </Button>
+          </button>
         </div>
       </div>
       {currentManga ? (
@@ -72,14 +78,14 @@ export default function CarouselFade({ mangas }) {
                 <Card.Title className="manga-title">
                   {currentManga.originalTitle}
                 </Card.Title>
-                <Card.Text className="text-limit-1 my-3">
+                <Card.Text className="text-limit-1 carousel-category">
                   {currentManga.categories.map((category) => (
                     <span className="btn-pill" key={category.id}>
                       {category.name}
                     </span>
                   ))}
                 </Card.Text>
-                <Card.Text className="text-limit-4 mt-3">
+                <Card.Text className="text-limit-4">
                   {currentManga.description}
                 </Card.Text>
               </Col>
