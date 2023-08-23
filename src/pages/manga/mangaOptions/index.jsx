@@ -24,8 +24,8 @@ export default function Manga() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
   const { categories, cateOptions } = useContext(CategoryContext);
-  const [inclucedCate, setInclucedCate] = useState([]);
-  const [exclucedCate, setExclucedCate] = useState([]);
+  const [includedCate, setIncludedCate] = useState([]);
+  const [excludedCate, setExcludedCate] = useState([]);
   const { languageOptions } = useContext(LanguageContext);
   const language = languageOptions.map((lang) => ({
     value: lang,
@@ -38,26 +38,26 @@ export default function Manga() {
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
-  const inclucedCategeryIds = searchParams.get("inclucedCategeryIds") || "";
-  const exclucedCategeryIds = searchParams.get("exclucedCategeryIds") || "";
-  console.log("inclucedCategeryIds", inclucedCate);
+  const includedCategeryIds = searchParams.get("included") || "";
+  const excludedCategeryIds = searchParams.get("excluded") || "";
+  console.log("inclucedCategeryIds", includedCate);
 
-  const initialInclucedValue = inclucedCategeryIds?.split(",").map((id) => {
+  const initialInclucedValue = includedCategeryIds?.split(",").map((id) => {
     const foundCate = categories.find(
       (cate) => cate.id && cate.id.startsWith(id)
     );
-    if (inclucedCategeryIds) {
+    if (includedCategeryIds) {
       return { value: foundCate.id, label: foundCate.name };
     } else {
       return null;
     }
   });
 
-  const initialExclucedValue = exclucedCategeryIds?.split(",").map((id) => {
+  const initialExclucedValue = excludedCategeryIds?.split(",").map((id) => {
     const foundCate = categories.find(
       (cate) => cate.id && cate.id.startsWith(id)
     );
-    if (exclucedCategeryIds) {
+    if (excludedCategeryIds) {
       return { value: foundCate.id, label: foundCate.name };
     } else {
       return null;
@@ -65,11 +65,11 @@ export default function Manga() {
   });
 
   const getFilteredOptionsForIncluded = () => {
-    return cateOptions.filter((option) => !exclucedCate.includes(option.value));
+    return cateOptions.filter((option) => !excludedCate.includes(option.value));
   };
 
   const getFilteredOptionsForExcluded = () => {
-    return cateOptions.filter((option) => !inclucedCate.includes(option.value));
+    return cateOptions.filter((option) => !includedCate.includes(option.value));
   };
 
   console.log("initialValue", initialInclucedValue);
@@ -103,11 +103,11 @@ export default function Manga() {
     getMangasList(
       search,
       sortOption,
-      inclucedCategeryIds,
-      exclucedCategeryIds,
+      includedCategeryIds,
+      excludedCategeryIds,
       page
     );
-  }, [search, sortOption, inclucedCategeryIds, exclucedCategeryIds, page]);
+  }, [search, sortOption, includedCategeryIds, excludedCategeryIds, page]);
 
   // Fetch manga data
   const getMangasList = async (
@@ -157,6 +157,31 @@ export default function Manga() {
   const handleSortOption = (e) => {
     setSearchParams((params) => {
       params.set("sortOption", e.target.value);
+      params.set("page", 1);
+      return params;
+    });
+  };
+
+  const hanldeApplyFilter = () => {
+    setSearchParams((params) => {
+      if (!includedCate || includedCate.length === 0) {
+        params.delete("included");
+        params.set("page", 1);
+      } else {
+        const modifiedCateIds = includedCate
+          .map((id) => id.slice(0, 5))
+          .join(",");
+        params.set("included", modifiedCateIds);
+      }
+      if (!excludedCate || excludedCate.length === 0) {
+        params.delete("excluded");
+        params.set("page", 1);
+      } else {
+        const modifiedCateIds = excludedCate
+          .map((id) => id.slice(0, 5))
+          .join(",");
+        params.set("excluded", modifiedCateIds);
+      }
       params.set("page", 1);
       return params;
     });
@@ -221,7 +246,7 @@ export default function Manga() {
                   const selectedCategoryIds = (selectedOptions || []).map(
                     (option) => option.value
                   );
-                  setInclucedCate(selectedCategoryIds);
+                  setIncludedCate(selectedCategoryIds);
                 }}
               />
             </Form.Group>
@@ -237,7 +262,7 @@ export default function Manga() {
                   const selectedCategoryIds = (selectedOptions || []).map(
                     (option) => option.value
                   );
-                  setExclucedCate(selectedCategoryIds);
+                  setExcludedCate(selectedCategoryIds);
                 }}
               />
             </Form.Group>
@@ -247,32 +272,7 @@ export default function Manga() {
           <Button
             variant="outline-dark"
             onClick={() => {
-              setSearchParams((params) => {
-                if (!inclucedCate || inclucedCate.length === 0) {
-                  params.delete("inclucedCategeryIds");
-                  params.set("page", 1);
-                } else {
-                  const modifiedCateIds = inclucedCate
-                    .map((id) => id.slice(0, 5))
-                    .join(",");
-                  params.set("inclucedCategeryIds", modifiedCateIds);
-                }
-                params.set("page", 1);
-                return params;
-              });
-              setSearchParams((params) => {
-                if (!exclucedCate || exclucedCate.length === 0) {
-                  params.delete("exclucedCategeryIds");
-                  params.set("page", 1);
-                } else {
-                  const modifiedCateIds = exclucedCate
-                    .map((id) => id.slice(0, 5))
-                    .join(",");
-                  params.set("exclucedCategeryIds", modifiedCateIds);
-                }
-                params.set("page", 1);
-                return params;
-              });
+              hanldeApplyFilter();
               handleClose();
             }}
           >
