@@ -4,10 +4,18 @@ import { getManageAxios, baseAxios } from "./api.base";
 export const getMangasForUser = (filter) => {
   const search = filter?.search || "";
   const sortOption = filter?.sortOption || 0;
+  const inclucedCategeryIds = filter?.inclucedCategeryIds || [];
+  const exclucedCategeryIds = filter?.exclucedCategeryIds || [];
   const page = filter?.page || 1;
 
   return baseAxios.get("/mangas", {
-    params: { search, sortOption, page },
+    params: {
+      search,
+      sortOption,
+      inclucedCategeryIds,
+      exclucedCategeryIds,
+      page,
+    },
   });
 };
 

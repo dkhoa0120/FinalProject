@@ -14,27 +14,65 @@ import { getMangasForUser } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
 import AsyncSelect from "react-select/async";
-import {
-  handleAuthorOptions,
-  handleCateOptions,
-} from "../../admin/manageManga/components/SelectOptions";
+import { handleAuthorOptions } from "../../admin/manageManga/components/SelectOptions";
 import Select from "react-select";
 import { LanguageContext } from "../../../context/LanguageContext";
+import { CategoryContext } from "../../../context/CateContext";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
-
+  const { categories, cateOptions } = useContext(CategoryContext);
+  const [inclucedCate, setInclucedCate] = useState([]);
+  const [exclucedCate, setExclucedCate] = useState([]);
   const { languageOptions } = useContext(LanguageContext);
   const language = languageOptions.map((lang) => ({
     value: lang,
     label: lang,
   }));
 
+  console.log("categories", categories);
+  console.log("lan", languageOptions);
+
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
+  const inclucedCategeryIds = searchParams.get("inclucedCategeryIds") || "";
+  const exclucedCategeryIds = searchParams.get("exclucedCategeryIds") || "";
+  console.log("inclucedCategeryIds", inclucedCate);
+
+  const initialInclucedValue = inclucedCategeryIds?.split(",").map((id) => {
+    const foundCate = categories.find(
+      (cate) => cate.id && cate.id.startsWith(id)
+    );
+    if (inclucedCategeryIds) {
+      return { value: foundCate.id, label: foundCate.name };
+    } else {
+      return null;
+    }
+  });
+
+  const initialExclucedValue = exclucedCategeryIds?.split(",").map((id) => {
+    const foundCate = categories.find(
+      (cate) => cate.id && cate.id.startsWith(id)
+    );
+    if (exclucedCategeryIds) {
+      return { value: foundCate.id, label: foundCate.name };
+    } else {
+      return null;
+    }
+  });
+
+  const getFilteredOptionsForIncluded = () => {
+    return cateOptions.filter((option) => !exclucedCate.includes(option.value));
+  };
+
+  const getFilteredOptionsForExcluded = () => {
+    return cateOptions.filter((option) => !inclucedCate.includes(option.value));
+  };
+
+  console.log("initialValue", initialInclucedValue);
 
   const sortOptions = [
     "LatestManga",
@@ -62,13 +100,31 @@ export default function Manga() {
 
   // Re-fetch manga when search params change
   useEffect(() => {
-    getMangasList(search, sortOption, page);
-  }, [search, sortOption, page]);
+    getMangasList(
+      search,
+      sortOption,
+      inclucedCategeryIds,
+      exclucedCategeryIds,
+      page
+    );
+  }, [search, sortOption, inclucedCategeryIds, exclucedCategeryIds, page]);
 
   // Fetch manga data
-  const getMangasList = async (search, sortOption, page) => {
+  const getMangasList = async (
+    search,
+    sortOption,
+    inclucedCategeryIds,
+    exclucedCategeryIds,
+    page
+  ) => {
     try {
-      const result = await getMangasForUser({ search, sortOption, page });
+      const result = await getMangasForUser({
+        search,
+        sortOption,
+        inclucedCategeryIds,
+        exclucedCategeryIds,
+        page,
+      });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -155,26 +211,71 @@ export default function Manga() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Inclusion Categories</Form.Label>
-              <AsyncSelect
+              <Select
                 isMulti
                 cacheOptions
                 defaultOptions
-                loadOptions={handleCateOptions}
+                defaultValue={initialInclucedValue}
+                options={getFilteredOptionsForIncluded()}
+                onChange={(selectedOptions) => {
+                  const selectedCategoryIds = (selectedOptions || []).map(
+                    (option) => option.value
+                  );
+                  setInclucedCate(selectedCategoryIds);
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Exclusion Categories</Form.Label>
-              <AsyncSelect
+              <Select
                 isMulti
                 cacheOptions
                 defaultOptions
-                loadOptions={handleCateOptions}
+                defaultValue={initialExclucedValue}
+                options={getFilteredOptionsForExcluded()}
+                onChange={(selectedOptions) => {
+                  const selectedCategoryIds = (selectedOptions || []).map(
+                    (option) => option.value
+                  );
+                  setExclucedCate(selectedCategoryIds);
+                }}
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-dark" onClick={handleClose}>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              setSearchParams((params) => {
+                if (!inclucedCate || inclucedCate.length === 0) {
+                  params.delete("inclucedCategeryIds");
+                  params.set("page", 1);
+                } else {
+                  const modifiedCateIds = inclucedCate
+                    .map((id) => id.slice(0, 5))
+                    .join(",");
+                  params.set("inclucedCategeryIds", modifiedCateIds);
+                }
+                params.set("page", 1);
+                return params;
+              });
+              setSearchParams((params) => {
+                if (!exclucedCate || exclucedCate.length === 0) {
+                  params.delete("exclucedCategeryIds");
+                  params.set("page", 1);
+                } else {
+                  const modifiedCateIds = exclucedCate
+                    .map((id) => id.slice(0, 5))
+                    .join(",");
+                  params.set("exclucedCategeryIds", modifiedCateIds);
+                }
+                params.set("page", 1);
+                return params;
+              });
+              handleClose();
+            }}
+          >
             Apply
           </Button>
         </Modal.Footer>
