@@ -18,6 +18,11 @@ import { handleAuthorOptions } from "../../admin/manageManga/components/SelectOp
 import Select from "react-select";
 import { LanguageContext } from "../../../context/LanguageContext";
 import { CategoryContext } from "../../../context/CateContext";
+import {
+  excludedColourStyles,
+  includedColourStyles,
+} from "./components/colorStyles";
+import makeAnimated from "react-select/animated";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
@@ -31,6 +36,8 @@ export default function Manga() {
     value: lang,
     label: lang,
   }));
+
+  const animatedComponents = makeAnimated();
 
   console.log("categories", categories);
   console.log("lan", languageOptions);
@@ -215,8 +222,8 @@ export default function Manga() {
           </Button>
         </Col>
       </Row>
-      <Modal show={showFilter} onHide={handleClose} size="xl">
-        <Modal.Header>
+      <Modal show={showFilter} onHide={handleClose} size="xl" backdrop="static">
+        <Modal.Header closeButton>
           <Modal.Title>Filters</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -240,6 +247,8 @@ export default function Manga() {
                 isMulti
                 cacheOptions
                 defaultOptions
+                styles={includedColourStyles}
+                components={animatedComponents}
                 defaultValue={initialInclucedValue}
                 options={getFilteredOptionsForIncluded()}
                 onChange={(selectedOptions) => {
@@ -256,6 +265,8 @@ export default function Manga() {
                 isMulti
                 cacheOptions
                 defaultOptions
+                styles={excludedColourStyles}
+                components={animatedComponents}
                 defaultValue={initialExclucedValue}
                 options={getFilteredOptionsForExcluded()}
                 onChange={(selectedOptions) => {

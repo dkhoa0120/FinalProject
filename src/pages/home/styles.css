@@ -6,11 +6,7 @@
   font-weight: 700;
   letter-spacing: 0.8px;
   padding: 8px 10px;
-  background: linear-gradient(
-    90.21deg,
-    rgba(170, 54, 124, 0.5) -5.91%,
-    rgba(74, 47, 189, 0.5) 111.58%
-  );
+  background: linear-gradient(90.21deg, #aa367c80 -5.91%, #4a2fbd80 111.58%);
   border: 1px solid rgba(255, 255, 255, 0.5);
   font-size: 20px;
   margin-bottom: 16px;
@@ -69,28 +65,42 @@
   flex-shrink: 0;
 }
 
-button.new-to-you{
+button.new-to-you {
+  padding: 6px 12px;
   align-items: center;
-  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  background-image: linear-gradient(
+    144deg,
+    #f43eab80,
+    #6f51f480,
+    #f43eab80,
+    #6f51f480
+  );
   border: 0;
   border-radius: 8px;
   box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-  box-sizing: border-box;
-  color: #FFFFFF;
+  color: black;
   display: flex;
-  font-family: Phantomsans, sans-serif;
-  font-size: 18px;
   justify-content: center;
-  line-height: 1em;
-  max-width: 100%;
-  min-width: 140px;
-  padding: 3px;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
   touch-action: manipulation;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all .3s;
- }
- 
+  background-size: 350% auto;
+  background-position: 0 0;
+}
+
+button.new-to-you.active {
+  font-weight: bold;
+  color: white;
+  background-image: linear-gradient(144deg, #ea6060, #7117ea, #ea6060, #7117ea);
+}
+
+button.new-to-you:hover {
+  animation: waveBackground 2s infinite linear;
+}
+
+@keyframes waveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
