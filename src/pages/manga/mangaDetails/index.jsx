@@ -5,10 +5,7 @@ import "./styles.css";
 import MangaBanner from "./components/MangaBanner";
 import CommentSection from "../../../components/commentSection";
 import ChapterSection from "./components/ChapterSection";
-import {
-  getChapterByMangaIdForUser,
-  getMangaByIdForUser,
-} from "../../../service/api.manga";
+import { getChapterByMangaId, getMangaById } from "../../../service/api.manga";
 import {
   deleteRating,
   getCurrentUserRating,
@@ -114,7 +111,7 @@ export default function MangaDetail() {
 
   const getMangaDetail = async (id) => {
     try {
-      const result = await getMangaByIdForUser(id);
+      const result = await getMangaById(id);
       setManga(result.data);
       document.title = `${result.data.originalTitle} - 3K Manga`;
     } catch (error) {
@@ -126,7 +123,7 @@ export default function MangaDetail() {
 
   const getChaptersByPage = async (id, page) => {
     try {
-      const result = await getChapterByMangaIdForUser(id, { page });
+      const result = await getChapterByMangaId(id, { page });
       const groupedChapters = result.data.itemList.reduce((result, chapter) => {
         const { number } = chapter;
         if (!result[number]) {

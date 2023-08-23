@@ -10,7 +10,7 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { getMangasForUser } from "../../../service/api.manga";
+import { getMangas } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
 import AsyncSelect from "react-select/async";
@@ -68,7 +68,7 @@ export default function Manga() {
   // Fetch manga data
   const getMangasList = async (search, sortOption, page) => {
     try {
-      const result = await getMangasForUser({ search, sortOption, page });
+      const result = await getMangas({ search, sortOption, page });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {

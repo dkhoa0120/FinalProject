@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { Button, Image, Modal, Nav } from "react-bootstrap";
-import { getMangasForUser } from "../../service/api.manga";
+import { getMangas } from "../../service/api.manga";
 import { Link } from "react-router-dom";
 
 function SearchBar({ placeholder }) {
@@ -13,7 +13,7 @@ function SearchBar({ placeholder }) {
   const [wordEntered, setWordEntered] = useState("");
 
   const getData = async (search) => {
-    const response = await getMangasForUser({ search });
+    const response = await getMangas({ search });
     return response.data;
   };
 

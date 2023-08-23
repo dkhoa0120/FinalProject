@@ -10,7 +10,7 @@ import Pagination from "../../../components/pagination";
 import {
   deleteManga,
   getMangaByIdForManage,
-  getMangasForManage,
+  getMangas as getMangasForManage,
 } from "../../../service/api.manga";
 
 export default function ManageManga() {

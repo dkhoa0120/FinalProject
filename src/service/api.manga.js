@@ -1,7 +1,7 @@
 import { getManageAxios, baseAxios } from "./api.base";
 
 // user/manga
-export const getMangasForUser = (filter) => {
+export const getMangas = (filter) => {
   const search = filter?.search || "";
   const sortOption = filter?.sortOption || 0;
   const page = filter?.page || 1;
@@ -15,11 +15,11 @@ export const getTrendingMangas = () => {
   return baseAxios.get("/mangas/trending");
 };
 
-export const getMangaByIdForUser = (id) => {
+export const getMangaById = (id) => {
   return baseAxios.get(`/mangas/${id}`);
 };
 
-export const getChapterByMangaIdForUser = (id, filter) => {
+export const getChapterByMangaId = (id, filter) => {
   const page = filter?.page || 1;
   const pageSize = filter?.pageSize || 8;
 
@@ -27,18 +27,8 @@ export const getChapterByMangaIdForUser = (id, filter) => {
     params: { page, pageSize },
   });
 };
+
 // manage/manga
-export const getMangasForManage = (filter) => {
-  const search = filter?.search || "";
-  const excludeDeleted = filter?.excludeDeleted || false;
-  const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 1;
-
-  return getManageAxios().get("/manga", {
-    params: { search, excludeDeleted, page, pageSize },
-  });
-};
-
 export const getMangaByIdForManage = (id) => {
   return getManageAxios().get(`/manga/${id}`);
 };
