@@ -4,15 +4,27 @@ import { getManageAxios, baseAxios } from "./api.base";
 export const getMangas = (filter) => {
   const search = filter?.search || "";
   const sortOption = filter?.sortOption || 0;
+  const includedCategoryIds = filter?.includedCategoryIds || [];
+  const excludedCategoryIds = filter?.excludedCategoryIds || [];
   const page = filter?.page || 1;
 
   return baseAxios.get("/mangas", {
-    params: { search, sortOption, page },
+    params: {
+      search,
+      sortOption,
+      includedCategoryIds,
+      excludedCategoryIds,
+      page,
+    },
   });
 };
 
 export const getTrendingMangas = () => {
   return baseAxios.get("/mangas/trending");
+};
+
+export const getNewToYouMangas = () => {
+  return baseAxios.get(`/mangas/new-to-you`);
 };
 
 export const getMangaById = (id) => {

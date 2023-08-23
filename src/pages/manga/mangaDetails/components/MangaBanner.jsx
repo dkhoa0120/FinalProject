@@ -94,7 +94,7 @@ export default function MangaBanner({
         <Col xs={12} sm={6} xl={9}>
           {manga ? (
             <>
-              <h1>
+              <h1 className="manga-title">
                 <CountryFlag lang={manga.originalLanguage} size="50" />
                 {manga.originalTitle}
               </h1>

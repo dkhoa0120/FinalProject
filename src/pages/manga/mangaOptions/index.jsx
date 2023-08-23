@@ -14,27 +14,66 @@ import { getMangas } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
 import AsyncSelect from "react-select/async";
-import {
-  handleAuthorOptions,
-  handleCateOptions,
-} from "../../admin/manageManga/components/SelectOptions";
+import { handleAuthorOptions } from "../../admin/manageManga/components/SelectOptions";
 import Select from "react-select";
 import { LanguageContext } from "../../../context/LanguageContext";
+import { CategoryContext } from "../../../context/CateContext";
+import {
+  excludedColourStyles,
+  includedColourStyles,
+} from "./components/colorStyles";
+import makeAnimated from "react-select/animated";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
-
+  const { categories, cateOptions } = useContext(CategoryContext);
+  const [includedCate, setIncludedCate] = useState([]);
+  const [excludedCate, setExcludedCate] = useState([]);
   const { languageOptions } = useContext(LanguageContext);
   const language = languageOptions.map((lang) => ({
     value: lang,
     label: lang,
   }));
 
+  const animatedComponents = makeAnimated();
+
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
+  const includedCategoryIds = searchParams.get("included") || null;
+  const excludedCategoryIds = searchParams.get("excluded") || null;
+
+  const initialIncludedValue = includedCategoryIds?.split(",").map((id) => {
+    const foundCate = categories.find(
+      (cate) => cate.id && cate.id.startsWith(id)
+    );
+    if (foundCate) {
+      return { value: foundCate.id, label: foundCate.name };
+    } else {
+      return null;
+    }
+  });
+
+  const initialExcludedValue = excludedCategoryIds?.split(",").map((id) => {
+    const foundCate = categories.find(
+      (cate) => cate.id && cate.id.startsWith(id)
+    );
+    if (foundCate) {
+      return { value: foundCate.id, label: foundCate.name };
+    } else {
+      return null;
+    }
+  });
+
+  const getFilteredOptionsForIncluded = () => {
+    return cateOptions.filter((option) => !excludedCate.includes(option.value));
+  };
+
+  const getFilteredOptionsForExcluded = () => {
+    return cateOptions.filter((option) => !includedCate.includes(option.value));
+  };
 
   const sortOptions = [
     "LatestManga",
@@ -62,13 +101,31 @@ export default function Manga() {
 
   // Re-fetch manga when search params change
   useEffect(() => {
-    getMangasList(search, sortOption, page);
-  }, [search, sortOption, page]);
+    getMangasList(
+      search,
+      sortOption,
+      includedCategoryIds,
+      excludedCategoryIds,
+      page
+    );
+  }, [search, sortOption, includedCategoryIds, excludedCategoryIds, page]);
 
   // Fetch manga data
-  const getMangasList = async (search, sortOption, page) => {
+  const getMangasList = async (
+    search,
+    sortOption,
+    includedCategoryIds,
+    excludedCategoryIds,
+    page
+  ) => {
     try {
-      const result = await getMangas({ search, sortOption, page });
+      const result = await getMangas({
+        search,
+        sortOption,
+        page,
+        includedCategoryIds,
+        excludedCategoryIds,
+      });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -106,6 +163,31 @@ export default function Manga() {
     });
   };
 
+  const hanldeApplyFilter = () => {
+    setSearchParams((params) => {
+      if (!includedCate || includedCate.length === 0) {
+        params.delete("included");
+        params.set("page", 1);
+      } else {
+        const modifiedCateIds = includedCate
+          .map((id) => id.slice(0, 5))
+          .join(",");
+        params.set("included", modifiedCateIds);
+      }
+      if (!excludedCate || excludedCate.length === 0) {
+        params.delete("excluded");
+        params.set("page", 1);
+      } else {
+        const modifiedCateIds = excludedCate
+          .map((id) => id.slice(0, 5))
+          .join(",");
+        params.set("excluded", modifiedCateIds);
+      }
+      params.set("page", 1);
+      return params;
+    });
+  };
+
   return (
     <Container id="manga-option" fluid>
       <Row className="mb-3">
@@ -134,8 +216,8 @@ export default function Manga() {
           </Button>
         </Col>
       </Row>
-      <Modal show={showFilter} onHide={handleClose} size="xl">
-        <Modal.Header>
+      <Modal show={showFilter} onHide={handleClose} size="xl" backdrop="static">
+        <Modal.Header closeButton>
           <Modal.Title>Filters</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -155,26 +237,50 @@ export default function Manga() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Inclusion Categories</Form.Label>
-              <AsyncSelect
+              <Select
                 isMulti
                 cacheOptions
                 defaultOptions
-                loadOptions={handleCateOptions}
+                styles={includedColourStyles}
+                components={animatedComponents}
+                defaultValue={initialIncludedValue}
+                options={getFilteredOptionsForIncluded()}
+                onChange={(selectedOptions) => {
+                  const selectedCategoryIds = (selectedOptions || []).map(
+                    (option) => option.value
+                  );
+                  setIncludedCate(selectedCategoryIds);
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Exclusion Categories</Form.Label>
-              <AsyncSelect
+              <Select
                 isMulti
                 cacheOptions
                 defaultOptions
-                loadOptions={handleCateOptions}
+                styles={excludedColourStyles}
+                components={animatedComponents}
+                defaultValue={initialExcludedValue}
+                options={getFilteredOptionsForExcluded()}
+                onChange={(selectedOptions) => {
+                  const selectedCategoryIds = (selectedOptions || []).map(
+                    (option) => option.value
+                  );
+                  setExcludedCate(selectedCategoryIds);
+                }}
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-dark" onClick={handleClose}>
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              hanldeApplyFilter();
+              handleClose();
+            }}
+          >
             Apply
           </Button>
         </Modal.Footer>

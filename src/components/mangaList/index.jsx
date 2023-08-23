@@ -1,5 +1,5 @@
 import "./styles.css";
-import { Button, Row, Image, Container, Col } from "react-bootstrap";
+import { Row, Image, Container, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
 
@@ -34,11 +34,6 @@ export default function MangasList({ data, link }) {
           </div>
         )}
       </Row>
-      <div className="d-flex justify-content-center">
-        <Link to={link}>
-          <Button className="btn btn-dark"> See More </Button>
-        </Link>
-      </div>
     </Container>
   );
 }

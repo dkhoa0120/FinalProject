@@ -9,19 +9,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./context/UserContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { CategoryProvider } from "./context/CateContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <LanguageProvider>
-        <ProSidebarProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ProSidebarProvider>
-      </LanguageProvider>
-    </UserProvider>
+    <CategoryProvider>
+      <UserProvider>
+        <LanguageProvider>
+          <ProSidebarProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ProSidebarProvider>
+        </LanguageProvider>
+      </UserProvider>
+    </CategoryProvider>
   </React.StrictMode>
 );
 
