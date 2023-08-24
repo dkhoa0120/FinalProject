@@ -7,6 +7,8 @@ import { CategoryContext } from "../../../../context/CategoryContext";
 import { LanguageContext } from "../../../../context/LanguageContext";
 import { excludedColourStyles, includedColourStyles } from "./colorStyles";
 import { handleAuthorOptions } from "../../../admin/manageManga/components/SelectOptions";
+import { useEffect } from "react";
+import { getAuthorByID } from "../../../../service/api.author";
 
 export default function FilterModal({
   show,
@@ -23,12 +25,29 @@ export default function FilterModal({
   const [excludedCate, setExcludedCate] = useState([]);
   //states for language select
   const [languages, setLanguages] = useState([]);
-
-  const [authors, setAuthors] = useState([]);
+  const [author, setAuthor] = useState(null);
 
   const includedCategoryIds = searchParams.get("included") || null;
   const excludedCategoryIds = searchParams.get("excluded") || null;
   const selectedLanguages = searchParams.get("languages") || null;
+  const selectedAuthorId = searchParams.get("author") || null;
+
+  useEffect(() => {
+    const getAuthor = async () => {
+      try {
+        const result = await getAuthorByID(selectedAuthorId);
+        setAuthor({ value: result.data.id, label: result.data.name });
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setAuthor(null);
+        }
+      }
+    };
+
+    if (selectedAuthorId) {
+      getAuthor();
+    }
+  }, [selectedAuthorId]);
 
   // prepare for default value in multi-select
   const initialIncludedOptions = includedCategoryIds?.split(",").map((id) => {
@@ -76,12 +95,11 @@ export default function FilterModal({
         const modifiedLangIds = languages.map((id) => id).join(",");
         params.set("languages", modifiedLangIds);
       }
-      if (!authors || authors.length === 0) {
-        params.delete("authors");
+      if (!author) {
+        params.delete("author");
         params.set("page", 1);
       } else {
-        const modifiedAuthorIds = authors.map((id) => id).join(",");
-        params.set("authors", modifiedAuthorIds);
+        params.set("author", author.value);
       }
       params.set("page", 1);
       return params;
@@ -98,15 +116,14 @@ export default function FilterModal({
           <Form.Group className="mb-3">
             <Form.Label>Authors</Form.Label>
             <AsyncSelect
-              isMulti
+              isClearable
               cacheOptions
               defaultOptions
+              defaultValue={author}
               loadOptions={handleAuthorOptions}
-              onChange={(selectedOptions) => {
-                const selectedAuthors = (selectedOptions || []).map(
-                  (option) => option.value
-                );
-                setAuthors(selectedAuthors);
+              onChange={(selectedOption) => {
+                console.log("change", selectedOption);
+                setAuthor(selectedOption);
               }}
             />
           </Form.Group>
