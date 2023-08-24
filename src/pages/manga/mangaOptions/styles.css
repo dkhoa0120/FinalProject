@@ -2,8 +2,13 @@
   padding-top: 50px;
 }
 
+/* not show category in mobile */
 #manga-option .manga-category {
   display: none;
+}
+
+#manga-option .manga-title {
+  display: inline;
 }
 
 @media screen and (min-width: 767px) {

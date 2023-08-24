@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Col,
@@ -8,72 +8,23 @@ import {
   FormSelect,
   Form,
   Button,
-  Modal,
 } from "react-bootstrap";
 import { getMangas } from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
-import AsyncSelect from "react-select/async";
-import { handleAuthorOptions } from "../../admin/manageManga/components/SelectOptions";
-import Select from "react-select";
-import { LanguageContext } from "../../../context/LanguageContext";
-import { CategoryContext } from "../../../context/CateContext";
-import {
-  excludedColourStyles,
-  includedColourStyles,
-} from "./components/colorStyles";
-import makeAnimated from "react-select/animated";
+import FilterModal from "./components/FilterModal";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
-  const { categories, cateOptions } = useContext(CategoryContext);
-  const [includedCate, setIncludedCate] = useState([]);
-  const [excludedCate, setExcludedCate] = useState([]);
-  const { languageOptions } = useContext(LanguageContext);
-  const language = languageOptions.map((lang) => ({
-    value: lang,
-    label: lang,
-  }));
-
-  const animatedComponents = makeAnimated();
+  const [showFilter, setShowFilter] = useState(false);
 
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
   const includedCategoryIds = searchParams.get("included") || null;
   const excludedCategoryIds = searchParams.get("excluded") || null;
-
-  const initialIncludedValue = includedCategoryIds?.split(",").map((id) => {
-    const foundCate = categories.find(
-      (cate) => cate.id && cate.id.startsWith(id)
-    );
-    if (foundCate) {
-      return { value: foundCate.id, label: foundCate.name };
-    } else {
-      return null;
-    }
-  });
-
-  const initialExcludedValue = excludedCategoryIds?.split(",").map((id) => {
-    const foundCate = categories.find(
-      (cate) => cate.id && cate.id.startsWith(id)
-    );
-    if (foundCate) {
-      return { value: foundCate.id, label: foundCate.name };
-    } else {
-      return null;
-    }
-  });
-
-  const getFilteredOptionsForIncluded = () => {
-    return cateOptions.filter((option) => !excludedCate.includes(option.value));
-  };
-
-  const getFilteredOptionsForExcluded = () => {
-    return cateOptions.filter((option) => !includedCate.includes(option.value));
-  };
 
   const sortOptions = [
     "LatestManga",
@@ -82,17 +33,10 @@ export default function Manga() {
     "MostView",
     "MostFollow",
     "BestRating",
-    "NewToYou",
   ];
-
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
   };
-
-  const [showFilter, setShowFilter] = useState(false);
-
-  const handleClose = () => setShowFilter(false);
-  const handleShow = () => setShowFilter(true);
 
   // Update the document title
   useEffect(() => {
@@ -101,40 +45,28 @@ export default function Manga() {
 
   // Re-fetch manga when search params change
   useEffect(() => {
-    getMangasList(
-      search,
-      sortOption,
-      includedCategoryIds,
-      excludedCategoryIds,
-      page
-    );
-  }, [search, sortOption, includedCategoryIds, excludedCategoryIds, page]);
-
-  // Fetch manga data
-  const getMangasList = async (
-    search,
-    sortOption,
-    includedCategoryIds,
-    excludedCategoryIds,
-    page
-  ) => {
-    try {
-      const result = await getMangas({
-        search,
-        sortOption,
-        page,
-        includedCategoryIds,
-        excludedCategoryIds,
-      });
-      setMangas(result.data.itemList);
-      setTotalPages(result.data.totalPages);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setMangas(null);
-        setTotalPages(0);
+    const getMangasList = async () => {
+      try {
+        const result = await getMangas({
+          search,
+          sortOption,
+          page,
+          includedCategoryIds,
+          excludedCategoryIds,
+        });
+        setMangas(result.data.itemList);
+        setTotalPages(result.data.totalPages);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setMangas(null);
+          setTotalPages(0);
+        }
       }
-    }
-  };
+    };
+
+    getMangasList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Event handler for search manga
   const handleSearch = (e) => {
@@ -163,31 +95,6 @@ export default function Manga() {
     });
   };
 
-  const hanldeApplyFilter = () => {
-    setSearchParams((params) => {
-      if (!includedCate || includedCate.length === 0) {
-        params.delete("included");
-        params.set("page", 1);
-      } else {
-        const modifiedCateIds = includedCate
-          .map((id) => id.slice(0, 5))
-          .join(",");
-        params.set("included", modifiedCateIds);
-      }
-      if (!excludedCate || excludedCate.length === 0) {
-        params.delete("excluded");
-        params.set("page", 1);
-      } else {
-        const modifiedCateIds = excludedCate
-          .map((id) => id.slice(0, 5))
-          .join(",");
-        params.set("excluded", modifiedCateIds);
-      }
-      params.set("page", 1);
-      return params;
-    });
-  };
-
   return (
     <Container id="manga-option" fluid>
       <Row className="mb-3">
@@ -209,93 +116,33 @@ export default function Manga() {
             ))}
           </FormSelect>
         </Col>
-        <Col xs={3} md={2} lg={2} onClick={handleShow}>
+        <Col xs={3} md={2} lg={2} onClick={() => setShowFilter(true)}>
           <Button variant="outline-dark" style={{ width: "100%" }}>
             <i className="fa-solid fa-filter"></i>{" "}
             <span className="d-none d-sm-inline">Filter</span>
           </Button>
         </Col>
       </Row>
-      <Modal show={showFilter} onHide={handleClose} size="xl" backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title>Filters</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Authors</Form.Label>
-              <AsyncSelect
-                isMulti
-                cacheOptions
-                defaultOptions
-                loadOptions={handleAuthorOptions}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Original Language </Form.Label>
-              <Select isMulti options={language} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Inclusion Categories</Form.Label>
-              <Select
-                isMulti
-                cacheOptions
-                defaultOptions
-                styles={includedColourStyles}
-                components={animatedComponents}
-                defaultValue={initialIncludedValue}
-                options={getFilteredOptionsForIncluded()}
-                onChange={(selectedOptions) => {
-                  const selectedCategoryIds = (selectedOptions || []).map(
-                    (option) => option.value
-                  );
-                  setIncludedCate(selectedCategoryIds);
-                }}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Exclusion Categories</Form.Label>
-              <Select
-                isMulti
-                cacheOptions
-                defaultOptions
-                styles={excludedColourStyles}
-                components={animatedComponents}
-                defaultValue={initialExcludedValue}
-                options={getFilteredOptionsForExcluded()}
-                onChange={(selectedOptions) => {
-                  const selectedCategoryIds = (selectedOptions || []).map(
-                    (option) => option.value
-                  );
-                  setExcludedCate(selectedCategoryIds);
-                }}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="outline-dark"
-            onClick={() => {
-              hanldeApplyFilter();
-              handleClose();
-            }}
-          >
-            Apply
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <FilterModal
+        show={showFilter}
+        close={() => setShowFilter(false)}
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+      />
       {mangas ? (
         mangas.map((manga, index) => (
           <React.Fragment key={index}>
             <Card style={{ marginBottom: "10px" }}>
               <Row>
                 <Col xs={4} xl={2}>
-                  <Card.Img
-                    className="manga-image"
-                    variant="top"
-                    src={manga.coverPath || "/img/error/coverNotFound.png"}
-                  />
+                  <Link to={`/Manga/${manga.id}`} className="card-link">
+                    <Card.Img
+                      className="manga-image"
+                      variant="top"
+                      src={manga.coverPath || "/img/error/coverNotFound.png"}
+                      alt={manga.originalTitle + "'s cover"}
+                    />
+                  </Link>
                 </Col>
                 <Col xs={8} xl={10} style={{ padding: "20px" }}>
                   <Link to={`/Manga/${manga.id}`} className="card-link">
