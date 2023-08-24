@@ -111,7 +111,7 @@ export default function MangaBanner({
                 <b>Categories: </b>
                 {manga.categories.map((c) => (
                   <Link
-                    to={`/manga?category=${c.id}`}
+                    to={`/manga?included=${c.id.substring(0, 5)}`}
                     className="btn-pill clickable"
                     key={c.id}
                   >

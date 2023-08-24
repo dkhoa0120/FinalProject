@@ -21,9 +21,12 @@ export default function FilterModal({
   // states for category select
   const [includedCate, setIncludedCate] = useState([]);
   const [excludedCate, setExcludedCate] = useState([]);
+  //states for language select
+  const [languages, setLanguages] = useState([]);
 
   const includedCategoryIds = searchParams.get("included") || null;
   const excludedCategoryIds = searchParams.get("excluded") || null;
+  const selectedLanguages = searchParams.get("languages") || null;
 
   // prepare for default value in multi-select
   const initialIncludedOptions = includedCategoryIds?.split(",").map((id) => {
@@ -31,6 +34,9 @@ export default function FilterModal({
   });
   const initialExcludedOptions = excludedCategoryIds?.split(",").map((id) => {
     return categoryOptions.find((cate) => cate.value.startsWith(id));
+  });
+  const initialLanguageOptions = selectedLanguages?.split(",").map((id) => {
+    return languageOptions.find((lang) => lang.value.startsWith(id));
   });
 
   // filter options to not show included options in excluded options and vice versa
@@ -61,6 +67,13 @@ export default function FilterModal({
           .join(",");
         params.set("excluded", modifiedCateIds);
       }
+      if (!languages || languages.length === 0) {
+        params.delete("languages");
+        params.set("page", 1);
+      } else {
+        const modifiedCateIds = languages.map((id) => id).join(",");
+        params.set("languages", modifiedCateIds);
+      }
       params.set("page", 1);
       return params;
     });
@@ -84,7 +97,18 @@ export default function FilterModal({
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Original Language </Form.Label>
-            <Select isMulti options={languageOptions} />
+            <Select
+              isMulti
+              options={languageOptions}
+              defaultValue={initialLanguageOptions}
+              components={animatedComponents}
+              onChange={(selectedOptions) => {
+                const selectedLangIds = (selectedOptions || []).map(
+                  (option) => option.value
+                );
+                setLanguages(selectedLangIds);
+              }}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Included Categories</Form.Label>

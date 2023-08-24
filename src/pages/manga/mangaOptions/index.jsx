@@ -23,8 +23,9 @@ export default function Manga() {
   const search = searchParams.get("search") || "";
   const sortOption = searchParams.get("sortOption") || "";
   const page = searchParams.get("page") || "1";
-  const includedCategoryIds = searchParams.get("included") || null;
-  const excludedCategoryIds = searchParams.get("excluded") || null;
+  const includedCategoryIds = searchParams.get("included")?.split(",");
+  const excludedCategoryIds = searchParams.get("excluded")?.split(",");
+  const selectedLanguages = searchParams.get("languages")?.split(",");
 
   const sortOptions = [
     "LatestManga",
@@ -53,6 +54,7 @@ export default function Manga() {
           page,
           includedCategoryIds,
           excludedCategoryIds,
+          selectedLanguages,
         });
         setMangas(result.data.itemList);
         setTotalPages(result.data.totalPages);
@@ -153,7 +155,7 @@ export default function Manga() {
                   <Card.Text className="manga-category">
                     {manga.categories.map((c) => (
                       <Link
-                        to={`/manga?category=${c.id}`}
+                        to={`/manga?included=${c.id.substring(0, 5)}`}
                         className="btn-pill clickable"
                         key={c.id}
                       >
