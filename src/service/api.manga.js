@@ -1,4 +1,5 @@
 import { getManageAxios, baseAxios } from "./api.base";
+import qs from "qs";
 
 // user/manga
 export const getMangas = (filter) => {
@@ -6,6 +7,7 @@ export const getMangas = (filter) => {
   const sortOption = filter?.sortOption || 0;
   const includedCategoryIds = filter?.includedCategoryIds || [];
   const excludedCategoryIds = filter?.excludedCategoryIds || [];
+  const selectedLanguages = filter?.selectedLanguages || [];
   const page = filter?.page || 1;
 
   return baseAxios.get("/mangas", {
@@ -14,8 +16,10 @@ export const getMangas = (filter) => {
       sortOption,
       includedCategoryIds,
       excludedCategoryIds,
+      selectedLanguages,
       page,
     },
+    paramsSerializer: (params) => qs.stringify(params),
   });
 };
 
