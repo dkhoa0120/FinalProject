@@ -8,6 +8,7 @@ export const getMangas = (filter) => {
   const includedCategoryIds = filter?.includedCategoryIds || [];
   const excludedCategoryIds = filter?.excludedCategoryIds || [];
   const selectedLanguages = filter?.selectedLanguages || [];
+  const selectedAuthors = filter?.selectedAuthors || [];
   const page = filter?.page || 1;
 
   return baseAxios.get("/mangas", {
@@ -17,6 +18,7 @@ export const getMangas = (filter) => {
       includedCategoryIds,
       excludedCategoryIds,
       selectedLanguages,
+      selectedAuthors,
       page,
     },
     paramsSerializer: (params) => qs.stringify(params),

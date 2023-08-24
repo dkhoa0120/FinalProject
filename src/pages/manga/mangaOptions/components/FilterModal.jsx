@@ -24,6 +24,8 @@ export default function FilterModal({
   //states for language select
   const [languages, setLanguages] = useState([]);
 
+  const [authors, setAuthors] = useState([]);
+
   const includedCategoryIds = searchParams.get("included") || null;
   const excludedCategoryIds = searchParams.get("excluded") || null;
   const selectedLanguages = searchParams.get("languages") || null;
@@ -71,8 +73,15 @@ export default function FilterModal({
         params.delete("languages");
         params.set("page", 1);
       } else {
-        const modifiedCateIds = languages.map((id) => id).join(",");
-        params.set("languages", modifiedCateIds);
+        const modifiedLangIds = languages.map((id) => id).join(",");
+        params.set("languages", modifiedLangIds);
+      }
+      if (!authors || authors.length === 0) {
+        params.delete("authors");
+        params.set("page", 1);
+      } else {
+        const modifiedAuthorIds = authors.map((id) => id).join(",");
+        params.set("authors", modifiedAuthorIds);
       }
       params.set("page", 1);
       return params;
@@ -93,6 +102,12 @@ export default function FilterModal({
               cacheOptions
               defaultOptions
               loadOptions={handleAuthorOptions}
+              onChange={(selectedOptions) => {
+                const selectedAuthors = (selectedOptions || []).map(
+                  (option) => option.value
+                );
+                setAuthors(selectedAuthors);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3">

@@ -26,6 +26,7 @@ export default function Manga() {
   const includedCategoryIds = searchParams.get("included")?.split(",");
   const excludedCategoryIds = searchParams.get("excluded")?.split(",");
   const selectedLanguages = searchParams.get("languages")?.split(",");
+  const selectedAuthors = searchParams.get("authors")?.split(",");
 
   const sortOptions = [
     "LatestManga",
@@ -55,6 +56,7 @@ export default function Manga() {
           includedCategoryIds,
           excludedCategoryIds,
           selectedLanguages,
+          selectedAuthors,
         });
         setMangas(result.data.itemList);
         setTotalPages(result.data.totalPages);
