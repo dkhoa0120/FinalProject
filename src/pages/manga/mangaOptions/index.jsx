@@ -20,9 +20,9 @@ export default function Manga() {
   const [totalPages, setTotalPages] = useState(0);
   const [showFilter, setShowFilter] = useState(false);
 
-  const search = searchParams.get("search") || "";
-  const sortOption = searchParams.get("sortOption") || "";
-  const page = searchParams.get("page") || "1";
+  const search = searchParams.get("search");
+  const sortOption = searchParams.get("sortOption");
+  const page = searchParams.get("page");
   const includedCategoryIds = searchParams.get("included")?.split(",");
   const excludedCategoryIds = searchParams.get("excluded")?.split(",");
   const selectedLanguages = searchParams.get("languages")?.split(",");

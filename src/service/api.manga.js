@@ -1,4 +1,5 @@
 import { getManageAxios, baseAxios } from "./api.base";
+import Cookies from "universal-cookie";
 import qs from "qs";
 
 // user/manga
@@ -10,7 +11,7 @@ export const getMangas = (filter) => {
   const excludedCategoryIds = filter?.excludedCategoryIds;
   const selectedLanguages = filter?.selectedLanguages;
   const selectedAuthorId = filter?.selectedAuthorId;
-  const page = filter?.page || 1;
+  const page = filter?.page;
 
   return baseAxios.get("/mangas", {
     params: {
@@ -23,7 +24,7 @@ export const getMangas = (filter) => {
       selectedAuthorId,
       page,
     },
-    paramsSerializer: (params) => qs.stringify(params),
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
 
@@ -32,7 +33,11 @@ export const getTrendingMangas = () => {
 };
 
 export const getNewToYouMangas = () => {
-  return baseAxios.get(`/mangas/new-to-you`);
+  return baseAxios.get(`/mangas/new-to-you`, {
+    headers: {
+      Authorization: `Bearer ${new Cookies().get("Token")}`,
+    },
+  });
 };
 
 export const getMangaById = (id) => {

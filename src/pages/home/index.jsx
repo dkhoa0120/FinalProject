@@ -25,17 +25,6 @@ export default function Home() {
   const [carouselMangas, setCarouselMangas] = useState([]);
   const { user } = useContext(UserContext);
 
-  const hanldeShowNewToYou = async () => {
-    try {
-      const result = await getNewToYouMangas();
-      setMangas(result.data);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setMangas([]);
-      }
-    }
-  };
-
   useEffect(() => {
     document.title = "3K Manga";
     loadCarouselMangas();
@@ -53,8 +42,13 @@ export default function Home() {
 
   const loadMangas = async (sortOption) => {
     try {
-      const result = await getMangas({ sortOption });
-      setMangas(result.data.itemList);
+      if (sortOption === "NewToYou") {
+        const result = await getNewToYouMangas();
+        setMangas(result.data);
+      } else {
+        const result = await getMangas({ sortOption });
+        setMangas(result.data.itemList);
+      }
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setMangas([]);
@@ -108,10 +102,7 @@ export default function Home() {
               className={
                 "new-to-you" + (sortOption === "NewToYou" ? " active" : "")
               }
-              onClick={() => {
-                hanldeShowNewToYou();
-                setSortOption("NewToYou");
-              }}
+              onClick={() => setSortOption("NewToYou")}
             >
               New To You
             </button>
