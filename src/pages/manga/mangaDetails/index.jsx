@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "./styles.css";
 import MangaBanner from "./components/MangaBanner";
@@ -26,6 +26,7 @@ export default function MangaDetail() {
   const { mangaId } = useParams();
   const [rate, setRate] = useState(0);
   const [follow, setFollow] = useState(null);
+  const navigate = useNavigate();
 
   const handleSelectRate = async (eventKey) => {
     const formData = new FormData();
@@ -116,7 +117,7 @@ export default function MangaDetail() {
       document.title = `${result.data.originalTitle} - 3K Manga`;
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setManga(null);
+        navigate("/404");
       }
     }
   };
