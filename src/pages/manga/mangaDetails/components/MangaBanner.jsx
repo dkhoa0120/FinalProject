@@ -102,19 +102,19 @@ export default function MangaBanner({
                 <b>Alternative Titles:</b> {manga.alternativeTitles}
               </p>
               <p>
+                <b>Publication:</b> {manga.publishYear}
+              </p>
+              <p>
                 <b>Authors:</b>{" "}
                 {manga.authors.map((c) => (
                   <Link
                     to={`/manga?author=${c.id}`}
-                    className="card-link"
+                    className="btn-pill clickable"
                     key={c.id}
                   >
                     {c.name}
                   </Link>
                 ))}
-              </p>
-              <p>
-                <b>Publication:</b> {manga.publishYear}
               </p>
               <p>
                 <b>Categories: </b>
