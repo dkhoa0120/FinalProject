@@ -43,7 +43,11 @@ export default function ManageCategory() {
 
   const handleGetCategories = async (search, page) => {
     try {
-      const result = await getCategories({ search, page });
+      const result = await getCategories({
+        search,
+        page,
+        excludeDeleted: false,
+      });
       setCategories(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {

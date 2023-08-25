@@ -49,7 +49,7 @@ export default function ManageAuthor() {
 
   const handleGetAuthors = async () => {
     try {
-      const result = await getAuthors({ search, page });
+      const result = await getAuthors({ search, page, excludeDeleted: false });
       setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {

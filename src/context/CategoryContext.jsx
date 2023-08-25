@@ -14,7 +14,7 @@ function CategoryProvider({ children }) {
   useEffect(() => {
     const fetchCateOptions = async () => {
       try {
-        let res = await getCategories({ excludeDeleted: true, pageSize: 50 });
+        let res = await getCategories({ pageSize: 50 });
         setCategories(res.data.itemList);
       } catch (err) {
         if (err.response && err.response.status === 404) {

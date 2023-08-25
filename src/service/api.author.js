@@ -1,10 +1,10 @@
 import { getManageAxios } from "./api.base";
 
 export const getAuthors = (filter) => {
-  const search = filter?.search || "";
-  const excludeDeleted = filter?.excludeDeleted || false;
-  const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 12;
+  const search = filter?.search;
+  const excludeDeleted = filter?.excludeDeleted;
+  const page = filter?.page;
+  const pageSize = filter?.pageSize;
 
   return getManageAxios().get("/author", {
     params: { search, excludeDeleted, page, pageSize },

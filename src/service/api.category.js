@@ -1,13 +1,15 @@
 import { getManageAxios } from "./api.base";
+import qs from "qs";
 
 export const getCategories = (filter) => {
-  const search = filter?.search || "";
-  const excludeDeleted = filter?.excludeDeleted || false;
-  const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 12;
+  const search = filter?.search;
+  const excludeDeleted = filter?.excludeDeleted;
+  const page = filter?.page;
+  const pageSize = filter?.pageSize;
 
   return getManageAxios().get("/category", {
     params: { search, excludeDeleted, page, pageSize },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
 

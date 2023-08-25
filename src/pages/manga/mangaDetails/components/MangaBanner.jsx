@@ -102,7 +102,16 @@ export default function MangaBanner({
                 <b>Alternative Titles:</b> {manga.alternativeTitles}
               </p>
               <p>
-                <b>Authors:</b> {manga.authors.map((a) => a.name).join("; ")}
+                <b>Authors:</b>{" "}
+                {manga.authors.map((c) => (
+                  <Link
+                    to={`/manga?author=${c.id}`}
+                    className="card-link"
+                    key={c.id}
+                  >
+                    {c.name}
+                  </Link>
+                ))}
               </p>
               <p>
                 <b>Publication:</b> {manga.publishYear}
@@ -119,20 +128,24 @@ export default function MangaBanner({
                   </Link>
                 ))}
               </p>
-              <p>
-                <b>Description: </b>
-                {moreDescription || manga.description.length < 250
-                  ? manga.description
-                  : manga.description.slice(0, 250) + "..."}{" "}
-                {manga.description.length > 250 && (
-                  <button
-                    className="btn-resize-description"
-                    onClick={() => setMoreDescription(!moreDescription)}
-                  >
-                    {!moreDescription ? "<More>" : "<Less>"}
-                  </button>
-                )}
-              </p>
+              {manga.description ? (
+                <p>
+                  <b>Description: </b>
+                  {moreDescription || manga.description.length < 250
+                    ? manga.description
+                    : manga.description.slice(0, 250) + "..."}{" "}
+                  {manga.description.length > 250 && (
+                    <button
+                      className="btn-resize-description"
+                      onClick={() => setMoreDescription(!moreDescription)}
+                    >
+                      {!moreDescription ? "<More>" : "<Less>"}
+                    </button>
+                  )}
+                </p>
+              ) : (
+                <p>No description.</p>
+              )}
             </>
           ) : (
             <p>Manga not found.</p>
