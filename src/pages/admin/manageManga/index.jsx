@@ -40,7 +40,11 @@ export default function ManageManga() {
 
   const getMangas = async (search, page) => {
     try {
-      const result = await getMangasForManage({ search, page });
+      const result = await getMangasForManage({
+        search,
+        page,
+        excludeDeleted: false,
+      });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {

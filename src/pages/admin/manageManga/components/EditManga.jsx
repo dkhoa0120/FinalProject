@@ -5,13 +5,12 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { editManga } from "../../../../service/api.manga";
 import { Controller, useForm } from "react-hook-form";
+import Select from "react-select";
 import AsyncSelect from "react-select/async";
-import {
-  handleAuthorOptions,
-  handleCateOptions,
-  mapToOption,
-} from "./SelectOptions";
+import makeAnimated from "react-select/animated";
+import { handleAuthorOptions, mapToOption } from "./SelectOptions";
 import { LanguageContext } from "../../../../context/LanguageContext";
+import { CategoryContext } from "../../../../context/CategoryContext";
 
 export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
   const {
@@ -26,6 +25,8 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
   });
 
   const { languageOptions } = useContext(LanguageContext);
+  const { categoryOptions } = useContext(CategoryContext);
+  const animatedComponents = makeAnimated();
 
   useEffect(() => {
     if (dataEdit) {
@@ -37,7 +38,10 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
       setValue("categoryIds", cateOptions);
       setValue("publishYear", dataEdit.publishYear);
       setValue("alternativeTitles", dataEdit.alternativeTitles || "");
-      setValue("originalLanguage", dataEdit.originalLanguage);
+      setValue("originalLanguage", {
+        value: dataEdit.originalLanguage,
+        label: dataEdit.originalLanguage,
+      });
       setValue("description", dataEdit.description || "");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,6 +60,9 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
         let coverImageFile = data[key][0];
         formData.append(key, coverImageFile);
         continue;
+      }
+      if (key === "originalLanguage") {
+        formData.append(key, data[key].value);
       }
       formData.append(key, data[key]);
     }
@@ -124,12 +131,11 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
                   control={control}
                   rules={{ required: "This field is required" }}
                   render={({ field }) => (
-                    <AsyncSelect
+                    <Select
                       {...field}
                       isMulti
-                      cacheOptions
-                      defaultOptions
-                      loadOptions={handleCateOptions}
+                      options={categoryOptions}
+                      components={animatedComponents}
                     />
                   )}
                 />
@@ -207,18 +213,14 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
                     ></i>
                   )}
                 </Form.Label>
-                <Form.Select
-                  {...register("originalLanguage", {
-                    required: "This field is required",
-                  })}
-                >
-                  <option value="">Select...</option>
-                  {languageOptions.map((language, index) => (
-                    <option key={index} value={language}>
-                      {language}
-                    </option>
-                  ))}
-                </Form.Select>
+                <Controller
+                  name="originalLanguage"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <Select {...field} options={languageOptions} />
+                  )}
+                />
               </Col>
               &nbsp;
             </Row>

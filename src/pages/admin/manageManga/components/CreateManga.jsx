@@ -3,9 +3,12 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { createManga } from "../../../../service/api.manga";
 import { Controller, useForm } from "react-hook-form";
+import Select from "react-select";
 import AsyncSelect from "react-select/async";
-import { handleAuthorOptions, handleCateOptions } from "./SelectOptions";
+import makeAnimated from "react-select/animated";
+import { handleAuthorOptions } from "./SelectOptions";
 import { LanguageContext } from "../../../../context/LanguageContext";
+import { CategoryContext } from "../../../../context/CategoryContext";
 
 export default function CreateManga({ show, handleClose, getMangas }) {
   const {
@@ -19,6 +22,8 @@ export default function CreateManga({ show, handleClose, getMangas }) {
   });
 
   const { languageOptions } = useContext(LanguageContext);
+  const { categoryOptions } = useContext(CategoryContext);
+  const animatedComponents = makeAnimated();
 
   const onSubmit = async (data) => {
     console.log("data", data);
@@ -33,6 +38,9 @@ export default function CreateManga({ show, handleClose, getMangas }) {
         let coverImageFile = data[key][0];
         formData.append(key, coverImageFile);
         continue;
+      }
+      if (key === "originalLanguage") {
+        formData.append(key, data[key].value);
       }
       formData.append(key, data[key]);
     }
@@ -106,12 +114,11 @@ export default function CreateManga({ show, handleClose, getMangas }) {
                   control={control}
                   rules={{ required: "This field is required" }}
                   render={({ field }) => (
-                    <AsyncSelect
+                    <Select
                       {...field}
                       isMulti
-                      cacheOptions
-                      defaultOptions
-                      loadOptions={handleCateOptions}
+                      options={categoryOptions}
+                      components={animatedComponents}
                     />
                   )}
                 />
@@ -141,6 +148,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
                       cacheOptions
                       defaultOptions
                       loadOptions={handleAuthorOptions}
+                      components={animatedComponents}
                     />
                   )}
                 />
@@ -189,18 +197,14 @@ export default function CreateManga({ show, handleClose, getMangas }) {
                     ></i>
                   )}
                 </Form.Label>
-                <Form.Select
-                  {...register("originalLanguage", {
-                    required: "This field is required",
-                  })}
-                >
-                  <option value="">Select...</option>
-                  {languageOptions.map((language, index) => (
-                    <option key={index} value={language}>
-                      {language}
-                    </option>
-                  ))}
-                </Form.Select>
+                <Controller
+                  name="originalLanguage"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <Select {...field} options={languageOptions} />
+                  )}
+                />
               </Col>
               &nbsp;
             </Row>

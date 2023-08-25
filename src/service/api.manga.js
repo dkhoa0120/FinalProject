@@ -3,11 +3,12 @@ import qs from "qs";
 
 // user/manga
 export const getMangas = (filter) => {
-  const search = filter?.search || "";
-  const sortOption = filter?.sortOption || 0;
-  const includedCategoryIds = filter?.includedCategoryIds || [];
-  const excludedCategoryIds = filter?.excludedCategoryIds || [];
-  const selectedLanguages = filter?.selectedLanguages || [];
+  const search = filter?.search;
+  const sortOption = filter?.sortOption;
+  const excludeDeleted = filter?.excludeDeleted;
+  const includedCategoryIds = filter?.includedCategoryIds;
+  const excludedCategoryIds = filter?.excludedCategoryIds;
+  const selectedLanguages = filter?.selectedLanguages;
   const selectedAuthorId = filter?.selectedAuthorId;
   const page = filter?.page || 1;
 
@@ -15,6 +16,7 @@ export const getMangas = (filter) => {
     params: {
       search,
       sortOption,
+      excludeDeleted,
       includedCategoryIds,
       excludedCategoryIds,
       selectedLanguages,
