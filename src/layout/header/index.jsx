@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Container,
@@ -9,7 +9,7 @@ import {
   Col,
   Dropdown,
 } from "react-bootstrap";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import SearchBar from "../../components/search";
 import { UserContext } from "../../context/UserContext";
@@ -104,9 +104,11 @@ export default function Header(props) {
               <Nav>
                 <Row>
                   <Col xl={6}>
-                    <Button className="mb-3 w-100" variant="outline-dark">
-                      <i className="fa-solid fa-gear"></i> Settings
-                    </Button>
+                    <Link to="/profile">
+                      <Button className="mb-3 w-100" variant="outline-dark">
+                        <i className="fa-solid fa-user"></i> My profile
+                      </Button>
+                    </Link>
                   </Col>
                   <Col xl={6}>
                     <Button className="mb-3 w-100" variant="outline-dark">
