@@ -1,30 +1,16 @@
-import Cookies from "universal-cookie";
-import { userAxios } from "./api.base";
+import { getAuthorizeAxios } from "./api.base";
 
 export const getCurrentUserFollow = (id) => {
-  return userAxios.get(`/follow/mangas/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().get(`/user/follow/mangas/${id}`);
 };
 
 export const postFollow = (id) => {
-  return userAxios.post(
-    `/follow/mangas/${id}`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${new Cookies().get("Token")}`,
-      },
-    }
+  return getAuthorizeAxios().post(
+    `/user/follow/mangas/${id}`,
+    {}
   );
 };
 
 export const deleteFollow = (id) => {
-  return userAxios.delete(`/follow/mangas/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().delete(`/user/follow/mangas/${id}`);
 };

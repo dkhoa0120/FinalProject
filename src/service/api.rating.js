@@ -1,34 +1,17 @@
-import Cookies from "universal-cookie";
-import { userAxios } from "./api.base";
+import { getAuthorizeAxios } from "./api.base";
 
 export const getCurrentUserRating = (id) => {
-  return userAxios.get(`/rating/mangas/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().get(`/user/rating/mangas/${id}`);
 };
 
 export const postRating = (id, data) => {
-  return userAxios.post(`/rating/mangas/${id}`, data, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().post(`/user/rating/mangas/${id}`, data);
 };
 
 export const putRating = (id, data) => {
-  return userAxios.put(`/rating/mangas/${id}`, data, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().put(`/user/rating/mangas/${id}`, data);
 };
 
 export const deleteRating = (id) => {
-  return userAxios.delete(`/rating/mangas/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().delete(`/user/rating/mangas/${id}`);
 };

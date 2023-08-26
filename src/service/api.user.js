@@ -1,4 +1,4 @@
-import { getManageAxios } from "./api.base";
+import { getAuthorizeAxios } from "./api.base";
 
 export const getUsers = (filter) => {
   const search = filter?.search || "";
@@ -7,11 +7,11 @@ export const getUsers = (filter) => {
   const pageSize = filter?.pageSize || 12;
   const roleOption = filter?.roleOption || 0;
 
-  return getManageAxios().get("/user", {
+  return getAuthorizeAxios().get("/manage/user", {
     params: { search, excludeDeleted, page, pageSize, roleOption },
   });
 };
 
 export const updateRoles = (id, roles) => {
-  return getManageAxios().put(`user/${id}`, roles);
+  return getAuthorizeAxios().put(`/manage/user/${id}`, roles);
 };

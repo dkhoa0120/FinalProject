@@ -1,14 +1,8 @@
-import { baseAxios } from "./api.base";
-import Cookies from "universal-cookie";
+import { getAuthorizeAxios } from "./api.base";
 
 export const postView = (type, typeId) => {
-  return baseAxios.post(
+  return getAuthorizeAxios().post(
     `user/view/${type}s/${typeId}`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${new Cookies().get("Token")}`,
-      },
-    }
+    {}
   );
 };

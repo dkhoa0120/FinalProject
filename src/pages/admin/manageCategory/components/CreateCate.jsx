@@ -17,7 +17,6 @@ export default function CreateCate({ show, handleClose, getCategories }) {
   });
 
   const onSubmit = async (data) => {
-    console.log("cate", data);
     try {
       await categoryApi.createCategory(data);
       handleClose();

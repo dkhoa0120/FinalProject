@@ -11,9 +11,9 @@ export const baseAxios = axios.create({
   baseURL: `${API_URL}`,
 });
 
-export const getManageAxios = () =>
+export const getAuthorizeAxios = () =>
   axios.create({
-    baseURL: `${API_URL}/manage`,
+    baseURL: `${API_URL}`,
     headers: {
       Authorization: `Bearer ${new Cookies().get("Token")}`,
     },

@@ -1,5 +1,4 @@
-import { getManageAxios, baseAxios } from "./api.base";
-import Cookies from "universal-cookie";
+import { getAuthorizeAxios, baseAxios } from "./api.base";
 import qs from "qs";
 
 // user/manga
@@ -33,11 +32,7 @@ export const getTrendingMangas = () => {
 };
 
 export const getNewToYouMangas = () => {
-  return baseAxios.get(`/mangas/new-to-you`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().get(`/mangas/new-to-you`);
 };
 
 export const getMangaById = (id) => {
@@ -55,19 +50,19 @@ export const getChapterByMangaId = (id, filter) => {
 
 // manage/manga
 export const getMangaByIdForManage = (id) => {
-  return getManageAxios().get(`/manga/${id}`);
+  return getAuthorizeAxios().get(`/manage/manga/${id}`);
 };
 
 export const createManga = (formData) => {
-  return getManageAxios().post("/manga", formData);
+  return getAuthorizeAxios().post("/manage/manga", formData);
 };
 
 export const editManga = (id, formData) => {
-  return getManageAxios().put(`/manga/${id}`, formData);
+  return getAuthorizeAxios().put(`/manage/manga/${id}`, formData);
 };
 
 export const deleteManga = (id, undelete = false) => {
-  return getManageAxios().delete(`/manga/${id}`, {
+  return getAuthorizeAxios().delete(`/manage/manga/${id}`, {
     params: { undelete },
   });
 };

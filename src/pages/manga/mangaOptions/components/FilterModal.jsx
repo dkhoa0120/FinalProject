@@ -122,7 +122,6 @@ export default function FilterModal({
               defaultValue={author}
               loadOptions={handleAuthorOptions}
               onChange={(selectedOption) => {
-                console.log("change", selectedOption);
                 setAuthor(selectedOption);
               }}
             />

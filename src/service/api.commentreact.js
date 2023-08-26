@@ -1,34 +1,17 @@
-import { userAxios } from "./api.base";
-import Cookies from "universal-cookie";
+import { getAuthorizeAxios } from "./api.base";
 
 export const getUserReactComment = (id) => {
-  return userAxios.get(`/react/comments/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().get(`/user/react/comments/${id}`);
 };
 
 export const postReactComment = (id, data) => {
-  return userAxios.post(`/react/comments/${id}`, data, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().post(`/user/react/comments/${id}`, data);
 };
 
 export const putReactComment = (id, data) => {
-  return userAxios.put(`/react/comments/${id}`, data, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().put(`/user/react/comments/${id}`, data);
 };
 
 export const deleteReactComment = (id) => {
-  return userAxios.delete(`/react/comments/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().delete(`/user/react/comments/${id}`);
 };

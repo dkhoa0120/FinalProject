@@ -26,7 +26,6 @@ export default function CreateManga({ show, handleClose, getMangas }) {
   const animatedComponents = makeAnimated();
 
   const onSubmit = async (data) => {
-    console.log("data", data);
     const formData = new FormData();
     for (const key in data) {
       if (key === "categoryIds" || key === "authorIds") {

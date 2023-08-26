@@ -58,7 +58,6 @@ export default function ManageUser() {
   const handleUpdateRole = (user) => {
     setUpdateData(user);
     setShowModal(true);
-    console.log(user);
   };
 
   return (

@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { accountAxios } from "./api.base";
+import { accountAxios, getAuthorizeAxios } from "./api.base";
 
 export const signIn = (data) => {
   return accountAxios.post("/SignIn", data);
@@ -10,17 +10,9 @@ export const signUp = (data) => {
 };
 
 export const extendToken = () => {
-  return accountAxios.post("/Extend", null, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().post("/account/extend");
 };
 
 export const getCurrentUserBasic = () => {
-  return accountAxios.get("/user", {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().get("/account/user")
 };

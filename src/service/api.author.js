@@ -1,4 +1,4 @@
-import { getManageAxios } from "./api.base";
+import { getAuthorizeAxios } from "./api.base";
 
 export const getAuthors = (filter) => {
   const search = filter?.search;
@@ -6,25 +6,25 @@ export const getAuthors = (filter) => {
   const page = filter?.page;
   const pageSize = filter?.pageSize;
 
-  return getManageAxios().get("/author", {
+  return getAuthorizeAxios().get("/manage/author", {
     params: { search, excludeDeleted, page, pageSize },
   });
 };
 
 export const getAuthorByID = (id) => {
-  return getManageAxios().get(`/author/${id}`);
+  return getAuthorizeAxios().get(`/manage/author/${id}`);
 };
 
 export const createAuthor = (data) => {
-  return getManageAxios().post(`/author`, data);
+  return getAuthorizeAxios().post(`/manage/author`, data);
 };
 
 export const editAuthor = (id, data) => {
-  return getManageAxios().put(`/author/${id}`, data);
+  return getAuthorizeAxios().put(`/manage/author/${id}`, data);
 };
 
 export const deleteAuthor = (id, undelete = false) => {
-  return getManageAxios().delete(`/author/${id}`, {
+  return getAuthorizeAxios().delete(`/manage/author/${id}`, {
     params: { undelete },
   });
 };

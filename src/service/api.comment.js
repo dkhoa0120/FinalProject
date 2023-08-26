@@ -1,5 +1,4 @@
-import { baseAxios } from "./api.base";
-import Cookies from "universal-cookie";
+import { baseAxios, getAuthorizeAxios } from "./api.base";
 
 export const getComments = (type, typeId, filter) => {
   const page = filter?.page || 1;
@@ -14,33 +13,17 @@ export const getChildComments = (id) => {
 };
 
 export const postComment = (type, typeId, formData) => {
-  return baseAxios.post(`/${type}s/${typeId}/comments`, formData, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().post(`/${type}s/${typeId}/comments`, formData)
 };
 
 export const putComment = (id, formData) => {
-  return baseAxios.put(`/comments/${id}`, formData, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().put(`/comments/${id}`, formData);
 };
 
 export const deleteComment = (id) => {
-  return baseAxios.delete(`/comments/${id}`, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().delete(`/comments/${id}`);
 };
 
 export const postReply = (id, formData) => {
-  return baseAxios.post(`/comments/${id}/children`, formData, {
-    headers: {
-      Authorization: `Bearer ${new Cookies().get("Token")}`,
-    },
-  });
+  return getAuthorizeAxios().post(`/comments/${id}/children`, formData);
 };

@@ -162,7 +162,6 @@ export function ReplyCommentForm({ comment, addReplyInState, stopReply }) {
 
   const handleSave = async () => {
     try {
-      console.log(comment);
       const formData = new FormData();
       formData.append("content", value);
       let res = await commentApi.postReply(comment.id, formData);

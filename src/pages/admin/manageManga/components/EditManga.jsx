@@ -48,7 +48,6 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
   }, [dataEdit, setValue]);
 
   const onSubmit = async (data) => {
-    console.log("data", data);
     const formData = new FormData();
     for (const key in data) {
       if (key === "categoryIds" || key === "authorIds") {
