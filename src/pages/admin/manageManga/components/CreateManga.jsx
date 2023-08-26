@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { createManga } from "../../../../service/api.manga";
+import * as mangaApi from "../../../../service/api.manga";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
@@ -46,7 +46,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     }
 
     try {
-      await createManga(formData);
+      await mangaApi.createManga(formData);
       handleClose();
       reset();
       toast.success("A manga has been created");

@@ -3,7 +3,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { editManga } from "../../../../service/api.manga";
+import * as mangaApi from "../../../../service/api.manga";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
@@ -68,7 +68,7 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
     }
 
     try {
-      await editManga(data.id, formData);
+      await mangaApi.editManga(data.id, formData);
       handleClose();
       reset();
       toast.success("A manga has been updated");

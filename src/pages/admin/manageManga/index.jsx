@@ -7,11 +7,7 @@ import CreateManga from "./components/CreateManga";
 import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
-import {
-  deleteManga,
-  getMangaByIdForManage,
-  getMangas as getMangasForManage,
-} from "../../../service/api.manga";
+import * as mangaApi from "../../../service/api.manga";
 
 export default function ManageManga() {
   // Component state variables
@@ -40,7 +36,7 @@ export default function ManageManga() {
 
   const getMangas = async (search, page) => {
     try {
-      const result = await getMangasForManage({
+      const result = await mangaApi.getMangas({
         search,
         page,
         excludeDeleted: false,
@@ -69,7 +65,7 @@ export default function ManageManga() {
 
   // Event handler for editing manga
   const handleEdit = async (id) => {
-    await getMangaByIdForManage(id).then((result) => {
+    await mangaApi.getMangaByIdForManage(id).then((result) => {
       setDataEdit(result.data);
     });
     setShownModal("edit");
@@ -84,7 +80,7 @@ export default function ManageManga() {
   // Event handler for undeleting manga
   const handleUndelete = async (id) => {
     try {
-      await deleteManga(id, true);
+      await mangaApi.deleteManga(id, true);
       toast.success("Manga has been restored", {
         theme: "dark",
       });

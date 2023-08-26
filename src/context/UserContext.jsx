@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import { extendToken, getCurrentUserBasic } from "../service/api.auth";
+import * as authApi from "../service/api.auth";
 
 const UserContext = React.createContext(null);
 
@@ -16,7 +16,7 @@ function UserProvider({ children }) {
   }, []);
 
   const loadUser = async () => {
-    const response = await getCurrentUserBasic();
+    const response = await authApi.getCurrentUserBasic();
     setUser({
       id: response.data.id,
       name: response.data.name,
@@ -27,7 +27,7 @@ function UserProvider({ children }) {
   };
 
   const handleExtendToken = async () => {
-    const response = await extendToken();
+    const response = await authApi.extendToken();
     if (response && response.data.token && response.data.expiration) {
       new Cookies().set("Token", response.data.token, {
         path: "/",

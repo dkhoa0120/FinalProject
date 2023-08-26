@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getCategories } from "../service/api.category";
+import * as categoryApi from "../service/api.category";
 import { useEffect } from "react";
 
 const CategoryContext = React.createContext(null);
@@ -14,7 +14,7 @@ function CategoryProvider({ children }) {
   useEffect(() => {
     const fetchCateOptions = async () => {
       try {
-        let res = await getCategories({ pageSize: 50 });
+        let res = await categoryApi.getCategories({ pageSize: 50 });
         setCategories(res.data.itemList);
       } catch (err) {
         if (err.response && err.response.status === 404) {

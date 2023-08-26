@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { Button, Image, Modal, Nav } from "react-bootstrap";
-import { getMangas } from "../../service/api.manga";
+import * as mangaApi from "../../service/api.manga";
 import { Link } from "react-router-dom";
 
-function SearchBar({ placeholder }) {
+export default function SearchBar({ placeholder }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -13,7 +13,7 @@ function SearchBar({ placeholder }) {
   const [wordEntered, setWordEntered] = useState("");
 
   const getData = async (search) => {
-    const response = await getMangas({ search });
+    const response = await mangaApi.getMangas({ search });
     return response.data;
   };
 
@@ -100,5 +100,3 @@ function SearchBar({ placeholder }) {
     </>
   );
 }
-
-export default SearchBar;

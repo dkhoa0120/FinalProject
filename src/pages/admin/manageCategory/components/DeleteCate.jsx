@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { deleteCategory } from "../../../../service/api.category";
+import * as categoryApi from "../../../../service/api.category";
 import { toast } from "react-toastify";
 
 export default function DeleteCate(props) {
@@ -19,7 +19,7 @@ export default function DeleteCate(props) {
 
   const onSubmit = async () => {
     try {
-      await deleteCategory(id);
+      await categoryApi.deleteCategory(id);
       toast.success("Category has been deleted", {
         theme: "dark",
       });

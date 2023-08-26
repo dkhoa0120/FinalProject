@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { updateRoles } from "../../../../service/api.user";
+import * as userApi from "../../../../service/api.user";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 
@@ -34,7 +34,7 @@ export default function ModalUpdateRoles({
 
   const onSubmit = async (data) => {
     try {
-      await updateRoles(
+      await userApi.updateRoles(
         data.id,
         data.roles.map((r) => r.value)
       );

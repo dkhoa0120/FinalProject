@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
-import { postComment, postReply, putComment } from "../../service/api.comment";
+import * as commentApi from "../../service/api.comment";
 import { UserContext } from "../../context/UserContext";
 import { toast } from "react-toastify";
 
@@ -89,7 +89,7 @@ export function AddCommentForm({ type, typeId, addCommentToState }) {
       // use type and typeId to call to api
       const formData = new FormData();
       formData.append("content", value);
-      let res = await postComment(type, typeId, formData);
+      let res = await commentApi.postComment(type, typeId, formData);
 
       // handle api result
       let comment = res.data;
@@ -135,7 +135,7 @@ export function EditCommentForm({ comment, editCommentInState, stopEdit }) {
     const formData = new FormData();
     formData.append("content", value);
     formData.append("id", comment.id);
-    await putComment(comment.id, formData);
+    await commentApi.putComment(comment.id, formData);
 
     // handle api result
     editCommentInState(comment.id, value);
@@ -165,7 +165,7 @@ export function ReplyCommentForm({ comment, addReplyInState, stopReply }) {
       console.log(comment);
       const formData = new FormData();
       formData.append("content", value);
-      let res = await postReply(comment.id, formData);
+      let res = await commentApi.postReply(comment.id, formData);
 
       // handle api result
       let reply = res.data;

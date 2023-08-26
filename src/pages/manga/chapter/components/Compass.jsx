@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteFollow,
-  getCurrentUserFollow,
-  postFollow,
-} from "../../../../service/api.follow";
+import * as followApi from "../../../../service/api.follow";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
@@ -17,7 +13,7 @@ export default function Compass({ chapter, relatedChapters }) {
   useEffect(() => {
     const fetchUserFollow = async (id) => {
       try {
-        const response = await getCurrentUserFollow(id);
+        const response = await followApi.getCurrentUserFollow(id);
         setFollow(response.data);
       } catch (error) {
         console.error("Error retrieving user rating:", error);
@@ -29,10 +25,10 @@ export default function Compass({ chapter, relatedChapters }) {
   const handleFollow = async () => {
     try {
       if (!follow) {
-        await postFollow(mangaId);
+        await followApi.postFollow(mangaId);
         setFollow(true);
       } else {
-        await deleteFollow(mangaId);
+        await followApi.deleteFollow(mangaId);
         setFollow(false);
       }
     } catch (error) {

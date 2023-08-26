@@ -2,7 +2,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { createAuthor } from "../../../../service/api.author";
+import * as authorApi from "../../../../service/api.author";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
@@ -18,7 +18,7 @@ export default function CreateAuthor({ show, handleClose, getAuthors }) {
 
   const onSubmit = async (data) => {
     try {
-      await createAuthor(data);
+      await authorApi.createAuthor(data);
       handleClose();
       getAuthors();
       reset();

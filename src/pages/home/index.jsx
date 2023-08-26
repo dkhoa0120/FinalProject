@@ -3,11 +3,7 @@ import { Button, Col, Container, Row, Image } from "react-bootstrap";
 import MangasList from "../../components/mangaList";
 import "./styles.css";
 import CarouselFade from "../../components/carousel";
-import {
-  getMangas,
-  getNewToYouMangas,
-  getTrendingMangas,
-} from "../../service/api.manga";
+import * as mangaApi from "../../service/api.manga";
 import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 
@@ -43,10 +39,10 @@ export default function Home() {
   const loadMangas = async (sortOption) => {
     try {
       if (sortOption === "NewToYou") {
-        const result = await getNewToYouMangas();
+        const result = await mangaApi.getNewToYouMangas();
         setMangas(result.data);
       } else {
-        const result = await getMangas({ sortOption });
+        const result = await mangaApi.getMangas({ sortOption });
         setMangas(result.data.itemList);
       }
     } catch (error) {
@@ -58,7 +54,7 @@ export default function Home() {
 
   const loadCarouselMangas = async () => {
     try {
-      const result = await getTrendingMangas();
+      const result = await mangaApi.getTrendingMangas();
       setCarouselMangas(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {

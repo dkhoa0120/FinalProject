@@ -8,13 +8,8 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import "./style.css";
-import { deleteComment, getChildComments } from "../../service/api.comment";
-import {
-  deleteReactComment,
-  getUserReactComment,
-  postReactComment,
-  putReactComment,
-} from "../../service/api.commentreact";
+import * as commentApi from "../../service/api.comment";
+import * as commentReactApi from "../../service/api.commentreact";
 import { UserContext } from "../../context/UserContext";
 import { EditCommentForm, ReplyCommentForm } from "./commentForm";
 
@@ -38,7 +33,7 @@ export default function Comment({ comment, editComment, removeComment }) {
 
   const handleToggleReplies = async () => {
     if (!childComments) {
-      const result = await getChildComments(comment.id);
+      const result = await commentApi.getChildComments(comment.id);
       setChildComments(result.data.itemList);
     }
     setShowChildComments(!showChildComments);
@@ -62,7 +57,7 @@ export default function Comment({ comment, editComment, removeComment }) {
 
   const fetchUserReactComment = async (commentId) => {
     try {
-      const response = await getUserReactComment(commentId);
+      const response = await commentReactApi.getUserReactComment(commentId);
       const userReact = response.data;
       if (userReact) {
         setReactFlag(userReact);
@@ -77,12 +72,12 @@ export default function Comment({ comment, editComment, removeComment }) {
       if (reactFlag === 0) {
         const formData = new FormData();
         formData.append("reactFlag", 1);
-        await postReactComment(comment.id, formData);
+        await commentReactApi.postReactComment(comment.id, formData);
         setLikeCount(likeCount + 1);
         setReactFlag(1);
       }
       if (reactFlag === 1) {
-        await deleteReactComment(comment.id);
+        await commentReactApi.deleteReactComment(comment.id);
         fetchUserReactComment(comment.id);
         setLikeCount(likeCount - 1);
         setReactFlag(0);
@@ -90,7 +85,7 @@ export default function Comment({ comment, editComment, removeComment }) {
       if (reactFlag === -1) {
         const formData = new FormData();
         formData.append("reactFlag", 1);
-        await putReactComment(comment.id, formData);
+        await commentReactApi.putReactComment(comment.id, formData);
         setLikeCount(likeCount + 1);
         setDisLikeCount(dislikeCount - 1);
         setReactFlag(1);
@@ -109,12 +104,12 @@ export default function Comment({ comment, editComment, removeComment }) {
       if (reactFlag === 0) {
         const formData = new FormData();
         formData.append("reactFlag", -1);
-        await postReactComment(comment.id, formData);
+        await commentReactApi.postReactComment(comment.id, formData);
         setDisLikeCount(dislikeCount + 1);
         setReactFlag(-1);
       }
       if (reactFlag === -1) {
-        await deleteReactComment(comment.id);
+        await commentReactApi.deleteReactComment(comment.id);
         fetchUserReactComment(comment.id);
         setDisLikeCount(dislikeCount - 1);
         setReactFlag(0);
@@ -122,7 +117,7 @@ export default function Comment({ comment, editComment, removeComment }) {
       if (reactFlag === 1) {
         const formData = new FormData();
         formData.append("reactFlag", -1);
-        await putReactComment(comment.id, formData);
+        await commentReactApi.putReactComment(comment.id, formData);
         setLikeCount(likeCount - 1);
         setDisLikeCount(dislikeCount + 1);
         setReactFlag(-1);
@@ -174,7 +169,7 @@ export default function Comment({ comment, editComment, removeComment }) {
     );
 
   const removeChildComment = async (commentId) => {
-    await deleteComment(commentId);
+    await commentApi.deleteComment(commentId);
     setChildComments(
       childComments.filter((comment) => comment.id !== commentId)
     );

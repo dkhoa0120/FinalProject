@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getLanguage } from "../service/api.helper";
+import * as helperApi from "../service/api.helper";
 
 const LanguageContext = React.createContext(null);
 
@@ -13,7 +13,7 @@ function LanguageProvider({ children }) {
   useEffect(() => {
     const fetchLanguageOptions = async () => {
       try {
-        const response = await getLanguage();
+        const response = await helperApi.getLanguage();
         setLanguages(response.data);
       } catch (error) {
         console.error("Error fetching language options:", error);

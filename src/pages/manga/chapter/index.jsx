@@ -2,10 +2,10 @@ import "./styles.css";
 import CommentSection from "../../../components/commentSection";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getChapter, getRelatedChapters } from "../../../service/api.chapter";
+import * as chapterApi from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
 import { ToastContainer } from "react-toastify";
-import { postView } from "../../../service/api.view";
+import * as viewApi from "../../../service/api.view";
 import Compass from "./components/Compass";
 
 export default function ChapterPage() {
@@ -16,7 +16,7 @@ export default function ChapterPage() {
 
   const getChapterDetail = async (id) => {
     try {
-      const result = await getChapter(id);
+      const result = await chapterApi.getChapter(id);
       const chapter = result.data;
       setChapter(chapter);
       document.title = `Chapter ${chapter.number} | ${chapter.manga.originalTitle} - 3K Manga`;
@@ -29,7 +29,7 @@ export default function ChapterPage() {
 
   const getChapterList = async (id) => {
     try {
-      const result = await getRelatedChapters(id);
+      const result = await chapterApi.getRelatedChapters(id);
       setRelatedChapters(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -40,7 +40,7 @@ export default function ChapterPage() {
 
   const postViewForChapter = async (id) => {
     try {
-      await postView("chapter", id);
+      await viewApi.postView("chapter", id);
     } catch (error) {
       console.error(error);
     }

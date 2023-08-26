@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  getCategories,
-  getCategoryByID,
-  deleteCategory,
-} from "../../../service/api.category";
+import * as categoryApi from "../../../service/api.category";
 import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
@@ -43,7 +39,7 @@ export default function ManageCategory() {
 
   const handleGetCategories = async (search, page) => {
     try {
-      const result = await getCategories({
+      const result = await categoryApi.getCategories({
         search,
         page,
         excludeDeleted: false,
@@ -73,7 +69,7 @@ export default function ManageCategory() {
   };
   const handleEdit = async (id) => {
     setShowEdit(true);
-    await getCategoryByID(id).then((result) => {
+    await categoryApi.getCategoryByID(id).then((result) => {
       setDataEdit(result.data);
     });
   };
@@ -86,7 +82,7 @@ export default function ManageCategory() {
 
   const handleUndelete = async (id) => {
     try {
-      await deleteCategory(id, true);
+      await categoryApi.deleteCategory(id, true);
       toast.success("Category has been restored", {
         theme: "dark",
       });

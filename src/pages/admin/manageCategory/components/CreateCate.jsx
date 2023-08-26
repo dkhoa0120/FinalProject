@@ -2,7 +2,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { createCategory } from "../../../../service/api.category";
+import * as categoryApi from "../../../../service/api.category";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
@@ -19,7 +19,7 @@ export default function CreateCate({ show, handleClose, getCategories }) {
   const onSubmit = async (data) => {
     console.log("cate", data);
     try {
-      await createCategory(data);
+      await categoryApi.createCategory(data);
       handleClose();
       getCategories();
       reset();

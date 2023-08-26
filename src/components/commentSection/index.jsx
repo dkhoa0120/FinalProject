@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PaginationNoParams from "../paginationNoParams";
 import Comment from "./comment";
 import { AddCommentForm } from "./commentForm";
-import { deleteComment, getComments } from "../../service/api.comment";
+import * as commentApi from "../../service/api.comment";
 
 export default function CommentSection({ type, typeId }) {
   const [comments, setComments] = useState(null);
@@ -14,7 +14,7 @@ export default function CommentSection({ type, typeId }) {
   }, [type, typeId, page]);
 
   const fetchComments = async (type, typeId, page) => {
-    const result = await getComments(type, typeId, { page });
+    const result = await commentApi.getComments(type, typeId, { page });
     setComments(result.data.itemList);
     setTotalPages(result.data.totalPages);
   };
@@ -28,7 +28,7 @@ export default function CommentSection({ type, typeId }) {
       )
     );
   const removeComment = async (commentId) => {
-    await deleteComment(commentId);
+    await commentApi.deleteComment(commentId);
     setComments(comments.filter((comment) => comment.id !== commentId));
   };
 

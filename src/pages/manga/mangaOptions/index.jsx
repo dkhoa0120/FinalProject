@@ -9,7 +9,7 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { getMangas } from "../../../service/api.manga";
+import * as mangaApi from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
 import FilterModal from "./components/FilterModal";
@@ -49,7 +49,7 @@ export default function Manga() {
   useEffect(() => {
     const getMangasList = async () => {
       try {
-        const result = await getMangas({
+        const result = await mangaApi.getMangas({
           search,
           sortOption,
           page,

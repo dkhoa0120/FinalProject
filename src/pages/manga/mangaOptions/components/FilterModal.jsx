@@ -8,7 +8,7 @@ import { LanguageContext } from "../../../../context/LanguageContext";
 import { excludedColourStyles, includedColourStyles } from "./colorStyles";
 import { handleAuthorOptions } from "../../../admin/manageManga/components/SelectOptions";
 import { useEffect } from "react";
-import { getAuthorByID } from "../../../../service/api.author";
+import * as authorApi from "../../../../service/api.author";
 
 export default function FilterModal({
   show,
@@ -35,7 +35,7 @@ export default function FilterModal({
   useEffect(() => {
     const getAuthor = async () => {
       try {
-        const result = await getAuthorByID(selectedAuthorId);
+        const result = await authorApi.getAuthorByID(selectedAuthorId);
         setAuthor({ value: result.data.id, label: result.data.name });
       } catch (error) {
         if (error.response && error.response.status === 404) {

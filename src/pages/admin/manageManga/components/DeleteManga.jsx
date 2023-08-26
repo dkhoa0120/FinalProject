@@ -4,7 +4,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { deleteManga } from "../../../../service/api.manga";
+import * as mangaApi from "../../../../service/api.manga";
 
 function DeleteManga(props) {
   const [id, setId] = useState("");
@@ -19,7 +19,7 @@ function DeleteManga(props) {
 
   const onSubmit = async () => {
     try {
-      await deleteManga(id);
+      await mangaApi.deleteManga(id);
       toast.success("Manga has been deleted", {
         theme: "dark",
       });

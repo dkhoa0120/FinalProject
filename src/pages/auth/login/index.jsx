@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Col, InputGroup, Row, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../styles.css";
 import { UserContext } from "../../../context/UserContext";
-import { signIn } from "../../../service/api.auth";
+import * as authApi from "../../../service/api.auth";
 import Cookies from "universal-cookie";
 
 export default function Login() {
@@ -40,7 +40,7 @@ export default function Login() {
     }
     setLoading(true);
     try {
-      const response = await signIn(data);
+      const response = await authApi.signIn(data);
       if (response && response.data.token && response.data.expiration) {
         setShowGif(!showGif);
         new Cookies().set("Token", response.data.token, {

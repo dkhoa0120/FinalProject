@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { editCategory } from "../../../../service/api.category";
+import * as categoryApi from "../../../../service/api.category";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -31,7 +31,7 @@ export default function EditCate({
 
   const onSubmit = async (data) => {
     try {
-      await editCategory(data.id, data);
+      await categoryApi.editCategory(data.id, data);
       handleClose();
       getCategories();
       toast.success("Category has been updated!");

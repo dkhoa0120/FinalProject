@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  getAuthors,
-  deleteAuthor,
-  getAuthorByID,
-} from "../../../service/api.author";
+import * as authorApi from "../../../service/api.author";
 import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
 import { Col, Row, Form } from "react-bootstrap";
@@ -49,7 +45,11 @@ export default function ManageAuthor() {
 
   const handleGetAuthors = async () => {
     try {
-      const result = await getAuthors({ search, page, excludeDeleted: false });
+      const result = await authorApi.getAuthors({
+        search,
+        page,
+        excludeDeleted: false,
+      });
       setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -75,7 +75,7 @@ export default function ManageAuthor() {
   };
   const handleEdit = async (id) => {
     setShowEdit(true);
-    await getAuthorByID(id).then((result) => {
+    await authorApi.getAuthorByID(id).then((result) => {
       setDataEdit(result.data);
     });
   };
@@ -88,7 +88,7 @@ export default function ManageAuthor() {
 
   const handleUndelete = async (id) => {
     try {
-      await deleteAuthor(id, true);
+      await authorApi.deleteAuthor(id, true);
       toast.success("Author has been restored", {
         theme: "dark",
       });

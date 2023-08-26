@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { deleteAuthor } from "../../../../service/api.author";
+import * as authorApi from "../../../../service/api.author";
 import { toast } from "react-toastify";
 
 export default function DeleteAuthor(props) {
@@ -19,7 +19,7 @@ export default function DeleteAuthor(props) {
 
   const onSubmit = async () => {
     try {
-      await deleteAuthor(id);
+      await authorApi.deleteAuthor(id);
       toast.success("Author has been deleted", {
         theme: "dark",
       });

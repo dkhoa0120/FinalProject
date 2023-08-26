@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { editAuthor } from "../../../../service/api.author";
+import * as authorApi from "../../../../service/api.author";
 
 export default function EditAuthor({
   dataEdit,
@@ -31,7 +31,7 @@ export default function EditAuthor({
 
   const onSubmit = async (data) => {
     try {
-      await editAuthor(data.id, data);
+      await authorApi.editAuthor(data.id, data);
       handleClose();
       getAuthors();
       toast.success("Author has been updated!");
