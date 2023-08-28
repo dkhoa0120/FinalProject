@@ -22,32 +22,32 @@ export default function Profile() {
     "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   const { user } = useContext(UserContext);
 
-  console.log("userId", userId);
-  console.log("user", user?.id);
-
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
   };
   return (
     <>
-      <div className="profile-banner"></div>
-      <div style={{ position: "relative", margin: "10px" }}>
-        <div className="profile-details">
+      <div id="profile-banner"></div>
+      <div id="profile-info">
+        <div id="profile-details">
           <div className="container-avatar">
             <img
-              className="profile-image"
+              id="profile-image"
               src={user?.avatarPath || defaultAvatarURL}
               alt="Avatar"
             ></img>
-            <div class="profile-setting">
-              <i class="fa-solid fa-camera"></i>
+            <div id="profile-image-change">
+              <i className="fa-solid fa-camera"></i>
             </div>
           </div>
-          <span className="profile-name">{user ? user.name : ""}</span>
-          <span className="profile-text">16 followed</span>
-          <span className="profile-text">500 following</span>
+          <div id="profile-name">{user ? user.name : "GUEST"}</div>
+          <div style={{ margin: "2px" }}>
+            <span className="profile-text">16 followed</span>
+            &nbsp;&nbsp;
+            <span className="profile-text">500 following</span>
+          </div>
         </div>
-        <div className="profile-buttons">
+        <div id="profile-buttons">
           {user && user?.id === userId && (
             <Button variant="outline-dark">Edit profile</Button>
           )}

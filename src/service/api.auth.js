@@ -1,4 +1,3 @@
-import Cookies from "universal-cookie";
 import { accountAxios, getAuthorizeAxios } from "./api.base";
 
 export const signIn = (data) => {
@@ -14,5 +13,5 @@ export const extendToken = () => {
 };
 
 export const getCurrentUserBasic = () => {
-  return getAuthorizeAxios().get("/account/user")
+  return getAuthorizeAxios().get("/account/user");
 };

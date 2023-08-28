@@ -1,9 +1,14 @@
-/* Profile.css + Upload.css */
-.profile-banner {
+/* profile */
+#profile-banner {
   background-image: url("/public/img/banner/cover.jpg");
   padding: 1rem 1.25rem;
   margin-top: 35px;
   height: 180px;
+}
+
+#profile-info {
+  position: relative;
+  margin: 10px;
 }
 
 .container-avatar {
@@ -11,7 +16,16 @@
   cursor: pointer;
 }
 
-.profile-setting {
+#profile-image {
+  width: 150px;
+  border-radius: 50%;
+  opacity: 1;
+  display: block;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+#profile-image-change {
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
@@ -22,15 +36,15 @@
   text-align: center;
 }
 
-.container-avatar:hover .profile-image {
-  opacity: 0.3;
+.container-avatar:hover #profile-image {
+  opacity: 0.5;
 }
 
-.container-avatar:hover .profile-setting {
+.container-avatar:hover #profile-image-change {
   opacity: 1;
 }
 
-.profile-name {
+#profile-name {
   font-size: 20px;
   font-weight: bold;
 }
@@ -39,7 +53,7 @@
   font-size: 16px;
 }
 
-.profile-details {
+#profile-details {
   margin: 10px;
   display: flex;
   align-items: flex-end;
@@ -48,21 +62,45 @@
   bottom: 0;
 }
 
-.profile-buttons {
+#profile-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 0.5em;
 }
 
-.profile-image {
-  width: 150px;
-  border-radius: 50%;
-  opacity: 1;
-  display: block;
-  transition: 0.5s ease;
-  backface-visibility: hidden;
+@media (max-width: 767px) {
+  #profile-banner {
+    flex-flow: column;
+    height: 150px;
+    margin-top: 20px;
+  }
+
+  #profile-info {
+    margin-top: 25px;
+  }
+
+  #profile-details {
+    position: relative;
+    flex-flow: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  #profile-buttons {
+    justify-content: center;
+  }
+
+  #profile-image {
+    width: 100px;
+  }
+
+  .container-avatar {
+    position: absolute;
+    top: -100px;
+  }
 }
 
+/* swipe buttons */
 .general-container .profile-option-container {
   display: flex;
   margin: 0 1.5rem 1.5rem 1.5rem;
@@ -80,7 +118,7 @@
   flex-shrink: 0;
 }
 
-/* Group.css */
+/* groups */
 .cover-group {
   position: relative;
   margin: 10px;
@@ -116,23 +154,4 @@
 
 .cover-group:hover .cover-text {
   opacity: 1;
-}
-
-@media (max-width: 767px) {
-  .profile-banner,
-  .profile-banner .profile-details {
-    flex-flow: column;
-  }
-
-  .profile-banner .profile-buttons {
-    justify-content: center;
-  }
-
-  .profile-banner .profile-image {
-    width: 100px;
-  }
-
-  .profile-text {
-    font-size: 18px;
-  }
 }

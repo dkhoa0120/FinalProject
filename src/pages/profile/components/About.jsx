@@ -4,7 +4,7 @@ export default function About() {
       <div className="d-flex justify-content-between ">
         <div style={{ fontSize: "20px", fontWeight: "bold" }}>About us</div>
         <div className="d-flex align-items-center gap-2">
-          <i class="fa-solid fa-share"></i>
+          <i className="fa-solid fa-share"></i>
           <span>Joined 27/8/2023</span>
         </div>
       </div>
