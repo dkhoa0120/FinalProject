@@ -101,7 +101,13 @@ export default function Header(props) {
                   <div className="d-flex flex-column align-items-center justify-content-center">
                     {user.name}
                     <Link to={`/Profile/${user.id}`} className="mt-2">
-                      <Button className="" variant="outline-dark">
+                      <Button
+                        className=""
+                        variant="outline-dark"
+                        onClick={() => {
+                          setShow(false);
+                        }}
+                      >
                         <i className="fa-solid fa-user"></i> Profile
                       </Button>
                     </Link>
