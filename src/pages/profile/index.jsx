@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import "./styles.css";
 import Uploads from "./components/Upload";
@@ -6,6 +6,7 @@ import Groups from "./components/Group";
 import { UserContext } from "../../context/UserContext";
 import About from "./components/About";
 import { useParams } from "react-router-dom";
+import * as authApi from "../../service/api.auth";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -17,6 +18,10 @@ export default function Profile() {
     "About",
   ];
 
+  const [userDetails, setUserDetails] = useState(null);
+
+  console.log("ads", userDetails);
+
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const defaultAvatarURL =
     "https://cdn-icons-png.flaticon.com/512/149/149071.png";
@@ -25,6 +30,21 @@ export default function Profile() {
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
   };
+
+  useEffect(() => {
+    const getUserDetail = async (id) => {
+      try {
+        const result = await authApi.getUserBasic(id);
+        setUserDetails(result.data);
+        document.title = `${result.data.originalTitle} - 3K Manga`;
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.log(error.response);
+        }
+      }
+    };
+    getUserDetail(userId);
+  }, [userId]);
   return (
     <>
       <div id="profile-banner"></div>
@@ -33,14 +53,14 @@ export default function Profile() {
           <div className="container-avatar">
             <img
               id="profile-image"
-              src={user?.avatarPath || defaultAvatarURL}
+              src={userDetails?.avatarPath || defaultAvatarURL}
               alt="Avatar"
             ></img>
             <div id="profile-image-change">
               <i className="fa-solid fa-camera"></i>
             </div>
           </div>
-          <div id="profile-name">{user ? user.name : "GUEST"}</div>
+          <div id="profile-name">{userDetails?.name}</div>
           <div style={{ margin: "2px" }}>
             <span className="profile-text">16 followed</span>
             &nbsp;&nbsp;
