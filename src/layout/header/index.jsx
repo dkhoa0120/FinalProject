@@ -106,7 +106,7 @@ export default function Header(props) {
                   <Col xl={6}>
                     <Link to="/profile">
                       <Button className="mb-3 w-100" variant="outline-dark">
-                        <i className="fa-solid fa-user"></i> My profile
+                        <i className="fa-solid fa-user"></i> Profile
                       </Button>
                     </Link>
                   </Col>
