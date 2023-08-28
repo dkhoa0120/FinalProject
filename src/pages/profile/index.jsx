@@ -5,8 +5,10 @@ import Uploads from "./components/Upload";
 import Groups from "./components/Group";
 import { UserContext } from "../../context/UserContext";
 import About from "./components/About";
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
+  const { userId } = useParams();
   const profileOptions = [
     "Uploads",
     "Group",
@@ -19,6 +21,9 @@ export default function Profile() {
   const defaultAvatarURL =
     "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   const { user } = useContext(UserContext);
+
+  console.log("userId", userId);
+  console.log("user", user?.id);
 
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
@@ -38,13 +43,17 @@ export default function Profile() {
               <i class="fa-solid fa-camera"></i>
             </div>
           </div>
-          <span className="profile-name">{user ? user.name : "GUEST"}</span>
+          <span className="profile-name">{user ? user.name : ""}</span>
           <span className="profile-text">16 followed</span>
           <span className="profile-text">500 following</span>
         </div>
         <div className="profile-buttons">
-          <Button variant="outline-dark">Edit profile</Button>
-          <Button variant="outline-dark">Follow me</Button>
+          {user && user?.id === userId && (
+            <Button variant="outline-dark">Edit profile</Button>
+          )}
+          {user?.id !== userId && (
+            <Button variant="outline-dark">Follow</Button>
+          )}
         </div>
       </div>
       <div className="general-container">
@@ -59,9 +68,9 @@ export default function Profile() {
             </Button>
           ))}
         </div>
-        {/* <Uploads /> */}
-        {/* <Groups /> */}
-        <About />
+        {profileOption === "Uploads" && <Uploads />}
+        {profileOption === "Group" && <Groups />}
+        {profileOption === "About" && <About />}
       </div>
     </>
   );

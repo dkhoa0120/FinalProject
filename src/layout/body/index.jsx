@@ -32,7 +32,7 @@ export default function Body() {
         <Route path="/Manga" element={<Manga />} />
         <Route path="*" element={<Error />} />
         <Route path="/Chapter/:chapterId" element={<ChapterPage />} />
-        <Route path="/Profile" element={<Profile />} />
+        <Route path="/Profile/:userId" element={<Profile />} />
       </Routes>
     </div>
   );
