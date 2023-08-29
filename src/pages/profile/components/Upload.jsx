@@ -6,7 +6,7 @@ export default function Uploads() {
       <Row className="d-flex justify-content-between">
         <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            src="/img/error/coverNotFound.png"
             style={{ width: "150px" }}
             alt="manga's cover"
           ></img>
@@ -17,7 +17,7 @@ export default function Uploads() {
         </Col>
         <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            src="/img/error/coverNotFound.png"
             style={{ width: "150px" }}
             alt="manga's cover"
           ></img>

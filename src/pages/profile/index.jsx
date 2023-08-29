@@ -1,12 +1,13 @@
 import { useContext, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import "./styles.css";
-import Uploads from "./components/Upload";
-import Groups from "./components/Group";
-import { UserContext } from "../../context/UserContext";
-import About from "./components/About";
 import { useParams } from "react-router-dom";
+import "./styles.css";
+import { UserContext } from "../../context/UserContext";
 import * as authApi from "../../service/api.auth";
+import Uploads from "./components/Upload";
+import MangaList from "./components/MangaList";
+import Groups from "./components/Group";
+import About from "./components/About";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -91,6 +92,7 @@ export default function Profile() {
         {profileOption === "Uploads" && <Uploads />}
         {profileOption === "Group" && <Groups />}
         {profileOption === "About" && <About />}
+        {profileOption === "Manga List" && <MangaList />}
       </div>
     </>
   );
