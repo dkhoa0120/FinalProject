@@ -13,5 +13,9 @@ export const extendToken = () => {
 };
 
 export const getCurrentUserBasic = () => {
-  return getAuthorizedAxios().get("/account/user");
+  return getAuthorizedAxios().get("/account/user/me");
+};
+
+export const getUserBasic = (id) => {
+  return getAuthorizedAxios().get(`/account/user/${id}`);
 };

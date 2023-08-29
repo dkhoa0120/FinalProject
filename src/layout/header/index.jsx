@@ -97,20 +97,30 @@ export default function Header(props) {
                 />
               </div>
               <Offcanvas.Title style={{ fontWeight: "bold" }}>
-                {user ? user.name : "GUEST"}
+                {user ? (
+                  <div className="d-flex flex-column align-items-center justify-content-center">
+                    {user.name}
+                    <Link to={`/Profile/${user.id}`} className="mt-2">
+                      <Button
+                        className=""
+                        variant="outline-dark"
+                        onClick={() => {
+                          setShow(false);
+                        }}
+                      >
+                        <i className="fa-solid fa-user"></i> Profile
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  "GUEST"
+                )}
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav>
                 <Row>
-                  <Col xl={6}>
-                    <Link to="/profile">
-                      <Button className="mb-3 w-100" variant="outline-dark">
-                        <i className="fa-solid fa-user"></i> My profile
-                      </Button>
-                    </Link>
-                  </Col>
-                  <Col xl={6}>
+                  <Col>
                     <Button className="mb-3 w-100" variant="outline-dark">
                       <i className="fa-solid fa-sun"></i> Theme
                     </Button>

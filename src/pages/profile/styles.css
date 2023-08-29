@@ -1,8 +1,107 @@
-#profile-option {
-  padding-top: 50px;
+/* profile */
+#profile-banner {
+  background-image: url("/public/img/banner/cover.jpg");
+  padding: 1rem 1.25rem;
+  margin-top: 35px;
+  height: 180px;
 }
 
-.profile-option-container {
+#profile-info {
+  position: relative;
+  margin: 10px;
+}
+
+.container-avatar {
+  position: relative;
+  cursor: pointer;
+}
+
+#profile-image {
+  width: 150px;
+  border-radius: 50%;
+  opacity: 1;
+  display: block;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+#profile-image-change {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.container-avatar:hover #profile-image {
+  opacity: 0.5;
+}
+
+.container-avatar:hover #profile-image-change {
+  opacity: 1;
+}
+
+#profile-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.profile-text {
+  font-size: 16px;
+}
+
+#profile-details {
+  margin: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  position: absolute;
+  bottom: 0;
+}
+
+#profile-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5em;
+}
+
+@media (max-width: 767px) {
+  #profile-banner {
+    flex-flow: column;
+    height: 150px;
+    margin-top: 20px;
+  }
+
+  #profile-info {
+    margin-top: 25px;
+  }
+
+  #profile-details {
+    position: relative;
+    flex-flow: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  #profile-buttons {
+    justify-content: center;
+  }
+
+  #profile-image {
+    width: 100px;
+  }
+
+  .container-avatar {
+    position: absolute;
+    top: -100px;
+  }
+}
+
+/* swipe buttons */
+.general-container .profile-option-container {
   display: flex;
   margin: 0 1.5rem 1.5rem 1.5rem;
   gap: 0.25rem;
@@ -10,11 +109,49 @@
   overflow-x: auto;
 }
 
-.profile-option-container::-webkit-scrollbar {
+.general-container .profile-option-container::-webkit-scrollbar {
   display: none;
 }
 
-.profile-option-container > button {
+.general-container .profile-option-container > button {
   flex-grow: 1;
   flex-shrink: 0;
+}
+
+/* groups */
+.cover-group {
+  position: relative;
+  margin: 10px;
+  border-style: solid;
+  border-color: gray;
+  padding: 10px;
+  border-radius: 10px;
+  height: 150px;
+  background: url(/public/img/banner/cover.jpg);
+  background-size: cover;
+  position: relative;
+}
+
+.cover-group .cover-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: white;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 0, 0, 0.8) 67%,
+    rgba(0, 0, 0, 0.8)
+  );
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.cover-group:hover .cover-text {
+  opacity: 1;
 }

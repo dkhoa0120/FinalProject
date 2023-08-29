@@ -12,6 +12,7 @@ import * as commentApi from "../../service/api.comment";
 import * as commentReactApi from "../../service/api.commentreact";
 import { UserContext } from "../../context/UserContext";
 import { EditCommentForm, ReplyCommentForm } from "./commentForm";
+import { Link } from "react-router-dom";
 
 export default function Comment({ comment, editComment, removeComment }) {
   const [childComments, setChildComments] = useState(null);
@@ -200,7 +201,9 @@ export default function Comment({ comment, editComment, removeComment }) {
           </div>
           <div className="comment-content">
             <div>
-              <span className="comment-name">{comment.user.name} </span>
+              <Link to={`/Profile/${comment.user.id}`} className="card-link">
+                <span className="comment-name">{comment.user.name} </span>
+              </Link>
               <span
                 className="comment-time"
                 title={new Date(comment.createdAt).toLocaleString()}
