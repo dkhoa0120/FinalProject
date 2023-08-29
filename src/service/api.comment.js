@@ -1,4 +1,4 @@
-import { baseAxios, getAuthorizeAxios } from "./api.base";
+import { baseAxios, getAuthorizedAxios } from "./api.base";
 
 export const getComments = (type, typeId, filter) => {
   const page = filter?.page || 1;
@@ -13,17 +13,17 @@ export const getChildComments = (id) => {
 };
 
 export const postComment = (type, typeId, formData) => {
-  return getAuthorizeAxios().post(`/${type}s/${typeId}/comments`, formData)
+  return getAuthorizedAxios().post(`/${type}s/${typeId}/comments`, formData);
 };
 
 export const putComment = (id, formData) => {
-  return getAuthorizeAxios().put(`/comments/${id}`, formData);
+  return getAuthorizedAxios().put(`/comments/${id}`, formData);
 };
 
 export const deleteComment = (id) => {
-  return getAuthorizeAxios().delete(`/comments/${id}`);
+  return getAuthorizedAxios().delete(`/comments/${id}`);
 };
 
 export const postReply = (id, formData) => {
-  return getAuthorizeAxios().post(`/comments/${id}/children`, formData);
+  return getAuthorizedAxios().post(`/comments/${id}/children`, formData);
 };

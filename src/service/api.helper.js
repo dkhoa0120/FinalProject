@@ -1,5 +1,5 @@
-import { helperAxios } from "./api.base";
+import { baseAxios } from "./api.base";
 
 export const getLanguage = () => {
-  return helperAxios.get("/language");
+  return baseAxios.get("helper/language");
 };

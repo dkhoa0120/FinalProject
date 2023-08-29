@@ -1,8 +1,5 @@
-import { getAuthorizeAxios } from "./api.base";
+import { getAuthorizedAxios } from "./api.base";
 
 export const postView = (type, typeId) => {
-  return getAuthorizeAxios().post(
-    `user/view/${type}s/${typeId}`,
-    {}
-  );
+  return getAuthorizedAxios().post(`user/view/${type}s/${typeId}`, {});
 };

@@ -1,18 +1,17 @@
-import Cookies from "universal-cookie";
-import { accountAxios, getAuthorizeAxios } from "./api.base";
+import { baseAxios, getAuthorizedAxios } from "./api.base";
 
 export const signIn = (data) => {
-  return accountAxios.post("/SignIn", data);
+  return baseAxios.post("account/signin", data);
 };
 
 export const signUp = (data) => {
-  return accountAxios.post("/SignUp", data);
+  return baseAxios.post("account/signup", data);
 };
 
 export const extendToken = () => {
-  return getAuthorizeAxios().post("/account/extend");
+  return getAuthorizedAxios().post("/account/extend");
 };
 
 export const getCurrentUserBasic = () => {
-  return getAuthorizeAxios().get("/account/user")
+  return getAuthorizedAxios().get("/account/user");
 };

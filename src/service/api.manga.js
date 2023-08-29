@@ -1,7 +1,7 @@
-import { getAuthorizeAxios, baseAxios } from "./api.base";
+import { getAuthorizedAxios, baseAxios } from "./api.base";
 import qs from "qs";
 
-// user/manga
+// mangas
 export const getMangas = (filter) => {
   const search = filter?.search;
   const sortOption = filter?.sortOption;
@@ -32,7 +32,7 @@ export const getTrendingMangas = () => {
 };
 
 export const getNewToYouMangas = () => {
-  return getAuthorizeAxios().get(`/mangas/new-to-you`);
+  return getAuthorizedAxios().get(`/mangas/new-to-you`);
 };
 
 export const getMangaById = (id) => {
@@ -48,21 +48,21 @@ export const getChapterByMangaId = (id, filter) => {
   });
 };
 
-// manage/manga
+// manage/mangas
 export const getMangaByIdForManage = (id) => {
-  return getAuthorizeAxios().get(`/manage/manga/${id}`);
+  return getAuthorizedAxios().get(`/manage/manga/${id}`);
 };
 
 export const createManga = (formData) => {
-  return getAuthorizeAxios().post("/manage/manga", formData);
+  return getAuthorizedAxios().post("/manage/manga", formData);
 };
 
 export const editManga = (id, formData) => {
-  return getAuthorizeAxios().put(`/manage/manga/${id}`, formData);
+  return getAuthorizedAxios().put(`/manage/manga/${id}`, formData);
 };
 
 export const deleteManga = (id, undelete = false) => {
-  return getAuthorizeAxios().delete(`/manage/manga/${id}`, {
+  return getAuthorizedAxios().delete(`/manage/manga/${id}`, {
     params: { undelete },
   });
 };
