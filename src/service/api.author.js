@@ -6,25 +6,25 @@ export const getAuthors = (filter) => {
   const page = filter?.page;
   const pageSize = filter?.pageSize;
 
-  return baseAxios.get("/manage/author", {
+  return baseAxios.get("manage/author", {
     params: { search, excludeDeleted, page, pageSize },
   });
 };
 
 export const getAuthorByID = (id) => {
-  return baseAxios.get(`/manage/author/${id}`);
+  return baseAxios.get(`manage/author/${id}`);
 };
 
 export const createAuthor = (data) => {
-  return getAuthorizedAxios().post(`/manage/author`, data);
+  return getAuthorizedAxios().post(`manage/author`, data);
 };
 
 export const editAuthor = (id, data) => {
-  return getAuthorizedAxios().put(`/manage/author/${id}`, data);
+  return getAuthorizedAxios().put(`manage/author/${id}`, data);
 };
 
 export const deleteAuthor = (id, undelete = false) => {
-  return getAuthorizedAxios().delete(`/manage/author/${id}`, {
+  return getAuthorizedAxios().delete(`manage/author/${id}`, {
     params: { undelete },
   });
 };

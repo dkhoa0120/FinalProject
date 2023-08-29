@@ -12,7 +12,7 @@ export const getMangas = (filter) => {
   const selectedAuthorId = filter?.selectedAuthorId;
   const page = filter?.page;
 
-  return baseAxios.get("/mangas", {
+  return baseAxios.get("mangas", {
     params: {
       search,
       sortOption,
@@ -28,41 +28,41 @@ export const getMangas = (filter) => {
 };
 
 export const getTrendingMangas = () => {
-  return baseAxios.get("/mangas/trending");
+  return baseAxios.get("mangas/trending");
 };
 
 export const getNewToYouMangas = () => {
-  return getAuthorizedAxios().get(`/mangas/new-to-you`);
+  return getAuthorizedAxios().get(`mangas/new-to-you`);
 };
 
 export const getMangaById = (id) => {
-  return baseAxios.get(`/mangas/${id}`);
+  return baseAxios.get(`mangas/${id}`);
 };
 
 export const getChapterByMangaId = (id, filter) => {
   const page = filter?.page || 1;
   const pageSize = filter?.pageSize || 8;
 
-  return baseAxios.get(`/mangas/${id}/chapters`, {
+  return baseAxios.get(`mangas/${id}/chapters`, {
     params: { page, pageSize },
   });
 };
 
 // manage/mangas
 export const getMangaByIdForManage = (id) => {
-  return getAuthorizedAxios().get(`/manage/manga/${id}`);
+  return getAuthorizedAxios().get(`manage/manga/${id}`);
 };
 
 export const createManga = (formData) => {
-  return getAuthorizedAxios().post("/manage/manga", formData);
+  return getAuthorizedAxios().post("manage/manga", formData);
 };
 
 export const editManga = (id, formData) => {
-  return getAuthorizedAxios().put(`/manage/manga/${id}`, formData);
+  return getAuthorizedAxios().put(`manage/manga/${id}`, formData);
 };
 
 export const deleteManga = (id, undelete = false) => {
-  return getAuthorizedAxios().delete(`/manage/manga/${id}`, {
+  return getAuthorizedAxios().delete(`manage/manga/${id}`, {
     params: { undelete },
   });
 };

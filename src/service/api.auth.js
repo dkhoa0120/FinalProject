@@ -9,13 +9,17 @@ export const signUp = (data) => {
 };
 
 export const extendToken = () => {
-  return getAuthorizedAxios().post("/account/extend");
+  return getAuthorizedAxios().post("account/extend");
 };
 
 export const getCurrentUserBasic = () => {
-  return getAuthorizedAxios().get("/account/user/me");
+  return getAuthorizedAxios().get("profile/me");
 };
 
 export const getUserBasic = (id) => {
-  return getAuthorizedAxios().get(`/account/user/${id}`);
+  return getAuthorizedAxios().get(`profile/${id}`);
+};
+
+export const changeUserAvatar = (formData) => {
+  getAuthorizedAxios().put("profile/me/change-avatar", formData);
 };
