@@ -1,8 +1,11 @@
 /* profile */
 #profile-banner {
-  background-image: url("/public/img/banner/cover.jpg");
+  background-image: url("/public/img/banner/noname.png");
+  background-repeat: no-repeat;
   padding: 1rem 1.25rem;
   margin-top: 35px;
+  background-position: center;
+  background-size: cover;
   height: 180px;
 }
 
@@ -18,6 +21,7 @@
 
 #profile-image {
   width: 150px;
+  height: 150px;
   border-radius: 50%;
   opacity: 1;
   display: block;
@@ -92,6 +96,7 @@
 
   #profile-image {
     width: 100px;
+    height: 100px;
   }
 
   .container-avatar {
@@ -129,7 +134,6 @@
   height: 150px;
   background: url(/public/img/banner/cover.jpg);
   background-size: cover;
-  position: relative;
 }
 
 .cover-group .cover-text {
@@ -154,4 +158,47 @@
 
 .cover-group:hover .cover-text {
   opacity: 1;
+}
+
+.manga-list {
+  display: flex;
+  position: relative;
+  margin: 10px;
+  border-style: solid;
+  border-color: gray;
+  padding: 5px;
+  border-radius: 10px;
+  height: 150px;
+  cursor: pointer;
+}
+
+.manga-test {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  background: linear-gradient(180deg, transparent, #f9e07f, #f9ad6a);
+  border-radius: 0 0 7px 7px;
+  padding: 5px;
+}
+
+.manga-list .test {
+  color: black;
+  text-align: center;
+  display: none;
+}
+
+.manga-list:hover .icon {
+  display: none;
+}
+
+.manga-list:hover .test {
+  text-align: center;
+  display: inline;
+}
+
+.test123 img {
+  max-height: 100%;
+  max-width: 100%;
 }

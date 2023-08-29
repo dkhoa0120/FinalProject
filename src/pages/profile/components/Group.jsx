@@ -1,48 +1,80 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 export default function Groups() {
   return (
     <>
       <Container fluid>
         <Row>
-          <Col md={3}>
-            <div className="cover-group">
-              <div className="cover-text">
-                <span className="profile-text text-limit-2">Group Name</span>
-                <Button variant="outline-light">
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Button>
-              </div>
+          <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
+            <img
+              src="/img/error/coverNotFound.png"
+              style={{ width: "100px" }}
+              alt="group's cover"
+            ></img>
+            <div>
+              <p
+                className="text-limit-2"
+                style={{ fontWeight: "bold", marginBottom: "5px" }}
+              >
+                Group Name
+              </p>
+              <p className="text-limit-2" style={{ textAlign: "center" }}>
+                By ABC
+              </p>
             </div>
           </Col>
-          <Col md={3}>
-            <div className="cover-group">
-              <div className="cover-text">
-                <span className="profile-text ">Group Name</span>
-                <Button variant="outline-light">
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Button>
-              </div>
+          <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
+            <img
+              src="/img/error/coverNotFound.png"
+              style={{ width: "100px" }}
+              alt="group's cover"
+            ></img>
+            <div>
+              <p
+                className="text-limit-2"
+                style={{ fontWeight: "bold", marginBottom: "5px" }}
+              >
+                Group Name
+              </p>
+              <p className="text-limit-2" style={{ textAlign: "center" }}>
+                By ABC
+              </p>
             </div>
           </Col>
-          <Col md={3}>
-            <div className="cover-group">
-              <div className="cover-text">
-                <span className="profile-text">Group Name</span>
-                <Button variant="outline-light">
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Button>
-              </div>
+          <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
+            <img
+              src="/img/error/coverNotFound.png"
+              style={{ width: "100px" }}
+              alt="group's cover"
+            ></img>
+            <div>
+              <p
+                className="text-limit-2"
+                style={{ fontWeight: "bold", marginBottom: "5px" }}
+              >
+                Group Name
+              </p>
+              <p className="text-limit-2" style={{ textAlign: "center" }}>
+                By ABC
+              </p>
             </div>
           </Col>
-          <Col md={3}>
-            <div className="cover-group">
-              <div className="cover-text">
-                <span className="profile-text ">Group Name</span>
-                <Button variant="outline-light">
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Button>
-              </div>
+          <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
+            <img
+              src="/img/error/coverNotFound.png"
+              style={{ width: "100px" }}
+              alt="group's cover"
+            ></img>
+            <div>
+              <p
+                className="text-limit-2"
+                style={{ fontWeight: "bold", marginBottom: "5px" }}
+              >
+                Group Name
+              </p>
+              <p className="text-limit-2" style={{ textAlign: "center" }}>
+                By ABC
+              </p>
             </div>
           </Col>
         </Row>
