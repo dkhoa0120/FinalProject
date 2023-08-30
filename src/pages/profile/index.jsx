@@ -10,7 +10,6 @@ import Groups from "./components/Group";
 import About from "./components/About";
 import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
-import { useCallback } from "react";
 
 export default function Profile() {
   const profileOptions = [
@@ -52,6 +51,7 @@ export default function Profile() {
       };
     };
   };
+
   const handleUpload = async (type, file) => {
     var formData = new FormData();
     formData.append("image", file);
@@ -68,17 +68,19 @@ export default function Profile() {
       setModifiedTime(Date.now());
     }
   };
+
   const handleAvatarChange = handleImageChange(setAvatar);
   const handleBannerChange = handleImageChange(setBanner);
-  const onUploadAvatar = useCallback(async () => {
+
+  const onUploadAvatar = async () => {
     handleUpload("avatar", avatar);
     setShowAvatarModal(false);
-  }, [avatar]);
+  };
 
-  const onUploadBanner = useCallback(async () => {
+  const onUploadBanner = async () => {
     handleUpload("banner", banner);
     setShowBannerModal(false);
-  }, [banner]);
+  };
 
   useEffect(() => {
     const getUserDetail = async (id) => {
@@ -94,6 +96,7 @@ export default function Profile() {
     };
     getUserDetail(userId);
   }, [userId]);
+
   return (
     <>
       <div

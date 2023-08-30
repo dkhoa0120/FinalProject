@@ -24,35 +24,13 @@ export default function MangaList() {
               ></img>
               <div className="manga-list-info">
                 <i className="fa-solid fa-list-ul icon"></i>
-                <p className="manga-list-name ">
+                <p className="manga-list-name">
                   Manga List Name dasd asd asd sadsd dasdas das dsa d dasdsadsa
                   dsa dsa sadasdas d
                 </p>
               </div>
-            </div>
-          </div>
-        </Col>
-        <Col md={3}>
-          <div className="manga-list">
-            <div className="manga-list-cover">
-              <img
-                src="/img/error/coverNotFound.png"
-                style={{ width: "40%" }}
-                alt="mangaList's cover"
-              ></img>
-              <img
-                src="/img/error/coverNotFound.png"
-                style={{ width: "30%" }}
-                alt="mangaList's cover"
-              ></img>
-              <img
-                src="/img/error/coverNotFound.png"
-                style={{ width: "20%" }}
-                alt="mangaList's cover"
-              ></img>
-              <div className="manga-list-info">
-                <i className="fa-solid fa-list-ul icon"></i>
-                <p className="manga-list-name text-limit-2">Manga List Name</p>
+              <div className="hover-overlay">
+                <span>See more</span>
               </div>
             </div>
           </div>
@@ -79,6 +57,9 @@ export default function MangaList() {
                 <i className="fa-solid fa-list-ul icon"></i>
                 <p className="manga-list-name text-limit-2">Manga List Name</p>
               </div>
+              <div className="hover-overlay">
+                <span>See more</span>
+              </div>
             </div>
           </div>
         </Col>
@@ -103,6 +84,37 @@ export default function MangaList() {
               <div className="manga-list-info">
                 <i className="fa-solid fa-list-ul icon"></i>
                 <p className="manga-list-name text-limit-2">Manga List Name</p>
+              </div>
+              <div className="hover-overlay">
+                <span>See more</span>
+              </div>
+            </div>
+          </div>
+        </Col>
+        <Col md={3}>
+          <div className="manga-list">
+            <div className="manga-list-cover">
+              <img
+                src="/img/error/coverNotFound.png"
+                style={{ width: "40%" }}
+                alt="mangaList's cover"
+              ></img>
+              <img
+                src="/img/error/coverNotFound.png"
+                style={{ width: "30%" }}
+                alt="mangaList's cover"
+              ></img>
+              <img
+                src="/img/error/coverNotFound.png"
+                style={{ width: "20%" }}
+                alt="mangaList's cover"
+              ></img>
+              <div className="manga-list-info">
+                <i className="fa-solid fa-list-ul icon"></i>
+                <p className="manga-list-name text-limit-2">Manga List Name</p>
+              </div>
+              <div className="hover-overlay">
+                <span>See more</span>
               </div>
             </div>
           </div>
