@@ -141,17 +141,13 @@ export default function Profile() {
         {profileOption === "About" && <About />}
         {profileOption === "Manga List" && <MangaList />}
       </div>
-      <Modal show={show} onHide={() => setShow(false)}>
-        <Modal.Header>
+      <Modal show={show} onHide={() => setShow(false)} centered>
+        <Modal.Header closeButton>
           <Modal.Title>Update Avatar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {" "}
           <div className="image-upload-container">
             <div className="box-decoration">
-              <label className="image-upload-label">
-                {image ? image.name : "Choose an image"}
-              </label>
               <div onClick={handleClick} style={{ cursor: "pointer" }}>
                 <img
                   src={
@@ -171,28 +167,18 @@ export default function Profile() {
                   style={{ display: "none" }}
                 />
               </div>
-              <button
-                className="image-upload-button"
-                onClick={() => {
-                  handleUploadButtonClick();
-                  setShow(false);
-                }}
-              >
-                Save
-              </button>
             </div>
+            <Button
+              variant="success"
+              onClick={() => {
+                handleUploadButtonClick();
+                setShow(false);
+              }}
+            >
+              Save
+            </Button>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setShow(false);
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

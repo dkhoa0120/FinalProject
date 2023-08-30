@@ -72,7 +72,7 @@ export default function Home() {
       <div className="home-header">
         <Container fluid>
           <Row>
-            <Col xs={12} md={8} xl={9} style={{ paddingTop: "30px" }}>
+            <Col xs={12} md={8} xl={9}>
               <span className="tagline">
                 Welcome to the captivating world of manga!
               </span>

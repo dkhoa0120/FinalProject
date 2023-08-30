@@ -190,14 +190,16 @@ export default function Comment({ comment, editComment, removeComment }) {
       ) : (
         <div className="d-flex gap-3">
           <div>
-            <img
-              className="avatar"
-              src={
-                comment.user.avatarPath ||
-                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              }
-              alt="Avatar"
-            />
+            <Link to={`/Profile/${comment.user.id}`} className="card-link">
+              <img
+                className="avatar"
+                src={
+                  comment.user.avatarPath ||
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                }
+                alt="Avatar"
+              />
+            </Link>
           </div>
           <div className="comment-content">
             <div>

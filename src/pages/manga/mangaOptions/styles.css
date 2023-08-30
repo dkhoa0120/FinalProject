@@ -1,13 +1,9 @@
-#manga-option {
-  padding-top: 50px;
-}
-
 /* not show category in mobile */
 #manga-option .manga-category {
   display: none;
 }
 
-#manga-option .manga-title {
+.manga-title {
   display: inline;
 }
 
