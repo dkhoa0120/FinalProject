@@ -23,3 +23,7 @@ export const getUserBasic = (id) => {
 export const changeUserAvatar = (formData) => {
   return getAuthorizedAxios().put("profile/me/change-avatar", formData);
 };
+
+export const changeUserBanner = (formData) => {
+  return getAuthorizedAxios().put("profile/me/change-banner", formData);
+};
