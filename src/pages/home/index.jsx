@@ -8,7 +8,7 @@ import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  const banner = process.env.PUBLIC_URL + "/img/banner/banner.png";
+  const banner = process.env.PUBLIC_URL + "/img/banner/intro.png";
   const sortOptions = [
     "LatestManga",
     "LatestChapter",

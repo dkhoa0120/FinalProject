@@ -31,10 +31,7 @@ export function CommentForm({
       <div className="d-flex gap-3">
         <img
           className="avatar"
-          src={
-            user?.avatarPath ||
-            "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-          }
+          src={user?.avatarPath || "/img/avatar/default.png"}
           width="38px"
           alt="avatar"
         />

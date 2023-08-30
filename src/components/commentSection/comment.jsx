@@ -193,10 +193,7 @@ export default function Comment({ comment, editComment, removeComment }) {
             <Link to={`/Profile/${comment.user.id}`} className="card-link">
               <img
                 className="avatar"
-                src={
-                  comment.user.avatarPath ||
-                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                }
+                src={comment.user.avatarPath || "/img/avatar/default.png"}
                 alt="Avatar"
               />
             </Link>

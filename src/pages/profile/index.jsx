@@ -10,13 +10,6 @@ import Groups from "./components/Group";
 import About from "./components/About";
 
 export default function Profile() {
-  const [show, setShow] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
-  const [image, setImage] = useState(null);
-  const [modifiedTime, setModifiedTime] = useState(null);
-  const hiddenFileInput = useRef(null);
-  const { userId } = useParams();
-  const { user, setUser } = useContext(UserContext);
   const profileOptions = [
     "Uploads",
     "Group",
@@ -24,6 +17,14 @@ export default function Profile() {
     "Community",
     "About",
   ];
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const [image, setImage] = useState(null);
+  const [modifiedTime, setModifiedTime] = useState(null);
+  const [profileOption, setProfileOption] = useState(profileOptions[0]);
+  const hiddenFileInput = useRef(null);
+  const { userId } = useParams();
+  const { user, setUser } = useContext(UserContext);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -48,8 +49,6 @@ export default function Profile() {
     };
   };
 
-  console.log("file", image);
-
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
@@ -62,14 +61,6 @@ export default function Profile() {
     setUser(result.data);
     setUserDetails(result.data);
     setModifiedTime(Date.now);
-  };
-
-  const [profileOption, setProfileOption] = useState(profileOptions[0]);
-  const defaultAvatarURL =
-    "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
   };
 
   useEffect(() => {
@@ -88,20 +79,28 @@ export default function Profile() {
   }, [userId]);
   return (
     <>
-      <div id="profile-banner"></div>
+      <div
+        id="profile-banner"
+        style={
+          userDetails?.bannerPath
+            ? { backgroundImage: `url(${userDetails.bannerPath})` }
+            : {}
+        }
+      ></div>
+
       <div id="profile-info">
         <div id="profile-details">
           <div className="container-avatar">
             <img
               id="profile-image"
-              src={userDetails?.avatarPath || defaultAvatarURL}
+              src={userDetails?.avatarPath || "/img/avatar/default.png"}
               alt="Avatar"
             ></img>
             {user && user?.id === userId && (
               <div
                 id="profile-image-change"
                 onClick={() => {
-                  setShow(true);
+                  setShowAvatarModal(true);
                 }}
               >
                 <i className="fa-solid fa-camera"></i>
@@ -132,7 +131,7 @@ export default function Profile() {
               variant={profileOption === option ? "dark" : "light"}
               onClick={() => setProfileOption(option)}
             >
-              {toLabel(option)}
+              {option}
             </Button>
           ))}
         </div>
@@ -141,7 +140,11 @@ export default function Profile() {
         {profileOption === "About" && <About />}
         {profileOption === "Manga List" && <MangaList />}
       </div>
-      <Modal show={show} onHide={() => setShow(false)} centered>
+      <Modal
+        show={showAvatarModal}
+        onHide={() => setShowAvatarModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Update Avatar</Modal.Title>
         </Modal.Header>
@@ -153,7 +156,8 @@ export default function Profile() {
                   src={
                     image instanceof Blob || image instanceof File
                       ? URL.createObjectURL(image)
-                      : userDetails?.avatarPath || defaultAvatarURL
+                      : userDetails?.avatarPath ||
+                        "/img/avatar/defaultAvatar.png"
                   }
                   alt="uploadimage"
                   className={image ? "img-display-after" : "img-display-before"}
@@ -172,7 +176,7 @@ export default function Profile() {
               variant="success"
               onClick={() => {
                 handleUploadButtonClick();
-                setShow(false);
+                setShowAvatarModal(false);
               }}
             >
               Save

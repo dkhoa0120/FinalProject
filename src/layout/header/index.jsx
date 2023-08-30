@@ -42,13 +42,10 @@ export default function Header(props) {
     navigate("/");
   };
 
-  const defaultAvatarURL =
-    "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
   const CustomNavbarToggle = () => (
     <img
       className="avatar"
-      src={user?.avatarPath || defaultAvatarURL}
+      src={user?.avatarPath || "/img/avatar/default.png"}
       alt="Toggle Navigation"
       onClick={() => setShow(true)}
     />
@@ -92,7 +89,7 @@ export default function Header(props) {
               <div>
                 <img
                   className="avatar"
-                  src={user?.avatarPath || defaultAvatarURL}
+                  src={user?.avatarPath || "/img/avatar/default.png"}
                   alt="Avatar"
                 />
               </div>
