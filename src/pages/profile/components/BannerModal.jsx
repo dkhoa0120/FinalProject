@@ -44,7 +44,6 @@ export default function BannerModal({
                 type="file"
                 onChange={handleImageChange}
                 ref={hiddenFileInput}
-                style={{ display: "none" }}
               />
             </div>
           </div>

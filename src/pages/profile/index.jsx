@@ -82,6 +82,8 @@ export default function Profile() {
     setShowBannerModal(false);
   };
 
+  console.log("Avatar", avatar);
+
   useEffect(() => {
     const getUserDetail = async (id) => {
       try {
@@ -103,7 +105,10 @@ export default function Profile() {
         id="profile-banner"
         style={
           userDetails?.bannerPath
-            ? { backgroundImage: `url(${userDetails.bannerPath})` }
+            ? {
+                backgroundImage: `url(${userDetails.bannerPath})`,
+                cursor: "pointer",
+              }
             : {}
         }
         onClick={() => {
