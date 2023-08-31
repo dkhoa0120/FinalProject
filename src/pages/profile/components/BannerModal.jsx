@@ -28,24 +28,22 @@ export default function BannerModal({
       </Modal.Header>
       <Modal.Body>
         <div className="banner-upload-container">
-          <div className="box-decoration">
-            <div onClick={handleClick} style={{ cursor: "pointer" }}>
-              <img
-                src={
-                  image instanceof Blob || image instanceof File
-                    ? URL.createObjectURL(image)
-                    : userDetails?.bannerPath || "/img/banner/groupBanner.png"
-                }
-                alt="uploadimage"
-                className="banner-display"
-              />
-              <input
-                id="banner-upload-input"
-                type="file"
-                onChange={handleImageChange}
-                ref={hiddenFileInput}
-              />
-            </div>
+          <div onClick={handleClick} style={{ cursor: "pointer" }}>
+            <img
+              src={
+                image instanceof Blob || image instanceof File
+                  ? URL.createObjectURL(image)
+                  : userDetails?.bannerPath || "/img/banner/groupBanner.png"
+              }
+              alt="uploadimage"
+              className="banner-display"
+            />
+            <input
+              id="banner-upload-input"
+              type="file"
+              onChange={handleImageChange}
+              ref={hiddenFileInput}
+            />
           </div>
           <Button
             variant="success"

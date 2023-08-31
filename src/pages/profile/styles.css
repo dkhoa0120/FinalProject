@@ -133,7 +133,6 @@
 }
 
 .box-decoration {
-  border: 2px solid #ccc;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -248,9 +247,23 @@
   opacity: 1;
 }
 
-.img-preview {
-  width: 200px;
-  height: 200px;
+.image-display {
+  width: 80%;
+  aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
+}
+
+.cropper-crop-box,
+.cropper-view-box {
+  border-radius: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  .modal-90w {
+    max-width: 60vw !important;
+  }
+  .image-display {
+    width: 350px;
+  }
 }
