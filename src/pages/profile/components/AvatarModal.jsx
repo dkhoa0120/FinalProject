@@ -6,39 +6,40 @@ import * as authApi from "../../../service/api.auth";
 
 export default function AvatarModal({
   show,
-  onClose,
-  onUpload,
-  image,
+  close,
   userDetails,
-  handleImageChange,
+  setUser,
+  setUserDetails,
 }) {
   //React crop
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [cropData, setCropData] = useState(null);
-  const cropperRef = createRef();
+  const avatarCropperRef = createRef();
+  const hiddenFileInput = useRef(null);
+  const [uploadedAvatar, setUploadedAvatar] = useState(null);
+  const [modifiedTime, setModifiedTime] = useState(null);
 
-  const onChange = (e) => {
-    console.log("Event:", e);
+  const handleChangeAvatar = (e) => {
     if (!e) return;
-
     const files = e.target.files || (e.dataTransfer && e.dataTransfer.files);
-    console.log("Files:", files);
     if (!files || files.length === 0) return;
-
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      setUploadedImage(reader.result);
+      setUploadedAvatar(reader.result);
     });
     reader.readAsDataURL(files[0]);
   };
-
-  const uploadCroppedImage = () => {
-    if (typeof cropperRef.current?.cropper !== "undefined") {
-      const croppedCanvas = cropperRef.current?.cropper.getCroppedCanvas();
+  const hanldeUploadAvatar = () => {
+    if (typeof avatarCropperRef.current?.cropper !== "undefined") {
+      const croppedCanvas =
+        avatarCropperRef.current?.cropper.getCroppedCanvas();
       croppedCanvas.toBlob(async (blob) => {
         const formData = new FormData();
         formData.append("image", blob, "croppedImage.png");
-        await authApi.changeUserAvatar(formData);
+        const result = await authApi.changeUserAvatar(formData); // Assuming the response contains the user details
+        result.data.avatarPath += `?lastModified=${modifiedTime}`;
+        setUploadedAvatar(null);
+        setUser(result.data);
+        setUserDetails(result.data);
+        setModifiedTime(Date.now());
       });
     }
   };
@@ -46,31 +47,22 @@ export default function AvatarModal({
   return (
     <Modal
       show={show}
-      onHide={onClose}
+      onHide={close}
       backdrop="static"
       dialogClassName="modal-90w"
       id="update-avt-modal"
       centered
     >
-      <Modal.Header closeButton>
-        <Modal.Title>Update Avatar</Modal.Title>
+      <Modal.Header>
+        <Modal.Title className="ms-auto">Update profile picture</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <input
-          id="image-upload-input"
-          type="file"
-          onChange={(e) => {
-            onChange(e);
-          }}
-        />
-        <br />
-        <br />
-        {uploadedImage ? (
+        {uploadedAvatar ? (
           <Cropper
-            ref={cropperRef}
+            ref={avatarCropperRef}
             style={{ maxHeight: "60vh", width: "100%" }}
             aspectRatio={1}
-            src={uploadedImage}
+            src={uploadedAvatar}
             viewMode={1}
             minCropBoxHeight={50}
             minCropBoxWidth={50}
@@ -82,30 +74,52 @@ export default function AvatarModal({
           <></>
         )}
         <div className="image-upload-container">
-          {uploadedImage ? (
+          {uploadedAvatar ? (
             <></>
           ) : (
             <img
               src={
-                image instanceof Blob || image instanceof File
-                  ? URL.createObjectURL(image)
+                uploadedAvatar instanceof Blob || uploadedAvatar instanceof File
+                  ? URL.createObjectURL(uploadedAvatar)
                   : userDetails?.avatarPath || "/img/avatar/defaultAvatar.png"
               }
               alt="uploadimage"
               className={"image-display"}
+              onClick={() => hiddenFileInput.current.click()}
             />
           )}
+          <input
+            id="image-upload-input"
+            ref={hiddenFileInput}
+            type="file"
+            onChange={(e) => {
+              handleChangeAvatar(e);
+            }}
+          />
         </div>
-        <Button
-          variant="success"
-          onClick={() => {
-            uploadCroppedImage();
-            onClose();
-            onUpload();
-          }}
-        >
-          Save
-        </Button>
+        {uploadedAvatar && (
+          <div style={{ textAlign: "right", marginTop: "20px" }}>
+            {" "}
+            <Button
+              variant="success"
+              onClick={() => {
+                hanldeUploadAvatar();
+                close();
+              }}
+            >
+              Save
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                setUploadedAvatar(null);
+                close();
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
       </Modal.Body>
     </Modal>
   );

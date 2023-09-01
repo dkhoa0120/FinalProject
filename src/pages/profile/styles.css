@@ -147,7 +147,7 @@
   cursor: pointer;
 }
 
-.image-upload-input {
+#image-upload-input {
   display: none;
 }
 
@@ -177,8 +177,8 @@
 }
 
 .banner-display {
-  height: 220px;
-  width: 620px;
+  height: 100%;
+  width: 100%;
 }
 
 /* manga list */
@@ -254,8 +254,8 @@
   overflow: hidden;
 }
 
-.cropper-crop-box,
-.cropper-view-box {
+#update-avt-modal .cropper-crop-box,
+#update-avt-modal .cropper-view-box {
   border-radius: 50%;
 }
 
