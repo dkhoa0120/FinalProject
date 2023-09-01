@@ -42,27 +42,26 @@ export default function BannerModal({
         setModifiedTime(Date.now());
       });
     }
-    console.log("hi");
   };
 
   return (
     <Modal
       show={show}
       onHide={close}
-      backdrop="static"
+      backdrop={uploadedBanner ? "static" : true}
       dialogClassName="modal-90w"
       id="update-banner-modal"
       centered
     >
-      <Modal.Header>
-        <Modal.Title className="ms-auto">Update Banner Photo</Modal.Title>
+      <Modal.Header style={{ justifyContent: "center" }}>
+        <Modal.Title>Update Banner Photo</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {uploadedBanner ? (
           <Cropper
             ref={bannerCropperRef}
             style={{ maxHeight: "60vh", width: "100%" }}
-            aspectRatio={17 / 8}
+            aspectRatio={7.1818}
             src={uploadedBanner}
             viewMode={1}
             minCropBoxHeight={50}
@@ -74,7 +73,7 @@ export default function BannerModal({
         ) : (
           <></>
         )}
-        <div className="banner-upload-container">
+        <div className="upload-container">
           {uploadedBanner ? (
             <></>
           ) : (
@@ -90,7 +89,7 @@ export default function BannerModal({
             />
           )}
           <input
-            id="banner-upload-input"
+            id="upload-input"
             ref={hiddenFileInput}
             type="file"
             onChange={(e) => {
@@ -99,17 +98,7 @@ export default function BannerModal({
           />
         </div>
         {uploadedBanner && (
-          <div style={{ textAlign: "center", marginTop: "20px" }}>
-            {" "}
-            <Button
-              variant="success"
-              onClick={() => {
-                handleUploadBanner();
-                close();
-              }}
-            >
-              Save
-            </Button>
+          <div className="profile-modal-button d-flex gap-1">
             <Button
               variant="danger"
               onClick={() => {
@@ -118,6 +107,15 @@ export default function BannerModal({
               }}
             >
               Cancel
+            </Button>
+            <Button
+              variant="success"
+              onClick={() => {
+                handleUploadBanner();
+                close();
+              }}
+            >
+              Save
             </Button>
           </div>
         )}

@@ -27,10 +27,14 @@ export default function AvatarModal({
     });
     reader.readAsDataURL(files[0]);
   };
-  const hanldeUploadAvatar = () => {
+  const handleUploadAvatar = () => {
     if (typeof avatarCropperRef.current?.cropper !== "undefined") {
-      const croppedCanvas =
-        avatarCropperRef.current?.cropper.getCroppedCanvas();
+      const croppedCanvas = avatarCropperRef.current?.cropper.getCroppedCanvas({
+        minWidth: 256,
+        minHeight: 256,
+        maxWidth: 1280,
+        maxHeight: 1280,
+      });
       croppedCanvas.toBlob(async (blob) => {
         const formData = new FormData();
         formData.append("image", blob, "croppedImage.png");
@@ -48,13 +52,13 @@ export default function AvatarModal({
     <Modal
       show={show}
       onHide={close}
-      backdrop="static"
-      dialogClassName="modal-90w"
+      backdrop={uploadedAvatar ? "static" : true}
+      dialogClassName="modal-50w"
       id="update-avt-modal"
       centered
     >
-      <Modal.Header>
-        <Modal.Title className="ms-auto">Update profile picture</Modal.Title>
+      <Modal.Header style={{ justifyContent: "center" }}>
+        <Modal.Title>Update profile picture</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {uploadedAvatar ? (
@@ -73,7 +77,7 @@ export default function AvatarModal({
         ) : (
           <></>
         )}
-        <div className="image-upload-container">
+        <div className="upload-container">
           {uploadedAvatar ? (
             <></>
           ) : (
@@ -89,7 +93,7 @@ export default function AvatarModal({
             />
           )}
           <input
-            id="image-upload-input"
+            id="upload-input"
             ref={hiddenFileInput}
             type="file"
             onChange={(e) => {
@@ -98,17 +102,7 @@ export default function AvatarModal({
           />
         </div>
         {uploadedAvatar && (
-          <div style={{ textAlign: "right", marginTop: "20px" }}>
-            {" "}
-            <Button
-              variant="success"
-              onClick={() => {
-                hanldeUploadAvatar();
-                close();
-              }}
-            >
-              Save
-            </Button>
+          <div className="profile-modal-button d-flex gap-1">
             <Button
               variant="danger"
               onClick={() => {
@@ -117,6 +111,16 @@ export default function AvatarModal({
               }}
             >
               Cancel
+            </Button>
+            <Button
+              className="mr-2"
+              variant="success"
+              onClick={() => {
+                handleUploadAvatar();
+                close();
+              }}
+            >
+              Save
             </Button>
           </div>
         )}
