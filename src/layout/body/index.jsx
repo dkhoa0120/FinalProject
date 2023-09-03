@@ -14,6 +14,7 @@ import ManageCategory from "../../pages/admin/manageCategory";
 import ManageAuthor from "../../pages/admin/manageAuthor";
 import ChapterPage from "../../pages/manga/chapter";
 import Profile from "../../pages/profile";
+import Upload from "../../pages/upload";
 
 export default function Body() {
   return (
@@ -33,6 +34,7 @@ export default function Body() {
         <Route path="*" element={<Error />} />
         <Route path="/Chapter/:chapterId" element={<ChapterPage />} />
         <Route path="/Profile/:userId" element={<Profile />} />
+        <Route path="/Upload" element={<Upload />} />
       </Routes>
     </div>
   );

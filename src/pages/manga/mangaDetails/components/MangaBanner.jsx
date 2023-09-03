@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function MangaBanner({
   manga,
   handleSelectRate,
@@ -10,6 +10,11 @@ export default function MangaBanner({
   handleFollow,
 }) {
   const [moreDescription, setMoreDescription] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavClick = () => {
+    navigate(`/Upload`);
+  };
 
   return (
     <Container fluid className="banner">
@@ -86,7 +91,7 @@ export default function MangaBanner({
             <button className="btn-under-cover">
               <i className="fa-regular fa-flag"></i>
             </button>
-            <button className="btn-under-cover">
+            <button onClick={handleNavClick} className="btn-under-cover">
               <i className="fa-solid fa-upload"></i>
             </button>
           </div>

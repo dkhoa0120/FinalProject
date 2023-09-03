@@ -1,0 +1,101 @@
+.input-pages {
+  display: none;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -5px;
+}
+
+.image-container .label {
+  width: 130px;
+  height: 184px;
+  border: 1px dashed grey;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border 300ms ease;
+  cursor: pointer;
+  text-align: center;
+  margin: 12px;
+  transition: all 0.1s ease-in;
+}
+
+.image-container .label:hover {
+  background-color: #49494946;
+}
+
+.pages-upload-card {
+  position: relative;
+  flex-grow: 1;
+  margin: 12px;
+  width: 130px;
+  height: 184px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: grab;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.pages-upload-card .image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.pages-upload-card .delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  color: white;
+  border: none;
+  background-color: black;
+  border-radius: 50%;
+  transition: background-color 0.2s ease-in;
+}
+
+.pages-upload-card .delete-button:hover {
+  background-color: #494949;
+}
+
+.pages-upload-card .drag-button {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  opacity: 0.8;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  border: none;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: grab;
+}
+
+.image-label {
+  position: absolute;
+  background-color: #494949;
+  border-radius: 11px;
+  bottom: 4px;
+  color: #fff;
+  font-size: 0.75rem;
+  left: 4px;
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  padding: 2px 8px;
+  position: absolute;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pages-upload-card.dragging {
+  background-color: black;
+}
