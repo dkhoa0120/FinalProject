@@ -34,7 +34,7 @@ export default function Body() {
         <Route path="*" element={<Error />} />
         <Route path="/Chapter/:chapterId" element={<ChapterPage />} />
         <Route path="/Profile/:userId" element={<Profile />} />
-        <Route path="/Upload" element={<Upload />} />
+        <Route path="/Upload/:mangaId" element={<Upload />} />
       </Routes>
     </div>
   );
