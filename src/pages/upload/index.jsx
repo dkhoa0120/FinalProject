@@ -1,15 +1,12 @@
-import React, { useState, createRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-
 import * as mangaApi from "../../service/api.manga";
 import * as chapterApi from "../../service/api.chapter";
-
 import { LanguageContext } from "../../context/LanguageContext";
-
 import "./styles.css";
 
 export default function Upload() {
@@ -28,7 +25,7 @@ export default function Upload() {
   const [groups, setGroups] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
-  const fileInputRef = createRef();
+  const fileInputRef = useRef(null);
 
   // Map groups to options format for the Select component
   const groupOptions = groups?.map((group) => ({
@@ -97,7 +94,9 @@ export default function Upload() {
   };
 
   const resetForm = () => {
+    fileInputRef.current.value = null;
     setSelectedImages([]);
+    setDraggedIndex(null);
     reset({
       uploadingGroupId: null,
       number: "",
@@ -148,7 +147,7 @@ export default function Upload() {
         </Link>
       </div>
       &nbsp;
-      <Container>
+      <Container fluid>
         <Card className="uploader-card">
           <Row>
             <Col xs={4} md={2} xl={1}>
@@ -263,6 +262,14 @@ export default function Upload() {
           <hr />
           <Row>
             <Form.Label>Pages</Form.Label>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+              multiple
+            />
             <div className="image-container justify-left flex-wrap mb-4">
               {selectedImages.map((image, index) => (
                 <div
@@ -295,21 +302,17 @@ export default function Upload() {
               ))}
               <div className="input-pages" onClick={handleFileInputClick}>
                 <i className="fa-solid fa-plus" />
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  onChange={handleImageChange}
-                  style={{ display: "none" }}
-                  multiple
-                />
               </div>
             </div>
             {selectedImages.length > 0 ? (
               <div>
                 <button
                   className="btn btn-dark"
-                  onClick={() => setSelectedImages([])}
+                  onClick={() => {
+                    fileInputRef.current.value = null;
+                    setSelectedImages([]);
+                    setDraggedIndex(null);
+                  }}
                 >
                   Remove all pages
                 </button>

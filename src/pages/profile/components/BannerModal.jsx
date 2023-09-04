@@ -1,4 +1,4 @@
-import { useRef, createRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
@@ -11,7 +11,7 @@ export default function BannerModal({
   setUser,
   setUserDetails,
 }) {
-  const bannerCropperRef = createRef();
+  const bannerCropperRef = useRef(null);
   const hiddenFileInput = useRef(null);
   const [uploadedBanner, setUploadedBanner] = useState(null);
   const [modifiedTime, setModifiedTime] = useState(null);

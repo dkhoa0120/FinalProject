@@ -1,4 +1,4 @@
-import { useRef, createRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
@@ -12,7 +12,7 @@ export default function AvatarModal({
   setUserDetails,
 }) {
   //React crop
-  const avatarCropperRef = createRef();
+  const avatarCropperRef = useRef(null);
   const hiddenFileInput = useRef(null);
   const [uploadedAvatar, setUploadedAvatar] = useState(null);
   const [modifiedTime, setModifiedTime] = useState(null);
