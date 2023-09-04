@@ -142,11 +142,10 @@ export default function Upload() {
       <ToastContainer />
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
         <Link to={`/manga/${mangaId}`}>
-          <button className="circle-button">
-            <i className="fa-solid fa-arrow-left"></i>
+          <button className="return-button">
+            <i className="fa-solid fa-arrow-left"></i> Upload Chapter
           </button>
-        </Link>{" "}
-        Upload Chapter
+        </Link>
       </div>
       &nbsp;
       <Container>
@@ -221,6 +220,7 @@ export default function Upload() {
                 type="number"
                 placeholder="Chapter number"
                 aria-label="Chapter number"
+                min={"0"}
                 {...register("number", {
                   required: "Chapter number is required",
                 })}
@@ -293,14 +293,14 @@ export default function Upload() {
                   <div className="image-label">{image.name}</div>
                 </div>
               ))}
-              <div className="label" onClick={handleFileInputClick}>
+              <div className="input-pages" onClick={handleFileInputClick}>
                 <i className="fa-solid fa-plus" />
                 <input
-                  className="input-pages"
                   type="file"
                   accept="image/*"
                   ref={fileInputRef}
                   onChange={handleImageChange}
+                  style={{ display: "none" }}
                   multiple
                 />
               </div>

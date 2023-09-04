@@ -1,11 +1,8 @@
-.input-pages {
-  display: none;
-}
-
 .return-button {
   border: none;
   background: transparent;
   padding: 0 5px;
+  font-weight: bold;
 }
 
 .image-container {
@@ -14,7 +11,7 @@
   margin: -5px;
 }
 
-.image-container .label {
+.image-container .input-pages {
   width: 130px;
   height: 184px;
   border: 1px dashed grey;
@@ -29,7 +26,7 @@
   transition: all 0.1s ease-in;
 }
 
-.image-container .label:hover {
+.image-container .input-pages:hover {
   background-color: #49494946;
 }
 
@@ -87,7 +84,7 @@
   cursor: grab;
 }
 
-.image-label {
+.image-input-pages {
   position: absolute;
   background-color: #494949;
   border-radius: 11px;
