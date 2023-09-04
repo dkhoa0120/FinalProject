@@ -1,32 +1,80 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function Uploads() {
   return (
-    <Container fluid>
-      <Row className="d-flex justify-content-between">
-        <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
-          <img
-            src="/img/error/coverNotFound.png"
-            style={{ width: "150px" }}
-            alt="manga's cover"
-          ></img>
-          <div className="profile-text">
-            <p style={{ fontWeight: "bold" }}>Manga Name</p>
-            <p>Chapter Name</p>
-          </div>
-        </Col>
-        <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
-          <img
-            src="/img/error/coverNotFound.png"
-            style={{ width: "150px" }}
-            alt="manga's cover"
-          ></img>
-          <div className="profile-text">
-            <p style={{ fontWeight: "bold" }}>Manga Name</p>
-            <p>Chapter Name</p>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Link to={`/upload`}>
+        <Button variant="success" style={{ margin: "0 0 1rem 1.5rem" }}>
+          <i className="fa-solid fa-circle-plus"></i> Create
+        </Button>
+      </Link>
+      <Container fluid>
+        <Row>
+          <Col lg={2} style={{ display: "flex", justifyContent: "center" }}>
+            <img
+              src="/img/error/coverNotFound.png"
+              style={{ width: "150px" }}
+              alt="manga's cover"
+            ></img>
+          </Col>
+          <Col lg={10}>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>Manga Name</p>
+            <Row>
+              <Col>
+                <p>Chapter Name</p>
+              </Col>
+              <Col>
+                <i className="fa-regular fa-user"></i> Group
+              </Col>
+              <Col>
+                <i className="fa-regular fa-user"></i> Name
+              </Col>
+              <Col>
+                <i className="fa-regular fa-clock"></i> 2/2/2222
+              </Col>
+              <Col>
+                <i className="fa-regular fa-eye"></i> Views
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>Chapter Name</p>
+              </Col>
+              <Col>
+                <i className="fa-regular fa-user"></i> Group
+              </Col>
+              <Col>
+                <i className="fa-regular fa-user"></i> Name
+              </Col>
+              <Col>
+                <i className="fa-regular fa-clock"></i> 2/2/2222
+              </Col>
+              <Col>
+                <i className="fa-regular fa-eye"></i> Views
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>Chapter Name</p>
+              </Col>
+              <Col>
+                <i className="fa-regular fa-user"></i> Group
+              </Col>
+              <Col>
+                <i className="fa-regular fa-user"></i> Name
+              </Col>
+              <Col>
+                <i className="fa-regular fa-clock"></i> 2/2/2222
+              </Col>
+              <Col>
+                <i className="fa-regular fa-eye"></i> Views
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <hr style={{ margin: "1rem 2rem 0.5rem" }}></hr>
+      </Container>
+    </>
   );
 }

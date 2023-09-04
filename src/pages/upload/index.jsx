@@ -59,7 +59,6 @@ export default function Upload() {
     }
 
     const formData = buildFormData(data);
-
     try {
       await chapterApi.uploadChapter(formData);
       resetForm();

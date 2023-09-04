@@ -1,11 +1,14 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import AsyncSelect from "react-select/async";
 
 export default function MangaList() {
+  const [show, setShow] = useState(false);
   return (
     <Container fluid>
       <Row>
         <Col md={3}>
-          <div className="manga-list">
+          <div className="manga-list" onClick={() => setShow(true)}>
             <div className="manga-list-cover">
               <img
                 src="/img/error/coverNotFound.png"
@@ -23,14 +26,12 @@ export default function MangaList() {
                 alt="mangaList's cover"
               ></img>
               <div className="manga-list-info">
-                <i className="fa-solid fa-list-ul icon"></i>
-                <p className="manga-list-name">
-                  Manga List Name dasd asd asd sadsd dasdas das dsa d dasdsadsa
-                  dsa dsa sadasdas d
-                </p>
+                <p className="manga-list-name">Create Manga List</p>
               </div>
               <div className="hover-overlay">
-                <span>See more</span>
+                <span>
+                  <i className="fa-solid fa-circle-plus" /> Create
+                </span>
               </div>
             </div>
           </div>
@@ -120,6 +121,29 @@ export default function MangaList() {
           </div>
         </Col>
       </Row>
+      <Modal show={show} onHide={() => setShow(false)} size="xl">
+        <Modal.Header closeButton>
+          <Modal.Title>Manga List</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Manga Name</Form.Label>
+              <AsyncSelect isMulti />
+            </Form.Group>
+          </Form>
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <Button
+              variant="success"
+              onClick={() => {
+                setShow(false);
+              }}
+            >
+              Create
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }
