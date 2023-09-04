@@ -84,18 +84,16 @@
   cursor: grab;
 }
 
-.image-input-pages {
+.image-label {
   position: absolute;
-  background-color: #494949;
-  border-radius: 11px;
   bottom: 4px;
+  background-color: #494949;
   color: #fff;
-  font-size: 0.75rem;
-  left: 4px;
+  border-radius: 11px;
   max-width: calc(100% - 8px);
-  overflow: hidden;
   padding: 2px 8px;
-  position: absolute;
+  overflow: hidden;
+  font-size: 0.75rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

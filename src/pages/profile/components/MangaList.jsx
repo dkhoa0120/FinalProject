@@ -8,32 +8,10 @@ export default function MangaList() {
     <Container fluid>
       <Row>
         <Col md={3}>
-          <div className="manga-list" onClick={() => setShow(true)}>
-            <div className="manga-list-cover">
-              <img
-                src="/img/error/coverNotFound.png"
-                style={{ width: "40%" }}
-                alt="mangaList's cover"
-              ></img>
-              <img
-                src="/img/error/coverNotFound.png"
-                style={{ width: "30%" }}
-                alt="mangaList's cover"
-              ></img>
-              <img
-                src="/img/error/coverNotFound.png"
-                style={{ width: "20%" }}
-                alt="mangaList's cover"
-              ></img>
-              <div className="manga-list-info">
-                <p className="manga-list-name">Create Manga List</p>
-              </div>
-              <div className="hover-overlay">
-                <span>
-                  <i className="fa-solid fa-circle-plus" /> Create
-                </span>
-              </div>
-            </div>
+          <div className="create-manga-list " onClick={() => setShow(true)}>
+            <p style={{ margin: "auto", textAlign: "center" }}>
+              <i className="fa-solid fa-plus"></i> Create new Manga List
+            </p>
           </div>
         </Col>
         <Col md={3}>
