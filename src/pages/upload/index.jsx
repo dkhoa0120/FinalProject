@@ -7,12 +7,17 @@ import { useNavigate } from "react-router-dom";
 export default function Upload() {
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
+  const [draggedIndex, setDraggedIndex] = useState(null);
   const fileInputRef = createRef();
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      setSelectedImages([...selectedImages, ...files]);
+      const newImages = files.map((file) => ({
+        file,
+        dragging: false, // Add dragging property
+      }));
+      setSelectedImages([...selectedImages, ...newImages]);
     }
   };
 
@@ -26,10 +31,22 @@ export default function Upload() {
     fileInputRef.current.click();
   };
 
+  //handle drag and drop event
+  const handleDragOver = (index) => {
+    if (draggedIndex === null || index === draggedIndex) {
+      return;
+    }
+    const updatedImages = [...selectedImages];
+    const [draggedImage] = updatedImages.splice(draggedIndex, 1);
+    updatedImages.splice(index, 0, draggedImage);
+    setSelectedImages(updatedImages);
+    setDraggedIndex(index);
+  };
+
   return (
     <>
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
-        <button className="circle-button" onClick={() => navigate(-1)}>
+        <button className="return-button" onClick={() => navigate(-1)}>
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         Upload Chapter
@@ -82,8 +99,8 @@ export default function Upload() {
           <Col md={4} lg={4} className="mb-1">
             <Form.Control
               type="search"
-              placeholder="Chapter number"
-              aria-label="Chapter number"
+              placeholder="Chapter name"
+              aria-label="Chapter name"
             />
           </Col>
           <Col md={4} lg={4} className="mb-1">
@@ -95,11 +112,21 @@ export default function Upload() {
         <div>Pages</div>
         <div className="image-container justify-left flex-wrap mb-4">
           {selectedImages.map((image, index) => (
-            <div key={index} className="pages-upload-card flex-grow-0">
+            <div
+              key={index}
+              className={`pages-upload-card flex-grow-0 ${
+                draggedIndex === index ? "dragging" : ""
+              }`}
+              draggable
+              onDragStart={() => setDraggedIndex(index)}
+              onDragOver={() => handleDragOver(index)}
+              onDragEnd={() => setDraggedIndex(null)}
+            >
               <img
                 className="image"
-                src={URL.createObjectURL(image)}
+                src={URL.createObjectURL(new Blob([image.file]))}
                 alt="pages"
+                draggable="false"
               />
               <button
                 className="delete-button"
@@ -110,7 +137,7 @@ export default function Upload() {
               <button className="drag-button">
                 <i className="fa-solid fa-arrows-up-down-left-right"></i>
               </button>
-              <div className="image-label">{image.name}</div>
+              <div className="image-label">{image.file.name}</div>
             </div>
           ))}
           <div className="label" onClick={handleFileInputClick}>
