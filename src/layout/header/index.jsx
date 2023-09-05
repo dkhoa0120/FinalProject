@@ -123,6 +123,29 @@ export default function Header(props) {
                     </Button>
                   </Col>
                 </Row>
+                <Row>
+                  <Col>
+                    {user ? (
+                      <>
+                        {user.roles.includes("Uploader") && (
+                          <NavLink to="/upload/chapter">
+                            {" "}
+                            <Button
+                              className="mb-3 w-100"
+                              variant="outline-dark"
+                              onClick={() => {
+                                setShow(false);
+                              }}
+                            >
+                              <i className="fa-solid fa-list-check"></i>
+                              Upload chapter
+                            </Button>
+                          </NavLink>
+                        )}
+                      </>
+                    ) : null}
+                  </Col>
+                </Row>
                 {user ? (
                   <>
                     {user.roles.includes("Admin") && (
