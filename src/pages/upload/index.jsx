@@ -38,6 +38,9 @@ export default function Upload() {
     if (files.length > 0) {
       setSelectedImages([...selectedImages, ...files]);
     }
+
+    // Clear input so that the next image change will trigger the event
+    e.target.value = null;
   };
 
   const handleImageDelete = (index) => {
@@ -142,9 +145,12 @@ export default function Upload() {
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
         <Link to={`/manga/${mangaId}`}>
           <button className="return-button">
-            <i className="fa-solid fa-arrow-left"></i> Upload Chapter
+            <span>
+              <i className="fa-solid fa-arrow-left"></i>
+            </span>
           </button>
-        </Link>
+        </Link>{" "}
+        Upload Chapter
       </div>
       &nbsp;
       <Container fluid>
@@ -161,15 +167,13 @@ export default function Upload() {
                 <p>Cover not found.</p>
               )}
             </Col>
-            <Col xs={8} md={9} xl={10} style={{ padding: "20px" }}>
+            <Col xs={8} md={9} xl={10} style={{ padding: "15px" }}>
               {manga ? (
                 <>
-                  <Card.Title className="manga-title text-limit-1">
-                    <b> Titles: </b>
-                    {manga.originalTitle}
+                  <Card.Title className="text-limit-1">
+                    <b>{manga.originalTitle}</b>
                   </Card.Title>
-                  <Card.Text className="manga-category">
-                    <b>Categories: </b>
+                  <Card.Text className="manga-category text-limit-2">
                     {manga.categories.map((c) => (
                       <Link
                         to={`/manga?included=${c.id.substring(0, 5)}`}
@@ -188,78 +192,94 @@ export default function Upload() {
           </Row>
         </Card>
         &nbsp;
-        <hr />
         <Form id="upload-form" onSubmit={handleSubmit(onSubmit)}>
           <Row>
-            <Col>
-              <span>Group</span>
-              <Form.Group>
-                <Controller
-                  name="uploadingGroupId"
-                  defaultValue={null}
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Select {...field} isClearable options={groupOptions} />
-                  )}
-                />
+            <Col className="mb-3">
+              <Form.Label>
+                Group{" "}
                 {errors.uploadingGroupId && (
-                  <p className="error-message">
-                    {errors.uploadingGroupId.message}
-                  </p>
+                  <i
+                    title={errors.uploadingGroupId.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
                 )}
-              </Form.Group>
+              </Form.Label>
+              <Controller
+                name="uploadingGroupId"
+                defaultValue={null}
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Select {...field} isClearable options={groupOptions} />
+                )}
+              />
             </Col>
           </Row>
-          &nbsp;
-          <hr />
           <Row>
-            <Col md={4} lg={4} className="mb-1">
+            <Col md={4} lg={4} className="mb-3">
+              <Form.Label>
+                Chapter number{" "}
+                {errors.number && (
+                  <i
+                    title={errors.number.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Chapter number"
+                placeholder="Number"
                 aria-label="Chapter number"
                 min={"0"}
                 {...register("number", {
                   required: "Chapter number is required",
                 })}
               />
-              {errors.number && (
-                <p className="error-message">{errors.number.message}</p>
-              )}
             </Col>
-            <Col md={4} lg={4} className="mb-1">
+            <Col md={4} lg={4} className="mb-3">
+              <Form.Label>
+                Chapter name{" "}
+                {errors.name && (
+                  <i
+                    title={errors.name.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Chapter name"
+                placeholder="Name"
                 aria-label="Chapter name"
                 {...register("name", {
                   required: "Chapter number is required",
                 })}
               />
-              {errors.name && (
-                <p className="error-message">{errors.name.message}</p>
-              )}
             </Col>
-            <Col md={4} lg={4} className="mb-1">
-              <Form.Group className="mb-3">
-                <Controller
-                  defaultValue={null}
-                  name="language"
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Select {...field} isClearable options={languageOptions} />
-                  )}
-                />
+            <Col md={4} lg={4} className="mb-3">
+              <Form.Label>
+                Choose language{" "}
                 {errors.language && (
-                  <p className="error-message">{errors.language.message}</p>
+                  <i
+                    title={errors.language.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
                 )}
-              </Form.Group>
+              </Form.Label>
+              <Controller
+                defaultValue={null}
+                name="language"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Select {...field} isClearable options={languageOptions} />
+                )}
+              />
             </Col>
           </Row>
-          &nbsp;
-          <hr />
           <Row>
             <Form.Label>Pages</Form.Label>
             <input
@@ -273,11 +293,11 @@ export default function Upload() {
             <div className="image-container justify-left flex-wrap mb-4">
               {selectedImages.map((image, index) => (
                 <div
-                  key={index}
+                  key={image.name}
                   className={`pages-upload-card flex-grow-0 ${
                     draggedIndex === index ? "dragging" : ""
                   }`}
-                  draggable
+                  draggable="true"
                   onDragStart={() => setDraggedIndex(index)}
                   onDragOver={() => handleDragOver(index)}
                   onDragEnd={() => setDraggedIndex(null)}
@@ -289,12 +309,13 @@ export default function Upload() {
                     draggable="false"
                   />
                   <button
+                    type="button"
                     className="delete-button"
                     onClick={() => handleImageDelete(index)}
                   >
                     <i className="fa-solid fa-xmark"></i>
                   </button>
-                  <button className="drag-button">
+                  <button type="button" className="drag-button">
                     <i className="fa-solid fa-arrows-up-down-left-right"></i>
                   </button>
                   <div className="image-label">{image.name}</div>
@@ -307,12 +328,9 @@ export default function Upload() {
             {selectedImages.length > 0 ? (
               <div>
                 <button
+                  type="button"
                   className="btn btn-dark"
-                  onClick={() => {
-                    fileInputRef.current.value = null;
-                    setSelectedImages([]);
-                    setDraggedIndex(null);
-                  }}
+                  onClick={() => setSelectedImages([])}
                 >
                   Remove all pages
                 </button>

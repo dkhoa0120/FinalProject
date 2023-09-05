@@ -1,8 +1,15 @@
 .return-button {
   border: none;
+  border-radius: 50%;
   background: transparent;
-  padding: 0 5px;
+  padding: 2px 10px;
+  margin-left: 10px;
   font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.return-button:hover {
+  background-color: #dfdfdf;
 }
 
 .image-container {
