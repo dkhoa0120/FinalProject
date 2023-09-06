@@ -99,7 +99,6 @@ export default function Header(props) {
                     {user.name}
                     <Link to={`/Profile/${user.id}`} className="mt-2">
                       <Button
-                        className=""
                         variant="outline-dark"
                         onClick={() => {
                           setShow(false);
@@ -129,7 +128,6 @@ export default function Header(props) {
                       <>
                         {user.roles.includes("Uploader") && (
                           <NavLink to="/upload/chapter">
-                            {" "}
                             <Button
                               className="mb-3 w-100"
                               variant="outline-dark"
@@ -137,8 +135,8 @@ export default function Header(props) {
                                 setShow(false);
                               }}
                             >
-                              <i className="fa-solid fa-list-check"></i>
-                              Upload chapter
+                              <i className="fa-solid fa-list-check"></i> Upload
+                              chapter
                             </Button>
                           </NavLink>
                         )}

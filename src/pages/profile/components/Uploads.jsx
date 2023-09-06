@@ -1,14 +1,8 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 
 export default function Uploads() {
   return (
     <>
-      <Link to={`/upload`}>
-        <Button variant="success" style={{ margin: "0 0 1rem 1.5rem" }}>
-          <i className="fa-solid fa-circle-plus"></i> Create
-        </Button>
-      </Link>
       <Container fluid>
         <Row>
           <Col lg={2} style={{ display: "flex", justifyContent: "center" }}>
@@ -19,56 +13,38 @@ export default function Uploads() {
             ></img>
           </Col>
           <Col lg={10}>
-            <p style={{ fontSize: "20px", fontWeight: "bold" }}>Manga Name</p>
+            <p
+              style={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                marginBottom: "5px",
+              }}
+            >
+              Manga Name
+            </p>
             <Row>
-              <Col>
-                <p>Chapter Name</p>
+              <Col xs={12} md={3}>
+                <span className="text-truncate">Chapter Name</span>
               </Col>
-              <Col>
-                <i className="fa-regular fa-user"></i> Group
+              <Col xs={6} md={2}>
+                <p className="text-truncate">
+                  <i className="fa-regular fa-user"></i> Group
+                </p>
               </Col>
-              <Col>
-                <i className="fa-regular fa-user"></i> Name
+              <Col xs={6} md={2}>
+                <p className="text-truncate">
+                  <i className="fa-regular fa-user"></i> Name
+                </p>
               </Col>
-              <Col>
-                <i className="fa-regular fa-clock"></i> 2/2/2222
+              <Col xs={6} md={2}>
+                <p className="text-truncate">
+                  <i className="fa-regular fa-clock"></i> 2/2/2222
+                </p>
               </Col>
-              <Col>
-                <i className="fa-regular fa-eye"></i> Views
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <p>Chapter Name</p>
-              </Col>
-              <Col>
-                <i className="fa-regular fa-user"></i> Group
-              </Col>
-              <Col>
-                <i className="fa-regular fa-user"></i> Name
-              </Col>
-              <Col>
-                <i className="fa-regular fa-clock"></i> 2/2/2222
-              </Col>
-              <Col>
-                <i className="fa-regular fa-eye"></i> Views
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <p>Chapter Name</p>
-              </Col>
-              <Col>
-                <i className="fa-regular fa-user"></i> Group
-              </Col>
-              <Col>
-                <i className="fa-regular fa-user"></i> Name
-              </Col>
-              <Col>
-                <i className="fa-regular fa-clock"></i> 2/2/2222
-              </Col>
-              <Col>
-                <i className="fa-regular fa-eye"></i> Views
+              <Col xs={6} md={2}>
+                <p className="text-truncate">
+                  <i className="fa-regular fa-eye"></i> Views
+                </p>
               </Col>
             </Row>
           </Col>

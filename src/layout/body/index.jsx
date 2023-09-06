@@ -14,7 +14,7 @@ import ManageCategory from "../../pages/admin/manageCategory";
 import ManageAuthor from "../../pages/admin/manageAuthor";
 import ChapterPage from "../../pages/manga/chapter";
 import Profile from "../../pages/profile";
-import Upload from "../../pages/upload";
+import Upload from "../../pages/upload/createChapter";
 import ManageChapter from "../../pages/upload/manageChapter";
 
 export default function Body() {

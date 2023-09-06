@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Col, Form, Image, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as chapterApi from "../../service/api.chapter";
@@ -59,7 +59,7 @@ export default function ManageChapter() {
   };
 
   return (
-    <>
+    <Container fluid>
       <Row>
         <Col>
           <Form.Control
@@ -73,14 +73,14 @@ export default function ManageChapter() {
         </Col>
       </Row>
       <div className="manage-table">
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <th>Cover</th>
               <th>Manga Name</th>
               <th>Language</th>
               <th>Chapter Name</th>
-              <th>Chapter Number</th>
+              <th>Number</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -89,27 +89,26 @@ export default function ManageChapter() {
               chapters.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td>
+                    <td style={{ width: "80px" }}>
                       <Link
                         to={`/Manga/${item.manga.id}`}
                         className="card-link"
                       >
-                        {" "}
-                        <Image
+                        <img
                           src={
                             item.manga.coverPath ||
                             "/img/error/coverNotFound.png"
                           }
-                          style={{ width: "100px" }}
+                          alt="cover"
+                          style={{ width: "100%" }}
                         />
                       </Link>
                     </td>
-                    <td className="manga-title-cell">
+                    <td style={{ width: "300px" }}>
                       <Link
                         to={`/Manga/${item.manga.id}`}
                         className="card-link"
                       >
-                        {" "}
                         {item.manga.originalTitle}
                       </Link>
                     </td>
@@ -117,22 +116,28 @@ export default function ManageChapter() {
                     <td className="manga-description-cell">
                       <span>{item.name}</span>
                     </td>
-                    <td className="manga-description-cell">
+                    <td style={{ width: "100px" }}>
                       <span>{item.number}</span>
                     </td>
-                    <td colSpan={2}>
+                    <td style={{ width: "200px" }}>
                       {item.deletedAt != null ? (
-                        <Button variant="dark">
-                          <i className="fa-solid fa-rotate-left"></i> Undelete
+                        <Button variant="dark" style={{ marginBottom: "5px" }}>
+                          <i className="fa-solid fa-rotate-left"></i>
+                          <span className="hide-when-mobile"> Undelete</span>
                         </Button>
                       ) : (
                         <>
-                          <Button>
-                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          <Button style={{ marginBottom: "5px" }}>
+                            <i className="fa-solid fa-pen-to-square"></i>
+                            <span className="hide-when-mobile"> Edit</span>
                           </Button>
                           &nbsp;
-                          <Button variant="danger">
-                            <i className="fa-solid fa-trash"></i> Delete
+                          <Button
+                            variant="danger"
+                            style={{ marginBottom: "5px" }}
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                            <span className="hide-when-mobile"> Delete</span>
                           </Button>
                         </>
                       )}
@@ -151,13 +156,12 @@ export default function ManageChapter() {
             )}
           </tbody>
         </Table>
-        &nbsp;
         <Pagination
           totalPages={totalPages}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />
       </div>
-    </>
+    </Container>
   );
 }
