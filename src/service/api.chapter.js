@@ -14,8 +14,8 @@ export const getUploadGroup = () => {
   return getAuthorizedAxios().get("users/me/groups");
 };
 
-export const uploadChapter = (formData) => {
-  return getAuthorizedAxios().post(`chapters`, formData);
+export const uploadChapter = (mangaId, formData) => {
+  return getAuthorizedAxios().post(`mangas/${mangaId}/chapters`, formData);
 };
 
 export const getChapterOfUploader = (id, filter) => {

@@ -23,7 +23,7 @@ export default function Upload() {
 
   const [manga, setManga] = useState();
   const [groups, setGroups] = useState();
-  const [blobUrls, setBlobUrls] = useState([]);
+  const [imageInfos, setImageInfos] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -34,9 +34,12 @@ export default function Upload() {
   }));
 
   const handleSelectedImages = (e) => {
-    const files = Array.from(e.target.files).map((f) => URL.createObjectURL(f));
-    if (files.length > 0) {
-      setBlobUrls([...blobUrls, ...files]);
+    const appendedImageInfos = Array.from(e.target.files).map((f) => ({
+      name: f.name,
+      url: URL.createObjectURL(f),
+    }));
+    if (appendedImageInfos.length > 0) {
+      setImageInfos([...imageInfos, ...appendedImageInfos]);
     }
 
     // Clear input so that the next image change will trigger the event
@@ -44,9 +47,9 @@ export default function Upload() {
   };
 
   const handleRemoveImage = (index) => {
-    const udatedBlobUrls = [...blobUrls];
-    udatedBlobUrls.splice(index, 1);
-    setBlobUrls(udatedBlobUrls);
+    const nextImageInfos = [...imageInfos];
+    nextImageInfos.splice(index, 1);
+    setImageInfos(nextImageInfos);
   };
 
   //handle drag and drop event
@@ -54,23 +57,23 @@ export default function Upload() {
     if (draggedIndex === null || index === draggedIndex) {
       return;
     }
-    const udatedBlobUrls = [...blobUrls];
-    const [draggedImage] = udatedBlobUrls.splice(draggedIndex, 1);
-    udatedBlobUrls.splice(index, 0, draggedImage);
-    setBlobUrls(udatedBlobUrls);
+    const nextImageInfos = [...imageInfos];
+    const [draggedImage] = nextImageInfos.splice(draggedIndex, 1);
+    nextImageInfos.splice(index, 0, draggedImage);
+    setImageInfos(nextImageInfos);
     setDraggedIndex(index);
   };
 
   //submit the form
   const onSubmit = async (data) => {
-    if (!blobUrls.length) {
+    if (!imageInfos.length) {
       return toast.error("Please select at least one image.");
     }
 
-    const images = await convertBlobURLsToBlobs(blobUrls);
+    const images = await convertToImage(imageInfos);
     const formData = buildFormData(data, images);
     try {
-      await chapterApi.uploadChapter(formData);
+      await chapterApi.uploadChapter(mangaId, formData);
       resetForm();
       toast.success("A Chapter has been created");
     } catch (error) {
@@ -78,21 +81,21 @@ export default function Upload() {
     }
   };
 
-  const convertBlobURLsToBlobs = async (blobURLs) => {
-    const blobArray = await Promise.all(
-      blobURLs.map(async (blobURL) => {
-        const response = await fetch(blobURL);
-        return await response.blob();
+  const convertToImage = async (imageInfos) => {
+    return await Promise.all(
+      imageInfos.map(async (imageInfo) => {
+        const response = await fetch(imageInfo.url);
+        return {
+          name: imageInfo.name,
+          data: await response.blob(),
+        };
       })
     );
-    return blobArray;
   };
 
   const buildFormData = (data, images) => {
     const formData = new FormData();
-    images.forEach((image, index) =>
-      formData.append("pages", image, `image-${index}.jpg`)
-    );
+    images.forEach((image) => formData.append("pages", image.data, image.name));
 
     for (const key in data) {
       if (key === "uploadingGroupId" || key === "language") {
@@ -102,13 +105,12 @@ export default function Upload() {
       }
     }
 
-    formData.append("mangaId", mangaId);
     return formData;
   };
 
   const resetForm = () => {
     fileInputRef.current.value = null;
-    setBlobUrls([]);
+    setImageInfos([]);
     reset({
       uploadingGroupId: null,
       number: "",
@@ -300,9 +302,9 @@ export default function Upload() {
               multiple
             />
             <div className="image-container justify-left flex-wrap mb-4">
-              {blobUrls.map((image, index) => (
+              {imageInfos.map((imageInfo, index) => (
                 <div
-                  key={index}
+                  key={imageInfo.name}
                   className={`pages-upload-card flex-grow-0 ${
                     draggedIndex === index ? "dragging" : ""
                   }`}
@@ -313,7 +315,7 @@ export default function Upload() {
                 >
                   <img
                     className="image"
-                    src={image}
+                    src={imageInfo.url}
                     alt="pages"
                     draggable="false"
                   />
@@ -327,7 +329,7 @@ export default function Upload() {
                   <button type="button" className="drag-button">
                     <i className="fa-solid fa-arrows-up-down-left-right"></i>
                   </button>
-                  <div className="image-label">{image.name}</div>
+                  <div className="image-label">{imageInfo.name}</div>
                 </div>
               ))}
               <div
@@ -337,12 +339,12 @@ export default function Upload() {
                 <i className="fa-solid fa-plus" />
               </div>
             </div>
-            {blobUrls.length > 0 ? (
+            {imageInfos.length > 0 ? (
               <div>
                 <button
                   type="button"
                   className="btn btn-dark"
-                  onClick={() => setBlobUrls([])}
+                  onClick={() => setImageInfos([])}
                 >
                   Remove all pages
                 </button>
