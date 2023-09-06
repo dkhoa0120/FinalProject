@@ -23,7 +23,7 @@ export default function Upload() {
 
   const [manga, setManga] = useState();
   const [groups, setGroups] = useState();
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [blobUrls, setBlobUrls] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -33,24 +33,20 @@ export default function Upload() {
     label: group.name,
   }));
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+  const handleSelectedImages = (e) => {
+    const files = Array.from(e.target.files).map((f) => URL.createObjectURL(f));
     if (files.length > 0) {
-      setSelectedImages([...selectedImages, ...files]);
+      setBlobUrls([...blobUrls, ...files]);
     }
 
     // Clear input so that the next image change will trigger the event
     e.target.value = null;
   };
 
-  const handleImageDelete = (index) => {
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
-  };
-
-  const handleFileInputClick = () => {
-    fileInputRef.current.click();
+  const handleRemoveImage = (index) => {
+    const udatedBlobUrls = [...blobUrls];
+    udatedBlobUrls.splice(index, 1);
+    setBlobUrls(udatedBlobUrls);
   };
 
   //handle drag and drop event
@@ -58,19 +54,21 @@ export default function Upload() {
     if (draggedIndex === null || index === draggedIndex) {
       return;
     }
-    const updatedImages = [...selectedImages];
-    const [draggedImage] = updatedImages.splice(draggedIndex, 1);
-    updatedImages.splice(index, 0, draggedImage);
-    setSelectedImages(updatedImages);
+    const udatedBlobUrls = [...blobUrls];
+    const [draggedImage] = udatedBlobUrls.splice(draggedIndex, 1);
+    udatedBlobUrls.splice(index, 0, draggedImage);
+    setBlobUrls(udatedBlobUrls);
     setDraggedIndex(index);
   };
 
+  //submit the form
   const onSubmit = async (data) => {
-    if (!selectedImages.length) {
+    if (!blobUrls.length) {
       return toast.error("Please select at least one image.");
     }
 
-    const formData = buildFormData(data);
+    const images = await convertBlobURLsToBlobs(blobUrls);
+    const formData = buildFormData(data, images);
     try {
       await chapterApi.uploadChapter(formData);
       resetForm();
@@ -80,9 +78,21 @@ export default function Upload() {
     }
   };
 
-  const buildFormData = (data) => {
+  const convertBlobURLsToBlobs = async (blobURLs) => {
+    const blobArray = await Promise.all(
+      blobURLs.map(async (blobURL) => {
+        const response = await fetch(blobURL);
+        return await response.blob();
+      })
+    );
+    return blobArray;
+  };
+
+  const buildFormData = (data, images) => {
     const formData = new FormData();
-    selectedImages.forEach((image) => formData.append("pages", image));
+    images.forEach((image, index) =>
+      formData.append("pages", image, `image-${index}.jpg`)
+    );
 
     for (const key in data) {
       if (key === "uploadingGroupId" || key === "language") {
@@ -98,8 +108,7 @@ export default function Upload() {
 
   const resetForm = () => {
     fileInputRef.current.value = null;
-    setSelectedImages([]);
-    setDraggedIndex(null);
+    setBlobUrls([]);
     reset({
       uploadingGroupId: null,
       number: "",
@@ -286,14 +295,14 @@ export default function Upload() {
               type="file"
               accept="image/*"
               ref={fileInputRef}
-              onChange={handleImageChange}
+              onChange={handleSelectedImages}
               style={{ display: "none" }}
               multiple
             />
             <div className="image-container justify-left flex-wrap mb-4">
-              {selectedImages.map((image, index) => (
+              {blobUrls.map((image, index) => (
                 <div
-                  key={image.name}
+                  key={index}
                   className={`pages-upload-card flex-grow-0 ${
                     draggedIndex === index ? "dragging" : ""
                   }`}
@@ -304,14 +313,14 @@ export default function Upload() {
                 >
                   <img
                     className="image"
-                    src={URL.createObjectURL(image)}
+                    src={image}
                     alt="pages"
                     draggable="false"
                   />
                   <button
                     type="button"
                     className="delete-button"
-                    onClick={() => handleImageDelete(index)}
+                    onClick={() => handleRemoveImage(index)}
                   >
                     <i className="fa-solid fa-xmark"></i>
                   </button>
@@ -321,16 +330,19 @@ export default function Upload() {
                   <div className="image-label">{image.name}</div>
                 </div>
               ))}
-              <div className="input-pages" onClick={handleFileInputClick}>
+              <div
+                className="input-pages"
+                onClick={() => fileInputRef.current.click()}
+              >
                 <i className="fa-solid fa-plus" />
               </div>
             </div>
-            {selectedImages.length > 0 ? (
+            {blobUrls.length > 0 ? (
               <div>
                 <button
                   type="button"
                   className="btn btn-dark"
-                  onClick={() => setSelectedImages([])}
+                  onClick={() => setBlobUrls([])}
                 >
                   Remove all pages
                 </button>
