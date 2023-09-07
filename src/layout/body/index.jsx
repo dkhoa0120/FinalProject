@@ -16,6 +16,7 @@ import ChapterPage from "../../pages/manga/chapter";
 import Profile from "../../pages/profile";
 import Upload from "../../pages/upload/createChapter";
 import ManageChapter from "../../pages/upload/manageChapter";
+import Edit from "../../pages/upload/editChapter";
 
 export default function Body() {
   return (
@@ -36,6 +37,7 @@ export default function Body() {
         <Route path="/Chapter/:chapterId" element={<ChapterPage />} />
         <Route path="/Profile/:userId" element={<Profile />} />
         <Route path="/Upload/:mangaId" element={<Upload />} />
+        <Route path="/Upload/Edit/:chapterId" element={<Edit />} />
         <Route path="/upload/chapter" element={<ManageChapter />} />
       </Routes>
     </div>

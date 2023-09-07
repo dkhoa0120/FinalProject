@@ -1,6 +1,15 @@
 import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Table,
+  Modal,
+} from "react-bootstrap";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as chapterApi from "../../service/api.chapter";
@@ -14,6 +23,8 @@ export default function ManageChapter() {
 
   const [chapters, setChapters] = useState(null);
   const [totalPages, setTotalPages] = useState();
+  const [chapterDelete, setChapterDelete] = useState();
+  const [show, setShow] = useState(false);
 
   console.log(chapters);
 
@@ -35,6 +46,7 @@ export default function ManageChapter() {
       const result = await chapterApi.getChapterOfUploader(id, {
         search,
         page,
+        excludeDeleted: false,
       });
       setChapters(result.data.itemList);
       setTotalPages(result.data.totalPages);
@@ -58,8 +70,35 @@ export default function ManageChapter() {
     }
   };
 
+  // Confirm delete chapter
+  const handleDeleteChapter = async (id) => {
+    try {
+      await chapterApi.deleteChapter(id);
+      toast.success("chapter has been deleted", {
+        theme: "dark",
+      });
+      getChapters(userId, search, page);
+    } catch (error) {
+      toast.error("Failed to delete chapter");
+    }
+  };
+
+  // Undelete
+  const handleUndeleteChapter = async (id) => {
+    try {
+      await chapterApi.deleteChapter(id, true);
+      toast.success("Chapter has been restored", {
+        theme: "dark",
+      });
+      getChapters(userId, search, page);
+    } catch (error) {
+      toast.error("Failed to restore");
+    }
+  };
+
   return (
     <Container fluid>
+      <ToastContainer />
       <Row>
         <Col>
           <Form.Control
@@ -121,20 +160,35 @@ export default function ManageChapter() {
                     </td>
                     <td style={{ width: "200px" }}>
                       {item.deletedAt != null ? (
-                        <Button variant="dark" style={{ marginBottom: "5px" }}>
+                        <Button
+                          variant="dark"
+                          style={{ marginBottom: "5px" }}
+                          onClick={() => {
+                            handleUndeleteChapter(item.id);
+                          }}
+                        >
                           <i className="fa-solid fa-rotate-left"></i>
                           <span className="hide-when-mobile"> Undelete</span>
                         </Button>
                       ) : (
                         <>
-                          <Button style={{ marginBottom: "5px" }}>
-                            <i className="fa-solid fa-pen-to-square"></i>
-                            <span className="hide-when-mobile"> Edit</span>
-                          </Button>
+                          <Link
+                            to={`/Upload/Edit/${item.id}`}
+                            className="card-link"
+                          >
+                            <Button style={{ marginBottom: "5px" }}>
+                              <i className="fa-solid fa-pen-to-square"></i>
+                              <span className="hide-when-mobile"> Edit</span>
+                            </Button>
+                          </Link>
                           &nbsp;
                           <Button
                             variant="danger"
                             style={{ marginBottom: "5px" }}
+                            onClick={() => {
+                              setShow(true);
+                              setChapterDelete(item);
+                            }}
                           >
                             <i className="fa-solid fa-trash"></i>
                             <span className="hide-when-mobile"> Delete</span>
@@ -162,6 +216,26 @@ export default function ManageChapter() {
           setSearchParams={setSearchParams}
         />
       </div>
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are You Sure Want To Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          {chapterDelete?.manga.originalTitle} chap {chapterDelete?.number}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="danger"
+            onClick={() => {
+              setShow(false);
+              handleDeleteChapter(chapterDelete?.id);
+            }}
+          >
+            Confirm Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
