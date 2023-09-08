@@ -107,7 +107,7 @@ export default function Profile() {
             </Button>
           ))}
         </div>
-        {profileOption === "Uploads" && <Uploads />}
+        {profileOption === "Uploads" && <Uploads user={user} />}
         {profileOption === "Group" && <Groups />}
         {profileOption === "About" && <About />}
         {profileOption === "Manga List" && <MangaList />}

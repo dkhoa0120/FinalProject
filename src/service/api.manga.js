@@ -66,3 +66,16 @@ export const deleteManga = (id, undelete = false) => {
     params: { undelete },
   });
 };
+
+// get chapter in profiles
+
+export const getMangaInProfile = (uploaderId, filter) => {
+  const page = filter?.page;
+
+  return baseAxios.get(`uploader/${uploaderId}/chaptersByManga`, {
+    params: {
+      page,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
+  });
+};

@@ -11,10 +11,6 @@ export const getRelatedChapters = (id) => {
 
 //Upload chapter
 
-export const getUploadGroup = () => {
-  return getAuthorizedAxios().get("users/me/groups");
-};
-
 export const uploadChapter = (mangaId, formData) => {
   return getAuthorizedAxios().post(`mangas/${mangaId}/chapters`, formData);
 };
@@ -29,12 +25,12 @@ export const deleteChapter = (chapterId, undelete = false) => {
   });
 };
 
-export const getChapterOfUploader = (id, filter) => {
+export const getChapterOfUploader = (filter) => {
   const search = filter?.search;
   const page = filter?.page;
   const excludeDeleted = filter?.excludeDeleted;
 
-  return getAuthorizedAxios().get(`uploader/${id}/chapters`, {
+  return getAuthorizedAxios().get(`uploader/me/chapters`, {
     params: {
       search,
       page,

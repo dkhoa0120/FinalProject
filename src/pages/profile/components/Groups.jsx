@@ -1,93 +1,93 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import * as groupApi from "../../../service/api.helper";
 import Select from "react-select";
+import { UserContext } from "../../../context/UserContext";
+import { useContext } from "react";
 
 export default function Groups() {
   const [show, setShow] = useState(false);
+  const [groups, setGroups] = useState([]);
+  const { userId } = useParams();
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchGroupOptions = async (id) => {
+      try {
+        let res = await groupApi.getUploadGroup(id);
+        setGroups(res.data);
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          console.log("404");
+        }
+      }
+    };
+
+    fetchGroupOptions(userId);
+  }, [userId]);
+
   return (
     <Container fluid>
       <Row>
-        <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              cursor: "pointer ",
-              border: "dashed gray",
-              position: "relative",
-            }}
-            onClick={() => setShow(true)}
-          >
-            <i
-              className="fa-solid fa-plus"
+        {user && user?.id === userId && (
+          <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
+            <div
               style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                fontSize: "20px",
+                width: "100px",
+                height: "100px",
+                cursor: "pointer ",
+                border: "dashed gray",
+                position: "relative",
               }}
-            ></i>
-          </div>
-          <div>
-            <p className="text-limit-2" style={{ marginLeft: "10px" }}>
-              Create new group
-            </p>
-          </div>
-        </Col>
-        <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
-          <img
-            src="/img/error/coverNotFound.png"
-            style={{ width: "100px" }}
-            alt="group's cover"
-          ></img>
-          <div style={{ marginLeft: "10px" }}>
-            <p
-              className="text-limit-2"
-              style={{ fontWeight: "bold", marginBottom: "5px" }}
+              onClick={() => setShow(true)}
             >
-              Group Name
-            </p>
-            <p className="text-limit-2">By ABC</p>
-          </div>
-        </Col>
-        <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
-          <img
-            src="/img/error/coverNotFound.png"
-            style={{ width: "100px" }}
-            alt="group's cover"
-          ></img>
-          <div>
-            <p
-              className="text-limit-2"
-              style={{ fontWeight: "bold", marginBottom: "5px" }}
-            >
-              Group Name
-            </p>
-            <p className="text-limit-2" style={{ textAlign: "center" }}>
-              By ABC
-            </p>
-          </div>
-        </Col>
-        <Col className="d-flex align-items-center mx-4 mb-3 gap-2">
-          <img
-            src="/img/error/coverNotFound.png"
-            style={{ width: "100px" }}
-            alt="group's cover"
-          ></img>
-          <div>
-            <p
-              className="text-limit-2"
-              style={{ fontWeight: "bold", marginBottom: "5px" }}
-            >
-              Group Name
-            </p>
-            <p className="text-limit-2" style={{ textAlign: "center" }}>
-              By ABC
-            </p>
-          </div>
-        </Col>
+              <i
+                className="fa-solid fa-plus"
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  fontSize: "20px",
+                }}
+              ></i>
+            </div>
+            <div>
+              <p className="text-limit-2" style={{ marginLeft: "10px" }}>
+                Create new group
+              </p>
+            </div>
+          </Col>
+        )}
+        {groups ? (
+          groups.map((item, index) => {
+            return (
+              <Col
+                className="d-flex align-items-center mx-4 mb-3 gap-2"
+                key={index}
+              >
+                <img
+                  src="/img/error/coverNotFound.png"
+                  style={{ width: "100px" }}
+                  alt="group's cover"
+                ></img>
+                <div style={{ marginLeft: "10px" }}>
+                  <p
+                    className="text-limit-2"
+                    style={{ fontWeight: "bold", marginBottom: "5px" }}
+                  >
+                    {item.name}
+                  </p>
+                  <p className="text-limit-2">By ABC</p>
+                </div>
+              </Col>
+            );
+          })
+        ) : (
+          <p></p>
+        )}
       </Row>
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -11,15 +11,12 @@ import {
   Modal,
 } from "react-bootstrap";
 import "./styles.css";
-import { UserContext } from "../../context/UserContext";
 import * as chapterApi from "../../service/api.chapter";
 import Pagination from "../../components/pagination";
 
 export default function ManageChapter() {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
   const [searchParams, setSearchParams] = useSearchParams();
-  const userId = user?.id;
 
   const [chapters, setChapters] = useState(null);
   const [totalPages, setTotalPages] = useState();
@@ -37,13 +34,13 @@ export default function ManageChapter() {
   }, []);
 
   useEffect(() => {
-    getChapters(userId, search, page);
+    getChapters(search, page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId, search, page]);
+  }, [search, page]);
 
-  const getChapters = async (id, search, page) => {
+  const getChapters = async (search, page) => {
     try {
-      const result = await chapterApi.getChapterOfUploader(id, {
+      const result = await chapterApi.getChapterOfUploader({
         search,
         page,
         excludeDeleted: false,
@@ -77,7 +74,7 @@ export default function ManageChapter() {
       toast.success("chapter has been deleted", {
         theme: "dark",
       });
-      getChapters(userId, search, page);
+      getChapters(search, page);
     } catch (error) {
       toast.error("Failed to delete chapter");
     }
@@ -90,7 +87,7 @@ export default function ManageChapter() {
       toast.success("Chapter has been restored", {
         theme: "dark",
       });
-      getChapters(userId, search, page);
+      getChapters(search, page);
     } catch (error) {
       toast.error("Failed to restore");
     }

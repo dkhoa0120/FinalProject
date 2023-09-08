@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import * as mangaApi from "../../service/api.manga";
+import * as groupApi from "../../service/api.helper";
 import * as chapterApi from "../../service/api.chapter";
 import { LanguageContext } from "../../context/LanguageContext";
 import "./styles.css";
@@ -28,11 +29,17 @@ export default function Upload() {
   const navigate = useNavigate();
   const { mangaId } = useParams();
   const { languageOptions } = useContext(LanguageContext);
-  const { groupOptions } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const userId = user?.id;
 
   const [manga, setManga] = useState();
   const [imageInfos, setImageInfos] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
+  const [groups, setGroups] = useState([]);
+  const groupOptions = groups?.map((group) => ({
+    value: group.id,
+    label: group.name,
+  }));
   const fileInputRef = useRef(null);
 
   //submit the form
@@ -64,12 +71,21 @@ export default function Upload() {
   };
 
   useEffect(() => {
-    const fetchMangaAndGroups = async () => {
-      await getMangaDetail(mangaId);
-    };
-    fetchMangaAndGroups();
+    getMangaDetail(mangaId);
+    fetchGroupOptions(userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mangaId]);
+  }, [mangaId, userId]);
+
+  const fetchGroupOptions = async (id) => {
+    try {
+      let res = await groupApi.getUploadGroup(id);
+      setGroups(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
+  };
 
   const getMangaDetail = async (id) => {
     try {
