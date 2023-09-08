@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
-import * as authApi from "../../service/api.auth";
+import * as profileApi from "../../service/api.profile";
 import Uploads from "./components/Uploads";
 import MangaList from "./components/MangaList";
 import Groups from "./components/Groups";
@@ -23,23 +23,37 @@ export default function Profile() {
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
+  const [userStats, setUserStats] = useState(null);
   const { userId } = useParams();
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    const getUserDetail = async (id) => {
-      try {
-        const result = await authApi.getUserBasic(id);
-        setUserDetails(result.data);
-        document.title = `Profile - 3K Manga`;
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          console.log(error.response);
-        }
-      }
-    };
+    document.title = `Profile - 3K Manga`;
     getUserDetail(userId);
+    getUserStats(userId);
   }, [userId]);
+
+  const getUserDetail = async (id) => {
+    try {
+      const result = await profileApi.getProfileBasic(id);
+      setUserDetails(result.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log(error.response);
+      }
+    }
+  };
+
+  const getUserStats = async (id) => {
+    try {
+      const result = await profileApi.getProfileStats(id);
+      setUserStats(result.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log(error.response);
+      }
+    }
+  };
 
   return (
     <>
@@ -81,9 +95,13 @@ export default function Profile() {
           </div>
           <div id="profile-name">{userDetails?.name}</div>
           <div style={{ margin: "2px" }}>
-            <span className="profile-text">16 followed</span>
+            <span className="profile-text">
+              {userStats?.followerNumber} followed
+            </span>
             &nbsp;&nbsp;
-            <span className="profile-text">500 following</span>
+            <span className="profile-text">
+              {userStats?.followingNumber} following
+            </span>
           </div>
         </div>
         <div id="profile-buttons">
@@ -109,7 +127,9 @@ export default function Profile() {
         </div>
         {profileOption === "Uploads" && <Uploads />}
         {profileOption === "Group" && <Groups />}
-        {profileOption === "About" && <About />}
+        {profileOption === "About" && (
+          <About userStats={userStats} userDetails={userDetails} />
+        )}
         {profileOption === "Manga List" && <MangaList />}
       </div>
       <AvatarModal

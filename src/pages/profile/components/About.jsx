@@ -1,22 +1,35 @@
-export default function About() {
+import { Col, Container, Row } from "react-bootstrap";
+
+export default function About({ userStats, userDetails }) {
+  function formatDate(inputDate) {
+    const dateObj = new Date(inputDate);
+
+    const day = String(dateObj.getUTCDate()).padStart(2, "0");
+    const month = String(dateObj.getUTCMonth() + 1).padStart(2, "0"); // months are 0-indexed
+    const year = dateObj.getUTCFullYear();
+
+    return `${month}/${day}/${year}`;
+  }
+
   return (
-    <div style={{ padding: "30px" }}>
-      <div className="d-flex gap-2">
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>About us</div>
-        <div className="d-flex align-items-center">
-          <span>Joined 27/8/2023</span>
-        </div>
-      </div>
-      <hr />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-    </div>
+    <Container fluid style={{ padding: "0 30px" }}>
+      <Row>
+        <Col md={9}>
+          <h1 className="about-title">About us</h1>
+          <hr />
+          <p>{userDetails?.biography}</p>
+        </Col>
+        <Col md={3}>
+          <h1 className="about-title">Stats</h1>
+          <hr />
+          <ul>
+            <li>Joined {formatDate(userDetails?.createdAt)}</li>
+            <li>{userStats.followedMangaNumber} followed mangas</li>
+            <li>{userStats.uploadedChapterNumber} uploaded chapters</li>
+            <li>{userStats.viewGainedNumber} views</li>
+          </ul>
+        </Col>
+      </Row>
+    </Container>
   );
 }

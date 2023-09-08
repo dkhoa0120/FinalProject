@@ -279,6 +279,19 @@
   background-color: rgb(194, 225, 194);
 }
 
+.about-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.chapter-group-container {
+  display: flex;
+  gap: 1rem;
+  margin: 0 15px 15px 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid lightgrey;
+}
+
 @media screen and (min-width: 768px) {
   .modal-50w {
     min-width: 50vw !important;

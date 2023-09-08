@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
+import * as groupApi from "../../service/api.helper";
 import * as chapterApi from "../../service/api.chapter";
 import { LanguageContext } from "../../context/LanguageContext";
 import "./styles.css";
@@ -27,11 +28,17 @@ export default function Edit() {
   const navigate = useNavigate();
   const { chapterId } = useParams();
   const { languageOptions } = useContext(LanguageContext);
-  const { groupOptions } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const userId = user?.id;
 
   const [chapter, setChapter] = useState(null);
   const [imageInfos, setImageInfos] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
+  const [groups, setGroups] = useState([]);
+  const groupOptions = groups?.map((group) => ({
+    value: group.id,
+    label: group.name,
+  }));
   const fileInputRef = useRef(null);
 
   //submit the form
@@ -88,12 +95,21 @@ export default function Edit() {
   }, [chapter, setValue]);
 
   useEffect(() => {
-    const fetchMangaAndGroups = async () => {
-      await getChapterDetail(chapterId);
-    };
-    fetchMangaAndGroups();
+    getChapterDetail(chapterId);
+    fetchGroupOptions(userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapterId]);
+  }, [chapterId, userId]);
+
+  const fetchGroupOptions = async (id) => {
+    try {
+      let res = await groupApi.getUploadGroup(id);
+      setGroups(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
+  };
 
   const getChapterDetail = async (id) => {
     try {
