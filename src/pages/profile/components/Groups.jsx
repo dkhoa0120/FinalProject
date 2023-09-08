@@ -62,14 +62,14 @@ export default function Groups() {
           </Col>
         )}
         {groups ? (
-          groups.map((item, index) => {
+          groups.map((group, index) => {
             return (
               <Col
                 className="d-flex align-items-center mx-4 mb-3 gap-2"
                 key={index}
               >
                 <img
-                  src="/img/error/coverNotFound.png"
+                  src={group.avatarPath}
                   style={{ width: "100px" }}
                   alt="group's cover"
                 ></img>
@@ -78,9 +78,9 @@ export default function Groups() {
                     className="text-limit-2"
                     style={{ fontWeight: "bold", marginBottom: "5px" }}
                   >
-                    {item.name}
+                    {group.name}
                   </p>
-                  <p className="text-limit-2">By ABC</p>
+                  <p className="text-limit-2">{group.memberNumber} members</p>
                 </div>
               </Col>
             );

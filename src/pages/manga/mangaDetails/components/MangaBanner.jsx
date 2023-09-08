@@ -13,7 +13,7 @@ export default function MangaBanner({
 
   return (
     <Container fluid className="banner">
-      <Row className="aligh-items-center">
+      <Row>
         <Col xs={12} sm={6} xl={3} className="cover-container">
           <div>
             {manga ? (
@@ -64,7 +64,7 @@ export default function MangaBanner({
               <Dropdown.Menu>
                 <Dropdown.Header>Rate this manga</Dropdown.Header>
                 <Dropdown.Item eventKey={5} active={rate === 5}>
-                  (5) Masterpice
+                  (5) Masterpiece
                 </Dropdown.Item>
                 <Dropdown.Item eventKey={4} active={rate === 4}>
                   (4) Good
