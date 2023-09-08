@@ -69,7 +69,7 @@ export default function Groups() {
                 key={index}
               >
                 <img
-                  src={group.avatarPath}
+                  src={group.avatarPath || "/img/error/coverNotFound.png"}
                   style={{ width: "100px" }}
                   alt="group's cover"
                 ></img>

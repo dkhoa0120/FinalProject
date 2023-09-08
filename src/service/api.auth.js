@@ -16,10 +16,6 @@ export const getCurrentUserBasic = () => {
   return getAuthorizedAxios().get("profile/me");
 };
 
-export const getUserBasic = (id) => {
-  return getAuthorizedAxios().get(`profile/${id}`);
-};
-
 export const changeUserAvatar = (formData) => {
   return getAuthorizedAxios().put("profile/me/change-avatar", formData);
 };
