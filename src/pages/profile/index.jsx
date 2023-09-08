@@ -128,11 +128,7 @@ export default function Profile() {
         {profileOption === "Uploads" && <Uploads />}
         {profileOption === "Group" && <Groups />}
         {profileOption === "About" && (
-          <About
-            userStats={userStats}
-            joinedDate={userDetails?.createdAt}
-            bio={userDetails?.biography}
-          />
+          <About userStats={userStats} userDetails={userDetails} />
         )}
         {profileOption === "Manga List" && <MangaList />}
       </div>

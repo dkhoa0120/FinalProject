@@ -70,7 +70,11 @@ export default function Groups() {
               >
                 <img
                   src={group.avatarPath || "/img/error/coverNotFound.png"}
-                  style={{ width: "100px" }}
+                  style={{
+                    width: "100px",
+                    borderRadius: "50%",
+                    aspectRatio: "1/1",
+                  }}
                   alt="group's cover"
                 ></img>
                 <div style={{ marginLeft: "10px" }}>
