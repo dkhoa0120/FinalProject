@@ -16,6 +16,8 @@
   display: flex;
   flex-wrap: wrap;
   margin: -5px;
+  touch-action: none;
+  -ms-touch-action: none;
 }
 
 .image-container .input-pages {
@@ -26,11 +28,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: border 300ms ease;
+  transition: background-color 300ms ease;
   cursor: pointer;
   text-align: center;
   margin: 12px;
-  transition: all 0.1s ease-in;
 }
 
 .image-container .input-pages:hover {
@@ -39,6 +40,10 @@
 
 .pages-upload-card {
   position: relative;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 5px;
   flex-grow: 1;
   margin: 12px;
   width: 130px;
@@ -50,7 +55,6 @@
   cursor: grab;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  transition: all 0.1s ease-in-out;
 }
 
 .pages-upload-card .image {
@@ -92,6 +96,7 @@
 }
 
 .image-label {
+  user-select: none;
   position: absolute;
   bottom: 4px;
   background-color: #494949;
@@ -106,5 +111,27 @@
 }
 
 .pages-upload-card.dragging {
-  opacity: 0;
+  pointer-events: none;
+  touch-action: none;
+  -ms-touch-action: none;
+  border: 1px dashed grey;
+  box-shadow: none;
+  animation: wiggle 0.3s ease-in-out infinite;
+}
+
+.pages-upload-card.dragging button,
+.pages-upload-card.dragging .image-label {
+  display: none;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(-2deg);
+  }
 }

@@ -17,6 +17,7 @@ import {
   handleDragOver,
 } from "./chapterUtilities";
 import { UserContext } from "../../context/UserContext";
+import PageUploader from "./components/PageUploader";
 
 export default function Upload() {
   const {
@@ -41,6 +42,7 @@ export default function Upload() {
     label: group.name,
   }));
   const fileInputRef = useRef(null);
+  const containerRef = useRef(null);
 
   //submit the form
   const onSubmit = async (data) => {
@@ -115,6 +117,87 @@ export default function Upload() {
       imageInfos,
       setImageInfos
     );
+  };
+
+  const dragStart = (e, index, imageInfo) => {
+    if (e.button !== 0) return; // only use left mouse click;
+    setDraggedIndex(index);
+
+    const container = containerRef.current;
+    const dragItem = [...container.childNodes][index];
+
+    const notDragItems = [...container.childNodes].filter(
+      (_, i) => i !== index
+    );
+
+    // getBoundingClientRect of dragItem
+    const dragBoundingRect = dragItem.getBoundingClientRect();
+
+    // get the original coordinates of the mouse pointer
+    let x = e.clientX;
+    let y = e.clientY;
+
+    dragItem.style = "";
+
+    const dragMirror = document.createElement("div");
+    dragMirror.className = "pages-upload-card ghost-dragging";
+    dragMirror.style.position = "fixed";
+    dragMirror.style.zIndex = 5000;
+    dragMirror.style.pointerEvents = "none";
+    dragMirror.style.backgroundImage = `url(${imageInfo.url})`;
+    dragMirror.style.top = dragBoundingRect.top - 12 + "px"; //minus the margin of the div
+    dragMirror.style.left = dragBoundingRect.left - 12 + "px"; //minus the margin of the div
+    dragMirror.style.width = dragBoundingRect.width + "px";
+    dragMirror.style.height = dragBoundingRect.height + "px";
+    dragMirror.style.opacity = 0.8;
+    dragMirror.draggable = "true";
+
+    container.appendChild(dragMirror);
+
+    // perform the function on hover
+    document.onpointermove = dragMove;
+
+    function dragMove(e) {
+      // Calculate the distance the mouse pointer has traveled.
+      // original coordinates minus current coordinates.
+      const posX = e.clientX - x;
+      const posY = e.clientY - y;
+
+      // Move Item
+      dragMirror.style.transform = `translate(${posX}px, ${posY}px)`;
+
+      notDragItems.forEach((item, itemIndex) => {
+        const rect1 = dragMirror.getBoundingClientRect();
+        const rect2 = item.getBoundingClientRect();
+
+        // Check for overlap
+        if (
+          rect1.right > rect2.left &&
+          rect1.left < rect2.right &&
+          rect1.bottom > rect2.top &&
+          rect1.top < rect2.bottom
+        ) {
+          item.style.border = "2px solid red"; // Highlight the item
+        } else {
+          // No overlap, remove any previous style changes
+          item.style.border = "";
+        }
+
+        // continue here~!
+      });
+    }
+
+    // finish onPointerDown event
+    document.onpointerup = dragEnd;
+
+    function dragEnd() {
+      document.onpointerup = "";
+      document.onpointermove = "";
+      setDraggedIndex(null);
+      notDragItems.forEach((item) => (item.style.border = ""));
+      dragItem.style.backgroundImage = `url(${imageInfo.url})`;
+      container.removeChild(dragMirror);
+    }
   };
 
   return (
@@ -260,65 +343,16 @@ export default function Upload() {
           </Row>
           <Row>
             <Form.Label>Pages</Form.Label>
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleSelected}
-              style={{ display: "none" }}
-              multiple
+            <PageUploader
+              containerRef={containerRef}
+              fileInputRef={fileInputRef}
+              handleSelected={handleSelected}
+              imageInfos={imageInfos}
+              setImageInfos={setImageInfos}
+              handleRemove={handleRemove}
+              draggedIndex={draggedIndex}
+              dragStart={dragStart}
             />
-            <div className="image-container justify-left flex-wrap mb-4">
-              {imageInfos.map((imageInfo, index) => (
-                <div
-                  key={imageInfo.name}
-                  className={`pages-upload-card flex-grow-0 ${
-                    draggedIndex === index ? "dragging" : ""
-                  }`}
-                  draggable="true"
-                  onDragStart={() => setDraggedIndex(index)}
-                  onDragOver={() => handleDrag(index)}
-                  onDragEnd={() => setDraggedIndex(null)}
-                >
-                  <img
-                    className="image"
-                    src={imageInfo.url}
-                    alt="pages"
-                    draggable="false"
-                  />
-                  <button
-                    type="button"
-                    className="delete-button"
-                    onClick={() => handleRemove(index)}
-                  >
-                    <i className="fa-solid fa-xmark"></i>
-                  </button>
-                  <button type="button" className="drag-button">
-                    <i className="fa-solid fa-arrows-up-down-left-right"></i>
-                  </button>
-                  <div className="image-label">{imageInfo.name}</div>
-                </div>
-              ))}
-              <div
-                className="input-pages"
-                onClick={() => fileInputRef.current.click()}
-              >
-                <i className="fa-solid fa-plus" />
-              </div>
-            </div>
-            {imageInfos.length > 0 ? (
-              <div>
-                <button
-                  type="button"
-                  className="btn btn-dark"
-                  onClick={() => setImageInfos([])}
-                >
-                  Remove all pages
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
           </Row>
         </Form>
         <Row>
