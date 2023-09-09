@@ -125,10 +125,9 @@ export default function Upload() {
 
     const container = containerRef.current;
     const dragItem = [...container.childNodes][index];
-
-    const notDragItems = [...container.childNodes].filter(
-      (_, i) => i !== index
-    );
+    const dragData = imageInfos[index];
+    const notDragItems = [...container.childNodes];
+    let newData = [...imageInfos];
 
     // getBoundingClientRect of dragItem
     const dragBoundingRect = dragItem.getBoundingClientRect();
@@ -170,20 +169,22 @@ export default function Upload() {
         const rect1 = dragMirror.getBoundingClientRect();
         const rect2 = item.getBoundingClientRect();
 
+        let isOverlapping =
+          rect1.right > rect2.left + rect2.width / 2 &&
+          rect1.left + rect1.width / 2 < rect2.right &&
+          rect1.bottom > rect2.top + rect2.height / 2 &&
+          rect1.top + rect1.height / 2 < rect2.bottom;
+
         // Check for overlap
-        if (
-          rect1.right > rect2.left &&
-          rect1.left < rect2.right &&
-          rect1.bottom > rect2.top &&
-          rect1.top < rect2.bottom
-        ) {
-          item.style.border = "2px solid red"; // Highlight the item
+        if (isOverlapping && index !== itemIndex) {
+          // Swap Data
+          newData = imageInfos.filter((item) => item.url !== dragData.url);
+          newData.splice(itemIndex, 0, dragData);
+          setImageInfos(newData);
         } else {
           // No overlap, remove any previous style changes
           item.style.border = "";
         }
-
-        // continue here~!
       });
     }
 
@@ -193,10 +194,9 @@ export default function Upload() {
     function dragEnd() {
       document.onpointerup = "";
       document.onpointermove = "";
-      setDraggedIndex(null);
-      notDragItems.forEach((item) => (item.style.border = ""));
-      dragItem.style.backgroundImage = `url(${imageInfo.url})`;
       container.removeChild(dragMirror);
+      dragItem.style.backgroundImage = `url(${imageInfo.url})`;
+      setDraggedIndex(null);
     }
   };
 

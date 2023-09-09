@@ -32,6 +32,7 @@ export default function PageUploader({
               backgroundImage: `url(${imageInfo.url})`,
             }}
             onPointerDown={(e) => dragStart(e, index, imageInfo)}
+            draggable="true"
           >
             <button
               type="button"
@@ -40,9 +41,9 @@ export default function PageUploader({
             >
               <i className="fa-solid fa-xmark"></i>
             </button>
-            <button type="button" className="drag-button">
+            {/* <button type="button" className="drag-button">
               <i className="fa-solid fa-arrows-up-down-left-right"></i>
-            </button>
+            </button> */}
             <div className="image-label">{imageInfo.name}</div>
           </div>
         ))}
