@@ -2,29 +2,54 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import * as groupApi from "../../../service/api.helper";
-import Select from "react-select";
+import * as groupApi from "../../../service/api.group";
 import { UserContext } from "../../../context/UserContext";
 import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function Groups() {
   const [show, setShow] = useState(false);
   const [groups, setGroups] = useState([]);
   const { userId } = useParams();
   const { user } = useContext(UserContext);
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({ defaultValues: {} });
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
+    try {
+      await groupApi.postGroup(formData);
+      setShow(false);
+      reset();
+      fetchGroupOptions(userId);
+      toast.success("A group has been created");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchGroupOptions = async (id) => {
+    try {
+      let res = await groupApi.getUploadGroup(id);
+      setGroups(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchGroupOptions = async (id) => {
-      try {
-        let res = await groupApi.getUploadGroup(id);
-        setGroups(res.data);
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          console.log("404");
-        }
-      }
-    };
-
     fetchGroupOptions(userId);
   }, [userId]);
 
@@ -69,7 +94,7 @@ export default function Groups() {
                 key={index}
               >
                 <img
-                  src={group.avatarPath || "/img/error/coverNotFound.png"}
+                  src={group.avatarPath || "/img/avatar/defaultGroup.jpg"}
                   style={{
                     width: "100px",
                     borderRadius: "50%",
@@ -78,12 +103,14 @@ export default function Groups() {
                   alt="group's cover"
                 ></img>
                 <div style={{ marginLeft: "10px" }}>
-                  <p
-                    className="text-limit-2"
-                    style={{ fontWeight: "bold", marginBottom: "5px" }}
-                  >
-                    {group.name}
-                  </p>
+                  <Link to={`/Group/${group.id}`} className="card-link">
+                    <p
+                      className="text-limit-2"
+                      style={{ fontWeight: "bold", marginBottom: "5px" }}
+                    >
+                      {group.name}
+                    </p>
+                  </Link>
                   <p className="text-limit-2">{group.memberNumber} members</p>
                 </div>
               </Col>
@@ -98,25 +125,42 @@ export default function Groups() {
           <Modal.Title>Create new group</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form id="create-form" onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control />
+              {errors.name && (
+                <i
+                  title={errors.name.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+              <Form.Control
+                name="Name"
+                defaultValue={null}
+                control={control}
+                rules={{ required: "This field is required" }}
+                {...register("name", {
+                  required: "Group name is required",
+                })}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Type</Form.Label>
-              <Select
-                options={[
-                  { value: "Uploader Group", label: "Uploader Group" },
-                  { value: "Community Group", label: "Community Group" },
-                ]}
+              <Form.Label>Biography</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="Biography"
+                defaultValue={null}
+                control={control}
+                {...register("biography", {})}
               />
             </Form.Group>
           </Form>
           <div style={{ display: "flex", justifyContent: "end" }}>
-            <Link to={`/UploaderGroup`}>
-              <Button variant="success">Create</Button>
-            </Link>
+            <Button type="submit" form="create-form" variant="success">
+              Create
+            </Button>
           </div>
         </Modal.Body>
       </Modal>

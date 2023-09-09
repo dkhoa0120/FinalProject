@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 
-export default function About({ userStats, userDetails }) {
+export default function About({ groupDetails }) {
   function formatDate(inputDate) {
     const dateObj = new Date(inputDate);
 
@@ -17,15 +17,15 @@ export default function About({ userStats, userDetails }) {
         <Col md={9}>
           <h1 className="about-title">About us</h1>
           <hr />
-          <p>{userDetails?.biography}</p>
+          <p>{groupDetails?.biography}</p>
         </Col>
         <Col md={3}>
           <h1 className="about-title">Stats</h1>
           <hr />
           <ul>
-            <li>Joined {formatDate(userDetails?.createdAt)}</li>
-            <li>{userStats.uploadedChapterNumber} uploaded chapters</li>
-            <li>{userStats.viewGainedNumber} views</li>
+            <li>Created at {formatDate(groupDetails?.createdAt)}</li>
+            <li>{groupDetails.uploadedChapterNumber} uploaded chapters</li>
+            <li>{groupDetails.viewGainedNumber} views</li>
           </ul>
         </Col>
       </Row>

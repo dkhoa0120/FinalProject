@@ -2,44 +2,31 @@ import { useState, useContext, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import * as profileApi from "../../service/api.profile";
+import * as groupApi from "../../service/api.group";
 import Uploads from "./components/Uploads";
 import About from "./components/About";
 import MangaList from "./components/MangaList";
 import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
 
-export default function GroupProfile() {
+export default function Group() {
   const profileOptions = ["Uploads", "Manga List", "Community", "About"];
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
+  const [groupDetails, setGroupDetails] = useState(null);
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
-  const [userStats, setUserStats] = useState(null);
-  const { userId } = useParams();
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const { groupId } = useParams();
 
   useEffect(() => {
-    document.title = `Group - 3K Manga`;
-    getUserDetail(userId);
-    getUserStats(userId);
-  }, [userId]);
+    getGroupDetail(groupId);
+  }, [groupId]);
 
-  const getUserDetail = async (id) => {
+  const getGroupDetail = async (id) => {
     try {
-      const result = await profileApi.getProfileBasic(id);
-      setUserDetails(result.data);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        console.log(error.response);
-      }
-    }
-  };
-
-  const getUserStats = async (id) => {
-    try {
-      const result = await profileApi.getProfileStats(id);
-      setUserStats(result.data);
+      const result = await groupApi.getGroupInfo(id);
+      document.title = `Group - 3K Manga`;
+      setGroupDetails(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         console.log(error.response);
@@ -52,18 +39,18 @@ export default function GroupProfile() {
       <div
         id="profile-banner"
         style={
-          userDetails?.bannerPath
+          groupDetails?.bannerPath
             ? {
-                backgroundImage: `url(${userDetails.bannerPath})`,
+                backgroundImage: `url(${groupDetails.bannerPath})`,
                 cursor: "pointer",
               }
             : {}
         }
-        onClick={() => {
-          if (user && user?.id === userId) {
-            setShowBannerModal(true);
-          }
-        }}
+        // onClick={() => {
+        //   if (user && user?.id === userId) {
+        //     setShowBannerModal(true);
+        //   }
+        // }}
       ></div>
 
       <div id="profile-info">
@@ -71,10 +58,10 @@ export default function GroupProfile() {
           <div className="container-avatar">
             <img
               id="profile-image"
-              src={userDetails?.avatarPath || "/img/avatar/default.png"}
+              src={groupDetails?.avatarPath || "/img/avatar/defaultGroup.jpg"}
               alt="Avatar"
             ></img>
-            {user && user?.id === userId && (
+            {/* {user && user?.id === userId && (
               <div
                 id="profile-image-change"
                 onClick={() => {
@@ -83,18 +70,20 @@ export default function GroupProfile() {
               >
                 <i className="fa-solid fa-camera"></i>
               </div>
-            )}
+            )} */}
           </div>
-          <div id="profile-name">{userDetails?.name}</div>
+          <div id="profile-name">{groupDetails?.name}</div>
           <div style={{ margin: "2px" }}>
-            <span className="profile-text">10 members</span>
+            <span className="profile-text">
+              {groupDetails?.memberNumber} members
+            </span>
           </div>
         </div>
         <div id="profile-buttons">
-          {user && user?.id === userId && (
+          {/* {user && user?.id === userId && (
             <Button variant="outline-dark">Edit profile</Button>
-          )}
-          {user?.id !== userId && <Button variant="outline-dark">Join</Button>}
+          )} */}
+          {user?.id && <Button variant="outline-dark">Join</Button>}
         </div>
       </div>
       <div className="general-container">
@@ -110,12 +99,10 @@ export default function GroupProfile() {
           ))}
         </div>
         {profileOption === "Uploads" && <Uploads />}
-        {profileOption === "About" && (
-          <About userStats={userStats} userDetails={userDetails} />
-        )}
+        {profileOption === "About" && <About groupDetails={groupDetails} />}
         {profileOption === "Manga List" && <MangaList />}
       </div>
-      <AvatarModal
+      {/* <AvatarModal
         close={() => setShowAvatarModal(false)}
         show={showAvatarModal}
         userDetails={userDetails}
@@ -128,7 +115,7 @@ export default function GroupProfile() {
         userDetails={userDetails}
         setUser={setUser}
         setUserDetails={setUserDetails}
-      />
+      /> */}
     </>
   );
 }

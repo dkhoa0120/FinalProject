@@ -5,7 +5,7 @@ import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import * as mangaApi from "../../service/api.manga";
-import * as groupApi from "../../service/api.helper";
+import * as groupApi from "../../service/api.group";
 import * as chapterApi from "../../service/api.chapter";
 import { LanguageContext } from "../../context/LanguageContext";
 import "./styles.css";
