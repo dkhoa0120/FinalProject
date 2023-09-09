@@ -292,6 +292,27 @@
   border-bottom: 1px solid lightgrey;
 }
 
+.create-group-button {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: dashed gray;
+  border-radius: 50%;
+  position: relative;
+}
+
+.create-group-button:hover {
+  background-color: rgb(194, 225, 194);
+}
+
+.create-group-button > i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
 @media screen and (min-width: 768px) {
   .modal-50w {
     min-width: 50vw !important;

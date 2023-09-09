@@ -73,7 +73,6 @@ export default function Profile() {
           }
         }}
       ></div>
-
       <div id="profile-info">
         <div id="profile-details">
           <div className="container-avatar">
