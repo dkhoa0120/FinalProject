@@ -74,15 +74,13 @@ export default function Groups() {
             return (
               <Col md={3} key={index}>
                 <div className="d-flex align-items-center gap-3 mb-3">
-                  <img
-                    src={group.avatarPath || "/img/avatar/defaultGroup.jpg"}
-                    style={{
-                      width: "100px",
-                      borderRadius: "50%",
-                      aspectRatio: "1/1",
-                    }}
-                    alt="group's cover"
-                  ></img>
+                  <Link to={`/Group/${group.id}`} className="card-link">
+                    <img
+                      className="group-avatar"
+                      src={group.avatarPath || "/img/avatar/defaultGroup.jpg"}
+                      alt="group's cover"
+                    ></img>
+                  </Link>
                   <div style={{ marginLeft: "10px" }}>
                     <Link to={`/Group/${group.id}`} className="card-link">
                       <p

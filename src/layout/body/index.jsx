@@ -18,6 +18,7 @@ import Upload from "../../pages/upload/createChapter";
 import ManageChapter from "../../pages/upload/manageChapter";
 import Edit from "../../pages/upload/editChapter";
 import Group from "../../pages/groupProfile";
+import MangaListGroup from "../../pages/profile/components/MangaListGroup";
 
 export default function Body() {
   return (
@@ -41,6 +42,7 @@ export default function Body() {
         <Route path="/Upload/Edit/:chapterId" element={<Edit />} />
         <Route path="/upload/chapter" element={<ManageChapter />} />
         <Route path="/Group/:groupId" element={<Group />} />
+        <Route path="/Mangalist" element={<MangaListGroup />} />
       </Routes>
     </div>
   );

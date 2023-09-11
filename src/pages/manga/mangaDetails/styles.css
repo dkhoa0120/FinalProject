@@ -102,6 +102,17 @@
   margin-bottom: 0.5rem;
 }
 
+.btn-under-cover.btn-report:hover {
+  color: red;
+}
+
+.btn-under-cover.btn-add:hover {
+  color: blue;
+}
+.btn-under-cover.btn-upload:hover {
+  color: green;
+}
+
 @media screen and (max-width: 767px) {
   .banner h1 {
     font-size: 32px;

@@ -68,14 +68,7 @@ export default function Uploads() {
                   </div>
                   <div className="flex-grow-1">
                     <Link to={`/Manga/${m.manga.id}`} className="card-link">
-                      <p
-                        className="text-limit-1"
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "5px",
-                        }}
-                      >
+                      <p className="text-limit-1 manga-original-title">
                         {m.manga.originalTitle}
                       </p>
                     </Link>
@@ -84,13 +77,7 @@ export default function Uploads() {
                         <Row key={index}>
                           <Col xs={12} md={4}>
                             <Link to={`/Chapter/${c.id}`} className="card-link">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  paddingBottom: "5px",
-                                }}
-                              >
+                              <div className="chapter-name">
                                 <CountryFlag key={c.id} lang={c.language} />
                                 <span className="text-limit-1">{c.name}</span>
                               </div>

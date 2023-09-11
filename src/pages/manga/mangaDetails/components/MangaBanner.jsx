@@ -1,7 +1,15 @@
 import { useState } from "react";
-import { Container, Row, Col, Dropdown } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Dropdown,
+  Modal,
+  Form,
+  Button,
+} from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function MangaBanner({
   manga,
   handleSelectRate,
@@ -9,7 +17,14 @@ export default function MangaBanner({
   follow,
   handleFollow,
 }) {
+  const navigate = useNavigate();
   const [moreDescription, setMoreDescription] = useState(false);
+  const [show, setShow] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  const handleShowForm = () => {
+    setShowForm(!showForm);
+  };
 
   return (
     <Container fluid className="banner">
@@ -83,18 +98,21 @@ export default function MangaBanner({
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <button className="btn-under-cover">
-              <i className="fa-regular fa-flag"></i>
+            <button className="btn-under-cover btn-report">
+              <i className="fa-solid fa-flag"></i>
+            </button>
+            <button
+              className="btn-under-cover btn-add"
+              onClick={() => setShow(true)}
+            >
+              <i className="fa-solid fa-folder-plus"></i>
             </button>
             {manga && (
-              <button className="btn-under-cover">
-                <Link
-                  to={`/Upload/${manga.id}`}
-                  className="btn-pill clickable"
-                  key={manga.id}
-                >
-                  <i className="fa-solid fa-upload"></i>
-                </Link>
+              <button
+                className="btn-under-cover btn-upload"
+                onClick={() => navigate(`/Upload/${manga.id}`)}
+              >
+                <i className="fa-solid fa-upload"></i>
               </button>
             )}
           </div>
@@ -160,6 +178,51 @@ export default function MangaBanner({
           )}
         </Col>
       </Row>
+      <Modal show={show} onHide={() => setShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Add manga to...</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Check type="checkbox" label="Watch later" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <i
+                className="fa-solid fa-plus"
+                onClick={handleShowForm}
+                style={{ cursor: "pointer" }}
+              ></i>{" "}
+              {showForm ? "Close Form" : "Create a new manga list"}
+            </Form.Group>
+          </Form>
+          {showForm && (
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Privacy</Form.Label>
+                <Form.Select>
+                  <option>Private</option>
+                  <option>Public</option>
+                </Form.Select>
+              </Form.Group>
+              <div style={{ display: "flex", justifyContent: "end" }}>
+                <Button
+                  variant="success"
+                  onClick={() => {
+                    setShow(false);
+                  }}
+                >
+                  Create
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }

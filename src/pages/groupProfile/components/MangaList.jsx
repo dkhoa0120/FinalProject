@@ -16,7 +16,7 @@ export default function MangaList() {
         </Col>
         <Col md={3}>
           <div className="manga-list">
-            <div className="manga-list-cover">
+            <div>
               <img
                 src="/img/error/coverNotFound.png"
                 style={{ width: "40%" }}
@@ -44,7 +44,7 @@ export default function MangaList() {
         </Col>
         <Col md={3}>
           <div className="manga-list">
-            <div className="manga-list-cover">
+            <div>
               <img
                 src="/img/error/coverNotFound.png"
                 style={{ width: "40%" }}
@@ -72,7 +72,7 @@ export default function MangaList() {
         </Col>
         <Col md={3}>
           <div className="manga-list">
-            <div className="manga-list-cover">
+            <div>
               <img
                 src="/img/error/coverNotFound.png"
                 style={{ width: "40%" }}
