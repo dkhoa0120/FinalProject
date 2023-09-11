@@ -109,7 +109,8 @@ export default function Upload() {
     handleRemoveImage(index, imageInfos, setImageInfos);
   };
 
-  const handleDrag = (index) => {
+  const handleDrag = (e, index) => {
+    e.preventDefault();
     handleDragOver(
       index,
       draggedIndex,
@@ -124,10 +125,20 @@ export default function Upload() {
     setDraggedIndex(index);
 
     const container = containerRef.current;
-    const dragItem = [...container.childNodes][index];
+    const dragItemContainer = [...container.childNodes][index];
+    const dragItem = dragItemContainer.firstChild;
     const dragData = imageInfos[index];
     const notDragItems = [...container.childNodes];
     let newData = [...imageInfos];
+
+    const elementToMove = dragItemContainer.querySelector(".page");
+    // Clone the element (optional, if you don't want to keep the original)
+    const clonedElement = elementToMove.cloneNode(true);
+    while (elementToMove.firstChild) {
+      elementToMove.removeChild(elementToMove.firstChild);
+      elementToMove.style.backgroundImage = "";
+      elementToMove.classList.add("dragging");
+    }
 
     // getBoundingClientRect of dragItem
     const dragBoundingRect = dragItem.getBoundingClientRect();
@@ -136,22 +147,19 @@ export default function Upload() {
     let x = e.clientX;
     let y = e.clientY;
 
-    dragItem.style = "";
-
     const dragMirror = document.createElement("div");
-    dragMirror.className = "pages-upload-card ghost-dragging";
+    dragMirror.className = "pages-upload-card flex-grow-0";
     dragMirror.style.position = "fixed";
     dragMirror.style.zIndex = 5000;
     dragMirror.style.pointerEvents = "none";
-    dragMirror.style.backgroundImage = `url(${imageInfo.url})`;
+    dragMirror.style.margin = 0;
     dragMirror.style.top = dragBoundingRect.top - 12 + "px"; //minus the margin of the div
     dragMirror.style.left = dragBoundingRect.left - 12 + "px"; //minus the margin of the div
-    dragMirror.style.width = dragBoundingRect.width + "px";
-    dragMirror.style.height = dragBoundingRect.height + "px";
     dragMirror.style.opacity = 0.8;
     dragMirror.draggable = "true";
 
     container.appendChild(dragMirror);
+    dragMirror.appendChild(clonedElement);
 
     // perform the function on hover
     document.onpointermove = dragMove;
@@ -192,9 +200,32 @@ export default function Upload() {
     document.onpointerup = dragEnd;
 
     function dragEnd() {
+      // Create new child elements
+      const deleteButton = document.createElement("div");
+      deleteButton.className = "delete-button";
+      const deleteButtonIcon = document.createElement("i");
+      deleteButtonIcon.className = "fa-solid fa-xmark";
+      deleteButton.appendChild(deleteButtonIcon);
+
+      const dragButton = document.createElement("div");
+      dragButton.className = "drag-button";
+      const dragButtonIcon = document.createElement("i");
+      dragButtonIcon.className = "fa-solid fa-arrows-up-down-left-right";
+      dragButton.appendChild(dragButtonIcon);
+
+      const imageLabel = document.createElement("div");
+      imageLabel.className = "image-label";
+      imageLabel.textContent = imageInfo.name; // Set the text content as needed
+
+      // Append the new child elements back to elementToMove
+      elementToMove.appendChild(deleteButton);
+      elementToMove.appendChild(dragButton);
+      elementToMove.appendChild(imageLabel);
+
       document.onpointerup = "";
       document.onpointermove = "";
       container.removeChild(dragMirror);
+      elementToMove.classList.remove("dragging");
       dragItem.style.backgroundImage = `url(${imageInfo.url})`;
       setDraggedIndex(null);
     }
@@ -351,6 +382,8 @@ export default function Upload() {
               setImageInfos={setImageInfos}
               handleRemove={handleRemove}
               draggedIndex={draggedIndex}
+              setDraggedIndex={setDraggedIndex}
+              handleDrag={handleDrag}
               dragStart={dragStart}
             />
           </Row>

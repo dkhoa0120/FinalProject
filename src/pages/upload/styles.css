@@ -5,7 +5,6 @@
   padding: 2px 10px;
   margin-left: 10px;
   font-weight: bold;
-  transition: all 0.2s ease-in-out;
 }
 
 .return-button:hover {
@@ -28,7 +27,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 300ms ease;
   cursor: pointer;
   text-align: center;
   margin: 12px;
@@ -40,19 +38,23 @@
 
 .pages-upload-card {
   position: relative;
+  padding: 12px;
+}
+
+.page {
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 5px;
   flex-grow: 1;
-  margin: 12px;
   width: 130px;
   height: 184px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  cursor: grab;
+  background-color: white;
+  cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
@@ -64,6 +66,9 @@
 }
 
 .pages-upload-card .delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   right: 0;
@@ -73,7 +78,7 @@
   border: none;
   background-color: black;
   border-radius: 50%;
-  transition: background-color 0.2s ease-in;
+  cursor: pointer;
 }
 
 .pages-upload-card .delete-button:hover {
@@ -81,6 +86,9 @@
 }
 
 .pages-upload-card .drag-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 50px;
   height: 50px;
@@ -92,36 +100,30 @@
   border: none;
   background-color: #fff;
   border-radius: 50%;
-  cursor: grab;
 }
 
 .image-label {
   user-select: none;
   position: absolute;
-  bottom: 4px;
+  bottom: 15px;
   background-color: #494949;
   color: #fff;
   border-radius: 11px;
-  max-width: calc(100% - 8px);
+  max-width: calc(100% - 32px);
   padding: 2px 8px;
   overflow: hidden;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.pages-upload-card.dragging {
-  pointer-events: none;
-  touch-action: none;
-  -ms-touch-action: none;
+.page.dragging {
+  /* pointer-events: none; */
+  /* touch-action: none;
+  -ms-touch-action: none; */
   border: 1px dashed grey;
   box-shadow: none;
   animation: wiggle 0.3s ease-in-out infinite;
-}
-
-.pages-upload-card.dragging button,
-.pages-upload-card.dragging .image-label {
-  display: none;
 }
 
 @keyframes wiggle {

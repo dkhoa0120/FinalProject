@@ -6,18 +6,14 @@ export default function PageUploader({
   setImageInfos,
   handleRemove,
   draggedIndex,
+  setDraggedIndex,
+  handleDrag,
   dragStart,
 }) {
+  let isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+
   return (
     <>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleSelected}
-        style={{ display: "none" }}
-        multiple
-      />
       <div
         className="image-container justify-left flex-wrap mb-4"
         ref={containerRef}
@@ -28,23 +24,31 @@ export default function PageUploader({
             className={`pages-upload-card flex-grow-0 ${
               draggedIndex === index ? "dragging" : ""
             }`}
-            style={{
-              backgroundImage: `url(${imageInfo.url})`,
+            onDragStart={() => setDraggedIndex(index)}
+            onDragOver={(e) => handleDrag(e, index)}
+            onDragEnd={() => setDraggedIndex(null)}
+            onPointerDown={(e) => {
+              if (isMobile) dragStart(e, index, imageInfo);
             }}
-            onPointerDown={(e) => dragStart(e, index, imageInfo)}
             draggable="true"
           >
-            <button
-              type="button"
-              className="delete-button"
-              onClick={() => handleRemove(index)}
+            <div
+              className="page"
+              style={{
+                backgroundImage: `url(${imageInfo.url})`,
+              }}
             >
-              <i className="fa-solid fa-xmark"></i>
-            </button>
-            {/* <button type="button" className="drag-button">
-              <i className="fa-solid fa-arrows-up-down-left-right"></i>
-            </button> */}
-            <div className="image-label">{imageInfo.name}</div>
+              <div
+                className="delete-button"
+                onClick={() => handleRemove(index)}
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </div>
+              <div className="drag-button">
+                <i className="fa-solid fa-arrows-up-down-left-right"></i>
+              </div>
+              <div className="image-label">{imageInfo.name}</div>
+            </div>
           </div>
         ))}
         <div
@@ -54,6 +58,14 @@ export default function PageUploader({
           <i className="fa-solid fa-plus" />
         </div>
       </div>
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleSelected}
+        style={{ display: "none" }}
+        multiple
+      />
       {imageInfos.length > 0 ? (
         <div>
           <button
