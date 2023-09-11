@@ -203,6 +203,9 @@ export default function Upload() {
       // Create new child elements
       const deleteButton = document.createElement("div");
       deleteButton.className = "delete-button";
+      deleteButton.addEventListener("click", () => {
+        handleRemove(index);
+      });
       const deleteButtonIcon = document.createElement("i");
       deleteButtonIcon.className = "fa-solid fa-xmark";
       deleteButton.appendChild(deleteButtonIcon);

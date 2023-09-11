@@ -46,7 +46,6 @@
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 5px;
-  flex-grow: 1;
   width: 130px;
   height: 184px;
   display: flex;
@@ -79,6 +78,7 @@
   background-color: black;
   border-radius: 50%;
   cursor: pointer;
+  z-index: 10000000000;
 }
 
 .pages-upload-card .delete-button:hover {
