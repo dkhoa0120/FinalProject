@@ -42,7 +42,7 @@ export default function Body() {
         <Route path="/Upload/Edit/:chapterId" element={<Edit />} />
         <Route path="/upload/chapter" element={<ManageChapter />} />
         <Route path="/Group/:groupId" element={<Group />} />
-        <Route path="/Mangalist" element={<MangaListGroup />} />
+        <Route path="/MangaList/:listId" element={<MangaListGroup />} />
       </Routes>
     </div>
   );

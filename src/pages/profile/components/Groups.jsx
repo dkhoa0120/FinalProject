@@ -6,7 +6,6 @@ import * as groupApi from "../../../service/api.group";
 import { UserContext } from "../../../context/UserContext";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 export default function Groups() {
   const [show, setShow] = useState(false);
@@ -34,7 +33,7 @@ export default function Groups() {
       reset();
       navigate(`/Group/${res.data.id}`);
     } catch (error) {
-      toast.error(error.message);
+      console.log(error.message);
     }
   };
 

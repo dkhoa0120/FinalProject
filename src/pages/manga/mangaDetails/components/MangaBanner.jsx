@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 import { Link, useNavigate } from "react-router-dom";
+import AddToListModal from "./AddToListModal";
 export default function MangaBanner({
   manga,
   handleSelectRate,
@@ -178,51 +179,12 @@ export default function MangaBanner({
           )}
         </Col>
       </Row>
-      <Modal show={show} onHide={() => setShow(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Add manga to...</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Check type="checkbox" label="Watch later" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <i
-                className="fa-solid fa-plus"
-                onClick={handleShowForm}
-                style={{ cursor: "pointer" }}
-              ></i>{" "}
-              {showForm ? "Close Form" : "Create a new manga list"}
-            </Form.Group>
-          </Form>
-          {showForm && (
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Privacy</Form.Label>
-                <Form.Select>
-                  <option>Private</option>
-                  <option>Public</option>
-                </Form.Select>
-              </Form.Group>
-              <div style={{ display: "flex", justifyContent: "end" }}>
-                <Button
-                  variant="success"
-                  onClick={() => {
-                    setShow(false);
-                  }}
-                >
-                  Create
-                </Button>
-              </div>
-            </Form>
-          )}
-        </Modal.Body>
-      </Modal>
+      <AddToListModal
+        show={show}
+        setShow={setShow}
+        handleShowForm={handleShowForm}
+        showForm={showForm}
+      />
     </Container>
   );
 }

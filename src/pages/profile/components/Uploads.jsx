@@ -51,7 +51,7 @@ export default function Uploads() {
     <>
       <Container fluid>
         {mangaGroups ? (
-          mangaGroups.map((m, index, c) => {
+          mangaGroups.map((m, index) => {
             return (
               <>
                 <div className="chapter-group-container" key={index}>
