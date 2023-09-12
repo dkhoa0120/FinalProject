@@ -120,60 +120,42 @@ export default function Upload() {
     );
   };
 
-  const dragStart = (e, index, imageInfo) => {
-    if (e.button !== 0) return; // only use left mouse click;
+  const dragStart = (ePointerDown, index) => {
+    if (ePointerDown.button !== 0) return; // only use left mouse click;
     setDraggedIndex(index);
+    console.log(ePointerDown);
 
     const container = containerRef.current;
-    const dragItemContainer = [...container.childNodes][index];
-    const dragItem = dragItemContainer.firstChild;
+    const items = [...container.childNodes];
+    const dragItem = items[index];
     const dragData = imageInfos[index];
-    const notDragItems = [...container.childNodes];
     let newData = [...imageInfos];
 
-    const elementToMove = dragItemContainer.querySelector(".page");
-    // Clone the element (optional, if you don't want to keep the original)
-    const clonedElement = elementToMove.cloneNode(true);
-    while (elementToMove.firstChild) {
-      elementToMove.removeChild(elementToMove.firstChild);
-      elementToMove.style.backgroundImage = "";
-      elementToMove.classList.add("dragging");
-    }
+    // clone drag item to drag mirror
+    const dragMirror = dragItem.cloneNode(true);
 
-    // getBoundingClientRect of dragItem
+    // set drag mirror to stick to the pointer
     const dragBoundingRect = dragItem.getBoundingClientRect();
-
-    // get the original coordinates of the mouse pointer
-    let x = e.clientX;
-    let y = e.clientY;
-
-    const dragMirror = document.createElement("div");
-    dragMirror.className = "pages-upload-card flex-grow-0";
     dragMirror.style.position = "fixed";
     dragMirror.style.zIndex = 5000;
-    dragMirror.style.pointerEvents = "none";
-    dragMirror.style.margin = 0;
-    dragMirror.style.top = dragBoundingRect.top - 12 + "px"; //minus the margin of the div
-    dragMirror.style.left = dragBoundingRect.left - 12 + "px"; //minus the margin of the div
+    dragMirror.style.top = dragBoundingRect.top + "px";
+    dragMirror.style.left = dragBoundingRect.left + "px";
     dragMirror.style.opacity = 0.8;
-    dragMirror.draggable = "true";
 
+    // append drag mirror to the container
     container.appendChild(dragMirror);
-    dragMirror.appendChild(clonedElement);
 
-    // perform the function on hover
-    document.onpointermove = dragMove;
-
-    function dragMove(e) {
+    document.onpointermove = (ePointerMove) => {
+      console.log("idex", index);
       // Calculate the distance the mouse pointer has traveled.
       // original coordinates minus current coordinates.
-      const posX = e.clientX - x;
-      const posY = e.clientY - y;
+      const posX = ePointerMove.clientX - ePointerDown.clientX;
+      const posY = ePointerMove.clientY - ePointerDown.clientY;
 
       // Move Item
       dragMirror.style.transform = `translate(${posX}px, ${posY}px)`;
 
-      notDragItems.forEach((item, itemIndex) => {
+      items.forEach((item, itemIndex) => {
         const rect1 = dragMirror.getBoundingClientRect();
         const rect2 = item.getBoundingClientRect();
 
@@ -185,53 +167,22 @@ export default function Upload() {
 
         // Check for overlap
         if (isOverlapping && index !== itemIndex) {
+          setImageInfos(newData);
           // Swap Data
+          console.log("itemIndex", itemIndex);
           newData = imageInfos.filter((item) => item.url !== dragData.url);
           newData.splice(itemIndex, 0, dragData);
-          setImageInfos(newData);
-        } else {
-          // No overlap, remove any previous style changes
-          item.style.border = "";
         }
       });
-    }
+    };
 
     // finish onPointerDown event
-    document.onpointerup = dragEnd;
-
-    function dragEnd() {
-      // Create new child elements
-      const deleteButton = document.createElement("div");
-      deleteButton.className = "delete-button";
-      deleteButton.addEventListener("click", () => {
-        handleRemove(index);
-      });
-      const deleteButtonIcon = document.createElement("i");
-      deleteButtonIcon.className = "fa-solid fa-xmark";
-      deleteButton.appendChild(deleteButtonIcon);
-
-      const dragButton = document.createElement("div");
-      dragButton.className = "drag-button";
-      const dragButtonIcon = document.createElement("i");
-      dragButtonIcon.className = "fa-solid fa-arrows-up-down-left-right";
-      dragButton.appendChild(dragButtonIcon);
-
-      const imageLabel = document.createElement("div");
-      imageLabel.className = "image-label";
-      imageLabel.textContent = imageInfo.name; // Set the text content as needed
-
-      // Append the new child elements back to elementToMove
-      elementToMove.appendChild(deleteButton);
-      elementToMove.appendChild(dragButton);
-      elementToMove.appendChild(imageLabel);
-
-      document.onpointerup = "";
-      document.onpointermove = "";
+    document.onpointerup = () => {
+      document.onpointerup = null;
+      document.onpointermove = null;
       container.removeChild(dragMirror);
-      elementToMove.classList.remove("dragging");
-      dragItem.style.backgroundImage = `url(${imageInfo.url})`;
       setDraggedIndex(null);
-    }
+    };
   };
 
   return (
