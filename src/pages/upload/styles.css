@@ -209,3 +209,17 @@
   font-size: 3rem;
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .arrow {
+    background: none !important;
+  }
+
+  .arrow i {
+    display: none !important;
+  }
+
+  .close-overlay {
+    font-size: 2rem;
+  }
+}

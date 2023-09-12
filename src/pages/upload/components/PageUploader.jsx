@@ -43,7 +43,32 @@ export default function PageUploader({
         height: rect.height,
       });
     }
-  }, [imageOverlayIndex]);
+
+    // Click left right arrow on keyboard to navigate images
+    if (imageOverlayIndex >= 0) {
+      const handleKeyDown = (e) => {
+        if (e.key === "ArrowLeft") {
+          if (imageOverlayIndex === 0) return;
+          e.stopPropagation();
+          if (imageOverlayIndex !== null && imageOverlayIndex >= 0) {
+            setImageOverlayIndex(imageOverlayIndex - 1);
+          }
+        } else if (
+          e.key === "ArrowRight" &&
+          imageOverlayIndex !== null &&
+          imageOverlayIndex < imageInfos.length - 1
+        ) {
+          e.stopPropagation();
+          setImageOverlayIndex(imageOverlayIndex + 1);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      // Cleanup the event listener when the component unmounts
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [imageOverlayIndex, imageInfos]);
 
   let isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
 
