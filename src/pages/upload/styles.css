@@ -78,7 +78,6 @@
   background-color: black;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10000000000;
 }
 
 .pages-upload-card .delete-button:hover {
@@ -136,4 +135,77 @@
   100% {
     transform: rotate(-2deg);
   }
+}
+
+.image-overlay {
+  position: fixed;
+  padding: 2rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure the overlay is on top of other content */
+}
+
+.centered-image {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.arrow-overlay {
+  position: fixed;
+  z-index: 1000;
+}
+
+.arrow {
+  align-items: center;
+  bottom: 0;
+  cursor: pointer;
+  display: flex;
+  font-size: 3rem;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  width: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.arrow.left {
+  background: radial-gradient(farthest-side at left, #00000080, #00000000);
+  left: 0;
+}
+
+.arrow.left:hover {
+  opacity: 1;
+}
+
+.arrow.right {
+  background: radial-gradient(farthest-side at right, #00000080, #00000000);
+  flex-direction: row-reverse;
+  right: 0;
+}
+
+.arrow.right:hover {
+  opacity: 1;
+}
+
+.close-overlay {
+  display: flex;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  z-index: 1000;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
 }
