@@ -107,6 +107,12 @@
   .create-manga-list {
     aspect-ratio: 1/0.15 !important;
   }
+
+  .manga-list-details {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 }
 
 /* swipe buttons */
@@ -177,6 +183,8 @@
 /* manga list */
 .manga-list {
   display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   margin: 10px;
   border-style: solid;
@@ -198,6 +206,7 @@
   background: linear-gradient(90.21deg, #e99696, #ad8dd8);
   border-radius: 0 0 7px 7px;
   align-items: center;
+  z-index: 500;
 }
 
 .manga-list .manga-list-name {
@@ -234,6 +243,7 @@
   color: white;
   text-transform: uppercase;
   letter-spacing: 1px;
+  z-index: 1000;
 }
 
 .manga-list:hover .hover-overlay {
@@ -271,7 +281,7 @@
   border-radius: 10px;
   cursor: pointer;
   border-style: dashed;
-  aspect-ratio: 1/0.564;
+  aspect-ratio: 1/0.6;
 }
 
 .create-manga-list:hover {
@@ -314,20 +324,19 @@
 }
 
 .manga-list-container {
-  border: 1px solid;
+  border-style: solid;
+  border-color: gray;
   border-radius: 5%;
-  height: 350px;
+  max-height: 100%;
   margin-bottom: 10px;
-  background-color: white;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  background-color: #d4cfdb;
 }
 
 .manga-list-cover {
-  border: 1px solid;
-  border-radius: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 10px;
-  padding: 5px;
 }
 
 .chapter-name {
@@ -339,21 +348,40 @@
 .manga-original-title {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: "5px";
+  margin-bottom: 5px;
 }
 
 .manga-list-options-toggle > i {
-  display: none;
+  color: gray;
 }
 
-.chapter-group-container:hover i {
-  display: inline-block;
+.manga-list-options-toggle:hover > i {
+  color: black;
 }
 
 .group-avatar {
   width: 100px;
   border-radius: 50%;
   aspect-ratio: 1/1;
+}
+
+.manga-list > img,
+.manga-list-cover > img {
+  aspect-ratio: 1/1.41;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+}
+
+.empty-list {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 1/0.566;
+  justify-content: center;
+  align-items: center;
+}
+
+.manga-list-details > p {
+  margin-bottom: 10px;
 }
 
 @media screen and (min-width: 768px) {

@@ -2,7 +2,7 @@ import { Col, Container, Dropdown, Row } from "react-bootstrap";
 import CountryFlag from "../../../components/countryFlag";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import * as listApi from "../../../service/api.mangalist";
+import * as listApi from "../../../service/api.mangaList";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
@@ -78,44 +78,62 @@ export default function MangaListGroup() {
           <Col md={3}>
             <div className="manga-list-container">
               <div className="manga-list-cover">
-                <img
-                  src={
-                    mangaList?.mangaCoverUrls &&
-                    mangaList.mangaCoverUrls.length > 0
-                      ? mangaList.mangaCoverUrls[0]
-                      : "/img/error/coverNotFound.png"
-                  }
-                  style={{ width: "40%" }}
-                  alt="mangaList's cover"
-                ></img>
-                <img
-                  src={
-                    mangaList?.mangaCoverUrls &&
-                    mangaList.mangaCoverUrls.length > 0
-                      ? mangaList.mangaCoverUrls[1]
-                      : "/img/error/coverNotFound.png"
-                  }
-                  style={{ width: "30%" }}
-                  alt="mangaList's cover"
-                ></img>
-                <img
-                  src={
-                    mangaList?.mangaCoverUrls &&
-                    mangaList.mangaCoverUrls.length > 0
-                      ? mangaList.mangaCoverUrls[2]
-                      : "/img/error/coverNotFound.png"
-                  }
-                  style={{ width: "20%" }}
-                  alt="mangaList's cover"
-                ></img>
+                {mangaList?.mangaCoverUrls.length > 0 ? (
+                  <>
+                    <img
+                      style={{
+                        width: "40%",
+                        zIndex: "110",
+                      }}
+                      src={
+                        mangaList?.mangaCoverUrls[0] ||
+                        "/img/error/blankCover.png"
+                      }
+                      alt="mangaList's cover"
+                    />
+                    <img
+                      style={{
+                        width: "30%",
+                        marginLeft: "-10px",
+                        zIndex: "100",
+                      }}
+                      src={
+                        mangaList?.mangaCoverUrls[1] ||
+                        "/img/error/blankCover.png"
+                      }
+                      alt="mangaList's cover"
+                    />
+                    <img
+                      style={{
+                        width: "20%",
+                        marginLeft: "-5px",
+                        zIndex: "90",
+                      }}
+                      src={
+                        mangaList?.mangaCoverUrls[2] ||
+                        "/img/error/blankCover.png"
+                      }
+                      alt="mangaList's cover"
+                    />
+                  </>
+                ) : (
+                  <div className="empty-list">Empty list</div>
+                )}
               </div>
-              <div style={{ margin: "10px" }}>
+              <div style={{ margin: "10px 20px" }}>
                 <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  <p style={{ fontWeight: "bold" }}>{mangaList?.name}</p>
+                  <span style={{ fontWeight: "bold" }}>{mangaList?.name}</span>
                   <Dropdown>
-                    <Dropdown.Toggle variant="outline">
+                    <Dropdown.Toggle
+                      variant="outline"
+                      className="manga-list-options-toggle"
+                    >
                       <i className="fa-solid fa-ellipsis-vertical"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -130,10 +148,10 @@ export default function MangaListGroup() {
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
-                <p>By {mangaList?.owner.name}</p>
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                <div className="manga-list-details">
+                  <p>By {mangaList?.owner.name}</p>
                   <p>{mangas?.length} mangas</p>
-                  <p>Updated {calculateTimeDifference(mangaList?.updatedAt)}</p>
+                  <p>{calculateTimeDifference(mangaList?.updatedAt)}</p>
                 </div>
               </div>
             </div>

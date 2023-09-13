@@ -1,5 +1,5 @@
 import { Button, Form, Modal, ToastContainer } from "react-bootstrap";
-import * as listApi from "../../../../service/api.mangalist";
+import * as listApi from "../../../../service/api.mangaList";
 import { Controller, useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import * as listApi from "../../../service/api.mangalist";
+import * as listApi from "../../../service/api.mangaList";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
@@ -80,53 +80,62 @@ export default function MangaList() {
           </div>
         </Col>
         {mangaLists ? (
-          mangaLists.map((mangalist, index) => {
+          mangaLists.map((mangaList, index) => {
             return (
               <Col md={3} key={index}>
                 <div className="manga-list">
-                  <div>
-                    <img
-                      style={{ width: "40%" }}
-                      src={
-                        mangalist.mangaCoverUrls &&
-                        mangalist.mangaCoverUrls.length > 0
-                          ? mangalist.mangaCoverUrls[0]
-                          : "/img/error/coverNotFound.png"
-                      }
-                      alt="mangaList's cover"
-                    ></img>
-                    <img
-                      style={{ width: "30%" }}
-                      src={
-                        mangalist.mangaCoverUrls &&
-                        mangalist.mangaCoverUrls.length > 0
-                          ? mangalist.mangaCoverUrls[1]
-                          : "/img/error/coverNotFound.png"
-                      }
-                      alt="mangaList's cover"
-                    ></img>
-                    <img
-                      style={{ width: "20%" }}
-                      src={
-                        mangalist.mangaCoverUrls &&
-                        mangalist.mangaCoverUrls.length > 0
-                          ? mangalist.mangaCoverUrls[2]
-                          : "/img/error/coverNotFound.png"
-                      }
-                      alt="mangaList's cover"
-                    ></img>
-                    <div className="manga-list-info">
-                      <i className="fa-solid fa-list-ul"></i>
-                      <p className="manga-list-name text-limit-2">
-                        {mangalist.name}
-                      </p>
-                    </div>
-                    <div
-                      className="hover-overlay"
-                      onClick={() => navigate(`/MangaList/${mangalist.id}`)}
-                    >
-                      <span>See more</span>
-                    </div>
+                  {mangaList?.mangaCoverUrls.length > 0 ? (
+                    <>
+                      <img
+                        style={{
+                          width: "40%",
+                          zIndex: "110",
+                        }}
+                        src={
+                          mangaList?.mangaCoverUrls[0] ||
+                          "/img/error/blankCover.png"
+                        }
+                        alt="mangaList's cover"
+                      />
+                      <img
+                        style={{
+                          width: "30%",
+                          marginLeft: "-10px",
+                          zIndex: "100",
+                        }}
+                        src={
+                          mangaList?.mangaCoverUrls[1] ||
+                          "/img/error/blankCover.png"
+                        }
+                        alt="mangaList's cover"
+                      />
+                      <img
+                        style={{
+                          width: "20%",
+                          marginLeft: "-5px",
+                          zIndex: "90",
+                        }}
+                        src={
+                          mangaList?.mangaCoverUrls[2] ||
+                          "/img/error/blankCover.png"
+                        }
+                        alt="mangaList's cover"
+                      />
+                    </>
+                  ) : (
+                    <div className="empty-list">Empty list</div>
+                  )}
+                  <div className="manga-list-info">
+                    <i className="fa-solid fa-list-ul"></i>
+                    <p className="manga-list-name text-limit-2">
+                      {mangaList.name}
+                    </p>
+                  </div>
+                  <div
+                    className="hover-overlay"
+                    onClick={() => navigate(`/MangaList/${mangaList.id}`)}
+                  >
+                    <span>See more</span>
                   </div>
                 </div>
               </Col>
