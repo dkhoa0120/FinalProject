@@ -1,6 +1,14 @@
-import { Col, Container, Dropdown, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Dropdown,
+  Form,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import CountryFlag from "../../../components/countryFlag";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import * as listApi from "../../../service/api.mangaList";
 import { useEffect } from "react";
@@ -14,6 +22,7 @@ export default function MangaListGroup() {
   const [mangas, setMangas] = useState();
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
@@ -155,7 +164,7 @@ export default function MangaListGroup() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item>
-                        <div>Edit</div>
+                        <div onClick={() => setShow(true)}>Edit</div>
                       </Dropdown.Item>
                       <Dropdown.Item
                         onClick={() => hanldeDeleteList(mangaList?.id)}
@@ -167,6 +176,7 @@ export default function MangaListGroup() {
                 </div>
                 <div className="manga-list-details">
                   <p>By {mangaList?.owner.name}</p>
+                  <p>{mangaList?.type}</p>
                   <p>{mangas?.length} mangas</p>
                   <p>{calculateTimeDifference(mangaList?.updatedAt)}</p>
                 </div>
@@ -214,10 +224,12 @@ export default function MangaListGroup() {
                       m.chapters.map((c) => (
                         <Row>
                           <Col xs={12} md={4}>
-                            <div className="chapter-name">
-                              <CountryFlag key={c.id} lang={c.language} />
-                              <span className="text-limit-1">{c.name}</span>
-                            </div>
+                            <Link to={`/Chapter/${c.id}`} className="card-link">
+                              <div className="chapter-name">
+                                <CountryFlag key={c.id} lang={c.language} />
+                                <span className="text-limit-1">{c.name}</span>
+                              </div>
+                            </Link>
                           </Col>
                           <Col xs={6} md={2}>
                             <p className="text-truncate">
@@ -256,6 +268,40 @@ export default function MangaListGroup() {
             )}
           </Col>
         </Row>
+        <Modal
+          show={show}
+          onHide={() => setShow(false)}
+          size="lg"
+          backdrop="static"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Edit My MangaList</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form id="create-form">
+              <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control></Form.Control>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Privacy</Form.Label>
+                <Form.Select></Form.Select>
+              </Form.Group>
+              <div style={{ display: "flex", justifyContent: "end" }}>
+                <Button
+                  type="submit"
+                  form="create-form"
+                  variant="success"
+                  onClick={() => {
+                    setShow(false);
+                  }}
+                >
+                  Edit
+                </Button>
+              </div>
+            </Form>
+          </Modal.Body>
+        </Modal>
       </Container>
     </>
   );

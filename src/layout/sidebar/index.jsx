@@ -52,7 +52,7 @@ function SideBar(props) {
           onClick={() => handleDropdownClick("follows")}
           key="follows-heading"
         >
-          <i className="fa-solid fa-bookmark"></i> &nbsp; Follows
+          <i className="fa-solid fa-bookmark"></i> &nbsp; Personal
         </MenuItem>
       ),
       items: [

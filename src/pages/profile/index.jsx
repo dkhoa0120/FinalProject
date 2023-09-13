@@ -5,17 +5,19 @@ import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as profileApi from "../../service/api.profile";
 import Uploads from "./components/Uploads";
-import MangaList from "./components/MangaList";
 import Groups from "./components/Groups";
 import About from "./components/About";
 import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
+import MyMangaList from "./components/MyMangaList";
+import FollowedMangaList from "./components/FollowedMangaList";
 
 export default function Profile() {
   const profileOptions = [
     "Uploads",
     "Group",
-    "Manga List",
+    "My Manga List",
+    "Followed Manga List",
     "Community",
     "About",
   ];
@@ -129,7 +131,8 @@ export default function Profile() {
         {profileOption === "About" && (
           <About userStats={userStats} userDetails={userDetails} />
         )}
-        {profileOption === "Manga List" && <MangaList />}
+        {profileOption === "My Manga List" && <MyMangaList />}
+        {profileOption === "Followed Manga List" && <FollowedMangaList />}
       </div>
       <AvatarModal
         close={() => setShowAvatarModal(false)}

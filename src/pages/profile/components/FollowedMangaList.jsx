@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { useEffect } from "react";
 
-export default function MangaList() {
+export default function FollowedMangaList() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const [mangaLists, setMangaLists] = useState();
@@ -40,11 +40,7 @@ export default function MangaList() {
     try {
       await listApi.postMangaList(formData);
       setShow(false);
-      const newList = {
-        name: data.name,
-        mangaCoverUrls: [],
-      };
-      setMangaLists([...mangaLists, newList]);
+      fetchMangaLists(userId);
       reset({
         name: "",
       });
@@ -76,13 +72,6 @@ export default function MangaList() {
   return (
     <Container fluid>
       <Row>
-        <Col md={3}>
-          <div className="create-manga-list" onClick={() => setShow(true)}>
-            <p style={{ margin: "auto", textAlign: "center" }}>
-              <i className="fa-solid fa-plus"></i> Create new Manga List
-            </p>
-          </div>
-        </Col>
         {mangaLists ? (
           mangaLists.map((mangaList, index) => {
             return (
@@ -134,6 +123,9 @@ export default function MangaList() {
                     <p className="manga-list-name text-limit-2">
                       {mangaList.name}
                     </p>
+                    {mangaList.type === "Private" && (
+                      <i className="fa-solid fa-lock"></i>
+                    )}
                   </div>
                   <div
                     className="hover-overlay"
@@ -149,57 +141,6 @@ export default function MangaList() {
           <p></p>
         )}
       </Row>
-      <Modal show={show} onHide={() => setShow(false)} size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>Manga List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form id="create-form" onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>{" "}
-              {errors.name && (
-                <i
-                  title={errors.name.message}
-                  className="fa-solid fa-circle-exclamation"
-                  style={{ color: "red" }}
-                ></i>
-              )}
-              <Form.Control
-                name="Name"
-                defaultValue={null}
-                control={control}
-                rules={{ required: "This field is required" }}
-                {...register("name", {
-                  required: "List name is required",
-                })}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Privacy</Form.Label>
-              <Controller
-                name="type"
-                defaultValue={privacyOptions[0]}
-                control={control}
-                render={({ field }) => (
-                  <Select {...field} options={privacyOptions} />
-                )}
-              />
-            </Form.Group>
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              <Button
-                type="submit"
-                form="create-form"
-                variant="success"
-                onClick={() => {
-                  setShow(false);
-                }}
-              >
-                Create
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
     </Container>
   );
 }

@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Dropdown,
-  Modal,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 import { Link, useNavigate } from "react-router-dom";
 import AddToListModal from "./AddToListModal";

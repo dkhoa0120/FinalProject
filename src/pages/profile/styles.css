@@ -210,20 +210,14 @@
 }
 
 .manga-list .manga-list-name {
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
   flex: 1;
   text-align: center;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0;
 }
 
 .manga-list-info > i {
-  padding-left: 5px;
+  padding: 0 5px;
   width: auto;
 }
 
