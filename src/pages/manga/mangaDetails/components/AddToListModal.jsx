@@ -59,7 +59,10 @@ export default function AddToListModal({
 
     try {
       await listApi.postMangaList(formData);
-      fetchMangaLists(userId);
+      const newList = {
+        name: data.name,
+      };
+      setMangaLists([...mangaLists, newList]);
       reset({ name: "" });
     } catch (error) {
       console.log(error.message);

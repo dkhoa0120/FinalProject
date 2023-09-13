@@ -6,6 +6,7 @@ import * as listApi from "../../../service/api.mangaList";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function MangaListGroup() {
   const { listId } = useParams();
@@ -64,6 +65,21 @@ export default function MangaListGroup() {
     }
   };
 
+  const hanldeRemoveMangaInList = async (removeId) => {
+    const formData = new FormData();
+    formData.append("name", mangaList?.name);
+    formData.append("type", mangaList?.type);
+    formData.append("removedMangaId", removeId);
+    try {
+      await listApi.putMangaList(mangaList?.id, formData);
+      const updatedMangas = mangas.filter((m) => m.manga.id !== removeId);
+      setMangas(updatedMangas);
+      toast.success("A manga has been removed");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchMangaList(listId);
     fetchMangasOfList(listId);
@@ -73,6 +89,7 @@ export default function MangaListGroup() {
 
   return (
     <>
+      <ToastContainer />
       <Container fluid>
         <Row>
           <Col md={3}>
@@ -185,8 +202,10 @@ export default function MangaListGroup() {
                           <i className="fa-solid fa-ellipsis-vertical"></i>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item>
-                            <div>Delete</div>
+                          <Dropdown.Item
+                            onClick={() => hanldeRemoveMangaInList(m.manga?.id)}
+                          >
+                            <div>Remove</div>
                           </Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>

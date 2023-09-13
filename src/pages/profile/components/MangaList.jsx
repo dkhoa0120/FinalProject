@@ -40,7 +40,11 @@ export default function MangaList() {
     try {
       await listApi.postMangaList(formData);
       setShow(false);
-      fetchMangaLists(userId);
+      const newList = {
+        name: data.name,
+        mangaCoverUrls: [],
+      };
+      setMangaLists([...mangaLists, newList]);
       reset({
         name: "",
       });

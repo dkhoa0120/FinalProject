@@ -329,7 +329,12 @@
   border-radius: 5%;
   max-height: 100%;
   margin-bottom: 10px;
-  background-color: #d4cfdb;
+  background: rgb(111, 81, 244);
+  background: linear-gradient(
+    129deg,
+    rgba(111, 81, 244, 0.15870098039215685) 34%,
+    rgba(244, 62, 171, 0.15309873949579833) 100%
+  );
 }
 
 .manga-list-cover {
