@@ -22,9 +22,6 @@ export default function AddToListModal({
   } = useForm({ defaultValues: {} });
 
   const [mangaLists, setMangaLists] = useState();
-  const [selectedId, setSelectedId] = useState();
-  const [selectedName, setSelectedName] = useState();
-  const [selectedType, setSelectedType] = useState();
   const { user } = useContext(UserContext);
   const userId = user?.id;
   const privacy = [`Private`, `Public`];
@@ -35,20 +32,50 @@ export default function AddToListModal({
   const { mangaId } = useParams();
 
   // Add manga to a list
-  const hanldeAddToList = async () => {
+  const handleAddToList = async (selectedId, selectedName, selectedType) => {
     const formData = new FormData();
     formData.append("name", selectedName);
     formData.append("type", selectedType);
     formData.append("addedMangaId", mangaId);
     try {
       await listApi.putMangaList(selectedId, formData);
-      setShow(false);
-      fetchMangaLists(userId);
       toast.success("A manga has been add to lists");
+
+      // Update state for checkbox
+      var nextMangaLists = mangaLists.map((m) => {
+        if (m.id === selectedId) {
+          return { ...m, alreadyAdded: true };
+        }
+        return { ...m };
+      });
+      setMangaLists(nextMangaLists);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error("Please sign in!");
       }
+      console.log(error);
+    }
+  };
+
+  // Remove manga form a list
+  const handleRemoveInList = async (selectedId, selectedName, selectedType) => {
+    const formData = new FormData();
+    formData.append("name", selectedName);
+    formData.append("type", selectedType);
+    formData.append("removedMangaId", mangaId);
+    try {
+      await listApi.putMangaList(selectedId, formData);
+      toast.success("A manga has been removed");
+
+      // Update state for checkbox
+      var nextMangaLists = mangaLists.map((m) => {
+        if (m.id === selectedId) {
+          return { ...m, alreadyAdded: false };
+        }
+        return { ...m };
+      });
+      setMangaLists(nextMangaLists);
+    } catch (error) {
       console.log(error);
     }
   };
@@ -94,7 +121,14 @@ export default function AddToListModal({
   return (
     <>
       <ToastContainer />
-      <Modal show={show} onHide={() => setShow(false)} centered>
+      <Modal
+        show={show}
+        onHide={() => {
+          setShow(false);
+          fetchMangaLists(userId);
+        }}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add manga to...</Modal.Title>
         </Modal.Header>
@@ -102,30 +136,37 @@ export default function AddToListModal({
           <Form>
             <Form.Group className="mb-3">
               <Form.Group className="mb-3">
-                {mangaLists
-                  ?.filter((mangaList) => mangaList.alreadyAdded !== true)
-                  .map((mangaList) => (
-                    <Form.Check
-                      key={mangaList.id}
-                      type="radio"
-                      name="mangaListSelection"
-                      label={mangaList.name}
-                      value={mangaList.id}
-                      onChange={(e) => {
-                        const selectedList = mangaLists.find(
-                          (list) => list.id === e.target.value
-                        );
-
-                        if (selectedList) {
-                          setSelectedId(selectedList.id);
-                          setSelectedName(selectedList.name);
-                          setSelectedType(selectedList.type);
+                {mangaLists?.map((mangaList) => (
+                  <Form.Check
+                    key={mangaList.id}
+                    type="checkbox"
+                    name="mangaListSelection"
+                    label={mangaList.name}
+                    checked={mangaList.alreadyAdded}
+                    onClick={(e) => {
+                      const selectedList = mangaLists.find(
+                        (list) => list.id === mangaList.id
+                      );
+                      if (selectedList) {
+                        if (e.target.checked) {
+                          handleAddToList(
+                            selectedList.id,
+                            selectedList.name,
+                            selectedList.type
+                          );
                         } else {
-                          console.log("Selected mangaList not found.");
+                          handleRemoveInList(
+                            selectedList.id,
+                            selectedList.name,
+                            selectedList.type
+                          );
                         }
-                      }}
-                    />
-                  ))}
+                      } else {
+                        console.log("Selected mangaList not found.");
+                      }
+                    }}
+                  />
+                ))}
               </Form.Group>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -177,11 +218,6 @@ export default function AddToListModal({
             </Form>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={hanldeAddToList}>
-            Add to list
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

@@ -68,7 +68,7 @@ export default function FilterModal({
     (option) => !includedCate.includes(option.value)
   );
 
-  const hanldeApplyFilter = () => {
+  const handleApplyFilter = () => {
     setSearchParams((params) => {
       if (!includedCate || includedCate.length === 0) {
         params.delete("included");
@@ -183,7 +183,7 @@ export default function FilterModal({
         <Button
           variant="outline-dark"
           onClick={() => {
-            hanldeApplyFilter();
+            handleApplyFilter();
             close();
           }}
         >

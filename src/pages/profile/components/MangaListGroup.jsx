@@ -57,8 +57,14 @@ export default function MangaListGroup() {
 
   const fetchMangaList = async (id) => {
     try {
-      let res = await listApi.getMangaList(id);
-      setMangaList(res.data);
+      if (user) {
+        let res = await listApi.getFollowedList(id);
+        console.log(res);
+        setMangaList(res.data);
+      } else {
+        let res = await listApi.getMangaList(id);
+        setMangaList(res.data);
+      }
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");
@@ -79,7 +85,7 @@ export default function MangaListGroup() {
 
   // Edit and delete your list
 
-  const hanldeDeleteList = async (id) => {
+  const handleDeleteList = async (id) => {
     try {
       await listApi.deleteMangaList(id);
       navigate(`/profile/${user?.id}`);
@@ -110,7 +116,7 @@ export default function MangaListGroup() {
 
   // Remove your manga from list
 
-  const hanldeRemoveMangaInList = async (removeId) => {
+  const handleRemoveMangaInList = async (removeId) => {
     const formData = new FormData();
     formData.append("name", mangaList?.name);
     formData.append("type", mangaList?.type);
@@ -127,10 +133,25 @@ export default function MangaListGroup() {
 
   //Add other users list to your list
 
-  const hanldeAddToList = async (id) => {
+  const handleAddToList = async (id) => {
     try {
       await listApi.postFollowedList(id);
-      toast.success("A list has been added");
+      toast.success("A list has been added to your list");
+      fetchMangaList(listId);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
+  };
+
+  // Remove other users LIST
+
+  const handleRemoveToList = async (id) => {
+    try {
+      await listApi.deleteFollowedList(id);
+      toast.success("A list has been removed from your list");
+      fetchMangaList(listId);
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");
@@ -149,7 +170,12 @@ export default function MangaListGroup() {
     <>
       <ToastContainer />
       <Container fluid>
-        {mangaList?.type === "Public" || user?.id === mangaList?.owner.id ? (
+        {mangaList?.type === "Private" && user?.id !== mangaList?.owner.id ? (
+          <div class="privacy">
+            <p>Op!! Sorry, the user was setting this list of private</p>
+            <img src={"/img/error/dizzy.gif"} alt="error404" />
+          </div>
+        ) : (
           <>
             {" "}
             <Row>
@@ -224,16 +250,22 @@ export default function MangaListGroup() {
                                 <div onClick={() => setShow(true)}>Edit</div>
                               </Dropdown.Item>
                               <Dropdown.Item
-                                onClick={() => hanldeDeleteList(mangaList?.id)}
+                                onClick={() => handleDeleteList(mangaList?.id)}
                               >
                                 <div>Delete</div>
                               </Dropdown.Item>
                             </>
+                          ) : mangaList?.alreadyFollowed === false ? (
+                            <Dropdown.Item
+                              onClick={() => handleAddToList(mangaList?.id)}
+                            >
+                              Add to List
+                            </Dropdown.Item>
                           ) : (
                             <Dropdown.Item
-                              onClick={() => hanldeAddToList(mangaList?.id)}
+                              onClick={() => handleRemoveToList(mangaList?.id)}
                             >
-                              <div>Add to List</div>
+                              Remove
                             </Dropdown.Item>
                           )}
                         </Dropdown.Menu>
@@ -286,7 +318,7 @@ export default function MangaListGroup() {
                             <Dropdown.Menu>
                               <Dropdown.Item
                                 onClick={() =>
-                                  hanldeRemoveMangaInList(m.manga?.id)
+                                  handleRemoveMangaInList(m.manga?.id)
                                 }
                               >
                                 <div>Remove</div>
@@ -411,11 +443,6 @@ export default function MangaListGroup() {
               </Modal.Body>
             </Modal>
           </>
-        ) : (
-          <div class="privacy">
-            <p>Opp !! Sorry, the user was setting this list to private</p>
-            <img src={"/img/error/dizzy.gif"} alt="error404" />
-          </div>
         )}
       </Container>
     </>

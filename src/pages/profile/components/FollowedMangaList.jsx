@@ -3,7 +3,6 @@ import { Col, Container, Row } from "react-bootstrap";
 import * as listApi from "../../../service/api.mangaList";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
 
 export default function FollowedMangaList() {
   const navigate = useNavigate();
@@ -11,23 +10,9 @@ export default function FollowedMangaList() {
 
   const fetchMangaLists = async () => {
     try {
-      let res = await listApi.getFollowedList();
+      let res = await listApi.getFollowedLists();
       console.log(res);
       setMangaLists(res.data);
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        console.log("404");
-      }
-    }
-  };
-
-  // Remove other users LIST
-
-  const hanldeRemoveToList = async (id) => {
-    try {
-      await listApi.deleteFollowedList(id);
-      fetchMangaLists();
-      toast.success("Successfully remove list");
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");
@@ -41,7 +26,6 @@ export default function FollowedMangaList() {
 
   return (
     <>
-      <ToastContainer />
       <Container fluid>
         <Row>
           {mangaLists ? (
@@ -99,17 +83,11 @@ export default function FollowedMangaList() {
                         <i className="fa-solid fa-lock"></i>
                       )}
                     </div>
-                    <div className="hover-overlay">
-                      <i
-                        className="fa-solid fa-delete-left remove-icon"
-                        onClick={() => hanldeRemoveToList(mangaList.id)}
-                      ></i>
-
-                      <span
-                        onClick={() => navigate(`/MangaList/${mangaList.id}`)}
-                      >
-                        See more
-                      </span>
+                    <div
+                      className="hover-overlay"
+                      onClick={() => navigate(`/MangaList/${mangaList.id}`)}
+                    >
+                      <span>See more</span>
                     </div>
                   </div>
                 </Col>

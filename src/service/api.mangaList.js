@@ -30,9 +30,13 @@ export const getMangasOfList = (id) => {
   return baseAxios.get(`manga-lists/${id}/mangas`);
 };
 
+export const getFollowedList = (id) => {
+  return getAuthorizedAxios().get(`manga-lists/${id}`);
+};
+
 //Followed Manga List
 
-export const getFollowedList = () => {
+export const getFollowedLists = () => {
   return getAuthorizedAxios().get("followed-manga-lists");
 };
 

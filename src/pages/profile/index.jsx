@@ -123,7 +123,7 @@ export default function Profile() {
               }
               onClick={() => setProfileOption("My Followed Manga List")}
             >
-              My Manga List
+              Followed Manga List
             </Button>
           ) : null}
           {profileOptions.map((option, index) => (
