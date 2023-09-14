@@ -1,11 +1,11 @@
 import { Button, Form, Modal, ToastContainer } from "react-bootstrap";
-import * as listApi from "../../../../service/api.mangaList";
 import { Controller, useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import Select from "react-select";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as listApi from "../../../../service/api.mangaList";
 
 export default function AddToListModal({
   show,
@@ -34,6 +34,7 @@ export default function AddToListModal({
   }));
   const { mangaId } = useParams();
 
+  // Add manga to a list
   const hanldeAddToList = async () => {
     const formData = new FormData();
     formData.append("name", selectedName);
@@ -42,11 +43,17 @@ export default function AddToListModal({
     try {
       await listApi.putMangaList(selectedId, formData);
       setShow(false);
+      fetchMangaLists(userId);
       toast.success("A manga has been add to lists");
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in!");
+      }
       console.log(error);
     }
   };
+
+  // Create a list
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -62,13 +69,16 @@ export default function AddToListModal({
       fetchMangaLists(userId);
       reset({ name: "" });
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in!");
+      }
       console.log(error.message);
     }
   };
 
   const fetchMangaLists = async (id) => {
     try {
-      let res = await listApi.getOwnerMangaLists(id);
+      let res = await listApi.getOwnerMangaLists(id, mangaId);
       setMangaLists(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -79,6 +89,7 @@ export default function AddToListModal({
 
   useEffect(() => {
     fetchMangaLists(userId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
   return (
     <>
@@ -91,27 +102,30 @@ export default function AddToListModal({
           <Form>
             <Form.Group className="mb-3">
               <Form.Group className="mb-3">
-                {mangaLists?.map((mangaList) => (
-                  <Form.Check
-                    type="radio"
-                    name="mangaListSelection"
-                    label={mangaList.name}
-                    value={mangaList.id}
-                    onChange={(e) => {
-                      const selectedList = mangaLists.find(
-                        (list) => list.id === e.target.value
-                      );
+                {mangaLists
+                  ?.filter((mangaList) => mangaList.alreadyAdded !== true)
+                  .map((mangaList) => (
+                    <Form.Check
+                      key={mangaList.id}
+                      type="radio"
+                      name="mangaListSelection"
+                      label={mangaList.name}
+                      value={mangaList.id}
+                      onChange={(e) => {
+                        const selectedList = mangaLists.find(
+                          (list) => list.id === e.target.value
+                        );
 
-                      if (selectedList) {
-                        setSelectedId(selectedList.id);
-                        setSelectedName(selectedList.name);
-                        setSelectedType(selectedList.type);
-                      } else {
-                        console.log("Selected mangaList not found.");
-                      }
-                    }}
-                  />
-                ))}
+                        if (selectedList) {
+                          setSelectedId(selectedList.id);
+                          setSelectedName(selectedList.name);
+                          setSelectedType(selectedList.type);
+                        } else {
+                          console.log("Selected mangaList not found.");
+                        }
+                      }}
+                    />
+                  ))}
               </Form.Group>
             </Form.Group>
             <Form.Group className="mb-3">

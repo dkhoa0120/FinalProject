@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import "./style.css";
 import * as commentApi from "../../service/api.comment";
-import * as commentReactApi from "../../service/api.commentreact";
+import * as commentReactApi from "../../service/api.commentReact";
 import { UserContext } from "../../context/UserContext";
 import { EditCommentForm, ReplyCommentForm } from "./commentForm";
 import { Link } from "react-router-dom";

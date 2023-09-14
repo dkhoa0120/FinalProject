@@ -9,15 +9,14 @@ import Groups from "./components/Groups";
 import About from "./components/About";
 import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
-import MyMangaList from "./components/MyMangaList";
+import MangaList from "./components/MangaList";
 import FollowedMangaList from "./components/FollowedMangaList";
 
 export default function Profile() {
   const profileOptions = [
     "Uploads",
     "Group",
-    "My Manga List",
-    "Followed Manga List",
+    "Manga List",
     "Community",
     "About",
   ];
@@ -116,6 +115,17 @@ export default function Profile() {
       </div>
       <div className="general-container">
         <div className="profile-option-container">
+          {user?.id === userId ? (
+            <Button
+              className={
+                "my-manga-list" +
+                (profileOption === "My Followed Manga List" ? " active" : "")
+              }
+              onClick={() => setProfileOption("My Followed Manga List")}
+            >
+              My Manga List
+            </Button>
+          ) : null}
           {profileOptions.map((option, index) => (
             <Button
               key={index}
@@ -131,8 +141,8 @@ export default function Profile() {
         {profileOption === "About" && (
           <About userStats={userStats} userDetails={userDetails} />
         )}
-        {profileOption === "My Manga List" && <MyMangaList />}
-        {profileOption === "Followed Manga List" && <FollowedMangaList />}
+        {profileOption === "Manga List" && <MangaList />}
+        {profileOption === "My Followed Manga List" && <FollowedMangaList />}
       </div>
       <AvatarModal
         close={() => setShowAvatarModal(false)}

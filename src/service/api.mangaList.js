@@ -4,8 +4,10 @@ export const getMangaLists = (userId) => {
   return baseAxios.get(`users/${userId}/manga-lists`);
 };
 
-export const getOwnerMangaLists = (userId) => {
-  return getAuthorizedAxios().get(`users/${userId}/manga-lists`);
+export const getOwnerMangaLists = (userId, checkedMangaId) => {
+  return getAuthorizedAxios().get(`users/${userId}/manga-lists`, {
+    params: { checkedMangaId },
+  });
 };
 
 export const postMangaList = (formData) => {
@@ -26,4 +28,18 @@ export const getMangaList = (id) => {
 
 export const getMangasOfList = (id) => {
   return baseAxios.get(`manga-lists/${id}/mangas`);
+};
+
+//Followed Manga List
+
+export const getFollowedList = () => {
+  return getAuthorizedAxios().get("followed-manga-lists");
+};
+
+export const postFollowedList = (id) => {
+  return getAuthorizedAxios().post(`user/follow/manga-lists/${id}`);
+};
+
+export const deleteFollowedList = (id) => {
+  return getAuthorizedAxios().delete(`user/follow/manga-lists/${id}`);
 };
