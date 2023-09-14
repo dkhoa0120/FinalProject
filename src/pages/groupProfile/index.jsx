@@ -5,12 +5,13 @@ import { UserContext } from "../../context/UserContext";
 import * as groupApi from "../../service/api.group";
 import Uploads from "./components/Uploads";
 import About from "./components/About";
-import MangaList from "./components/MangaList";
 import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
+import Members from "./components/Members";
+import "./styles.css";
 
 export default function Group() {
-  const profileOptions = ["Uploads", "Manga List", "Community", "About"];
+  const profileOptions = ["Uploads", "Community", "Members", "About"];
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [groupDetails, setGroupDetails] = useState(null);
@@ -100,7 +101,7 @@ export default function Group() {
         </div>
         {profileOption === "Uploads" && <Uploads />}
         {profileOption === "About" && <About groupDetails={groupDetails} />}
-        {profileOption === "Manga List" && <MangaList />}
+        {profileOption === "Members" && <Members groupId={groupId} />}
       </div>
       {/* <AvatarModal
         close={() => setShowAvatarModal(false)}

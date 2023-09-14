@@ -13,10 +13,11 @@ import MangaList from "./components/MangaList";
 import FollowedMangaList from "./components/FollowedMangaList";
 
 export default function Profile() {
-  const profileOptions = [
+  let profileOptions = [
     "Uploads",
     "Group",
     "Manga List",
+    "Followed Manga List",
     "Community",
     "About",
   ];
@@ -115,26 +116,17 @@ export default function Profile() {
       </div>
       <div className="general-container">
         <div className="profile-option-container">
-          {user?.id === userId ? (
-            <Button
-              className={
-                "my-manga-list" +
-                (profileOption === "My Followed Manga List" ? " active" : "")
-              }
-              onClick={() => setProfileOption("My Followed Manga List")}
-            >
-              Followed Manga List
-            </Button>
-          ) : null}
-          {profileOptions.map((option, index) => (
-            <Button
-              key={index}
-              variant={profileOption === option ? "dark" : "light"}
-              onClick={() => setProfileOption(option)}
-            >
-              {option}
-            </Button>
-          ))}
+          {profileOptions.map((option, index) =>
+            option === "Followed Manga List" && user?.id !== userId ? null : (
+              <Button
+                key={index}
+                variant={profileOption === option ? "dark" : "light"}
+                onClick={() => setProfileOption(option)}
+              >
+                {option}
+              </Button>
+            )
+          )}
         </div>
         {profileOption === "Uploads" && <Uploads />}
         {profileOption === "Group" && <Groups />}
@@ -142,7 +134,7 @@ export default function Profile() {
           <About userStats={userStats} userDetails={userDetails} />
         )}
         {profileOption === "Manga List" && <MangaList />}
-        {profileOption === "My Followed Manga List" && <FollowedMangaList />}
+        {profileOption === "Followed Manga List" && <FollowedMangaList />}
       </div>
       <AvatarModal
         close={() => setShowAvatarModal(false)}
