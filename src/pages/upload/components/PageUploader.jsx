@@ -12,8 +12,8 @@ export default function PageUploader({
   handleDrag,
   dragStart,
 }) {
-  const [showOverlay, setShowOverlay] = useState(false);
   const [imageOverlayIndex, setImageOverlayIndex] = useState(null);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [imageOverlaySize, setImageOverlaySize] = useState({
     top: 0,
     left: 0,
@@ -22,16 +22,46 @@ export default function PageUploader({
   });
   const imageOverlayRef = useRef(null);
 
-  const handleImageClick = (index) => {
-    setImageOverlayIndex(index);
-    setShowOverlay(true);
-  };
+  // Add dnd event to window
+  useEffect(() => {
+    const handleDragEnter = (e) => {
+      e.preventDefault();
+      if (e.dataTransfer.types.includes("Files")) {
+        setIsDragOver(true);
+      }
+    };
 
-  const handleCloseOverlay = () => {
-    setImageOverlayIndex(null);
-    setShowOverlay(false);
-  };
+    const handleDragOver = (e) => {
+      e.preventDefault();
+    };
 
+    const handleDrop = (e) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      const appendedImageInfos = Array.from(e.dataTransfer.files).map((f) => ({
+        name: f.name,
+        url: URL.createObjectURL(f),
+      }));
+
+      if (appendedImageInfos.length > 0) {
+        setImageInfos([...imageInfos, ...appendedImageInfos]);
+      }
+    };
+
+    window.addEventListener("dragenter", handleDragEnter);
+    window.addEventListener("dragover", handleDragOver);
+    window.addEventListener("drop", handleDrop);
+
+    return () => {
+      // Remove the event listeners when the component is unmounted
+      window.removeEventListener("dragenter", handleDragEnter);
+      window.removeEventListener("dragover", handleDragOver);
+      window.removeEventListener("drop", handleDrop);
+    };
+  }, [imageInfos, setImageInfos]);
+
+  // Resize image navigation
   useEffect(() => {
     // Calculate the size of the displayed image when it changes
     if (imageOverlayIndex !== null) {
@@ -63,6 +93,7 @@ export default function PageUploader({
         }
       };
       window.addEventListener("keydown", handleKeyDown);
+
       // Cleanup the event listener when the component unmounts
       return () => {
         window.removeEventListener("keydown", handleKeyDown);
@@ -70,7 +101,7 @@ export default function PageUploader({
     }
   }, [imageOverlayIndex, imageInfos]);
 
-  let isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
 
   return (
     <>
@@ -80,21 +111,15 @@ export default function PageUploader({
       >
         {imageInfos.map((imageInfo, index) => (
           <div
-            key={imageInfo.name}
+            key={imageInfo.url}
             className={`pages-upload-card flex-grow-0 ${
               draggedIndex === index ? "dragging" : ""
             }`}
-            onClick={() => {
-              handleImageClick(index);
-            }}
-            onDragStart={() => {
-              setDraggedIndex(index);
-            }}
+            onClick={() => setImageOverlayIndex(index)}
+            onDragStart={() => setDraggedIndex(index)}
             onDragOver={(e) => handleDrag(e, index)}
             onDragEnd={() => setDraggedIndex(null)}
-            onPointerDown={(e) => {
-              if (isMobile) dragStart(e, index, imageInfo);
-            }}
+            onPointerDown={(e) => isMobile && dragStart(e, index, imageInfo)}
             draggable="true"
           >
             <div
@@ -147,12 +172,12 @@ export default function PageUploader({
       ) : (
         <></>
       )}
-      {showOverlay && (
+      {imageOverlayIndex !== null && (
         <div
           className="overlay-container"
           onClick={(e) => {
             e.stopPropagation();
-            handleCloseOverlay();
+            setImageOverlayIndex(null);
           }}
         >
           <div className="image-overlay">
@@ -199,11 +224,20 @@ export default function PageUploader({
               <></>
             )}
           </div>
-          <div className="close-overlay" onClick={handleCloseOverlay}>
+          <div
+            className="close-overlay"
+            onClick={() => setImageOverlayIndex(null)}
+          >
             <i className="fa-solid fa-xmark"></i>
           </div>
         </div>
       )}
+
+      <div className={`drop-zone ${isDragOver ? "visible" : ""}`}>
+        <span>
+          Drag one or more files to this <i>drop zone</i>
+        </span>
+      </div>
     </>
   );
 }

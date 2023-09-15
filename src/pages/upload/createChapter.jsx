@@ -123,7 +123,6 @@ export default function Upload() {
   const dragStart = (ePointerDown, index) => {
     if (ePointerDown.button !== 0) return; // only use left mouse click;
     setDraggedIndex(index);
-    console.log(ePointerDown);
 
     const container = containerRef.current;
     const items = [...container.childNodes];
@@ -146,7 +145,7 @@ export default function Upload() {
     container.appendChild(dragMirror);
 
     document.onpointermove = (ePointerMove) => {
-      console.log("idex", index);
+      console.log("index", index);
       // Calculate the distance the mouse pointer has traveled.
       // original coordinates minus current coordinates.
       const posX = ePointerMove.clientX - ePointerDown.clientX;
@@ -167,7 +166,6 @@ export default function Upload() {
 
         // Check for overlap
         if (isOverlapping && index !== itemIndex) {
-          setImageInfos(newData);
           // Swap Data
           console.log("itemIndex", itemIndex);
           newData = imageInfos.filter((item) => item.url !== dragData.url);
@@ -181,6 +179,7 @@ export default function Upload() {
       document.onpointerup = null;
       document.onpointermove = null;
       container.removeChild(dragMirror);
+      setImageInfos(newData);
       setDraggedIndex(null);
     };
   };
