@@ -21,6 +21,7 @@ export default function PageUploader({
     height: 0,
   });
   const imageOverlayRef = useRef(null);
+  const dropZoneRef = useRef(null);
 
   // Add dnd event to window
   useEffect(() => {
@@ -33,6 +34,10 @@ export default function PageUploader({
 
     const handleDragOver = (e) => {
       e.preventDefault();
+    };
+
+    const handleDragLeave = (e) => {
+      setIsDragOver(false);
     };
 
     const handleDrop = (e) => {
@@ -49,15 +54,19 @@ export default function PageUploader({
       }
     };
 
+    const dropZone = dropZoneRef.current;
+
     window.addEventListener("dragenter", handleDragEnter);
-    window.addEventListener("dragover", handleDragOver);
-    window.addEventListener("drop", handleDrop);
+    dropZone.addEventListener("dragover", handleDragOver);
+    dropZone.addEventListener("dragleave", handleDragLeave);
+    dropZone.addEventListener("drop", handleDrop);
 
     return () => {
       // Remove the event listeners when the component is unmounted
       window.removeEventListener("dragenter", handleDragEnter);
-      window.removeEventListener("dragover", handleDragOver);
-      window.removeEventListener("drop", handleDrop);
+      dropZone.removeEventListener("dragover", handleDragOver);
+      dropZone.removeEventListener("dragleave", handleDragLeave);
+      dropZone.removeEventListener("drop", handleDrop);
     };
   }, [imageInfos, setImageInfos]);
 
@@ -233,8 +242,11 @@ export default function PageUploader({
         </div>
       )}
 
-      <div className={`drop-zone ${isDragOver ? "visible" : ""}`}>
-        <span>
+      <div
+        className={`drop-zone ${isDragOver ? "visible" : ""}`}
+        ref={dropZoneRef}
+      >
+        <span style={{ pointerEvents: "none" }}>
           Drag one or more files to this <i>drop zone</i>
         </span>
       </div>
