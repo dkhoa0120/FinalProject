@@ -383,18 +383,6 @@
   margin-bottom: 10px;
 }
 
-@media screen and (min-width: 768px) {
-  .modal-50w {
-    min-width: 50vw !important;
-  }
-  .modal-90w {
-    min-width: 90vw !important;
-  }
-  .image-display {
-    width: 350px;
-  }
-}
-
 .privacy {
   display: flex;
   flex-direction: column;
@@ -417,4 +405,16 @@
 .privacy > img {
   max-width: 100%;
   height: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .modal-50w {
+    min-width: 50vw !important;
+  }
+  .modal-90w {
+    min-width: 90vw !important;
+  }
+  .image-display {
+    width: 350px;
+  }
 }

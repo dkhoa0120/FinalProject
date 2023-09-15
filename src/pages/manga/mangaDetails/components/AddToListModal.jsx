@@ -169,13 +169,20 @@ export default function AddToListModal({
                 ))}
               </Form.Group>
             </Form.Group>
-            <Form.Group className="mb-3">
-              <i
-                className="fa-solid fa-plus"
-                onClick={handleShowForm}
-                style={{ cursor: "pointer" }}
-              ></i>{" "}
-              {showForm ? "Close Form" : "Create a new manga list"}
+            <Form.Group
+              onClick={handleShowForm}
+              style={{ cursor: "pointer", width: "max-content" }}
+            >
+              {!showForm ? (
+                <>
+                  <i className="fa-solid fa-plus"></i>{" "}
+                  <span>Create a new MangaList</span>
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-minus"></i> <span>Close Form</span>
+                </>
+              )}
             </Form.Group>
           </Form>
           {showForm && (

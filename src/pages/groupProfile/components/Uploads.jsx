@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import PaginationNoParams from "../../../components/paginationNoParams";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as mangaApi from "../../../service/api.manga";
 import CountryFlag from "../../../components/countryFlag";
 
-export default function Uploads() {
-  const [mangaGroups, setMangaGroups] = useState(null);
+export default function Uploads({ groupId }) {
+  const [groupMangaLists, setGroupMangaLists] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const { userId } = useParams();
 
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
@@ -35,23 +34,23 @@ export default function Uploads() {
   useEffect(() => {
     const getChaptersByPage = async (id, page) => {
       try {
-        const result = await mangaApi.getMangaInProfile(id, { page });
-        setMangaGroups(result.data.itemList);
+        const result = await mangaApi.getGroupMangaList(id, { page });
+        setGroupMangaLists(result.data.itemList);
         setTotalPages(result.data.totalPages);
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          setMangaGroups(null);
+          setGroupMangaLists(null);
         }
       }
     };
-    getChaptersByPage(userId, currentPage);
-  }, [userId, currentPage]);
+    getChaptersByPage(groupId, currentPage);
+  }, [groupId, currentPage]);
 
   return (
     <>
       <Container fluid>
-        {mangaGroups ? (
-          mangaGroups.map((m, index, c) => {
+        {groupMangaLists ? (
+          groupMangaLists.map((m, index, c) => {
             return (
               <>
                 <div className="chapter-group-container" key={index}>

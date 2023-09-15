@@ -245,7 +245,6 @@ export default function MangaListGroup() {
                         <Dropdown.Menu>
                           {user?.id === mangaList?.owner.id ? (
                             <>
-                              {" "}
                               <Dropdown.Item>
                                 <div onClick={() => setShow(true)}>Edit</div>
                               </Dropdown.Item>

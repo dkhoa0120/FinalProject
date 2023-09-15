@@ -79,3 +79,14 @@ export const getMangaInProfile = (uploaderId, filter) => {
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
+
+export const getGroupMangaList = (groupId, filter) => {
+  const page = filter?.page;
+
+  return baseAxios.get(`Group/${groupId}/chaptersByManga`, {
+    params: {
+      page,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
+  });
+};
