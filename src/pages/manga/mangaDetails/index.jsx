@@ -11,6 +11,7 @@ import * as followApi from "../../../service/api.follow";
 
 export default function MangaDetail() {
   const [manga, setManga] = useState(null);
+  const [mangaStats, setMangaStats] = useState(null);
   const [chapters, setChapters] = useState(null);
   const [totalChapterPages, setTotalChapterPages] = useState(0);
   const [chapterPage, setChapterPage] = useState(1);
@@ -25,24 +26,24 @@ export default function MangaDetail() {
     try {
       if (rate === 0) {
         await ratingApi.postRating(mangaId, formData);
-        setManga((prevManga) => ({
-          ...prevManga,
-          ratingSum: prevManga.ratingSum + Number(eventKey),
-          ratingCount: prevManga.ratingCount + 1,
+        setMangaStats((prev) => ({
+          ...prev,
+          ratingSum: prev.ratingSum + Number(eventKey),
+          ratingCount: prev.ratingCount + 1,
         }));
       } else if (eventKey !== "0") {
         await ratingApi.putRating(mangaId, formData);
-        setManga((prevManga) => ({
-          ...prevManga,
-          ratingSum: prevManga.ratingSum - rate + Number(eventKey),
-          ratingCount: prevManga.ratingCount,
+        setMangaStats((prev) => ({
+          ...prev,
+          ratingSum: prev.ratingSum - rate + Number(eventKey),
+          ratingCount: prev.ratingCount,
         }));
       } else {
         await ratingApi.deleteRating(mangaId);
-        setManga((prevManga) => ({
-          ...prevManga,
-          ratingSum: prevManga.ratingSum - rate,
-          ratingCount: prevManga.ratingCount - 1,
+        setMangaStats((prev) => ({
+          ...prev,
+          ratingSum: prev.ratingSum - rate,
+          ratingCount: prev.ratingCount - 1,
         }));
       }
       setRate(Number(eventKey));
@@ -62,16 +63,16 @@ export default function MangaDetail() {
       if (!follow) {
         await followApi.postFollow(mangaId);
         setFollow(true);
-        setManga((prevManga) => ({
-          ...prevManga,
-          followCount: prevManga.followCount + 1,
+        setMangaStats((prev) => ({
+          ...prev,
+          followCount: prev.followCount + 1,
         }));
       } else {
         await followApi.deleteFollow(mangaId);
         setFollow(false);
-        setManga((prevManga) => ({
-          ...prevManga,
-          followCount: prevManga.followCount - 1,
+        setMangaStats((prev) => ({
+          ...prev,
+          followCount: prev.followCount - 1,
         }));
       }
     } catch (error) {
@@ -101,11 +102,13 @@ export default function MangaDetail() {
     }
   };
 
-  const getMangaDetail = async (id) => {
+  const getManga = async (id) => {
     try {
-      const result = await mangaApi.getMangaById(id);
-      setManga(result.data);
-      document.title = `${result.data.originalTitle} - 3K Manga`;
+      const mangaDetail = (await mangaApi.getMangaById(id)).data;
+      const mangaStats = (await mangaApi.getMangaStats(id)).data;
+      setManga(mangaDetail);
+      setMangaStats(mangaStats);
+      document.title = `${mangaDetail.originalTitle} - 3K Manga`;
     } catch (error) {
       if (error.response && error.response.status === 404) {
         navigate("/404");
@@ -143,10 +146,11 @@ export default function MangaDetail() {
   };
 
   useEffect(() => {
-    getMangaDetail(mangaId);
+    getManga(mangaId);
     fetchUserRating(mangaId);
     getChaptersByPage(mangaId, chapterPage);
     fetchUserFollow(mangaId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mangaId, chapterPage]);
 
   return (
@@ -154,6 +158,7 @@ export default function MangaDetail() {
       <ToastContainer />
       <MangaBanner
         manga={manga}
+        mangaStats={mangaStats}
         rate={rate}
         handleSelectRate={handleSelectRate}
         follow={follow}

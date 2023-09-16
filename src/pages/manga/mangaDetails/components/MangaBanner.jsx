@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AddToListModal from "./AddToListModal";
 export default function MangaBanner({
   manga,
+  mangaStats,
   handleSelectRate,
   rate,
   follow,
@@ -43,12 +44,12 @@ export default function MangaBanner({
                   style={{ color: "#f60056" }}
                 ></i>
               )}{" "}
-              {manga ? manga.followCount : 0}
+              {manga ? mangaStats.followCount : 0}
             </button>
             <div className="btn-under-cover">
               {manga ? (
                 <span>
-                  <i className="fa-regular fa-eye"></i> {manga.viewCount}
+                  <i className="fa-regular fa-eye"></i> {mangaStats.viewCount}
                 </span>
               ) : (
                 <span>0</span>
@@ -62,10 +63,11 @@ export default function MangaBanner({
                 ></i>{" "}
                 {manga && (
                   <span>
-                    {manga.ratingCount === 0
+                    {mangaStats.ratingCount === 0
                       ? 3.5
-                      : Math.round((manga.ratingSum / manga.ratingCount) * 10) /
-                        10}
+                      : Math.round(
+                          (mangaStats.ratingSum / mangaStats.ratingCount) * 10
+                        ) / 10}
                   </span>
                 )}
               </Dropdown.Toggle>

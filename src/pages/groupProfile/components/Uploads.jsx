@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import PaginationNoParams from "../../../components/paginationNoParams";
 import { Link } from "react-router-dom";
-import * as mangaApi from "../../../service/api.manga";
+import * as groupApi from "../../../service/api.group";
 import CountryFlag from "../../../components/countryFlag";
 
 export default function Uploads({ groupId }) {
@@ -34,7 +34,7 @@ export default function Uploads({ groupId }) {
   useEffect(() => {
     const getChaptersByPage = async (id, page) => {
       try {
-        const result = await mangaApi.getGroupMangaList(id, { page });
+        const result = await groupApi.getGroupMangaList(id, { page });
         setGroupMangaLists(result.data.itemList);
         setTotalPages(result.data.totalPages);
       } catch (error) {
@@ -80,7 +80,7 @@ export default function Uploads({ groupId }) {
                     </Link>
                     {m.chapters ? (
                       m.chapters.map((c, index) => (
-                        <Row key={index}>
+                        <Row className="chapter-row" key={index}>
                           <Col xs={12} md={4}>
                             <Link to={`/Chapter/${c.id}`} className="card-link">
                               <div
@@ -102,10 +102,15 @@ export default function Uploads({ groupId }) {
                             </p>
                           </Col>
                           <Col xs={6} md={2}>
-                            <p className="text-truncate ">
-                              <i className="fa-regular fa-user"></i>{" "}
-                              {c.uploader.name}
-                            </p>
+                            <Link
+                              to={`/Profile/${c.uploader.id}`}
+                              className="card-link"
+                            >
+                              <p className="text-truncate ">
+                                <i className="fa-regular fa-user"></i>{" "}
+                                {c.uploader.name}
+                              </p>
+                            </Link>
                           </Col>
                           <Col xs={6} md={2}>
                             <p

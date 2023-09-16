@@ -407,6 +407,10 @@
   height: auto;
 }
 
+.chapter-row p {
+  margin: 0.5rem 0;
+}
+
 @media screen and (min-width: 768px) {
   .modal-50w {
     min-width: 50vw !important;

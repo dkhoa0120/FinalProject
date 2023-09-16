@@ -74,20 +74,25 @@ export default function Uploads() {
                     </Link>
                     {m.chapters ? (
                       m.chapters.map((c, index) => (
-                        <Row key={index}>
+                        <Row className="chapter-row" key={index}>
                           <Col xs={12} md={4}>
                             <Link to={`/Chapter/${c.id}`} className="card-link">
                               <div className="chapter-name">
                                 <CountryFlag key={c.id} lang={c.language} />
-                                <span className="text-limit-1">{c.name}</span>
+                                <p className="text-limit-1">{c.name}</p>
                               </div>
                             </Link>
                           </Col>
                           <Col xs={6} md={2}>
-                            <p className="text-truncate">
-                              <i className="fa-regular fa-user"></i>{" "}
-                              {c.uploadingGroup.name}
-                            </p>
+                            <Link
+                              to={`/Group/${c.uploadingGroup.id}`}
+                              className="card-link"
+                            >
+                              <p className="text-truncate">
+                                <i className="fa-regular fa-user"></i>{" "}
+                                {c.uploadingGroup.name}
+                              </p>
+                            </Link>
                           </Col>
                           <Col xs={6} md={2} className="hide-when-mobile">
                             <p className="text-truncate ">

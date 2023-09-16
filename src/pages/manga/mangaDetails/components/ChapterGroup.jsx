@@ -72,10 +72,15 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
                 </Link>
               </Col>
               <Col xs={6} xl={2}>
-                <p className="text-truncate">
-                  <i className="fa-regular fa-user"></i>{" "}
-                  {chapter.uploadingGroup.name}
-                </p>
+                <Link
+                  to={`/Group/${chapter.uploadingGroup.id}`}
+                  className="card-link"
+                >
+                  <p className="text-truncate">
+                    <i className="fa-regular fa-user"></i>{" "}
+                    {chapter.uploadingGroup.name}
+                  </p>
+                </Link>
               </Col>
               <Col xs={6} xl={2}>
                 <Link

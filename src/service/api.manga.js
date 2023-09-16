@@ -39,6 +39,10 @@ export const getMangaById = (id) => {
   return baseAxios.get(`mangas/${id}`);
 };
 
+export const getMangaStats = (id) => {
+  return baseAxios.get(`mangas/${id}/stats`);
+};
+
 export const getChapterByMangaId = (id, filter) => {
   const page = filter?.page || 1;
   const pageSize = filter?.pageSize || 8;
@@ -50,40 +54,28 @@ export const getChapterByMangaId = (id, filter) => {
 
 // manage/mangas
 export const getMangaByIdForManage = (id) => {
-  return getAuthorizedAxios().get(`manage/manga/${id}`);
+  return getAuthorizedAxios().get(`manage/mangas/${id}`);
 };
 
 export const createManga = (formData) => {
-  return getAuthorizedAxios().post("manage/manga", formData);
+  return getAuthorizedAxios().post("manage/mangas", formData);
 };
 
 export const editManga = (id, formData) => {
-  return getAuthorizedAxios().put(`manage/manga/${id}`, formData);
+  return getAuthorizedAxios().put(`manage/mangas/${id}`, formData);
 };
 
 export const deleteManga = (id, undelete = false) => {
-  return getAuthorizedAxios().delete(`manage/manga/${id}`, {
+  return getAuthorizedAxios().delete(`manage/mangas/${id}`, {
     params: { undelete },
   });
 };
 
 // get chapter in profiles
-
 export const getMangaInProfile = (uploaderId, filter) => {
   const page = filter?.page;
 
   return baseAxios.get(`uploader/${uploaderId}/chaptersByManga`, {
-    params: {
-      page,
-    },
-    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
-  });
-};
-
-export const getGroupMangaList = (groupId, filter) => {
-  const page = filter?.page;
-
-  return baseAxios.get(`Group/${groupId}/chaptersByManga`, {
     params: {
       page,
     },

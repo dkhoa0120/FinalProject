@@ -99,7 +99,7 @@ export default function Group() {
             </Button>
           ))}
         </div>
-        {profileOption === "Uploads" && <Uploads />}
+        {profileOption === "Uploads" && <Uploads groupId={groupId} />}
         {profileOption === "About" && <About groupDetails={groupDetails} />}
         {profileOption === "Members" && <Members groupId={groupId} />}
       </div>
