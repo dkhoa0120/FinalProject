@@ -39,7 +39,7 @@ export default function ManageManga() {
       const result = await mangaApi.getMangas({
         search,
         page,
-        excludeDeleted: false,
+        includeDeleted: true,
       });
       setMangas(result.data.itemList);
       setTotalPages(result.data.totalPages);

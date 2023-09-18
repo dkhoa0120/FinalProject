@@ -48,7 +48,7 @@ export default function ManageAuthor() {
       const result = await authorApi.getAuthors({
         search,
         page,
-        excludeDeleted: false,
+        includeDeleted: true,
       });
       setAuthors(result.data.itemList);
       setTotalPages(result.data.totalPages);

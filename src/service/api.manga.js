@@ -5,7 +5,7 @@ import qs from "qs";
 export const getMangas = (filter) => {
   const search = filter?.search;
   const sortOption = filter?.sortOption;
-  const excludeDeleted = filter?.excludeDeleted;
+  const includeDeleted = filter?.includeDeleted;
   const includedCategoryIds = filter?.includedCategoryIds;
   const excludedCategoryIds = filter?.excludedCategoryIds;
   const selectedLanguages = filter?.selectedLanguages;
@@ -16,7 +16,7 @@ export const getMangas = (filter) => {
     params: {
       search,
       sortOption,
-      excludeDeleted,
+      includeDeleted,
       includedCategoryIds,
       excludedCategoryIds,
       selectedLanguages,

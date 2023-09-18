@@ -3,7 +3,7 @@ import * as categoryApi from "../../../../service/api.category";
 
 export async function handleAuthorOptions(search) {
   try {
-    let res = await authorApi.getAuthors({ search, excludeDeleted: true });
+    let res = await authorApi.getAuthors({ search });
     return mapToOption(res.data.itemList);
   } catch (err) {
     if (err.response && err.response.status === 404) {
@@ -14,7 +14,7 @@ export async function handleAuthorOptions(search) {
 
 export async function handleCateOptions(search) {
   try {
-    let res = await categoryApi.getCategories({ search, excludeDeleted: true });
+    let res = await categoryApi.getCategories({ search });
     return mapToOption(res.data.itemList);
   } catch (err) {
     if (err.response && err.response.status === 404) {

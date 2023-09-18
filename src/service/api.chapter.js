@@ -28,13 +28,13 @@ export const deleteChapter = (chapterId, undelete = false) => {
 export const getChapterOfUploader = (filter) => {
   const search = filter?.search;
   const page = filter?.page;
-  const excludeDeleted = filter?.excludeDeleted;
+  const includeDeleted = filter?.includeDeleted;
 
   return getAuthorizedAxios().get(`uploader/me/chapters`, {
     params: {
       search,
       page,
-      excludeDeleted,
+      includeDeleted,
     },
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });

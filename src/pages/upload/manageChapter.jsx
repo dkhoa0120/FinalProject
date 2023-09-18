@@ -43,7 +43,7 @@ export default function ManageChapter() {
       const result = await chapterApi.getChapterOfUploader({
         search,
         page,
-        excludeDeleted: false,
+        includeDeleted: true,
       });
       setChapters(result.data.itemList);
       setTotalPages(result.data.totalPages);

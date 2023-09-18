@@ -42,7 +42,7 @@ export default function ManageCategory() {
       const result = await categoryApi.getCategories({
         search,
         page,
-        excludeDeleted: false,
+        includeDeleted: true,
       });
       setCategories(result.data.itemList);
       setTotalPages(result.data.totalPages);
