@@ -4,11 +4,11 @@ import Select from "react-select";
 import AsyncSelect from "react-select/async";
 import makeAnimated from "react-select/animated";
 import { CategoryContext } from "../../../../context/CategoryContext";
-import { LanguageContext } from "../../../../context/LanguageContext";
 import { excludedColourStyles, includedColourStyles } from "./colorStyles";
 import { handleAuthorOptions } from "../../../admin/manageManga/components/SelectOptions";
 import { useEffect } from "react";
 import * as authorApi from "../../../../service/api.author";
+import { languageOptions } from "../../../../constants/languages";
 
 export default function FilterModal({
   show,
@@ -18,7 +18,6 @@ export default function FilterModal({
 }) {
   const animatedComponents = makeAnimated();
   const { categoryOptions } = useContext(CategoryContext);
-  const { languageOptions } = useContext(LanguageContext);
 
   // states for category select
   const [includedCate, setIncludedCate] = useState([]);

@@ -23,7 +23,7 @@ function DeleteManga(props) {
       toast.success("Manga has been deleted", {
         theme: "dark",
       });
-      props.getMangas();
+      props.getMangas(props.search, props.page);
       props.handleClose();
     } catch (error) {
       toast.error("Failed to delete manga");

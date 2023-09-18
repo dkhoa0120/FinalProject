@@ -7,10 +7,16 @@ import Select from "react-select";
 import AsyncSelect from "react-select/async";
 import makeAnimated from "react-select/animated";
 import { handleAuthorOptions } from "./SelectOptions";
-import { LanguageContext } from "../../../../context/LanguageContext";
 import { CategoryContext } from "../../../../context/CategoryContext";
+import { languageOptions } from "../../../../constants/languages";
 
-export default function CreateManga({ show, handleClose, getMangas }) {
+export default function CreateManga({
+  show,
+  handleClose,
+  getMangas,
+  search,
+  page,
+}) {
   const {
     register,
     control,
@@ -21,7 +27,6 @@ export default function CreateManga({ show, handleClose, getMangas }) {
     defaultValues: {},
   });
 
-  const { languageOptions } = useContext(LanguageContext);
   const { categoryOptions } = useContext(CategoryContext);
   const animatedComponents = makeAnimated();
 
@@ -49,7 +54,7 @@ export default function CreateManga({ show, handleClose, getMangas }) {
       handleClose();
       reset();
       toast.success("A manga has been created");
-      getMangas();
+      getMangas(search, page);
     } catch (error) {
       toast.error(error.message);
     }

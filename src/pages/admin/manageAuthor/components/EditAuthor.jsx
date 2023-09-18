@@ -11,6 +11,8 @@ export default function EditAuthor({
   show,
   handleClose,
   getAuthors,
+  search,
+  page,
 }) {
   const {
     register,
@@ -33,7 +35,7 @@ export default function EditAuthor({
     try {
       await authorApi.editAuthor(data.id, data);
       handleClose();
-      getAuthors();
+      getAuthors(search, page);
       toast.success("Author has been updated!");
     } catch (error) {
       toast.error("Somethings went wrong!", {

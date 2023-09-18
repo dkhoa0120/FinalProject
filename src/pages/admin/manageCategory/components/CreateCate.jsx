@@ -5,8 +5,16 @@ import Modal from "react-bootstrap/Modal";
 import * as categoryApi from "../../../../service/api.category";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { CategoryContext } from "../../../../context/CategoryContext";
 
-export default function CreateCate({ show, handleClose, getCategories }) {
+export default function CreateCate({
+  show,
+  handleClose,
+  getCategories,
+  search,
+  page,
+}) {
   const {
     register,
     reset,
@@ -16,11 +24,14 @@ export default function CreateCate({ show, handleClose, getCategories }) {
     defaultValues: {},
   });
 
+  const { categories, setCategories } = useContext(CategoryContext);
+
   const onSubmit = async (data) => {
     try {
-      await categoryApi.createCategory(data);
+      let res = await categoryApi.createCategory(data);
       handleClose();
-      getCategories();
+      getCategories(search, page);
+      setCategories([...categories, res.data]);
       reset();
       toast.success("Category has been created");
     } catch {

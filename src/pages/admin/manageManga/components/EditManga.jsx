@@ -9,10 +9,17 @@ import Select from "react-select";
 import AsyncSelect from "react-select/async";
 import makeAnimated from "react-select/animated";
 import { handleAuthorOptions, mapToOption } from "./SelectOptions";
-import { LanguageContext } from "../../../../context/LanguageContext";
 import { CategoryContext } from "../../../../context/CategoryContext";
+import { languageOptions } from "../../../../constants/languages";
 
-export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
+export default function EditManga({
+  dataEdit,
+  show,
+  handleClose,
+  getMangas,
+  search,
+  page,
+}) {
   const {
     register,
     control,
@@ -24,7 +31,6 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
     defaultValues: {},
   });
 
-  const { languageOptions } = useContext(LanguageContext);
   const { categoryOptions } = useContext(CategoryContext);
   const animatedComponents = makeAnimated();
 
@@ -71,7 +77,7 @@ export default function EditManga({ dataEdit, show, handleClose, getMangas }) {
       handleClose();
       reset();
       toast.success("A manga has been updated");
-      getMangas();
+      getMangas(search, page);
     } catch (error) {
       toast.error(error.message);
     }

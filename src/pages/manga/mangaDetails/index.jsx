@@ -96,6 +96,8 @@ export default function MangaDetail() {
       const userRating = response.data;
       if (userRating) {
         setRate(userRating);
+      } else {
+        setRate(0);
       }
     } catch (error) {
       console.error("Error retrieving user rating:", error);

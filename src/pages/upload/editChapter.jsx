@@ -6,7 +6,6 @@ import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import * as groupApi from "../../service/api.group";
 import * as chapterApi from "../../service/api.chapter";
-import { LanguageContext } from "../../context/LanguageContext";
 import "./styles.css";
 import {
   convertToImage,
@@ -16,6 +15,7 @@ import {
   handleDragOver,
 } from "./chapterUtilities";
 import { UserContext } from "../../context/UserContext";
+import { languageOptions } from "../../constants/languages";
 
 export default function Edit() {
   const {
@@ -27,7 +27,6 @@ export default function Edit() {
   } = useForm();
   const navigate = useNavigate();
   const { chapterId } = useParams();
-  const { languageOptions } = useContext(LanguageContext);
   const { user } = useContext(UserContext);
   const userId = user?.id;
 

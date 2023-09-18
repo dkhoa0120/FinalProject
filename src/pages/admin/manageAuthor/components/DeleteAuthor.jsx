@@ -23,7 +23,7 @@ export default function DeleteAuthor(props) {
       toast.success("Author has been deleted", {
         theme: "dark",
       });
-      props.getAuthors();
+      props.getAuthors(props.search, props.page);
       props.handleClose();
     } catch (error) {
       toast.error("Failed to delete manga");

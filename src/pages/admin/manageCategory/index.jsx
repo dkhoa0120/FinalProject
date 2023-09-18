@@ -178,12 +178,16 @@ export default function ManageCategory() {
         </div>
         <CreateCate
           show={showCreate}
+          search={search}
+          page={page}
           handleClose={() => setShowCreate(false)}
           getCategories={handleGetCategories}
         />
         <EditCate
           show={showEdit}
           handleClose={() => setShowEdit(false)}
+          search={search}
+          page={page}
           dataEdit={dataEdit}
           getCategories={handleGetCategories}
         />
@@ -191,6 +195,8 @@ export default function ManageCategory() {
           show={showDelete}
           handleClose={() => setShowDelete(false)}
           dataEdit={dataEdit}
+          search={search}
+          page={page}
           getCategories={handleGetCategories}
         />
       </div>

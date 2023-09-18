@@ -163,6 +163,9 @@ export default function Header(props) {
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
+                                    onClick={() => {
+                                      setShow(false);
+                                    }}
                                   >
                                     <i className="fa-solid fa-user"></i> Users
                                   </Button>
@@ -173,6 +176,9 @@ export default function Header(props) {
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
+                                    onClick={() => {
+                                      setShow(false);
+                                    }}
                                   >
                                     <i className="fa-solid fa-book"></i> Mangas
                                   </Button>
@@ -185,6 +191,9 @@ export default function Header(props) {
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
+                                    onClick={() => {
+                                      setShow(false);
+                                    }}
                                   >
                                     <i className="fa-solid fa-layer-group"></i>{" "}
                                     Genres
@@ -196,6 +205,9 @@ export default function Header(props) {
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
+                                    onClick={() => {
+                                      setShow(false);
+                                    }}
                                   >
                                     <i className="fa-solid fa-compass-drafting"></i>{" "}
                                     Authors

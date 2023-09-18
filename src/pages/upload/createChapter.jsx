@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 import * as mangaApi from "../../service/api.manga";
 import * as groupApi from "../../service/api.group";
 import * as chapterApi from "../../service/api.chapter";
-import { LanguageContext } from "../../context/LanguageContext";
 import "./styles.css";
 import {
   convertToImage,
@@ -17,6 +16,7 @@ import {
   handleDragOver,
 } from "./chapterUtilities";
 import { UserContext } from "../../context/UserContext";
+import { languageOptions } from "../../constants/languages";
 
 export default function Upload() {
   const {
@@ -28,7 +28,6 @@ export default function Upload() {
   } = useForm();
   const navigate = useNavigate();
   const { mangaId } = useParams();
-  const { languageOptions } = useContext(LanguageContext);
   const { user } = useContext(UserContext);
   const userId = user?.id;
 

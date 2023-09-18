@@ -5,10 +5,14 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import * as categoryApi from "../../../../service/api.category";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { CategoryContext } from "../../../../context/CategoryContext";
 
 export default function DeleteCate(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
+
+  const { fetchCateOptions } = useContext(CategoryContext);
 
   useEffect(() => {
     if (props.show) {
@@ -23,7 +27,8 @@ export default function DeleteCate(props) {
       toast.success("Category has been deleted", {
         theme: "dark",
       });
-      props.getCategories();
+      fetchCateOptions();
+      props.getCategories(props.search, props.page);
       props.handleClose();
     } catch (error) {
       toast.error("Failed to delete manga");

@@ -11,23 +11,25 @@ function CategoryProvider({ children }) {
     label: c.name,
   }));
 
-  useEffect(() => {
-    const fetchCateOptions = async () => {
-      try {
-        let res = await categoryApi.getCategories({ pageSize: 50 });
-        setCategories(res.data.itemList);
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          setCategories([]);
-        }
+  const fetchCateOptions = async () => {
+    try {
+      let res = await categoryApi.getCategories({ pageSize: 50 });
+      setCategories(res.data.itemList);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setCategories([]);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchCateOptions();
   }, []);
 
   return (
-    <CategoryContext.Provider value={{ categories, categoryOptions }}>
+    <CategoryContext.Provider
+      value={{ categories, categoryOptions, setCategories, fetchCateOptions }}
+    >
       {children}
     </CategoryContext.Provider>
   );

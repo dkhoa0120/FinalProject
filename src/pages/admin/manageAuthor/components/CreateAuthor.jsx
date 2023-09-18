@@ -6,7 +6,13 @@ import * as authorApi from "../../../../service/api.author";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
-export default function CreateAuthor({ show, handleClose, getAuthors }) {
+export default function CreateAuthor({
+  show,
+  handleClose,
+  getAuthors,
+  search,
+  page,
+}) {
   const {
     register,
     reset,
@@ -20,7 +26,7 @@ export default function CreateAuthor({ show, handleClose, getAuthors }) {
     try {
       await authorApi.createAuthor(data);
       handleClose();
-      getAuthors();
+      getAuthors(search, page);
       reset();
       toast.success("Authors has been created");
     } catch {

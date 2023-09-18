@@ -185,18 +185,24 @@ export default function ManageAuthor() {
         <CreateAuthor
           show={showCreate}
           handleClose={() => setShowCreate(false)}
+          search={search}
+          page={page}
           getAuthors={handleGetAuthors}
         />
         <EditAuthor
           show={showEdit}
           handleClose={() => setShowEdit(false)}
           dataEdit={dataEdit}
+          search={search}
+          page={page}
           getAuthors={handleGetAuthors}
         />
         <DeleteAuthor
           show={showDelete}
           handleClose={() => setShowDelete(false)}
           dataEdit={dataEdit}
+          search={search}
+          page={page}
           getAuthors={handleGetAuthors}
         />
       </div>

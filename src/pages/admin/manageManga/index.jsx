@@ -184,17 +184,23 @@ export default function ManageManga() {
       <CreateManga
         show={shownModal === "create"}
         handleClose={() => setShownModal(null)}
+        search={search}
+        page={page}
         getMangas={getMangas}
       />
       <EditManga
         show={shownModal === "edit"}
         handleClose={() => setShownModal(null)}
+        search={search}
+        page={page}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
       <DeleteManga
         show={shownModal === "delete"}
         handleClose={() => setShownModal(null)}
+        search={search}
+        page={page}
         dataEdit={dataEdit}
         getMangas={getMangas}
       />

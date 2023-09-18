@@ -63,7 +63,7 @@ export default function ManageUser() {
   return (
     <div>
       <ToastContainer />
-      <div style={{ paddingTop: "50px" }}>
+      <div>
         <Row>
           <div className="general-container-title">
             <Form.Control

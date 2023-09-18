@@ -1,16 +1,19 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import * as categoryApi from "../../../../service/api.category";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { CategoryContext } from "../../../../context/CategoryContext";
 
 export default function EditCate({
   dataEdit,
   show,
   handleClose,
   getCategories,
+  search,
+  page,
 }) {
   const {
     register,
@@ -20,6 +23,8 @@ export default function EditCate({
   } = useForm({
     defaultValues: {},
   });
+
+  const { fetchCateOptions } = useContext(CategoryContext);
 
   useEffect(() => {
     if (dataEdit) {
@@ -32,8 +37,10 @@ export default function EditCate({
   const onSubmit = async (data) => {
     try {
       await categoryApi.editCategory(data.id, data);
+      fetchCateOptions();
       handleClose();
-      getCategories();
+      getCategories(search, page);
+
       toast.success("Category has been updated!");
     } catch (error) {
       toast.error("Somethings went wrong!", {
