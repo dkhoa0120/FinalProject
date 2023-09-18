@@ -8,7 +8,13 @@
   left: 0;
   top: 0;
   position: fixed;
+  transition: transform 0.3s ease-out;
 }
+
+.nav-menu.hide {
+  transform: translateX(-100%);
+}
+
 .nav-menu::-webkit-scrollbar {
   display: none;
 }

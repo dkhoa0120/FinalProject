@@ -71,7 +71,7 @@ function SideBar(props) {
   ];
 
   return (
-    <Nav className="nav-menu">
+    <Nav className={`nav-menu ${props.showSidebar ? "show" : "hide"}`}>
       <Sidebar
         rootStyles={{
           [`.${sidebarClasses.container}`]: {

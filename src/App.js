@@ -43,7 +43,7 @@ export default function App() {
         <Body />
       </div>
       <Header toggleSidebar={toggleSidebar} />
-      {showSidebar && <SideBar toggleSidebar={toggleSidebar} />}
+      <SideBar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
     </>
   );
 }
