@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import * as authApi from "../../../service/api.auth";
+import * as accountApi from "../../../service/api.account";
 
 export default function AvatarModal({
   show,
@@ -38,7 +38,7 @@ export default function AvatarModal({
       croppedCanvas.toBlob(async (blob) => {
         const formData = new FormData();
         formData.append("image", blob, "croppedImage.png");
-        const result = await authApi.changeUserAvatar(formData); // Assuming the response contains the user details
+        const result = await accountApi.changeUserAvatar(formData); // Assuming the response contains the user details
         result.data.avatarPath += `?lastModified=${modifiedTime}`;
         setUploadedAvatar(null);
         setUser(result.data);

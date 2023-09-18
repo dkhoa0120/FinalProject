@@ -7,7 +7,7 @@ import "../styles.css";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { useEffect } from "react";
-import * as authApi from "../../../service/api.auth";
+import * as accountApi from "../../../service/api.account";
 import Cookies from "universal-cookie";
 
 export default function Register() {
@@ -47,13 +47,13 @@ export default function Register() {
     };
 
     try {
-      await authApi.signUp(data);
+      await accountApi.signUp(data);
 
       const loginData = {
         email: email,
         password: password,
       };
-      const response = await authApi.signIn(loginData);
+      const response = await accountApi.signIn(loginData);
       if (response && response.data.token && response.data.expiration) {
         new Cookies().set("Token", response.data.token, {
           expires: new Date(response.data.expiration),

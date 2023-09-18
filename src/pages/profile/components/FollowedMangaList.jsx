@@ -85,7 +85,7 @@ export default function FollowedMangaList() {
                     </div>
                     <div
                       className="hover-overlay"
-                      onClick={() => navigate(`/MangaList/${mangaList.id}`)}
+                      onClick={() => navigate(`/manga-lists/${mangaList.id}`)}
                     >
                       <span>See more</span>
                     </div>

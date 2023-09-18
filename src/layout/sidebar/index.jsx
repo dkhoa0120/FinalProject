@@ -30,18 +30,17 @@ function SideBar(props) {
         </MenuItem>
       ),
       items: [
-        { text: "Popular", to: "/Manga/popular", key: "popular" },
         {
           text: "Latest Manga",
-          to: "/Manga?sortOption=LatestManga",
+          to: "/mangas?sortOption=LatestManga",
           key: "latest-manga",
         },
         {
           text: "Latest Chapter",
-          to: "/Manga?sortOption=LatestChapter",
+          to: "/mangas?sortOption=LatestChapter",
           key: "latest-chapter",
         },
-        { text: "Random", to: "/Manga/random", key: "random" },
+        { text: "Random", to: "/mangas/random", key: "random" },
       ],
     },
     {

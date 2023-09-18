@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../styles.css";
 import { UserContext } from "../../../context/UserContext";
-import * as authApi from "../../../service/api.auth";
+import * as accountApi from "../../../service/api.account";
 import Cookies from "universal-cookie";
 
 export default function Login() {
@@ -40,7 +40,7 @@ export default function Login() {
     }
     setLoading(true);
     try {
-      const response = await authApi.signIn(data);
+      const response = await accountApi.signIn(data);
       if (response && response.data.token && response.data.expiration) {
         setShowGif(!showGif);
         new Cookies().set("Token", response.data.token, {

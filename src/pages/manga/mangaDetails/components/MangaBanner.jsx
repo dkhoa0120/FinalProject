@@ -105,7 +105,7 @@ export default function MangaBanner({
             {manga && (
               <button
                 className="btn-under-cover btn-upload"
-                onClick={() => navigate(`/Upload/${manga.id}`)}
+                onClick={() => navigate(`/upload/${manga.id}`)}
               >
                 <i className="fa-solid fa-upload"></i>
               </button>
@@ -129,7 +129,7 @@ export default function MangaBanner({
                 <b>Authors:</b>{" "}
                 {manga.authors.map((c) => (
                   <Link
-                    to={`/manga?author=${c.id}`}
+                    to={`/mangas?author=${c.id}`}
                     className="btn-pill clickable"
                     key={c.id}
                   >
@@ -141,7 +141,7 @@ export default function MangaBanner({
                 <b>Categories: </b>
                 {manga.categories.map((c) => (
                   <Link
-                    to={`/manga?included=${c.id.substring(0, 5)}`}
+                    to={`/mangas?included=${c.id.substring(0, 5)}`}
                     className="btn-pill clickable"
                     key={c.id}
                   >

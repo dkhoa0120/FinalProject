@@ -127,7 +127,7 @@ export default function ManageChapter() {
                   <tr key={index}>
                     <td style={{ width: "80px" }}>
                       <Link
-                        to={`/Manga/${item.manga.id}`}
+                        to={`/mangas/${item.manga.id}`}
                         className="card-link"
                       >
                         <img
@@ -142,7 +142,7 @@ export default function ManageChapter() {
                     </td>
                     <td style={{ width: "300px" }}>
                       <Link
-                        to={`/Manga/${item.manga.id}`}
+                        to={`/mangas/${item.manga.id}`}
                         className="card-link"
                       >
                         {item.manga.originalTitle}
@@ -170,7 +170,7 @@ export default function ManageChapter() {
                       ) : (
                         <>
                           <Link
-                            to={`/Upload/Edit/${item.id}`}
+                            to={`/upload/Edit/${item.id}`}
                             className="card-link"
                           >
                             <Button style={{ marginBottom: "5px" }}>

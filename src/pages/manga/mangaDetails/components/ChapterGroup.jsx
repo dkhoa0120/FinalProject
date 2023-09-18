@@ -64,7 +64,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
           {chapterList.map((chapter) => (
             <Row className="chapter-row" key={chapter.id}>
               <Col xs={12} xl={4}>
-                <Link to={`/Chapter/${chapter.id}`} className="card-link">
+                <Link to={`/chapters/${chapter.id}`} className="card-link">
                   <p className="chapter-name text-truncate">
                     <CountryFlag key={chapter.id} lang={chapter.language} />
                     {chapter.name}
@@ -73,7 +73,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
               </Col>
               <Col xs={6} xl={2}>
                 <Link
-                  to={`/Group/${chapter.uploadingGroup.id}`}
+                  to={`/groups/${chapter.uploadingGroup.id}`}
                   className="card-link"
                 >
                   <p className="text-truncate">
@@ -84,7 +84,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
               </Col>
               <Col xs={6} xl={2}>
                 <Link
-                  to={`/Profile/${chapter.uploader.id}`}
+                  to={`/profile/${chapter.uploader.id}`}
                   className="card-link"
                 >
                   <p className="text-truncate">

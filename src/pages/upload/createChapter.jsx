@@ -120,7 +120,7 @@ export default function Upload() {
     <>
       <ToastContainer />
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
-        <Link to={`/manga/${mangaId}`}>
+        <Link to={`/mangas/${mangaId}`}>
           <button className="return-button">
             <span>
               <i className="fa-solid fa-arrow-left"></i>
@@ -153,7 +153,7 @@ export default function Upload() {
                   <Card.Text className="manga-category text-limit-2">
                     {manga.categories.map((c) => (
                       <Link
-                        to={`/manga?included=${c.id.substring(0, 5)}`}
+                        to={`/mangas?included=${c.id.substring(0, 5)}`}
                         className="btn-pill clickable"
                         key={c.id}
                       >

@@ -18,7 +18,7 @@ export default function MangasList({ data, link }) {
                     alt={`${manga.originalTitle}'s cover`}
                   />
                   <div className="text">
-                    <Link to={`/Manga/${manga.id}`} className="card-link">
+                    <Link to={`/mangas/${manga.id}`} className="card-link">
                       <CountryFlag lang={manga.originalLanguage} size={30} />
                       <h4 className="text-limit-2">{manga.originalTitle}</h4>
                     </Link>

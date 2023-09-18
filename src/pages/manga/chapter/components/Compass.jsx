@@ -43,7 +43,7 @@ export default function Compass({ chapter, relatedChapters }) {
   };
 
   function handleClick() {
-    navigate(`/Manga/${mangaId}`);
+    navigate(`/mangas/${mangaId}`);
   }
 
   const navigateToPrevChapter = () => {
@@ -95,7 +95,7 @@ export default function Compass({ chapter, relatedChapters }) {
   };
   const navigateToChapter = (chapterId) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/Chapter/${chapterId}`);
+    navigate(`/chapters/${chapterId}`);
   };
 
   const isPrevDisable =

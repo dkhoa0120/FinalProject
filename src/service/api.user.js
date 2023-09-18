@@ -7,11 +7,11 @@ export const getUsers = (filter) => {
   const pageSize = filter?.pageSize || 12;
   const roleOption = filter?.roleOption || 0;
 
-  return getAuthorizedAxios().get("manage/user", {
+  return getAuthorizedAxios().get("manage/users", {
     params: { search, includeDeleted, page, pageSize, roleOption },
   });
 };
 
 export const updateRoles = (id, roles) => {
-  return getAuthorizedAxios().put(`manage/user/${id}`, roles);
+  return getAuthorizedAxios().put(`manage/users/${id}`, roles);
 };

@@ -117,7 +117,7 @@ export default function Home() {
           <MangasList data={mangas} />
           {sortOption && sortOption !== "NewToYou" ? (
             <div className="d-flex justify-content-center">
-              <Link to={`/Manga?sortOption=${sortOption}`}>
+              <Link to={`/mangas?sortOption=${sortOption}`}>
                 <Button className="btn btn-dark"> See More </Button>
               </Link>
             </div>

@@ -25,24 +25,24 @@ export default function Body() {
     <div id="main-content">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/manage/Manga" element={<ManageManga />} />
-        <Route path="/manage/User" element={<ManageUser />} />
-        <Route path="/manage/report" element={<Report />} />
-        <Route path="/manage/Category" element={<ManageCategory />} />
-        <Route path="/manage/Author" element={<ManageAuthor />} />
+        <Route path="/manage/mangas" element={<ManageManga />} />
+        <Route path="/manage/users" element={<ManageUser />} />
+        <Route path="/manage/reports" element={<Report />} />
+        <Route path="/manage/categories" element={<ManageCategory />} />
+        <Route path="/manage/authors" element={<ManageAuthor />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/Manga/:mangaId" element={<MangaDetail />} />
-        <Route path="/Manga" element={<Manga />} />
+        <Route path="/mangas/:mangaId" element={<MangaDetail />} />
+        <Route path="/mangas" element={<Manga />} />
         <Route path="*" element={<Error />} />
-        <Route path="/Chapter/:chapterId" element={<ChapterPage />} />
-        <Route path="/Profile/:userId" element={<Profile />} />
-        <Route path="/Upload/:mangaId" element={<Upload />} />
-        <Route path="/Upload/Edit/:chapterId" element={<Edit />} />
-        <Route path="/upload/chapter" element={<ManageChapter />} />
-        <Route path="/Group/:groupId" element={<Group />} />
-        <Route path="/MangaList/:listId" element={<MangaListGroup />} />
+        <Route path="/chapters/:chapterId" element={<ChapterPage />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/upload/:mangaId" element={<Upload />} />
+        <Route path="/upload/edit/:chapterId" element={<Edit />} />
+        <Route path="/upload/chapters" element={<ManageChapter />} />
+        <Route path="/groups/:groupId" element={<Group />} />
+        <Route path="/manga-lists/:listId" element={<MangaListGroup />} />
       </Routes>
     </div>
   );

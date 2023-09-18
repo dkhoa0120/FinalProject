@@ -97,7 +97,7 @@ export default function Header(props) {
                 {user ? (
                   <div className="d-flex flex-column align-items-center justify-content-center">
                     {user.name}
-                    <Link to={`/Profile/${user.id}`} className="mt-2">
+                    <Link to={`/profile/${user.id}`} className="mt-2">
                       <Button
                         variant="outline-dark"
                         onClick={() => {
@@ -127,7 +127,7 @@ export default function Header(props) {
                     {user ? (
                       <>
                         {user.roles.includes("Uploader") && (
-                          <NavLink to="/upload/chapter">
+                          <NavLink to="/upload/chapters">
                             <Button
                               className="mb-3 w-100"
                               variant="outline-dark"
@@ -159,7 +159,7 @@ export default function Header(props) {
                           <Dropdown.Menu className="mb-3 w-100">
                             <Row className="px-2">
                               <Col>
-                                <NavLink to="/manage/User">
+                                <NavLink to="/manage/users">
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
@@ -172,7 +172,7 @@ export default function Header(props) {
                                 </NavLink>
                               </Col>
                               <Col>
-                                <NavLink to="/manage/Manga">
+                                <NavLink to="/manage/mangas">
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
@@ -187,7 +187,7 @@ export default function Header(props) {
                             </Row>
                             <Row className="px-2 my-2">
                               <Col>
-                                <NavLink to="/manage/Category">
+                                <NavLink to="/manage/categories">
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
@@ -201,7 +201,7 @@ export default function Header(props) {
                                 </NavLink>
                               </Col>
                               <Col>
-                                <NavLink to="/manage/Author">
+                                <NavLink to="/manage/authors">
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"

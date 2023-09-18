@@ -139,7 +139,7 @@ export default function Manga() {
             <Card style={{ marginBottom: "10px" }}>
               <Row>
                 <Col xs={4} xl={2}>
-                  <Link to={`/Manga/${manga.id}`} className="card-link">
+                  <Link to={`/mangas/${manga.id}`} className="card-link">
                     <Card.Img
                       className="manga-image"
                       variant="top"
@@ -149,7 +149,7 @@ export default function Manga() {
                   </Link>
                 </Col>
                 <Col xs={8} xl={10} style={{ padding: "20px" }}>
-                  <Link to={`/Manga/${manga.id}`} className="card-link">
+                  <Link to={`/mangas/${manga.id}`} className="card-link">
                     <Card.Title className="manga-title text-limit-1">
                       {manga.originalTitle}
                     </Card.Title>
@@ -157,7 +157,7 @@ export default function Manga() {
                   <Card.Text className="manga-category">
                     {manga.categories.map((c) => (
                       <Link
-                        to={`/manga?included=${c.id.substring(0, 5)}`}
+                        to={`/mangas?included=${c.id.substring(0, 5)}`}
                         className="btn-pill clickable"
                         key={c.id}
                       >

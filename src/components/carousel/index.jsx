@@ -65,7 +65,7 @@ export default function CarouselFade({ mangas }) {
       </div>
       {currentManga ? (
         <Container fluid className="px-4">
-          <Link to={`/Manga/${currentManga.id}`} className="card-link">
+          <Link to={`/mangas/${currentManga.id}`} className="card-link">
             <Row>
               <Col xl={2} md={3} xs={5}>
                 <Card.Img

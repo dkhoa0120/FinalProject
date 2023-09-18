@@ -300,7 +300,7 @@ export default function MangaListGroup() {
                           }}
                         >
                           <Link
-                            to={`/Manga/${m.manga.id}`}
+                            to={`/mangas/${m.manga.id}`}
                             className="card-link"
                           >
                             <p className="text-limit-1 manga-original-title">
@@ -330,7 +330,7 @@ export default function MangaListGroup() {
                             <Row>
                               <Col xs={12} md={4}>
                                 <Link
-                                  to={`/Chapter/${c.id}`}
+                                  to={`/chapters/${c.id}`}
                                   className="card-link"
                                 >
                                   <div className="chapter-name">
@@ -343,7 +343,7 @@ export default function MangaListGroup() {
                               </Col>
                               <Col xs={6} md={2}>
                                 <Link
-                                  to={`/Group/${c.uploadingGroup.id}`}
+                                  to={`/groups/${c.uploadingGroup.id}`}
                                   className="card-link"
                                 >
                                   <p className="text-truncate">
@@ -354,7 +354,7 @@ export default function MangaListGroup() {
                               </Col>
                               <Col xs={6} md={2} className="hide-when-mobile">
                                 <Link
-                                  to={`/Profile/${c.uploader.id}`}
+                                  to={`/profile/${c.uploader.id}`}
                                   className="card-link"
                                 >
                                   <p className="text-truncate ">

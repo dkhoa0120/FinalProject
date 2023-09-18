@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
-import * as profileApi from "../../service/api.profile";
+import * as accountApi from "../../service/api.account";
 import Uploads from "./components/Uploads";
 import Groups from "./components/Groups";
 import About from "./components/About";
@@ -37,7 +37,7 @@ export default function Profile() {
 
   const getUserDetail = async (id) => {
     try {
-      const result = await profileApi.getProfileBasic(id);
+      const result = await accountApi.getProfileBasic(id);
       setUserDetails(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -48,7 +48,7 @@ export default function Profile() {
 
   const getUserStats = async (id) => {
     try {
-      const result = await profileApi.getProfileStats(id);
+      const result = await accountApi.getProfileStats(id);
       setUserStats(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {

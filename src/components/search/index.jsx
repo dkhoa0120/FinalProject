@@ -76,7 +76,7 @@ export default function SearchBar({ placeholder }) {
                             clearInput();
                             handleClose();
                           }}
-                          to={`/Manga/${value.id}`}
+                          to={`/mangas/${value.id}`}
                           className="item card-link"
                         >
                           <Image

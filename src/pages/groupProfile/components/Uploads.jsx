@@ -55,7 +55,7 @@ export default function Uploads({ groupId }) {
               <>
                 <div className="chapter-group-container" key={index}>
                   <div>
-                    <Link to={`/Manga/${m.manga.id}`} className="card-link">
+                    <Link to={`/mangas/${m.manga.id}`} className="card-link">
                       <img
                         src={
                           m.manga.coverPath || "/img/error/coverNotFound.png"
@@ -66,7 +66,7 @@ export default function Uploads({ groupId }) {
                     </Link>
                   </div>
                   <div className="flex-grow-1">
-                    <Link to={`/Manga/${m.manga.id}`} className="card-link">
+                    <Link to={`/mangas/${m.manga.id}`} className="card-link">
                       <p
                         className="text-limit-1"
                         style={{
@@ -82,7 +82,10 @@ export default function Uploads({ groupId }) {
                       m.chapters.map((c, index) => (
                         <Row className="chapter-row" key={index}>
                           <Col xs={12} md={4}>
-                            <Link to={`/Chapter/${c.id}`} className="card-link">
+                            <Link
+                              to={`/chapters/${c.id}`}
+                              className="card-link"
+                            >
                               <div
                                 style={{
                                   display: "flex",
@@ -103,7 +106,7 @@ export default function Uploads({ groupId }) {
                           </Col>
                           <Col xs={6} md={2}>
                             <Link
-                              to={`/Profile/${c.uploader.id}`}
+                              to={`/profile/${c.uploader.id}`}
                               className="card-link"
                             >
                               <p className="text-truncate ">

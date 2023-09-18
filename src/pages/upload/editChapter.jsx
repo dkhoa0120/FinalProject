@@ -178,7 +178,7 @@ export default function Edit() {
                   <Card.Text className="manga-category text-limit-2">
                     {chapter.manga.categories.map((c) => (
                       <Link
-                        to={`/manga?included=${c.id.substring(0, 5)}`}
+                        to={`/mangas?included=${c.id.substring(0, 5)}`}
                         className="btn-pill clickable"
                         key={c.id}
                       >

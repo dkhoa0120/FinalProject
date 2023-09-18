@@ -67,7 +67,7 @@ export default function ChapterPage() {
         <div style={{ fontWeight: "bold", fontSize: "25px" }}>
           {chapter.name}
         </div>
-        <Link className="manga-title" to={`/Manga/${chapter.manga.id}`}>
+        <Link className="manga-title" to={`/mangas/${chapter.manga.id}`}>
           {chapter.manga.originalTitle}
         </Link>
       </div>

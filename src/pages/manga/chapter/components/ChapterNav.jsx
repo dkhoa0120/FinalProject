@@ -53,7 +53,7 @@ export default function ChapterNav({ chapter, relatedChapters }) {
   };
   const navigateToChapter = (chapterId) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/Chapter/${chapterId}`);
+    navigate(`/chapters/${chapterId}`);
   };
 
   const isPrevDisable =
