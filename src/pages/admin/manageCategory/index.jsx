@@ -114,7 +114,7 @@ export default function ManageCategory() {
           </Col>
         </Row>
         &nbsp;
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <th>Category</th>

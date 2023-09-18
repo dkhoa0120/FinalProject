@@ -33,12 +33,12 @@ function SideBar(props) {
         {
           text: "Latest Manga",
           to: "/mangas?sortOption=LatestManga",
-          key: "latest-manga",
+          key: "latest-mangas",
         },
         {
           text: "Latest Chapter",
           to: "/mangas?sortOption=LatestChapter",
-          key: "latest-chapter",
+          key: "latest-chapters",
         },
         { text: "Random", to: "/mangas/random", key: "random" },
       ],
@@ -56,11 +56,15 @@ function SideBar(props) {
       ),
       items: [
         {
-          text: "Followed Manga",
-          to: "/followed-manga",
-          key: "followed-manga",
+          text: "Followed Mangas",
+          to: "/followed-mangas",
+          key: "followed-mangas",
         },
-        { text: "Followed User", to: "/followed-user", key: "followed-user" },
+        {
+          text: "Followed Users",
+          to: "/followed-users",
+          key: "followed-users",
+        },
         { text: "Community Feeds", to: "/community", key: "community-feeds" },
       ],
     },

@@ -120,7 +120,7 @@ export default function ManageAuthor() {
           </Col>
         </Row>
         &nbsp;
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <th>Author</th>

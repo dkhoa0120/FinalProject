@@ -91,7 +91,7 @@ export default function ManageManga() {
   };
 
   return (
-    <div className="manage-manga">
+    <>
       <ToastContainer />
       <Row>
         <Col>
@@ -111,7 +111,7 @@ export default function ManageManga() {
         </Col>
       </Row>
       <div className="manage-table">
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <th>Cover</th>
@@ -204,6 +204,6 @@ export default function ManageManga() {
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
-    </div>
+    </>
   );
 }

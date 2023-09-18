@@ -94,7 +94,7 @@ export default function ManageUser() {
             </FormSelect>
           </Col>
         </Row>
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <th>Id</th>
