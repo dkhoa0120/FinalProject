@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Col, Row, FormSelect, Form, Button, Table } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  FormSelect,
+  Form,
+  Button,
+  Table,
+  Container,
+} from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
@@ -61,11 +69,11 @@ export default function ManageUser() {
   };
 
   return (
-    <div>
+    <Container fluid>
       <ToastContainer />
-      <div>
+      <div className="manage-table">
         <Row>
-          <div className="general-container-title">
+          <Col xs={8} md={8}>
             <Form.Control
               type="search"
               placeholder="Search"
@@ -74,13 +82,9 @@ export default function ManageUser() {
               value={search}
               onChange={handleSearch}
             />
-          </div>
-        </Row>
-        <Row>
-          <Col></Col>
-          <Col>
+          </Col>
+          <Col xs={4} md={4}>
             <FormSelect
-              className="mb-4 w-100"
               value={roleOption}
               onChange={(e) =>
                 setSearchParams({ roleOption: e.target.value, page: "1" })
@@ -94,6 +98,7 @@ export default function ManageUser() {
             </FormSelect>
           </Col>
         </Row>
+        &nbsp;
         <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
@@ -110,31 +115,27 @@ export default function ManageUser() {
                 return (
                   <tr key={index}>
                     <td>{item.id}</td>
-                    <td>{item.email}</td>
+                    <td className="test">{item.email}</td>
                     <td>{item.name}</td>
                     <td>{item.roles.join(", ")}</td>
-                    <td colSpan={2}>
-                      <>
-                        <Button onClick={() => handleUpdateRole(item)}>
-                          <i className="fa-solid fa-pen-to-square"></i> Edit
-                        </Button>
-                      </>
+                    <td>
+                      <Button onClick={() => handleUpdateRole(item)}>
+                        <i className="fa-solid fa-pen-to-square"></i>
+                        <span className="hide-when-mobile"> Edit</span>
+                      </Button>
                     </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
-                </td>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
               </tr>
             )}
           </tbody>
         </Table>
-        &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination
             totalPages={totalPages}
@@ -149,6 +150,68 @@ export default function ManageUser() {
         dataEdit={updateData}
         getUsers={getUsersList}
       />
-    </div>
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form id="edit-form">
+            <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>{" "}
+              {errors.name && (
+                <i
+                  title={errors.name.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+              <Form.Control
+                name="Name"
+                defaultValue
+                control={control}
+                rules={{ required: "This field is required" }}
+                {...register("name", {
+                  required: "List name is required",
+                })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Biography</Form.Label>{" "}
+              {errors.biography && (
+                <i
+                  title={errors.biography.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+              <Form.Control
+                as="textarea"
+                defaultValue
+                rows={3}
+                {...register("biography", {
+                  required: "This field is required",
+                  maxLength: {
+                    value: 1000,
+                    message: "This field must be no more than 1000 characters",
+                  },
+                })}
+              />
+            </Form.Group>
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <Button
+                type="submit"
+                form="edit-form"
+                variant="success"
+                onClick={() => {
+                  setShow(false);
+                }}
+              >
+                Edit
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </Container>
   );
 }

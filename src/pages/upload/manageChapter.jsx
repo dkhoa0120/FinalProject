@@ -149,7 +149,7 @@ export default function ManageChapter() {
                       </Link>
                     </td>
                     <td>{item.language}</td>
-                    <td className="manga-description-cell">
+                    <td>
                       <span>{item.name}</span>
                     </td>
                     <td style={{ width: "100px" }}>

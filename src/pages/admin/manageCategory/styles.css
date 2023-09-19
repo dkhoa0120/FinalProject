@@ -1,3 +1,5 @@
-.cate-description-cell {
-  max-width: 300px;
+@media (max-width: 767px) {
+  .cate-description-cell {
+    width: 400px;
+  }
 }

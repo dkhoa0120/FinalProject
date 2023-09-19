@@ -9,7 +9,7 @@ import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
 import EditCate from "./components/EditCate";
 import DeleteCate from "./components/DeleteCate";
-import { Col, Row, Form } from "react-bootstrap";
+import { Col, Row, Form, Container } from "react-bootstrap";
 
 export default function ManageCategory() {
   // Component state variables
@@ -93,16 +93,16 @@ export default function ManageCategory() {
   };
 
   return (
-    <div className="manage-manga">
+    <Container fluid>
       <ToastContainer />
       <div className="manage-table">
         <Row>
-          <Col>
+          <Col xs={4} md={6}>
             <Button variant="success" onClick={() => setShowCreate(true)}>
               <i className="fa-solid fa-circle-plus"></i> Create
             </Button>
           </Col>
-          <Col>
+          <Col xs={8} md={6}>
             <Form.Control
               type="search"
               placeholder="Search"
@@ -127,29 +127,36 @@ export default function ManageCategory() {
               categories.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td>{item.name}</td>
+                    <td style={{ width: "150px" }}>{item.name}</td>
                     <td className="cate-description-cell">
                       <span className="text-limit-3">{item.description}</span>
                     </td>
-                    <td colSpan={2}>
+                    <td style={{ width: "200px" }}>
                       {item.deletedAt != null ? (
                         <Button
                           variant="dark"
                           onClick={() => handleUndelete(item.id)}
                         >
-                          <i className="fa-solid fa-rotate-left"></i> Undelete
+                          <i className="fa-solid fa-rotate-left"></i>
+                          <span className="hide-when-mobile"> Undelete</span>
                         </Button>
                       ) : (
                         <>
-                          <Button onClick={() => handleEdit(item.id)}>
-                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          <Button
+                            style={{ marginBottom: "5px" }}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            <i className="fa-solid fa-pen-to-square"></i>
+                            <span className="hide-when-mobile"> Edit</span>
                           </Button>
                           &nbsp;
                           <Button
+                            style={{ marginBottom: "5px" }}
                             variant="danger"
                             onClick={() => handleDelete(item)}
                           >
-                            <i className="fa-solid fa-trash"></i> Delete
+                            <i className="fa-solid fa-trash"></i>
+                            <span className="hide-when-mobile"> Delete</span>
                           </Button>
                         </>
                       )}
@@ -200,6 +207,6 @@ export default function ManageCategory() {
           getCategories={handleGetCategories}
         />
       </div>
-    </div>
+    </Container>
   );
 }

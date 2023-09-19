@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import * as authorApi from "../../../service/api.author";
 import { ToastContainer, toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
-import { Col, Row, Form } from "react-bootstrap";
+import { Col, Row, Form, Container } from "react-bootstrap";
 import CreateAuthor from "./components/CreateAuthor";
 import EditAuthor from "./components/EditAuthor";
 import DeleteAuthor from "./components/DeleteAuthor";
@@ -99,16 +99,16 @@ export default function ManageAuthor() {
   };
 
   return (
-    <div className="manage-manga">
+    <Container fluid>
       <ToastContainer />
       <div className="manage-table">
         <Row>
-          <Col>
+          <Col xs={4} md={6}>
             <Button variant="success" onClick={() => setShowCreate(true)}>
               <i className="fa-solid fa-circle-plus"></i> Create
             </Button>
           </Col>
-          <Col>
+          <Col xs={8} md={6}>
             <Form.Control
               type="search"
               placeholder="Search"
@@ -133,29 +133,36 @@ export default function ManageAuthor() {
               authors.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td>{item.name}</td>
+                    <td style={{ width: "200px" }}>{item.name}</td>
                     <td className="author-description-cell">
                       <span className="text-limit-3">{item.biography}</span>
                     </td>
-                    <td colSpan={2}>
+                    <td style={{ width: "200px" }}>
                       {item.deletedAt != null ? (
                         <Button
                           variant="dark"
                           onClick={() => handleUndelete(item.id)}
                         >
-                          <i className="fa-solid fa-rotate-left"></i> Undelete
+                          <i className="fa-solid fa-rotate-left"></i>
+                          <span className="hide-when-mobile"> Undelete</span>
                         </Button>
                       ) : (
                         <>
-                          <Button onClick={() => handleEdit(item.id)}>
-                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          <Button
+                            style={{ marginBottom: "5px" }}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            <i className="fa-solid fa-pen-to-square"></i>
+                            <span className="hide-when-mobile"> Edit</span>
                           </Button>
                           &nbsp;
                           <Button
+                            style={{ marginBottom: "5px" }}
                             variant="danger"
                             onClick={() => handleDelete(item)}
                           >
-                            <i className="fa-solid fa-trash"></i> Delete
+                            <i className="fa-solid fa-trash"></i>
+                            <span className="hide-when-mobile"> Delete</span>
                           </Button>
                         </>
                       )}
@@ -174,7 +181,6 @@ export default function ManageAuthor() {
             )}
           </tbody>
         </Table>
-        &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination
             totalPages={totalPages}
@@ -206,6 +212,6 @@ export default function ManageAuthor() {
           getAuthors={handleGetAuthors}
         />
       </div>
-    </div>
+    </Container>
   );
 }

@@ -1,11 +1,7 @@
 .manage-table {
-  padding-top: 20px;
-}
-
-.manga-description-cell {
-  max-width: 300px;
+  padding-top: 10px;
 }
 
 .manga-title-cell {
-  max-width: 100px;
+  width: 300px;
 }

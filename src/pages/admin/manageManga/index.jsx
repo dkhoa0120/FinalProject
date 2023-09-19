@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Col, Form, Image, Row, Table } from "react-bootstrap";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Row,
+  Table,
+} from "react-bootstrap";
 import "./styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import CreateManga from "./components/CreateManga";
@@ -91,26 +99,27 @@ export default function ManageManga() {
   };
 
   return (
-    <>
+    <Container fluid>
       <ToastContainer />
-      <Row>
-        <Col>
-          <Button variant="success" onClick={() => setShownModal("create")}>
-            <i className="fa-solid fa-circle-plus"></i> Create
-          </Button>
-        </Col>
-        <Col>
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            value={search}
-            onChange={handleSearch}
-          />
-        </Col>
-      </Row>
       <div className="manage-table">
+        <Row>
+          <Col xs={4} md={6}>
+            <Button variant="success" onClick={() => setShownModal("create")}>
+              <i className="fa-solid fa-circle-plus"></i> Create
+            </Button>
+          </Col>
+          <Col xs={8} md={6}>
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              value={search}
+              onChange={handleSearch}
+            />
+          </Col>
+        </Row>
+        &nbsp;
         <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
@@ -126,36 +135,44 @@ export default function ManageManga() {
               mangas.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td>
-                      <Image
+                    <td style={{ width: "80px" }}>
+                      <img
                         src={item.coverPath || "/img/error/coverNotFound.png"}
-                        style={{ width: "100px" }}
+                        alt="cover"
+                        style={{ width: "100%" }}
                       />
                     </td>
                     <td className="manga-title-cell">{item.originalTitle}</td>
                     <td>{item.originalLanguage}</td>
-                    <td className="manga-description-cell">
+                    <td>
                       <span className="text-limit-3">{item.description}</span>
                     </td>
-                    <td colSpan={2}>
+                    <td style={{ width: "200px" }}>
                       {item.deletedAt != null ? (
                         <Button
                           variant="dark"
                           onClick={() => handleUndelete(item.id)}
                         >
-                          <i className="fa-solid fa-rotate-left"></i> Undelete
+                          <i className="fa-solid fa-rotate-left"></i>
+                          <span className="hide-when-mobile"> Undelete</span>
                         </Button>
                       ) : (
                         <>
-                          <Button onClick={() => handleEdit(item.id)}>
-                            <i className="fa-solid fa-pen-to-square"></i> Edit
+                          <Button
+                            style={{ marginBottom: "5px" }}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            <i className="fa-solid fa-pen-to-square"></i>
+                            <span className="hide-when-mobile"> Edit</span>
                           </Button>
                           &nbsp;
                           <Button
+                            style={{ marginBottom: "5px" }}
                             variant="danger"
                             onClick={() => handleDelete(item)}
                           >
-                            <i className="fa-solid fa-trash"></i> Delete
+                            <i className="fa-solid fa-trash"></i>
+                            <span className="hide-when-mobile"> Delete</span>
                           </Button>
                         </>
                       )}
@@ -165,16 +182,13 @@ export default function ManageManga() {
               })
             ) : (
               <tr>
-                <td>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
-                </td>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
               </tr>
             )}
           </tbody>
         </Table>
-        &nbsp;
         <Pagination
           totalPages={totalPages}
           searchParams={searchParams}
@@ -204,6 +218,6 @@ export default function ManageManga() {
         dataEdit={dataEdit}
         getMangas={getMangas}
       />
-    </>
+    </Container>
   );
 }
