@@ -156,7 +156,13 @@ export default function PageUploader({
             onDragStart={() => setDraggedIndex(index)}
             onDragOver={(e) => handleDrag(e, index)}
             onDragEnd={() => setDraggedIndex(null)}
-            onPointerDown={(e) => isMobile && dragStart(e, index, imageInfo)}
+            onPointerDown={(e) => {
+              if (isMobile) {
+                containerRef.current.style.touchAction = "none";
+                containerRef.current.style.msTouchAction = "none";
+                dragStart(e, index, imageInfo);
+              }
+            }}
             draggable="true"
           >
             <div

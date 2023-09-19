@@ -90,7 +90,6 @@ export const handleDragOnPhone = (ePointerDown, index, container, imageInfos, se
   container.appendChild(dragMirror);
 
   document.onpointermove = (ePointerMove) => {
-    console.log("index", index);
     // Calculate the distance the mouse pointer has traveled.
     // original coordinates minus current coordinates.
     const posX = ePointerMove.clientX - ePointerDown.clientX;
@@ -112,7 +111,6 @@ export const handleDragOnPhone = (ePointerDown, index, container, imageInfos, se
       // Check for overlap
       if (isOverlapping && index !== itemIndex) {
         // Swap Data
-        console.log("itemIndex", itemIndex);
         newData = imageInfos.filter((item) => item.url !== dragData.url);
         newData.splice(itemIndex, 0, dragData);
       }
@@ -124,6 +122,8 @@ export const handleDragOnPhone = (ePointerDown, index, container, imageInfos, se
     document.onpointerup = null;
     document.onpointermove = null;
     container.removeChild(dragMirror);
+    container.style.touchAction = '';
+    container.style.msTouchAction = '';
     setImageInfos(newData);
     setDraggedIndex(null);
   };

@@ -12,8 +12,6 @@
 }
 
 .image-container {
-  touch-action: none;
-  -ms-touch-action: none;
   display: flex;
   flex-wrap: wrap;
   margin: -5px;
