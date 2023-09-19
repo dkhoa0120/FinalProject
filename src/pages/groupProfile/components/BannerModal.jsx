@@ -2,14 +2,14 @@ import { useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import * as accountApi from "../../../service/api.account";
+import * as groupApi from "../../../service/api.group";
 
 export default function BannerModal({
   show,
   close,
-  userDetails,
-  setUser,
-  setUserDetails,
+  groupDetails,
+  setGroupDetails,
+  groupId,
 }) {
   const bannerCropperRef = useRef(null);
   const hiddenFileInput = useRef(null);
@@ -34,11 +34,10 @@ export default function BannerModal({
       croppedCanvas.toBlob(async (blob) => {
         const formData = new FormData();
         formData.append("image", blob, "croppedImage.png");
-        const result = await accountApi.changeUserBanner(formData);
+        const result = await groupApi.changeGroupBanner(groupId, formData);
         result.data.bannerPath += `?lastModified=${modifiedTime}`;
         setUploadedBanner(null);
-        setUser(result.data);
-        setUserDetails(result.data);
+        setGroupDetails(result.data);
         setModifiedTime(Date.now());
       });
     }
@@ -81,7 +80,7 @@ export default function BannerModal({
               src={
                 uploadedBanner instanceof Blob || uploadedBanner instanceof File
                   ? URL.createObjectURL(uploadedBanner)
-                  : userDetails?.bannerPath || "/img/banner/groupBanner.png"
+                  : groupDetails?.bannerPath || "/img/banner/groupBanner.png"
               }
               alt="uploadbanner"
               className="banner-display"

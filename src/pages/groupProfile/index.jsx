@@ -9,14 +9,18 @@ import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
 import Members from "./components/Members";
 import "./styles.css";
+import { LeaderContext } from "../../context/LeaderContext";
+import EditGroupModal from "./components/EditGroupModal";
 
 export default function Group() {
-  const profileOptions = ["Uploads", "Community", "Members", "About"];
+  const profileOptions = ["Members", "Community", "Uploads", "About"];
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [groupDetails, setGroupDetails] = useState(null);
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
+  const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
+  const { leader } = useContext(LeaderContext);
   const { groupId } = useParams();
 
   useEffect(() => {
@@ -47,11 +51,11 @@ export default function Group() {
               }
             : {}
         }
-        // onClick={() => {
-        //   if (user && user?.id === userId) {
-        //     setShowBannerModal(true);
-        //   }
-        // }}
+        onClick={() => {
+          if (user && user?.id === leader.id) {
+            setShowBannerModal(true);
+          }
+        }}
       ></div>
 
       <div id="profile-info">
@@ -62,7 +66,7 @@ export default function Group() {
               src={groupDetails?.avatarPath || "/img/avatar/defaultGroup.jpg"}
               alt="Avatar"
             ></img>
-            {/* {user && user?.id === userId && (
+            {user && user?.id === leader.id && (
               <div
                 id="profile-image-change"
                 onClick={() => {
@@ -71,7 +75,7 @@ export default function Group() {
               >
                 <i className="fa-solid fa-camera"></i>
               </div>
-            )} */}
+            )}
           </div>
           <div id="profile-name">{groupDetails?.name}</div>
           <div style={{ margin: "2px" }}>
@@ -81,10 +85,17 @@ export default function Group() {
           </div>
         </div>
         <div id="profile-buttons">
-          {/* {user && user?.id === userId && (
-            <Button variant="outline-dark">Edit profile</Button>
-          )} */}
-          {user?.id && <Button variant="outline-dark">Join</Button>}
+          {user && user?.id === leader.id && (
+            <Button
+              variant="outline-dark"
+              onClick={() => setShowEditGroup(true)}
+            >
+              Edit{" "}
+            </Button>
+          )}
+          {user && user?.id !== leader.id && (
+            <Button variant="outline-dark">Join</Button>
+          )}
         </div>
       </div>
       <div className="general-container">
@@ -103,20 +114,26 @@ export default function Group() {
         {profileOption === "About" && <About groupDetails={groupDetails} />}
         {profileOption === "Members" && <Members groupId={groupId} />}
       </div>
-      {/* <AvatarModal
+      <EditGroupModal
+        close={() => setShowEditGroup(false)}
+        show={showEditGroup}
+        groupDetails={groupDetails}
+        getGroupDetail={getGroupDetail}
+      />
+      <AvatarModal
         close={() => setShowAvatarModal(false)}
         show={showAvatarModal}
-        userDetails={userDetails}
-        setUser={setUser}
-        setUserDetails={setUserDetails}
+        groupDetails={groupDetails}
+        setGroupDetails={setGroupDetails}
+        groupId={groupId}
       />
       <BannerModal
         close={() => setShowBannerModal(false)}
         show={showBannerModal}
-        userDetails={userDetails}
-        setUser={setUser}
-        setUserDetails={setUserDetails}
-      /> */}
+        groupDetails={groupDetails}
+        setGroupDetails={setGroupDetails}
+        groupId={groupId}
+      />
     </>
   );
 }

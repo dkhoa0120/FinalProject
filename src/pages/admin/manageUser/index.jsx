@@ -150,68 +150,6 @@ export default function ManageUser() {
         dataEdit={updateData}
         getUsers={getUsersList}
       />
-      <Modal show={show} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form id="edit-form">
-            <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>{" "}
-              {errors.name && (
-                <i
-                  title={errors.name.message}
-                  className="fa-solid fa-circle-exclamation"
-                  style={{ color: "red" }}
-                ></i>
-              )}
-              <Form.Control
-                name="Name"
-                defaultValue
-                control={control}
-                rules={{ required: "This field is required" }}
-                {...register("name", {
-                  required: "List name is required",
-                })}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Biography</Form.Label>{" "}
-              {errors.biography && (
-                <i
-                  title={errors.biography.message}
-                  className="fa-solid fa-circle-exclamation"
-                  style={{ color: "red" }}
-                ></i>
-              )}
-              <Form.Control
-                as="textarea"
-                defaultValue
-                rows={3}
-                {...register("biography", {
-                  required: "This field is required",
-                  maxLength: {
-                    value: 1000,
-                    message: "This field must be no more than 1000 characters",
-                  },
-                })}
-              />
-            </Form.Group>
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              <Button
-                type="submit"
-                form="edit-form"
-                variant="success"
-                onClick={() => {
-                  setShow(false);
-                }}
-              >
-                Edit
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
     </Container>
   );
 }

@@ -144,7 +144,7 @@ export default function Edit() {
     <>
       <ToastContainer />
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
-        <Link to={`/upload/chapter`}>
+        <Link to={`/upload/chapters`}>
           <button className="return-button">
             <span>
               <i className="fa-solid fa-arrow-left"></i>

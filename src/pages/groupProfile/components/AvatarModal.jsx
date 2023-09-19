@@ -2,14 +2,14 @@ import { useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import * as accountApi from "../../../service/api.account";
+import * as groupApi from "../../../service/api.group";
 
 export default function AvatarModal({
   show,
   close,
-  userDetails,
-  setUser,
-  setUserDetails,
+  groupDetails,
+  setGroupDetails,
+  groupId,
 }) {
   //React crop
   const avatarCropperRef = useRef(null);
@@ -38,11 +38,10 @@ export default function AvatarModal({
       croppedCanvas.toBlob(async (blob) => {
         const formData = new FormData();
         formData.append("image", blob, "croppedImage.png");
-        const result = await accountApi.changeUserAvatar(formData); // Assuming the response contains the user details
+        const result = await groupApi.changeGroupAvatar(groupId, formData); // Assuming the response contains the user details
         result.data.avatarPath += `?lastModified=${modifiedTime}`;
         setUploadedAvatar(null);
-        setUser(result.data);
-        setUserDetails(result.data);
+        setGroupDetails(result.data);
         setModifiedTime(Date.now());
       });
     }
@@ -85,7 +84,7 @@ export default function AvatarModal({
               src={
                 uploadedAvatar instanceof Blob || uploadedAvatar instanceof File
                   ? URL.createObjectURL(uploadedAvatar)
-                  : userDetails?.avatarPath || "/img/avatar/defaultAvatar.png"
+                  : groupDetails?.avatarPath || "/img/avatar/defaultGroup.jpg"
               }
               alt="uploadimage"
               className={"image-display"}

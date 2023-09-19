@@ -1,16 +1,18 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { Col, Container, Dropdown, Row } from "react-bootstrap";
 import * as groupApi from "../../../service/api.group";
 import { Link } from "react-router-dom";
+import { LeaderContext } from "../../../context/LeaderContext";
 
 export default function Members({ groupId }) {
   const [members, setMembers] = useState();
+  const { setLeader } = useContext(LeaderContext);
 
   const fetchGroupMembers = async (id) => {
     try {
       let res = await groupApi.getGroupMembers(id);
       setMembers(res.data);
+      setLeader(res.data?.find((member) => member.isLeader === true));
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");

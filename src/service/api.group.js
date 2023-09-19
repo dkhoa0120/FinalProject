@@ -27,3 +27,15 @@ export const getGroupMangaList = (groupId, filter) => {
 export const postGroup = (formData) => {
   return getAuthorizedAxios().post(`groups`, formData);
 };
+
+export const putGroup = (id, formData) => {
+  return getAuthorizedAxios().put(`groups/${id}`, formData);
+};
+
+export const changeGroupAvatar = (id, formData) => {
+  return getAuthorizedAxios().post(`groups/${id}/avatar`, formData);
+};
+
+export const changeGroupBanner = (id, formData) => {
+  return getAuthorizedAxios().post(`groups/${id}/banner`, formData);
+};
