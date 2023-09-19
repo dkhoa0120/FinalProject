@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 export default function PageUploader({
   containerRef,
@@ -44,10 +45,24 @@ export default function PageUploader({
       e.preventDefault();
       setIsDragOver(false);
 
-      const appendedImageInfos = Array.from(e.dataTransfer.files).map((f) => ({
-        name: f.name,
-        url: URL.createObjectURL(f),
-      }));
+      let nonImageFileLogged = false;
+
+      const appendedImageInfos = Array.from(e.dataTransfer.files)
+        .map((f) => {
+          if (f.type.startsWith("image/")) {
+            return {
+              name: f.name,
+              url: URL.createObjectURL(f),
+            };
+          } else {
+            if (!nonImageFileLogged) {
+              toast.info("Some non-images files were skipped");
+              nonImageFileLogged = true;
+            }
+            return null;
+          }
+        })
+        .filter(Boolean);
 
       if (appendedImageInfos.length > 0) {
         setImageInfos([...imageInfos, ...appendedImageInfos]);

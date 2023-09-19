@@ -16,6 +16,8 @@ import {
   handleDragOver,
 } from "./chapterUtilities";
 import { UserContext } from "../../context/UserContext";
+import PageUploader from "./components/PageUploader";
+import { handleDragOnPhone } from "./chapterUtilities";
 
 export default function Edit() {
   const {
@@ -40,6 +42,7 @@ export default function Edit() {
     label: group.name,
   }));
   const fileInputRef = useRef(null);
+  const containerRef = useRef(null);
 
   //submit the form
   const onSubmit = async (data) => {
@@ -131,13 +134,26 @@ export default function Edit() {
     handleRemoveImage(index, imageInfos, setImageInfos);
   };
 
-  const handleDrag = (index) => {
+  const handleDrag = (e, index) => {
+    e.preventDefault();
     handleDragOver(
       index,
       draggedIndex,
       setDraggedIndex,
       imageInfos,
       setImageInfos
+    );
+  };
+
+  const dragStart = (ePointerDown, index) => {
+    const container = containerRef.current;
+    handleDragOnPhone(
+      ePointerDown,
+      index,
+      container,
+      imageInfos,
+      setImageInfos,
+      setDraggedIndex
     );
   };
 
@@ -154,6 +170,7 @@ export default function Edit() {
         </Link>{" "}
         Edit Chapter
       </div>
+      &nbsp;
       <Container fluid>
         <Card className="uploader-card">
           <Row>
@@ -285,65 +302,18 @@ export default function Edit() {
           </Row>
           <Row>
             <Form.Label>Pages</Form.Label>
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleSelected}
-              style={{ display: "none" }}
-              multiple
+            <PageUploader
+              containerRef={containerRef}
+              fileInputRef={fileInputRef}
+              handleSelected={handleSelected}
+              imageInfos={imageInfos}
+              setImageInfos={setImageInfos}
+              handleRemove={handleRemove}
+              draggedIndex={draggedIndex}
+              setDraggedIndex={setDraggedIndex}
+              handleDrag={handleDrag}
+              dragStart={dragStart}
             />
-            <div className="image-container justify-left flex-wrap mb-4">
-              {imageInfos.map((imageInfo, index) => (
-                <div
-                  key={imageInfo.name}
-                  className={`pages-upload-card flex-grow-0 ${
-                    draggedIndex === index ? "dragging" : ""
-                  }`}
-                  draggable="true"
-                  onDragStart={() => setDraggedIndex(index)}
-                  onDragOver={() => handleDrag(index)}
-                  onDragEnd={() => setDraggedIndex(null)}
-                >
-                  <img
-                    className="image"
-                    src={imageInfo.url}
-                    alt="pages"
-                    draggable="false"
-                  />
-                  <button
-                    type="button"
-                    className="delete-button"
-                    onClick={() => handleRemove(index)}
-                  >
-                    <i className="fa-solid fa-xmark"></i>
-                  </button>
-                  <button type="button" className="drag-button">
-                    <i className="fa-solid fa-arrows-up-down-left-right"></i>
-                  </button>
-                  <div className="image-label">{imageInfo.name}</div>
-                </div>
-              ))}
-              <div
-                className="input-pages"
-                onClick={() => fileInputRef.current.click()}
-              >
-                <i className="fa-solid fa-plus" />
-              </div>
-            </div>
-            {imageInfos.length > 0 ? (
-              <div>
-                <button
-                  type="button"
-                  className="btn btn-dark"
-                  onClick={() => setImageInfos([])}
-                >
-                  Remove all pages
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
           </Row>
         </Form>
         <Row>

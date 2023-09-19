@@ -65,3 +65,66 @@ export const handleDragOver = (
   setImageInfos(nextImageInfos);
   setDraggedIndex(index);
 };
+
+export const handleDragOnPhone = (ePointerDown, index, container, imageInfos, setImageInfos,setDraggedIndex) => {
+  if (ePointerDown.button !== 0) return; // only use left mouse click;
+  setDraggedIndex(index);
+
+  const items = [...container.childNodes];
+  const dragItem = items[index];
+  const dragData = imageInfos[index];
+  let newData = [...imageInfos];
+
+  // clone drag item to drag mirror
+  const dragMirror = dragItem.cloneNode(true);
+
+  // set drag mirror to stick to the pointer
+  const dragBoundingRect = dragItem.getBoundingClientRect();
+  dragMirror.style.position = "fixed";
+  dragMirror.style.zIndex = 5000;
+  dragMirror.style.top = dragBoundingRect.top + "px";
+  dragMirror.style.left = dragBoundingRect.left + "px";
+  dragMirror.style.opacity = 0.8;
+
+  // append drag mirror to the container
+  container.appendChild(dragMirror);
+
+  document.onpointermove = (ePointerMove) => {
+    console.log("index", index);
+    // Calculate the distance the mouse pointer has traveled.
+    // original coordinates minus current coordinates.
+    const posX = ePointerMove.clientX - ePointerDown.clientX;
+    const posY = ePointerMove.clientY - ePointerDown.clientY;
+
+    // Move Item
+    dragMirror.style.transform = `translate(${posX}px, ${posY}px)`;
+
+    items.forEach((item, itemIndex) => {
+      const rect1 = dragMirror.getBoundingClientRect();
+      const rect2 = item.getBoundingClientRect();
+
+      let isOverlapping =
+        rect1.right > rect2.left + rect2.width / 2 &&
+        rect1.left + rect1.width / 2 < rect2.right &&
+        rect1.bottom > rect2.top + rect2.height / 2 &&
+        rect1.top + rect1.height / 2 < rect2.bottom;
+
+      // Check for overlap
+      if (isOverlapping && index !== itemIndex) {
+        // Swap Data
+        console.log("itemIndex", itemIndex);
+        newData = imageInfos.filter((item) => item.url !== dragData.url);
+        newData.splice(itemIndex, 0, dragData);
+      }
+    });
+  };
+
+  // finish onPointerDown event
+  document.onpointerup = () => {
+    document.onpointerup = null;
+    document.onpointermove = null;
+    container.removeChild(dragMirror);
+    setImageInfos(newData);
+    setDraggedIndex(null);
+  };
+}
