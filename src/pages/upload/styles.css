@@ -5,7 +5,6 @@
   padding: 2px 10px;
   margin-left: 10px;
   font-weight: bold;
-  transition: all 0.2s ease-in-out;
 }
 
 .return-button:hover {
@@ -26,7 +25,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: border 300ms ease;
   cursor: pointer;
   text-align: center;
   margin: 12px;
@@ -39,15 +37,22 @@
 
 .pages-upload-card {
   position: relative;
-  flex-grow: 1;
-  margin: 12px;
+  padding: 12px;
+}
+
+.page {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 5px;
   width: 130px;
   height: 184px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  cursor: grab;
+  background-color: transparent;
+  cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   transition: all 0.1s ease-in-out;
@@ -60,6 +65,9 @@
 }
 
 .pages-upload-card .delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   right: 0;
@@ -69,7 +77,7 @@
   border: none;
   background-color: black;
   border-radius: 50%;
-  transition: background-color 0.2s ease-in;
+  cursor: pointer;
 }
 
 .pages-upload-card .delete-button:hover {
@@ -77,6 +85,9 @@
 }
 
 .pages-upload-card .drag-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 50px;
   height: 50px;
@@ -88,23 +99,147 @@
   border: none;
   background-color: #fff;
   border-radius: 50%;
-  cursor: grab;
 }
 
 .image-label {
   position: absolute;
-  bottom: 4px;
+  bottom: 15px;
   background-color: #494949;
   color: #fff;
   border-radius: 11px;
-  max-width: calc(100% - 8px);
+  max-width: calc(100% - 32px);
   padding: 2px 8px;
   overflow: hidden;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.pages-upload-card.dragging {
+.page.dragging {
+  /* pointer-events: none; */
+  /* touch-action: none;
+  -ms-touch-action: none; */
+  border: 1px dashed grey;
+  box-shadow: none;
+  animation: wiggle 0.3s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(-2deg);
+  }
+}
+
+.image-overlay {
+  position: fixed;
+  padding: 2rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure the overlay is on top of other content */
+}
+
+.centered-image {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.arrow-overlay {
+  position: fixed;
+  z-index: 1000;
+}
+
+.arrow {
+  align-items: center;
+  bottom: 0;
+  cursor: pointer;
+  display: flex;
+  font-size: 3rem;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  width: 50%;
   opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.arrow.left {
+  background: radial-gradient(farthest-side at left, #00000080, #00000000);
+  left: 0;
+}
+
+.arrow.left:hover {
+  opacity: 1;
+}
+
+.arrow.right {
+  background: radial-gradient(farthest-side at right, #00000080, #00000000);
+  flex-direction: row-reverse;
+  right: 0;
+}
+
+.arrow.right:hover {
+  opacity: 1;
+}
+
+.close-overlay {
+  display: flex;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  z-index: 1000;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+.drop-zone {
+  position: fixed;
+  display: flex;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgb(77, 77, 152);
+  font-size: 20px;
+  text-shadow: 0px 3px 9px rgba(0, 0, 0, 1);
+  background-color: rgba(255, 255, 255, 0.446);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.drop-zone.visible {
+  visibility: visible;
+}
+
+@media (max-width: 767px) {
+  .arrow {
+    background: none !important;
+  }
+
+  .arrow i {
+    display: none !important;
+  }
+
+  .close-overlay {
+    font-size: 2rem;
+  }
 }
