@@ -15,7 +15,7 @@ import SearchBar from "../../components/search";
 import { UserContext } from "../../context/UserContext";
 import "./styles.css";
 
-export default function Header(props) {
+export default function Header({ showSidebar, toggleSidebar }) {
   const navigate = useNavigate();
 
   const [scrolled, setScrolled] = useState(false);
@@ -54,14 +54,19 @@ export default function Header(props) {
   return (
     <Navbar key={false} expand={false} className={scrolled ? "scrolled" : ""}>
       <Container fluid>
-        <div>
+        <div style={{ userSelect: "none" }}>
           <i
             className="fa-solid fa-bars"
             style={{ cursor: "pointer", fontSize: "20px" }}
-            onClick={props.toggleSidebar}
+            onClick={toggleSidebar}
           ></i>
           &nbsp; &nbsp;
-          <Navbar.Brand>
+          <Navbar.Brand
+            style={{
+              opacity: showSidebar ? "0" : "1",
+              transition: "opacity 0.3s ease-in-out",
+            }}
+          >
             <img
               style={{ width: "40px", height: "100%" }}
               src={process.env.PUBLIC_URL + "/favicon.ico"}

@@ -8,7 +8,7 @@
   left: 0;
   top: 0;
   position: fixed;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-in-out;
 }
 
 .nav-menu.hide {
@@ -39,6 +39,7 @@
   font-weight: 800;
   padding-left: 20px;
   padding-top: 10px;
+  user-select: none;
 }
 
 .nav-menu .sidebar-heading a:hover,

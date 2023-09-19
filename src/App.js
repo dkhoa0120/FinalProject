@@ -38,11 +38,12 @@ export default function App() {
       <div
         style={{
           marginLeft: window.innerWidth > 1080 && showSidebar ? "230px" : "0",
+          transition: "margin-left 0.3s ease-in-out"
         }}
       >
         <Body />
       </div>
-      <Header toggleSidebar={toggleSidebar} />
+      <Header showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
       <SideBar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
     </>
   );
