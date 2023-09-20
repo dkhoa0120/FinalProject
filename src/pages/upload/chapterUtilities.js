@@ -66,8 +66,22 @@ export const handleDragOver = (
   setDraggedIndex(index);
 };
 
-export const handleDragOnPhone = (ePointerDown, index, container, imageInfos, setImageInfos,setDraggedIndex) => {
-  if (ePointerDown.button !== 0) return; // only use left mouse click;
+export const handleDragOnPhone = (
+  ePointerDown,
+  index,
+  container,
+  imageInfos,
+  setImageInfos,
+  draggedIndex,
+  setDraggedIndex
+) => {
+  // Prevent duplicate drag mirror
+  if (draggedIndex !== null) {
+    return;
+  }
+  // Prevent scrolling while dragging an image 2nd time (1st is still buggy)
+  container.style.touchAction = "none";
+  container.style.msTouchAction = "none";
   setDraggedIndex(index);
 
   const items = [...container.childNodes];
@@ -122,9 +136,11 @@ export const handleDragOnPhone = (ePointerDown, index, container, imageInfos, se
     document.onpointerup = null;
     document.onpointermove = null;
     container.removeChild(dragMirror);
-    container.style.touchAction = '';
-    container.style.msTouchAction = '';
+
+    // Turn on scrolling for container
+    container.style.touchAction = "";
+    container.style.msTouchAction = "";
     setImageInfos(newData);
     setDraggedIndex(null);
   };
-}
+};

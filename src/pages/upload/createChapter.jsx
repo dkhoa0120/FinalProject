@@ -128,6 +128,7 @@ export default function Upload() {
       container,
       imageInfos,
       setImageInfos,
+      draggedIndex,
       setDraggedIndex
     );
   };
