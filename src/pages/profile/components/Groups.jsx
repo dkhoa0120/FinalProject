@@ -89,6 +89,9 @@ export default function Groups() {
                         {group.name}
                       </p>
                     </Link>
+                    <p>
+                      {group.isMangaGroup ? "Manga Group" : "Community Group"}{" "}
+                    </p>
                     <p>{group.memberNumber} members</p>
                   </div>
                 </div>
@@ -143,6 +146,16 @@ export default function Groups() {
                 {...register("biography", {
                   required: "Biography is required",
                 })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Check
+                name="IsMangaGroup"
+                type="checkbox"
+                label="Manga Group"
+                control={control}
+                rules={{ required: "This field is required" }}
+                {...register("isMangaGroup")}
               />
             </Form.Group>
           </Form>

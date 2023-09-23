@@ -135,39 +135,37 @@ export default function AddToListModal({
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Group className="mb-3">
-                {mangaLists?.map((mangaList) => (
-                  <Form.Check
-                    key={mangaList.id}
-                    type="checkbox"
-                    name="mangaListSelection"
-                    label={mangaList.name}
-                    checked={mangaList.alreadyAdded}
-                    onClick={(e) => {
-                      const selectedList = mangaLists.find(
-                        (list) => list.id === mangaList.id
-                      );
-                      if (selectedList) {
-                        if (e.target.checked) {
-                          handleAddToList(
-                            selectedList.id,
-                            selectedList.name,
-                            selectedList.type
-                          );
-                        } else {
-                          handleRemoveInList(
-                            selectedList.id,
-                            selectedList.name,
-                            selectedList.type
-                          );
-                        }
+              {mangaLists?.map((mangaList) => (
+                <Form.Check
+                  key={mangaList.id}
+                  type="checkbox"
+                  name="mangaListSelection"
+                  label={mangaList.name}
+                  checked={mangaList.alreadyAdded}
+                  onClick={(e) => {
+                    const selectedList = mangaLists.find(
+                      (list) => list.id === mangaList.id
+                    );
+                    if (selectedList) {
+                      if (e.target.checked) {
+                        handleAddToList(
+                          selectedList.id,
+                          selectedList.name,
+                          selectedList.type
+                        );
                       } else {
-                        console.log("Selected mangaList not found.");
+                        handleRemoveInList(
+                          selectedList.id,
+                          selectedList.name,
+                          selectedList.type
+                        );
                       }
-                    }}
-                  />
-                ))}
-              </Form.Group>
+                    } else {
+                      console.log("Selected mangaList not found.");
+                    }
+                  }}
+                />
+              ))}
             </Form.Group>
             <Form.Group
               onClick={handleShowForm}

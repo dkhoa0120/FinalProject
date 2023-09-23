@@ -9,23 +9,37 @@ import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
 import Members from "./components/Members";
 import "./styles.css";
-import { LeaderContext } from "../../context/LeaderContext";
 import EditGroupModal from "./components/EditGroupModal";
 
 export default function Group() {
-  const profileOptions = ["Members", "Community", "Uploads", "About"];
+  const profileOptions = ["Uploads", "Community", "Members", "About"];
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [groupDetails, setGroupDetails] = useState(null);
+  const [owner, setOwner] = useState(null);
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
-  const { leader } = useContext(LeaderContext);
   const { groupId } = useParams();
 
   useEffect(() => {
     getGroupDetail(groupId);
+    fetchGroupLeaders(groupId);
   }, [groupId]);
+
+  console.log(groupDetails);
+
+  const fetchGroupLeaders = async (id) => {
+    try {
+      let res = await groupApi.getGroupMembers(id);
+      console.log("members", res.data);
+      setOwner(res.data?.find((member) => member.groupRoles.includes("Owner")));
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
+  };
 
   const getGroupDetail = async (id) => {
     try {
@@ -52,7 +66,7 @@ export default function Group() {
             : {}
         }
         onClick={() => {
-          if (user && user?.id === leader.id) {
+          if (user && owner && user.id === owner.id) {
             setShowBannerModal(true);
           }
         }}
@@ -66,7 +80,7 @@ export default function Group() {
               src={groupDetails?.avatarPath || "/img/avatar/defaultGroup.jpg"}
               alt="Avatar"
             ></img>
-            {user && user?.id === leader.id && (
+            {user && owner && user.id === owner.id && (
               <div
                 id="profile-image-change"
                 onClick={() => {
@@ -85,7 +99,7 @@ export default function Group() {
           </div>
         </div>
         <div id="profile-buttons">
-          {user && user?.id === leader.id && (
+          {user && owner && user.id === owner.id && (
             <Button
               variant="outline-dark"
               onClick={() => setShowEditGroup(true)}
@@ -93,22 +107,24 @@ export default function Group() {
               Edit{" "}
             </Button>
           )}
-          {user && user?.id !== leader.id && (
+          {user && owner && user.id !== owner.id && (
             <Button variant="outline-dark">Join</Button>
           )}
         </div>
       </div>
       <div className="general-container">
         <div className="profile-option-container">
-          {profileOptions.map((option, index) => (
-            <Button
-              key={index}
-              variant={profileOption === option ? "dark" : "light"}
-              onClick={() => setProfileOption(option)}
-            >
-              {option}
-            </Button>
-          ))}
+          {profileOptions.map((option, index) =>
+            option === "Uploads" && !groupDetails?.isMangaGroup ? null : (
+              <Button
+                key={index}
+                variant={profileOption === option ? "dark" : "light"}
+                onClick={() => setProfileOption(option)}
+              >
+                {option}
+              </Button>
+            )
+          )}
         </div>
         {profileOption === "Uploads" && <Uploads groupId={groupId} />}
         {profileOption === "About" && <About groupDetails={groupDetails} />}

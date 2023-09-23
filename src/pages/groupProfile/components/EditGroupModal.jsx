@@ -25,6 +25,7 @@ export default function EditGroupModal({
       setValue("id", groupDetails.id);
       setValue("name", groupDetails.name);
       setValue("biography", groupDetails.biography);
+      setValue("isMangaGroup", groupDetails.isMangaGroup);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupDetails, setValue]);
@@ -95,6 +96,17 @@ export default function EditGroupModal({
                     message: "This field must be no more than 1000 characters",
                   },
                 })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Check
+                name="IsMangaGroup"
+                type="checkbox"
+                label="Manga Group"
+                defaultValue
+                control={control}
+                rules={{ required: "This field is required" }}
+                {...register("isMangaGroup")}
               />
             </Form.Group>
             <div style={{ display: "flex", justifyContent: "end" }}>

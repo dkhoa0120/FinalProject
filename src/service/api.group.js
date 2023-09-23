@@ -16,7 +16,7 @@ export const getGroupMembers = (id) => {
 export const getGroupMangaList = (groupId, filter) => {
   const page = filter?.page;
 
-  return baseAxios.get(`groups/${groupId}/chaptersByManga`, {
+  return baseAxios.get(`groups/${groupId}/chapters-by-manga`, {
     params: {
       page,
     },
@@ -38,4 +38,11 @@ export const changeGroupAvatar = (id, formData) => {
 
 export const changeGroupBanner = (id, formData) => {
   return getAuthorizedAxios().post(`groups/${id}/banner`, formData);
+};
+
+export const changeGroupRoles = (groupId, memberId, formData) => {
+  return getAuthorizedAxios().put(
+    `groups/${groupId}/members/${memberId}/group-roles`,
+    formData
+  );
 };
