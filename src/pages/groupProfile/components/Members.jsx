@@ -21,6 +21,7 @@ export default function Members({ groupId }) {
   const [members, setMembers] = useState();
   const [permission, setPermission] = useState();
   const [targetedMember, setTargetedMember] = useState(null);
+  const [message, setMessage] = useState(false);
 
   const {
     register,
@@ -89,7 +90,7 @@ export default function Members({ groupId }) {
         <Row style={{ paddingLeft: "10px" }}>
           {members?.map((member) => (
             <>
-              <Col md={3}>
+              <Col md={4}>
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <Link to={`/profile/${member.id}`} className="card-link">
                     <img
@@ -107,9 +108,11 @@ export default function Members({ groupId }) {
                         {member.name}
                       </p>
                     </Link>
-                    {member.groupRoles.split(", ").map((role) => (
-                      <span className={"tag-role " + role}>{role}</span>
-                    ))}
+                    <div className="d-flex gap-1" style={{ flexWrap: "wrap" }}>
+                      {member.groupRoles.split(", ").map((role) => (
+                        <span className={"tag-role " + role}>{role}</span>
+                      ))}
+                    </div>
                   </div>
                   {user && permission && user.id === permission.id && (
                     <Dropdown>
@@ -145,7 +148,11 @@ export default function Members({ groupId }) {
               <Row>
                 <Col>
                   <Form.Label>User Name</Form.Label>
-                  {targetedMember?.name}
+                  <Form.Control
+                    type="text"
+                    value={targetedMember?.name}
+                    disabled
+                  />
                 </Col>
               </Row>
               <br />
@@ -153,9 +160,9 @@ export default function Members({ groupId }) {
                 <Col>
                   <Form.Label>
                     Roles{" "}
-                    {errors.roles && (
+                    {errors.groupRoles && (
                       <i
-                        title={errors.roles.message}
+                        title={errors.groupRoles.message}
                         className="fa-solid fa-circle-exclamation"
                         style={{ color: "red" }}
                       ></i>
@@ -166,18 +173,40 @@ export default function Members({ groupId }) {
                     control={control}
                     rules={{ required: "This field is required" }}
                     render={({ field }) => (
-                      <Select {...field} options={groupRoleOptions} isMulti />
+                      <Select
+                        {...field}
+                        options={groupRoleOptions}
+                        isMulti
+                        onChange={(e) => {
+                          field.onChange(e);
+                          if (e.some((option) => option.value === "Owner")) {
+                            setMessage(true);
+                          } else {
+                            setMessage(false);
+                          }
+                        }}
+                      />
                     )}
                   />
+                  {message && (
+                    <div style={{ color: "red", margin: "10px 0" }}>
+                      <i className="fa-solid fa-triangle-exclamation"></i>
+                      <span>
+                        {" "}
+                        This will transfer the group ownership to this member
+                      </span>
+                    </div>
+                  )}
                 </Col>
               </Row>
             </Form>
+            &nbsp;
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <Button variant="success" type="submit" form="update-roles-form">
+                Confirm Update
+              </Button>
+            </div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="success" type="submit" form="update-roles-form">
-              Confirm Update
-            </Button>
-          </Modal.Footer>
         </Modal>
       </Container>
     </>

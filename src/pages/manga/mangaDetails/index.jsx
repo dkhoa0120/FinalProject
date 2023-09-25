@@ -49,9 +49,7 @@ export default function MangaDetail() {
       setRate(Number(eventKey));
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to rate!", {
-          theme: "colored",
-        });
+        toast.error("Please sign in to rate!");
       } else {
         console.error(error);
       }
@@ -77,9 +75,7 @@ export default function MangaDetail() {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to follow!", {
-          theme: "colored",
-        });
+        toast.error("Please sign in to follow!");
       } else {
         console.error(error);
       }

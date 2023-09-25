@@ -1,7 +1,5 @@
 import React from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Form, Modal } from "react-bootstrap";
 import * as authorApi from "../../../../service/api.author";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -30,9 +28,7 @@ export default function CreateAuthor({
       reset();
       toast.success("Authors has been created");
     } catch {
-      toast.error("Somethings went wrong!", {
-        theme: "colored",
-      });
+      toast.error("Somethings went wrong!");
     }
   };
 

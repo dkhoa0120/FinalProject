@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Col, InputGroup, Row, Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Col, InputGroup, Row, Form, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../styles.css";
@@ -33,9 +32,7 @@ export default function Login() {
       password: password,
     };
     if (!email || !password) {
-      toast.error("Email/Password is required", {
-        theme: "colored",
-      });
+      toast.error("Email/Password is required");
       return;
     }
     setLoading(true);
@@ -53,9 +50,7 @@ export default function Login() {
         }, 1300);
       }
     } catch (error) {
-      toast.error("Somethings went wrong!", {
-        theme: "colored",
-      });
+      toast.error("Somethings went wrong!");
     }
 
     setLoading(false);

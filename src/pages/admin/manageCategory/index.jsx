@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import { Col, Row, Form, Container, Button, Table } from "react-bootstrap";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as categoryApi from "../../../service/api.category";
@@ -9,7 +8,6 @@ import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
 import EditCate from "./components/EditCate";
 import DeleteCate from "./components/DeleteCate";
-import { Col, Row, Form, Container } from "react-bootstrap";
 
 export default function ManageCategory() {
   // Component state variables
@@ -83,9 +81,7 @@ export default function ManageCategory() {
   const handleUndelete = async (id) => {
     try {
       await categoryApi.deleteCategory(id, true);
-      toast.success("Category has been restored", {
-        theme: "dark",
-      });
+      toast.success("Category has been restored");
       handleGetCategories();
     } catch (error) {
       toast.error("Failed to delete restored");
@@ -166,16 +162,13 @@ export default function ManageCategory() {
               })
             ) : (
               <tr>
-                <td>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
-                </td>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
               </tr>
             )}
           </tbody>
         </Table>
-        &nbsp;
         <div className="d-flex justify-content-center">
           <Pagination
             totalPages={totalPages}

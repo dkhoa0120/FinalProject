@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as authorApi from "../../../../service/api.author";
@@ -38,9 +36,7 @@ export default function EditAuthor({
       getAuthors(search, page);
       toast.success("Author has been updated!");
     } catch (error) {
-      toast.error("Somethings went wrong!", {
-        theme: "colored",
-      });
+      toast.error("Somethings went wrong!");
     }
   };
 

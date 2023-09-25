@@ -94,7 +94,8 @@ export default function Group() {
           <div id="profile-name">{groupDetails?.name}</div>
           <div style={{ margin: "2px" }}>
             <span className="profile-text">
-              {groupDetails?.memberNumber} members
+              {groupDetails?.memberNumber}{" "}
+              {groupDetails?.memberNumber >= 2 ? "members" : "member"}
             </span>
           </div>
         </div>
@@ -104,7 +105,7 @@ export default function Group() {
               variant="outline-dark"
               onClick={() => setShowEditGroup(true)}
             >
-              Edit{" "}
+              Edit
             </Button>
           )}
           {user && owner && user.id !== owner.id && (

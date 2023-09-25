@@ -59,7 +59,6 @@ export default function Edit() {
     }
   };
 
-  //
   async function urlToImageFile(url, filename) {
     const response = await fetch(url);
     const blob = await response.blob();
@@ -162,9 +161,7 @@ export default function Edit() {
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
         <Link to={`/upload/chapters`}>
           <button className="return-button">
-            <span>
-              <i className="fa-solid fa-arrow-left"></i>
-            </span>
+            <i className="fa-solid fa-arrow-left"></i>
           </button>
         </Link>{" "}
         Edit Chapter
@@ -315,23 +312,21 @@ export default function Edit() {
             />
           </Row>
         </Form>
-        <Row>
-          <Col className="d-flex justify-content-end">
-            <button
-              type="submit"
-              form="update-form"
-              className="new-to-you"
-              style={{
-                color: "white",
-                fontSize: "20px",
-                fontWeight: "bold",
-                padding: "6px 15px",
-              }}
-            >
-              Update
-            </button>
-          </Col>
-        </Row>
+        <div className="d-flex justify-content-end">
+          <button
+            type="submit"
+            form="update-form"
+            className="new-to-you"
+            style={{
+              color: "white",
+              fontSize: "20px",
+              fontWeight: "bold",
+              padding: "6px 15px",
+            }}
+          >
+            Update
+          </button>
+        </div>
       </Container>
     </>
   );

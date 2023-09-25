@@ -1,8 +1,5 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { useEffect, useState } from "react";
+import { Form, Button, Modal } from "react-bootstrap";
 import * as authorApi from "../../../../service/api.author";
 import { toast } from "react-toastify";
 
@@ -20,9 +17,7 @@ export default function DeleteAuthor(props) {
   const onSubmit = async () => {
     try {
       await authorApi.deleteAuthor(id);
-      toast.success("Author has been deleted", {
-        theme: "dark",
-      });
+      toast.success("Author has been deleted");
       props.getAuthors(props.search, props.page);
       props.handleClose();
     } catch (error) {
@@ -37,12 +32,8 @@ export default function DeleteAuthor(props) {
           <Modal.Title>Delete Author</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col>
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" value={name} disabled />
-            </Col>
-          </Row>
+          <Form.Label>Original Title</Form.Label>
+          <Form.Control type="text" value={name} disabled />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={onSubmit}>

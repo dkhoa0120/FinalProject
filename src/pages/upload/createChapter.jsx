@@ -139,9 +139,7 @@ export default function Upload() {
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
         <Link to={`/mangas/${mangaId}`}>
           <button className="return-button">
-            <span>
-              <i className="fa-solid fa-arrow-left"></i>
-            </span>
+            <i className="fa-solid fa-arrow-left"></i>
           </button>
         </Link>{" "}
         Upload Chapter
@@ -290,23 +288,21 @@ export default function Upload() {
             />
           </Row>
         </Form>
-        <Row>
-          <Col className="d-flex justify-content-end">
-            <button
-              type="submit"
-              form="upload-form"
-              className="new-to-you"
-              style={{
-                color: "white",
-                fontSize: "20px",
-                fontWeight: "bold",
-                padding: "6px 15px",
-              }}
-            >
-              Upload
-            </button>
-          </Col>
-        </Row>
+        <div className="d-flex justify-content-end">
+          <button
+            type="submit"
+            form="upload-form"
+            className="new-to-you"
+            style={{
+              color: "white",
+              fontSize: "20px",
+              fontWeight: "bold",
+              padding: "6px 15px",
+            }}
+          >
+            Upload
+          </button>
+        </div>
       </Container>
     </>
   );

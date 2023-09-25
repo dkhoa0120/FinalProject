@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import { InputGroup, Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { useState, useContext, useEffect } from "react";
+import { InputGroup, Form, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "../styles.css";
-import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
-import { useEffect } from "react";
 import * as accountApi from "../../../service/api.account";
 import Cookies from "universal-cookie";
 
@@ -32,11 +29,11 @@ export default function Register() {
 
   const handleRegister = async () => {
     if (!name || !email || !password || !confirmPassword) {
-      toast.error("All fields are required", { theme: "colored" });
+      toast.error("All fields are required");
       return;
     }
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match", { theme: "colored" });
+      toast.error("Passwords do not match");
       return;
     }
     const data = {

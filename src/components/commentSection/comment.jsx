@@ -47,9 +47,7 @@ export default function Comment({ comment, editComment, removeComment }) {
   const handleDeleteComment = async () => {
     try {
       await removeComment(comment.id);
-      toast.success("Comment has been deleted", {
-        theme: "dark",
-      });
+      toast.success("Comment has been deleted");
       handleClose();
     } catch (error) {
       toast.error("Failed to delete comment");
@@ -93,9 +91,7 @@ export default function Comment({ comment, editComment, removeComment }) {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to like!", {
-          theme: "colored",
-        });
+        toast.error("Please sign in to like!");
       }
     }
   };
@@ -125,9 +121,7 @@ export default function Comment({ comment, editComment, removeComment }) {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to dislike!", {
-          theme: "colored",
-        });
+        toast.error("Please sign in to dislike!");
       }
     }
   };
@@ -240,7 +234,6 @@ export default function Comment({ comment, editComment, removeComment }) {
               >
                 Reply
               </button>
-
               <Dropdown>
                 <Dropdown.Toggle
                   variant="outline"

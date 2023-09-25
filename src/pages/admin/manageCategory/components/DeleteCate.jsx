@@ -1,11 +1,7 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { useEffect, useState, useContext } from "react";
+import { Form, Button, Modal } from "react-bootstrap";
 import * as categoryApi from "../../../../service/api.category";
 import { toast } from "react-toastify";
-import { useContext } from "react";
 import { CategoryContext } from "../../../../context/CategoryContext";
 
 export default function DeleteCate(props) {
@@ -24,9 +20,7 @@ export default function DeleteCate(props) {
   const onSubmit = async () => {
     try {
       await categoryApi.deleteCategory(id);
-      toast.success("Category has been deleted", {
-        theme: "dark",
-      });
+      toast.success("Category has been deleted");
       fetchCateOptions();
       props.getCategories(props.search, props.page);
       props.handleClose();
@@ -42,12 +36,8 @@ export default function DeleteCate(props) {
           <Modal.Title>Delete Category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col>
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" value={name} disabled />
-            </Col>
-          </Row>
+          <Form.Label>Original Title</Form.Label>
+          <Form.Control type="text" value={name} disabled />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={onSubmit}>

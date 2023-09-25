@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Row,
-  Table,
-  Modal,
-} from "react-bootstrap";
+import { Button, Container, Form, Table, Modal } from "react-bootstrap";
 import "./styles.css";
 import * as chapterApi from "../../service/api.chapter";
 import Pagination from "../../components/pagination";
@@ -71,9 +63,7 @@ export default function ManageChapter() {
   const handleDeleteChapter = async (id) => {
     try {
       await chapterApi.deleteChapter(id);
-      toast.success("chapter has been deleted", {
-        theme: "dark",
-      });
+      toast.success("Chapter has been deleted");
       getChapters(search, page);
     } catch (error) {
       toast.error("Failed to delete chapter");
@@ -84,9 +74,7 @@ export default function ManageChapter() {
   const handleUndeleteChapter = async (id) => {
     try {
       await chapterApi.deleteChapter(id, true);
-      toast.success("Chapter has been restored", {
-        theme: "dark",
-      });
+      toast.success("Chapter has been restored");
       getChapters(search, page);
     } catch (error) {
       toast.error("Failed to restore");
@@ -95,20 +83,17 @@ export default function ManageChapter() {
 
   return (
     <Container fluid>
-      <ToastContainer />
-      <Row>
-        <Col>
-          <Form.Control
-            type="search"
-            placeholder="Search Manga Name"
-            className="me-2"
-            aria-label="Search"
-            value={search}
-            onChange={handleSearch}
-          />
-        </Col>
-      </Row>
       <div className="manage-table">
+        <ToastContainer />
+        <Form.Control
+          type="search"
+          placeholder="Search Manga Name"
+          className="me-2"
+          aria-label="Search"
+          value={search}
+          onChange={handleSearch}
+        />
+        &nbsp;
         <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
@@ -198,11 +183,9 @@ export default function ManageChapter() {
               })
             ) : (
               <tr>
-                <td>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
-                </td>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
               </tr>
             )}
           </tbody>
@@ -218,8 +201,10 @@ export default function ManageChapter() {
           <Modal.Title>Are You Sure Want To Delete</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {" "}
-          {chapterDelete?.manga.originalTitle} chap {chapterDelete?.number}
+          <b>
+            Chapter {chapterDelete?.number} - {chapterDelete?.name}
+          </b>{" "}
+          of Manga: <b>{chapterDelete?.manga.originalTitle}</b>
         </Modal.Body>
         <Modal.Footer>
           <Button

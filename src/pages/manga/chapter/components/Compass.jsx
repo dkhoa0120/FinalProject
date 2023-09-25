@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import * as followApi from "../../../../service/api.follow";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 export default function Compass({ chapter, relatedChapters }) {
   const navigate = useNavigate();
@@ -33,9 +32,7 @@ export default function Compass({ chapter, relatedChapters }) {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        toast.error("Please sign in to follow!", {
-          theme: "colored",
-        });
+        toast.error("Please sign in to follow!");
       } else {
         console.error(error);
       }

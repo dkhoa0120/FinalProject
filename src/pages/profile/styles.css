@@ -411,6 +411,14 @@
   margin: 0.5rem 0;
 }
 
+.group-info {
+  margin-left: 10px;
+}
+
+.group-info p {
+  margin-bottom: 5px;
+}
+
 @media screen and (min-width: 768px) {
   .modal-50w {
     min-width: 50vw !important;

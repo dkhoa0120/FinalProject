@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { useEffect, useState } from "react";
+import { Form, Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import * as mangaApi from "../../../../service/api.manga";
 
-function DeleteManga(props) {
+export default function DeleteManga(props) {
   const [id, setId] = useState("");
   const [originalTitle, setOriginalTitle] = useState("");
 
@@ -20,9 +17,7 @@ function DeleteManga(props) {
   const onSubmit = async () => {
     try {
       await mangaApi.deleteManga(id);
-      toast.success("Manga has been deleted", {
-        theme: "dark",
-      });
+      toast.success("Manga has been deleted");
       props.getMangas(props.search, props.page);
       props.handleClose();
     } catch (error) {
@@ -37,12 +32,8 @@ function DeleteManga(props) {
           <Modal.Title>Delete Manga</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col>
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" value={originalTitle} disabled />
-            </Col>
-          </Row>
+          <Form.Label>Original Title</Form.Label>
+          <Form.Control type="text" value={originalTitle} disabled />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={onSubmit}>
@@ -53,5 +44,3 @@ function DeleteManga(props) {
     </div>
   );
 }
-
-export default DeleteManga;

@@ -1,7 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Form, Modal } from "react-bootstrap";
 import * as categoryApi from "../../../../service/api.category";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -43,9 +41,7 @@ export default function EditCate({
 
       toast.success("Category has been updated!");
     } catch (error) {
-      toast.error("Somethings went wrong!", {
-        theme: "colored",
-      });
+      toast.error("Somethings went wrong!");
     }
   };
 
@@ -86,7 +82,7 @@ export default function EditCate({
                   className="fa-solid fa-circle-exclamation"
                   style={{ color: "red" }}
                 ></i>
-              )}{" "}
+              )}
             </Form.Label>
             <Form.Control
               as="textarea"

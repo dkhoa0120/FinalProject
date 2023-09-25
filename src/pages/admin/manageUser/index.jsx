@@ -115,7 +115,7 @@ export default function ManageUser() {
                 return (
                   <tr key={index}>
                     <td>{item.id}</td>
-                    <td className="test">{item.email}</td>
+                    <td>{item.email}</td>
                     <td>{item.name}</td>
                     <td>{item.roles.join(", ")}</td>
                     <td>

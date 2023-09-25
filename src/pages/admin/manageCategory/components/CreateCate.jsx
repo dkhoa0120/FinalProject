@@ -1,11 +1,8 @@
-import React from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { useContext } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import * as categoryApi from "../../../../service/api.category";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
 import { CategoryContext } from "../../../../context/CategoryContext";
 
 export default function CreateCate({
@@ -35,9 +32,7 @@ export default function CreateCate({
       reset();
       toast.success("Category has been created");
     } catch {
-      toast.error("Somethings went wrong!", {
-        theme: "colored",
-      });
+      toast.error("Somethings went wrong!");
     }
   };
 
@@ -49,7 +44,6 @@ export default function CreateCate({
         </Modal.Header>
         <Modal.Body>
           <Form id="create-cate-form" onSubmit={handleSubmit(onSubmit)}>
-            {" "}
             <Form.Label>
               Name{" "}
               {errors.name && (

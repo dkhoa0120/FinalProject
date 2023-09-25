@@ -77,7 +77,7 @@ export default function EditGroupModal({
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Biography</Form.Label>{" "}
+              <Form.Label>Biography</Form.Label>
               {errors.biography && (
                 <i
                   title={errors.biography.message}
@@ -98,7 +98,7 @@ export default function EditGroupModal({
                 })}
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className="d-flex align-items-center gap-2 mb-3">
               <Form.Check
                 name="IsMangaGroup"
                 type="checkbox"
@@ -108,6 +108,10 @@ export default function EditGroupModal({
                 rules={{ required: "This field is required" }}
                 {...register("isMangaGroup")}
               />
+              <i
+                className="fa-regular fa-circle-question"
+                title="Set this will allow your group uploaders to upload chapter under your group name"
+              ></i>
             </Form.Group>
             <div style={{ display: "flex", justifyContent: "end" }}>
               <Button type="submit" form="edit-form" variant="success">

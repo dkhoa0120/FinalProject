@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import "./styles.css";
+import { Col, Row, Form, Container, Button, Table } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import * as authorApi from "../../../service/api.author";
 import { ToastContainer, toast } from "react-toastify";
+import "./styles.css";
+import * as authorApi from "../../../service/api.author";
 import Pagination from "../../../components/pagination";
-import { Col, Row, Form, Container } from "react-bootstrap";
 import CreateAuthor from "./components/CreateAuthor";
 import EditAuthor from "./components/EditAuthor";
 import DeleteAuthor from "./components/DeleteAuthor";
@@ -89,9 +87,7 @@ export default function ManageAuthor() {
   const handleUndelete = async (id) => {
     try {
       await authorApi.deleteAuthor(id, true);
-      toast.success("Author has been restored", {
-        theme: "dark",
-      });
+      toast.success("Author has been restored");
       handleGetAuthors();
     } catch (error) {
       toast.error("Failed to delete restored");
@@ -172,11 +168,9 @@ export default function ManageAuthor() {
               })
             ) : (
               <tr>
-                <td>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
-                </td>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
               </tr>
             )}
           </tbody>

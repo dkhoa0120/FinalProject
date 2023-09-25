@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Image,
-  Row,
-  Table,
-} from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import "./styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import CreateManga from "./components/CreateManga";
@@ -89,9 +81,7 @@ export default function ManageManga() {
   const handleUndelete = async (id) => {
     try {
       await mangaApi.deleteManga(id, true);
-      toast.success("Manga has been restored", {
-        theme: "dark",
-      });
+      toast.success("Manga has been restored");
       getMangas();
     } catch (error) {
       toast.error("Failed to delete restored");

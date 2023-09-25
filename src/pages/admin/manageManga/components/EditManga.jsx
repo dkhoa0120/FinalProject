@@ -1,7 +1,5 @@
 import { useEffect, useContext } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import * as mangaApi from "../../../../service/api.manga";
 import { Controller, useForm } from "react-hook-form";
@@ -82,6 +80,7 @@ export default function EditManga({
       toast.error(error.message);
     }
   };
+
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="lg">

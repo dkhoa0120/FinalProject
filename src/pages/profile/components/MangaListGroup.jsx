@@ -11,8 +11,7 @@ import CountryFlag from "../../../components/countryFlag";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import * as listApi from "../../../service/api.mangaList";
-import { useEffect } from "react";
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { ToastContainer, toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
@@ -177,7 +176,6 @@ export default function MangaListGroup() {
           </div>
         ) : (
           <>
-            {" "}
             <Row>
               <Col md={3}>
                 <div className="manga-list-container">

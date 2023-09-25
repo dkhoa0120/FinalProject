@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Button, Form, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import * as userApi from "../../../../service/api.user";
 import { useForm, Controller } from "react-hook-form";
@@ -42,7 +40,7 @@ export default function ModalUpdateRoles({
       handleClose();
       toast.success("User's roles have been updated");
     } catch (error) {
-      toast.error(error);
+      toast.error("Somethings went wrong!");
     }
   };
 
@@ -54,51 +52,45 @@ export default function ModalUpdateRoles({
         </Modal.Header>
         <Modal.Body>
           <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
-            <Row>
-              <Col>
-                <Form.Label>User Id</Form.Label>
-                <Form.Control readOnly type="text" {...register("id")} />
-              </Col>
-            </Row>
+            <div>
+              <Form.Label>User Id</Form.Label>
+              <Form.Control disabled type="text" {...register("id")} />
+            </div>
             <br />
-            <Row>
-              <Col>
-                <Form.Label>User Name</Form.Label>
-                <Form.Control readOnly type="text" {...register("name")} />
-              </Col>
-            </Row>
+            <div>
+              <Form.Label>User Name</Form.Label>
+              <Form.Control disabled type="text" {...register("name")} />
+            </div>
             <br />
-            <Row>
-              <Col>
-                <Form.Label>
-                  Roles{" "}
-                  {errors.roles && (
-                    <i
-                      title={errors.roles.message}
-                      className="fa-solid fa-circle-exclamation"
-                      style={{ color: "red" }}
-                    ></i>
-                  )}
-                </Form.Label>
-                <Controller
-                  name="roles"
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={[
-                        { value: "User", label: "User" },
-                        { value: "Uploader", label: "Uploader" },
-                        { value: "Manager", label: "Manager" },
-                        { value: "Admin", label: "Admin" },
-                      ]}
-                      isMulti
-                    />
-                  )}
-                />
-              </Col>
-            </Row>
+            <div>
+              <Form.Label>
+                Roles{" "}
+                {errors.roles && (
+                  <i
+                    title={errors.roles.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
+              <Controller
+                name="roles"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={[
+                      { value: "User", label: "User" },
+                      { value: "Uploader", label: "Uploader" },
+                      { value: "Manager", label: "Manager" },
+                      { value: "Admin", label: "Admin" },
+                    ]}
+                    isMulti
+                  />
+                )}
+              />
+            </div>
           </Form>
         </Modal.Body>
         <Modal.Footer>
