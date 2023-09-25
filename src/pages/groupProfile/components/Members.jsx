@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import * as groupApi from "../../../service/api.group";
 import { Link, useParams } from "react-router-dom";
-import Select from "react-select";
+import Select, { ActionMeta } from "react-select";
 import { UserContext } from "../../../context/UserContext";
 import { Controller, useForm } from "react-hook-form";
 import { groupRoleOptions } from "../../../constants/groupRoles";
@@ -24,10 +24,11 @@ export default function Members({ groupId }) {
   const [message, setMessage] = useState(false);
 
   const {
-    register,
+    clearErrors,
     control,
-    setValue,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {},
@@ -40,10 +41,10 @@ export default function Members({ groupId }) {
         "groupRoles",
         targetedMember.groupRoles
           .split(", ")
-          .map((r) => ({ value: r, label: r }))
+          .map((r) => groupRoleOptions.find((o) => o.value === r))
       );
     }
-  }, [targetedMember, setValue]);
+  }, [targetedMember]);
 
   const onSubmit = async (data) => {
     try {
@@ -64,6 +65,43 @@ export default function Members({ groupId }) {
     }
   };
 
+  const checkIfOwner = (option) => {
+    if (
+      option.value === "Owner" &&
+      targetedMember?.id === user?.id &&
+      targetedMember?.groupRoles.includes("Owner")
+    ) {
+      return true;
+    }
+    return false;
+  };
+  const onChange = (newSelectedRoles, actionMeta) => {
+    setMessage(false);
+    switch (actionMeta.action) {
+      case "remove-value":
+      case "pop-value":
+        if (checkIfOwner(actionMeta.removedValue)) {
+          return;
+        }
+        break;
+      case "clear":
+        newSelectedRoles = groupRoleOptions.filter((o) => checkIfOwner(o));
+        break;
+      case "select-option":
+        if (
+          actionMeta.option.value === "Owner" &&
+          targetedMember?.id !== user?.id
+        ) {
+          setMessage(true);
+        }
+        break;
+      default:
+        break;
+    }
+
+    setValue("groupRoles", newSelectedRoles);
+  };
+
   const fetchGroupMembers = async (id) => {
     try {
       let res = await groupApi.getGroupMembers(id);
@@ -78,6 +116,27 @@ export default function Members({ groupId }) {
         console.log("404");
       }
     }
+  };
+
+  const styles = {
+    multiValue: (base, state) => {
+      return {
+        ...base,
+        backgroundColor: state.data.color,
+      };
+    },
+    multiValueLabel: (styles) => ({
+      ...styles,
+      color: "white",
+    }),
+    multiValueRemove: (styles) => ({
+      ...styles,
+      color: "white",
+      ":hover": {
+        backgroundColor: "none",
+        color: "black",
+      },
+    }),
   };
 
   useEffect(() => {
@@ -108,10 +167,15 @@ export default function Members({ groupId }) {
                         {member.name}
                       </p>
                     </Link>
-                    <div className="d-flex gap-1" style={{ flexWrap: "wrap" }}>
-                      {member.groupRoles.split(", ").map((role) => (
-                        <span className={"tag-role " + role}>{role}</span>
-                      ))}
+                    <div className="d-flex flex-wrap gap-1">
+                      {member.groupRoles
+                        .split(", ")
+                        .map((r) => groupRoleOptions.find((o) => o.value === r))
+                        .map((role) => (
+                          <span className={"tag-role " + role.value}>
+                            {role.label}
+                          </span>
+                        ))}
                     </div>
                   </div>
                   {user && permission && user.id === permission.id && (
@@ -139,7 +203,14 @@ export default function Members({ groupId }) {
             </>
           ))}
         </Row>
-        <Modal show={targetedMember} onHide={() => setTargetedMember(null)}>
+        <Modal
+          show={targetedMember}
+          onHide={() => {
+            setTargetedMember(null);
+            clearErrors();
+            setMessage(false);
+          }}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Update Roles</Modal.Title>
           </Modal.Header>
@@ -175,16 +246,13 @@ export default function Members({ groupId }) {
                     render={({ field }) => (
                       <Select
                         {...field}
+                        styles={styles}
                         options={groupRoleOptions}
+                        onChange={onChange}
+                        isClearable={getValues("groupRoles")?.some(
+                          (o) => !checkIfOwner(o)
+                        )}
                         isMulti
-                        onChange={(e) => {
-                          field.onChange(e);
-                          if (e.some((option) => option.value === "Owner")) {
-                            setMessage(true);
-                          } else {
-                            setMessage(false);
-                          }
-                        }}
                       />
                     )}
                   />

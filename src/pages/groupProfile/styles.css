@@ -2,5 +2,20 @@
   background-color: gray;
   color: white;
   border-radius: 4px;
-  padding: 2px 4px;
+  padding: 2px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.tag-role.Owner{
+  background-color: #ab404a ;
+}
+
+.tag-role.GroupUploader{
+  background-color: #577ab0;
+}
+
+.tag-role.Moderator{
+  background-color: #5eb672;
 }
