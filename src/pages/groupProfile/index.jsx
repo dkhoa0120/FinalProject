@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
@@ -10,6 +10,7 @@ import BannerModal from "./components/BannerModal";
 import Members from "./components/Members";
 import "./styles.css";
 import EditGroupModal from "./components/EditGroupModal";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Group() {
   const profileOptions = ["Uploads", "Community", "Members", "About"];
@@ -20,26 +21,30 @@ export default function Group() {
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
+  const [isUserAMember, setIsUserAMember] = useState(false);
   const { groupId } = useParams();
+
+  const fetchGroupMembers = useCallback(
+    async (id) => {
+      try {
+        let res = await groupApi.getGroupMembers(id);
+        setOwner(
+          res.data?.find((member) => member.groupRoles.includes("Owner"))
+        );
+        setIsUserAMember(res.data?.some((member) => member.id === user?.id));
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          console.error();
+        }
+      }
+    },
+    [user]
+  );
 
   useEffect(() => {
     getGroupDetail(groupId);
-    fetchGroupLeaders(groupId);
-  }, [groupId]);
-
-  console.log(groupDetails);
-
-  const fetchGroupLeaders = async (id) => {
-    try {
-      let res = await groupApi.getGroupMembers(id);
-      console.log("members", res.data);
-      setOwner(res.data?.find((member) => member.groupRoles.includes("Owner")));
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        console.log("404");
-      }
-    }
-  };
+    fetchGroupMembers(groupId);
+  }, [groupId, fetchGroupMembers]);
 
   const getGroupDetail = async (id) => {
     try {
@@ -53,8 +58,25 @@ export default function Group() {
     }
   };
 
+  // handle join group (need to improve)
+  const handleJoinGroup = async (groupId) => {
+    await groupApi.joinGroup(groupId);
+    toast.success("You have joined this group");
+    fetchGroupMembers(groupId);
+  };
+
+  // handle leave group (need to make a modal)
+  const handleLeaveGroup = async () => {
+    try {
+      await groupApi.removeGroupMember(groupId, user?.id);
+      toast.success("You have left this group");
+      fetchGroupMembers(groupId);
+    } catch (error) {}
+  };
+
   return (
     <>
+      <ToastContainer />
       <div
         id="profile-banner"
         style={
@@ -108,8 +130,18 @@ export default function Group() {
               Edit
             </Button>
           )}
-          {user && owner && user.id !== owner.id && (
-            <Button variant="outline-dark">Join</Button>
+          {user && owner && user.id !== owner.id && !isUserAMember && (
+            <Button
+              variant="outline-dark"
+              onClick={() => handleJoinGroup(groupId)}
+            >
+              Join
+            </Button>
+          )}
+          {user && owner && user.id !== owner.id && isUserAMember && (
+            <Button variant="outline-dark" onClick={() => handleLeaveGroup()}>
+              Leave Group
+            </Button>
           )}
         </div>
       </div>
@@ -129,7 +161,9 @@ export default function Group() {
         </div>
         {profileOption === "Uploads" && <Uploads groupId={groupId} />}
         {profileOption === "About" && <About groupDetails={groupDetails} />}
-        {profileOption === "Members" && <Members groupId={groupId} />}
+        {profileOption === "Members" && (
+          <Members groupId={groupId} groupName={groupDetails?.name} />
+        )}
       </div>
       <EditGroupModal
         close={() => setShowEditGroup(false)}

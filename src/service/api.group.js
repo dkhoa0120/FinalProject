@@ -33,11 +33,11 @@ export const putGroup = (id, formData) => {
 };
 
 export const changeGroupAvatar = (id, formData) => {
-  return getAuthorizedAxios().post(`groups/${id}/avatar`, formData);
+  return getAuthorizedAxios().put(`groups/${id}/avatar`, formData);
 };
 
 export const changeGroupBanner = (id, formData) => {
-  return getAuthorizedAxios().post(`groups/${id}/banner`, formData);
+  return getAuthorizedAxios().put(`groups/${id}/banner`, formData);
 };
 
 export const changeGroupRoles = (groupId, memberId, formData) => {
@@ -45,4 +45,16 @@ export const changeGroupRoles = (groupId, memberId, formData) => {
     `groups/${groupId}/members/${memberId}/group-roles`,
     formData
   );
+};
+
+export const joinGroup = (groupId) => {
+  return getAuthorizedAxios().post(`groups/${groupId}/members`);
+};
+
+export const removeGroupMember = (groupId, memberId) => {
+  return getAuthorizedAxios().delete(`groups/${groupId}/members/${memberId}`);
+};
+
+export const getMangaGroupForUpload = (userId) => {
+  return getAuthorizedAxios().get(`users/${userId}/manga-groups`);
 };

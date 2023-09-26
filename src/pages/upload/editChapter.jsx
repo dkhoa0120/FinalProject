@@ -103,7 +103,7 @@ export default function Edit() {
 
   const fetchGroupOptions = async (id) => {
     try {
-      let res = await groupApi.getUploadGroup(id);
+      let res = await groupApi.getMangaGroupForUpload(id);
       setGroups(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {

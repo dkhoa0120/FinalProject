@@ -16,12 +16,13 @@ import { Controller, useForm } from "react-hook-form";
 import { groupRoleOptions } from "../../../constants/groupRoles";
 import { ToastContainer, toast } from "react-toastify";
 
-export default function Members({ groupId }) {
+export default function Members({ groupId, groupName }) {
   const { user } = useContext(UserContext);
   const [members, setMembers] = useState();
   const [permission, setPermission] = useState();
   const [targetedMember, setTargetedMember] = useState(null);
   const [message, setMessage] = useState(false);
+  const [deleteMember, setDeleteMember] = useState(null);
 
   const {
     clearErrors,
@@ -128,6 +129,9 @@ export default function Members({ groupId }) {
     multiValueLabel: (styles) => ({
       ...styles,
       color: "white",
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      fontSize: "11px",
     }),
     multiValueRemove: (styles) => ({
       ...styles,
@@ -137,6 +141,17 @@ export default function Members({ groupId }) {
         color: "black",
       },
     }),
+  };
+
+  const handleRemoveMember = async (memberId) => {
+    try {
+      await groupApi.removeGroupMember(groupId, memberId);
+      setMembers((prevMembers) => prevMembers.filter((m) => m.id !== memberId));
+      setDeleteMember(null);
+      toast.success("User's roles have been removed");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   useEffect(() => {
@@ -149,7 +164,7 @@ export default function Members({ groupId }) {
         <Row style={{ paddingLeft: "10px" }}>
           {members?.map((member) => (
             <>
-              <Col md={4}>
+              <Col md={4} xl={3}>
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <Link to={`/profile/${member.id}`} className="card-link">
                     <img
@@ -192,9 +207,17 @@ export default function Members({ groupId }) {
                         >
                           <div>Change Role</div>
                         </Dropdown.Item>
-                        <Dropdown.Item>
-                          <div>Kick</div>
-                        </Dropdown.Item>
+                        {member &&
+                          permission &&
+                          member.id !== permission.id && (
+                            <>
+                              <Dropdown.Item
+                                onClick={() => setDeleteMember(member)}
+                              >
+                                <div>Kick</div>
+                              </Dropdown.Item>
+                            </>
+                          )}
                       </Dropdown.Menu>
                     </Dropdown>
                   )}
@@ -203,6 +226,7 @@ export default function Members({ groupId }) {
             </>
           ))}
         </Row>
+        {/* Edit modal */}
         <Modal
           show={targetedMember}
           onHide={() => {
@@ -272,6 +296,56 @@ export default function Members({ groupId }) {
             <div style={{ display: "flex", justifyContent: "end" }}>
               <Button variant="success" type="submit" form="update-roles-form">
                 Confirm Update
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
+        {/* Remove modal */}
+        <Modal show={deleteMember} onHide={() => setDeleteMember(null)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Are you sure</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <img
+                  className="group-avatar"
+                  src={deleteMember?.avatarPath || "/img/avatar/default.png"}
+                  alt="avatar"
+                />
+
+                <b className="text-limit-2" style={{ fontSize: "20px" }}>
+                  {deleteMember?.name}
+                </b>
+                <span style={{ textAlign: "center" }}>
+                  You are removing <b>{deleteMember?.name}</b> from{" "}
+                  <b>{groupName}</b>.
+                </span>
+              </div>
+            </>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                gap: "5px",
+                marginTop: "10px",
+              }}
+            >
+              <Button
+                variant="success"
+                onClick={() => handleRemoveMember(deleteMember.id)}
+              >
+                Yes
+              </Button>
+              <Button variant="danger" onClick={() => setDeleteMember(null)}>
+                No
               </Button>
             </div>
           </Modal.Body>
