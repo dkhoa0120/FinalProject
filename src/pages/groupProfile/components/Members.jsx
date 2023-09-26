@@ -9,8 +9,8 @@ import {
   Row,
 } from "react-bootstrap";
 import * as groupApi from "../../../service/api.group";
-import { Link, useParams } from "react-router-dom";
-import Select, { ActionMeta } from "react-select";
+import { Link } from "react-router-dom";
+import Select from "react-select";
 import { UserContext } from "../../../context/UserContext";
 import { Controller, useForm } from "react-hook-form";
 import { groupRoleOptions } from "../../../constants/groupRoles";
@@ -159,7 +159,6 @@ export default function Members({ groupId, groupName }) {
   }, [groupId]);
   return (
     <>
-      <ToastContainer />
       <Container fluid>
         <Row style={{ paddingLeft: "10px" }}>
           {members?.map((member) => (
@@ -330,14 +329,7 @@ export default function Members({ groupId, groupName }) {
                 </span>
               </div>
             </>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                gap: "5px",
-                marginTop: "10px",
-              }}
-            >
+            <div className="modal-button">
               <Button
                 variant="success"
                 onClick={() => handleRemoveMember(deleteMember.id)}

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import * as groupApi from "../../service/api.group";
@@ -23,6 +23,7 @@ export default function Group() {
   const { user } = useContext(UserContext);
   const [isUserAMember, setIsUserAMember] = useState(false);
   const { groupId } = useParams();
+  const [showLeaveModal, setShowLeaveModal] = useState(null);
 
   const fetchGroupMembers = useCallback(
     async (id) => {
@@ -130,16 +131,18 @@ export default function Group() {
               Edit
             </Button>
           )}
-          {user && owner && user.id !== owner.id && !isUserAMember && (
+          {user && owner && user.id !== owner.id && !isUserAMember ? (
             <Button
               variant="outline-dark"
               onClick={() => handleJoinGroup(groupId)}
             >
               Join
             </Button>
-          )}
-          {user && owner && user.id !== owner.id && isUserAMember && (
-            <Button variant="outline-dark" onClick={() => handleLeaveGroup()}>
+          ) : (
+            <Button
+              variant="outline-dark"
+              onClick={() => setShowLeaveModal(true)}
+            >
               Leave Group
             </Button>
           )}
@@ -185,6 +188,32 @@ export default function Group() {
         setGroupDetails={setGroupDetails}
         groupId={groupId}
       />
+
+      {/* Leave group modal */}
+      <Modal show={showLeaveModal} onHide={() => setShowLeaveModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <span style={{ textAlign: "center" }}>
+            Are you sure you want to leave <b>{groupDetails?.name}</b>?
+          </span>
+          <div className="modal-button">
+            <Button
+              variant="success"
+              onClick={() => {
+                handleLeaveGroup();
+                setShowLeaveModal(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button variant="danger" onClick={() => setShowLeaveModal(false)}>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

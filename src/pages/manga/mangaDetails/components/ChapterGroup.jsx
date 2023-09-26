@@ -105,7 +105,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
               <Col xs={6} xl={2}>
                 <p className="text-truncate">
                   <i className="fa-regular fa-eye"></i> {chapter.viewCount}{" "}
-                  views
+                  {chapter.viewCount >= 2 ? "views" : "view"}
                 </p>
               </Col>
             </Row>

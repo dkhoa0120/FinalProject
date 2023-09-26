@@ -24,9 +24,18 @@ export default function About({ userStats, userDetails }) {
           <hr />
           <ul>
             <li>Joined {formatDate(userDetails?.createdAt)}</li>
-            <li>{userStats.followedMangaNumber} followed mangas</li>
-            <li>{userStats.uploadedChapterNumber} uploaded chapters</li>
-            <li>{userStats.viewGainedNumber} views</li>
+            <li>
+              {userStats.followedMangaNumber} followed{" "}
+              {userStats.followedMangaNumber >= 2 ? "mangas" : "manga"}
+            </li>
+            <li>
+              {userStats.uploadedChapterNumber} uploaded{" "}
+              {userStats.uploadedChapterNumber >= 2 ? "chapters" : "chapter"}
+            </li>
+            <li>
+              {userStats.viewGainedNumber}{" "}
+              {userStats.viewGainedNumber >= 2 ? "views" : "view"}
+            </li>
           </ul>
         </Col>
       </Row>

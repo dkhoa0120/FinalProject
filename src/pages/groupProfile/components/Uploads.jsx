@@ -86,15 +86,9 @@ export default function Uploads({ groupId }) {
                               to={`/chapters/${c.id}`}
                               className="card-link"
                             >
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  paddingBottom: "5px",
-                                }}
-                              >
+                              <div className="chapter-name">
                                 <CountryFlag key={c.id} lang={c.language} />
-                                <span className="text-limit-1">{c.name}</span>
+                                <p className="text-limit-1">{c.name}</p>
                               </div>
                             </Link>
                           </Col>
@@ -127,7 +121,8 @@ export default function Uploads({ groupId }) {
                           <Col xs={6} md={2} className="hide-when-mobile">
                             <p className="text-truncate">
                               <i className="fa-regular fa-eye"></i>{" "}
-                              {c.viewCount} views
+                              {c.viewCount}{" "}
+                              {c.viewCount >= 2 ? "views" : "view"}
                             </p>
                           </Col>
                         </Row>

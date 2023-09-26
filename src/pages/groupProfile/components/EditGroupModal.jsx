@@ -50,7 +50,6 @@ export default function EditGroupModal({
 
   return (
     <>
-      <ToastContainer />
       <Modal show={show} onHide={close}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Profile</Modal.Title>

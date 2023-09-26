@@ -115,7 +115,8 @@ export default function Uploads() {
                           <Col xs={6} md={2} className="hide-when-mobile">
                             <p className="text-truncate">
                               <i className="fa-regular fa-eye"></i>{" "}
-                              {c.viewCount} views
+                              {c.viewCount}{" "}
+                              {c.viewCount >= 2 ? "views" : "view"}
                             </p>
                           </Col>
                         </Row>

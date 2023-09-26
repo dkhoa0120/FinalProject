@@ -24,8 +24,14 @@ export default function About({ groupDetails }) {
           <hr />
           <ul>
             <li>Created at {formatDate(groupDetails?.createdAt)}</li>
-            <li>{groupDetails.uploadedChapterNumber} uploaded chapters</li>
-            <li>{groupDetails.viewGainedNumber} views</li>
+            <li>
+              {groupDetails.uploadedChapterNumber} uploaded{" "}
+              {groupDetails.uploadedChapterNumber >= 2 ? "chapters" : "chapter"}
+            </li>
+            <li>
+              {groupDetails.viewGainedNumber}{" "}
+              {groupDetails.viewGainedNumber >= 2 ? "views" : "view"}
+            </li>
           </ul>
         </Col>
       </Row>
