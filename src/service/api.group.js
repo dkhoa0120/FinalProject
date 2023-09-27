@@ -9,8 +9,19 @@ export const getGroupInfo = (id) => {
   return baseAxios.get(`groups/${id}`);
 };
 
-export const getGroupMembers = (id) => {
-  return baseAxios.get(`groups/${id}/members`);
+export const getGroupMembers = (groupId, filter) => {
+  const roleUpperBound = filter?.roleUpperBound;
+  const roleLowerBound = filter?.roleLowerBound;
+  const joinedAtCursor = filter?.joinedAtCursor;
+
+  return baseAxios.get(`groups/${groupId}/members`, {
+    params: {
+      roleUpperBound,
+      roleLowerBound,
+      joinedAtCursor,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
+  });
 };
 
 export const getGroupMangaList = (groupId, filter) => {

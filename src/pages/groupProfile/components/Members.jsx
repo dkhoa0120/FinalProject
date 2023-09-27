@@ -14,15 +14,18 @@ import Select from "react-select";
 import { UserContext } from "../../../context/UserContext";
 import { Controller, useForm } from "react-hook-form";
 import { groupRoleOptions } from "../../../constants/groupRoles";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function Members({ groupId, groupName }) {
   const { user } = useContext(UserContext);
-  const [members, setMembers] = useState();
+
   const [permission, setPermission] = useState();
   const [targetedMember, setTargetedMember] = useState(null);
   const [message, setMessage] = useState(false);
   const [deleteMember, setDeleteMember] = useState(null);
+  const [ownerAndMods, setOwnerAndMods] = useState(null);
+  const [groupUploaders, setGroupUploaders] = useState(null);
+  const [members, setMembers] = useState(null);
 
   const {
     clearErrors,
@@ -103,9 +106,9 @@ export default function Members({ groupId, groupName }) {
     setValue("groupRoles", newSelectedRoles);
   };
 
-  const fetchGroupMembers = async (id) => {
+  const fetchGroupMembers = async (groupId, filter) => {
     try {
-      let res = await groupApi.getGroupMembers(id);
+      let res = await groupApi.getGroupMembers(groupId, filter);
       setMembers(res.data);
       setPermission(
         res.data?.find((member) =>
@@ -159,72 +162,130 @@ export default function Members({ groupId, groupName }) {
   }, [groupId]);
   return (
     <>
-      <Container fluid>
-        <Row style={{ paddingLeft: "10px" }}>
-          {members?.map((member) => (
-            <>
-              <Col md={4} xl={3}>
-                <div className="d-flex align-items-center gap-3 mb-3">
-                  <Link to={`/profile/${member.id}`} className="card-link">
-                    <img
-                      className="group-avatar"
-                      src={member.avatarPath || "/img/avatar/default.png"}
-                      alt="avatar"
-                    />
+      <Container fluid style={{ padding: "0 25px" }}>
+        <b>Owner and Moderators</b>
+        <hr />
+        <Row>
+          {members?.map((owner) => (
+            <Col md={4} xl={3}>
+              <div className="d-flex align-items-center gap-3 mb-3">
+                <Link to={`/profile/${owner.id}`} className="card-link">
+                  <img
+                    className="group-avatar"
+                    src={owner.avatarPath || "/img/avatar/default.png"}
+                    alt="avatar"
+                  />
+                </Link>
+                <div>
+                  <Link to={`/profile/${owner.id}`} className="card-link">
+                    <p
+                      className="text-limit-2"
+                      style={{ fontWeight: "bold", marginBottom: "5px" }}
+                    >
+                      {owner.name}
+                    </p>
                   </Link>
-                  <div style={{ flexGrow: "1" }}>
-                    <Link to={`/profile/${member.id}`} className="card-link">
-                      <p
-                        className="text-limit-2"
-                        style={{ fontWeight: "bold", marginBottom: "5px" }}
-                      >
-                        {member.name}
-                      </p>
-                    </Link>
-                    <div className="d-flex flex-wrap gap-1">
-                      {member.groupRoles
-                        .split(", ")
-                        .map((r) => groupRoleOptions.find((o) => o.value === r))
-                        .map((role) => (
-                          <span className={"tag-role " + role.value}>
-                            {role.label}
-                          </span>
-                        ))}
-                    </div>
+                  <div className="d-flex flex-wrap gap-1">
+                    {owner.groupRoles
+                      .split(", ")
+                      .map((r) => groupRoleOptions.find((o) => o.value === r))
+                      .map((role) => (
+                        <span className={"tag-role " + role.value}>
+                          {role.label}
+                        </span>
+                      ))}
                   </div>
-                  {user && permission && user.id === permission.id && (
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        variant="outline"
-                        className="manga-list-options-toggle"
-                      >
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={() => setTargetedMember(member)}
-                        >
-                          <div>Change Role</div>
-                        </Dropdown.Item>
-                        {member &&
-                          permission &&
-                          member.id !== permission.id && (
-                            <>
-                              <Dropdown.Item
-                                onClick={() => setDeleteMember(member)}
-                              >
-                                <div>Kick</div>
-                              </Dropdown.Item>
-                            </>
-                          )}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  )}
                 </div>
-              </Col>
-            </>
+              </div>
+            </Col>
           ))}
+          <div className="d-flex justify-content-center">
+            <Button className="btn btn-dark"> See More </Button>
+          </div>
         </Row>
+
+        <b style={{ marginLeft: "10px" }}>Group Uploader</b>
+        <hr />
+        <Row>
+          {members?.map((uploader) => (
+            <Col md={4} xl={3}>
+              <div className="d-flex align-items-center gap-3 mb-3">
+                <Link to={`/profile/${uploader.id}`} className="card-link">
+                  <img
+                    className="group-avatar"
+                    src={uploader.avatarPath || "/img/avatar/default.png"}
+                    alt="avatar"
+                  />
+                </Link>
+                <div style={{ flexGrow: "1" }}>
+                  <Link to={`/profile/${uploader.id}`} className="card-link">
+                    <p
+                      className="text-limit-2"
+                      style={{ fontWeight: "bold", marginBottom: "5px" }}
+                    >
+                      {uploader.name}
+                    </p>
+                  </Link>
+                  <div className="d-flex flex-wrap gap-1">
+                    {uploader.groupRoles
+                      .split(", ")
+                      .map((r) => groupRoleOptions.find((o) => o.value === r))
+                      .map((role) => (
+                        <span className={"tag-role " + role.value}>
+                          {role.label}
+                        </span>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </Col>
+          ))}
+          <div className="d-flex justify-content-center">
+            <Button className="btn btn-dark"> See More </Button>
+          </div>
+        </Row>
+
+        <b style={{ marginLeft: "10px" }}>Member</b>
+        <hr />
+        <Row>
+          {members?.map((member) => (
+            <Col md={4} xl={3}>
+              <div className="d-flex align-items-center gap-3 mb-3">
+                <Link to={`/profile/${member.id}`} className="card-link">
+                  <img
+                    className="group-avatar"
+                    src={member.avatarPath || "/img/avatar/default.png"}
+                    alt="avatar"
+                  />
+                </Link>
+                <div style={{ flexGrow: "1" }}>
+                  <Link to={`/profile/${member.id}`} className="card-link">
+                    <p
+                      className="text-limit-2"
+                      style={{ fontWeight: "bold", marginBottom: "5px" }}
+                    >
+                      {member.name}
+                    </p>
+                  </Link>
+                  <div className="d-flex flex-wrap gap-1">
+                    {member.groupRoles
+                      .split(", ")
+                      .map((r) => groupRoleOptions.find((o) => o.value === r))
+                      .map((role) => (
+                        <span className={"tag-role " + role.value}>
+                          {role.label}
+                        </span>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </Col>
+          ))}
+          <div className="d-flex justify-content-center">
+            <Button className="btn btn-dark"> See More </Button>
+          </div>
+        </Row>
+
         {/* Edit modal */}
         <Modal
           show={targetedMember}

@@ -113,6 +113,10 @@
     gap: 10px;
     flex-wrap: wrap;
   }
+
+  .group-avatar {
+    width: 60px !important;
+  }
 }
 
 /* swipe buttons */
