@@ -85,7 +85,7 @@ export default function AvatarModal({
               src={
                 uploadedAvatar instanceof Blob || uploadedAvatar instanceof File
                   ? URL.createObjectURL(uploadedAvatar)
-                  : userDetails?.avatarPath || "/img/avatar/defaultAvatar.png"
+                  : userDetails?.avatarPath || "/img/avatar/default.png"
               }
               alt="uploadimage"
               className={"image-display"}

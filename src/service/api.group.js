@@ -69,3 +69,24 @@ export const removeGroupMember = (groupId, memberId) => {
 export const getMangaGroupForUpload = (userId) => {
   return getAuthorizedAxios().get(`users/${userId}/manga-groups`);
 };
+
+export const getMember = (groupId, memberId) => {
+  return getAuthorizedAxios().get(`groups/${groupId}/members/${memberId}`);
+};
+
+export const getMembersToManage = (groupId, filter) => {
+  const search = filter?.search;
+  const groupRoleOptions = filter?.roleOption;
+  const page = filter?.page;
+  const pageSize = filter?.pageSize || 12;
+
+  return getAuthorizedAxios().get(`groups/${groupId}/paginated-members`, {
+    params: {
+      search,
+      groupRoleOptions,
+      page,
+      pageSize,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
+  });
+};

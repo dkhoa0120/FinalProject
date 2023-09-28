@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, useCallback } from "react";
-import { Button, Modal } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Button, Modal, NavLink } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import * as groupApi from "../../service/api.group";
 import Uploads from "./components/Uploads";
@@ -17,35 +17,37 @@ export default function Group() {
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [groupDetails, setGroupDetails] = useState(null);
-  const [owner, setOwner] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
+  const [isMod, setIsMod] = useState(false);
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
+  const memberId = user?.id;
   const [isUserAMember, setIsUserAMember] = useState(false);
   const { groupId } = useParams();
   const [showLeaveModal, setShowLeaveModal] = useState(null);
 
-  const fetchGroupMembers = useCallback(
-    async (id) => {
-      try {
-        let res = await groupApi.getGroupMembers(id);
-        setOwner(
-          res.data?.find((member) => member.groupRoles.includes("Owner"))
+  const fetchMember = useCallback(async (groupId, memberId) => {
+    try {
+      const res = await groupApi.getMember(groupId, memberId);
+      const roles = res.data.groupRoles;
+
+      setIsUserAMember(roles.includes("Member"));
+      setIsOwner(roles.includes("Owner"));
+      setIsMod(roles.includes("Moderator"));
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.error(
+          `Failed to fetch member with ID: ${memberId} from group ID: ${groupId}`
         );
-        setIsUserAMember(res.data?.some((member) => member.id === user?.id));
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          console.error();
-        }
       }
-    },
-    [user]
-  );
+    }
+  }, []);
 
   useEffect(() => {
     getGroupDetail(groupId);
-    fetchGroupMembers(groupId);
-  }, [groupId, fetchGroupMembers]);
+    fetchMember(groupId, memberId);
+  }, [groupId, memberId, fetchMember]);
 
   const getGroupDetail = async (id) => {
     try {
@@ -63,15 +65,23 @@ export default function Group() {
   const handleJoinGroup = async (groupId) => {
     await groupApi.joinGroup(groupId);
     toast.success("You have joined this group");
-    fetchGroupMembers(groupId);
+    setIsUserAMember(true);
+    setProfileOption("Uploads");
   };
 
   // handle leave group (need to make a modal)
   const handleLeaveGroup = async () => {
     try {
-      await groupApi.removeGroupMember(groupId, user?.id);
-      toast.success("You have left this group");
-      fetchGroupMembers(groupId);
+      if (isOwner) {
+        toast.error(
+          "You need to transfer the group ownership before leaving group"
+        );
+      } else {
+        await groupApi.removeGroupMember(groupId, user?.id);
+        toast.success("You have left this group");
+        setIsUserAMember(false);
+        setProfileOption("Uploads");
+      }
     } catch (error) {}
   };
 
@@ -89,7 +99,7 @@ export default function Group() {
             : {}
         }
         onClick={() => {
-          if (user && owner && user.id === owner.id) {
+          if (isOwner) {
             setShowBannerModal(true);
           }
         }}
@@ -103,7 +113,7 @@ export default function Group() {
               src={groupDetails?.avatarPath || "/img/avatar/defaultGroup.jpg"}
               alt="Avatar"
             ></img>
-            {user && owner && user.id === owner.id && (
+            {isOwner && (
               <div
                 id="profile-image-change"
                 onClick={() => {
@@ -123,7 +133,7 @@ export default function Group() {
           </div>
         </div>
         <div id="profile-buttons">
-          {user && owner && user.id === owner.id && (
+          {isOwner && (
             <Button
               variant="outline-dark"
               onClick={() => setShowEditGroup(true)}
@@ -131,7 +141,12 @@ export default function Group() {
               Edit
             </Button>
           )}
-          {user && owner && user.id !== owner.id && !isUserAMember ? (
+          {isOwner | isMod && (
+            <Link to={`/manage/group/members/${groupId}`}>
+              <Button variant="outline-dark">Manage</Button>
+            </Link>
+          )}
+          {!isUserAMember && !isOwner ? (
             <Button
               variant="outline-dark"
               onClick={() => handleJoinGroup(groupId)}

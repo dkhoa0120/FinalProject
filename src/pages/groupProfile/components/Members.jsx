@@ -1,120 +1,67 @@
 import { useState, useEffect, useContext } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Dropdown,
-  Form,
-  Modal,
-  Row,
-} from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import * as groupApi from "../../../service/api.group";
 import { Link } from "react-router-dom";
-import Select from "react-select";
-import { UserContext } from "../../../context/UserContext";
-import { Controller, useForm } from "react-hook-form";
 import { groupRoleOptions } from "../../../constants/groupRoles";
-import { toast } from "react-toastify";
 
-export default function Members({ groupId, groupName }) {
-  const { user } = useContext(UserContext);
-
-  const [permission, setPermission] = useState();
-  const [targetedMember, setTargetedMember] = useState(null);
-  const [message, setMessage] = useState(false);
-  const [deleteMember, setDeleteMember] = useState(null);
+export default function Members({ groupId }) {
   const [ownerAndMods, setOwnerAndMods] = useState(null);
   const [groupUploaders, setGroupUploaders] = useState(null);
   const [members, setMembers] = useState(null);
 
-  const {
-    clearErrors,
-    control,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {},
-  });
+  const MemberList = ({ members, title, handleSeeMoreFn }) => (
+    <>
+      <b style={{ marginLeft: "10px" }}>{title}</b>
+      <hr />
+      <Row>
+        {members?.map((member) => (
+          <Col md={4} xl={3}>
+            <div className="d-flex align-items-center gap-3 mb-3">
+              <Link to={`/profile/${member.id}`} className="card-link">
+                <img
+                  className="group-avatar"
+                  src={member.avatarPath || "/img/avatar/default.png"}
+                  alt="avatar"
+                />
+              </Link>
+              <div style={{ flexGrow: "1" }}>
+                <Link to={`/profile/${member.id}`} className="card-link">
+                  <p
+                    className="text-limit-2"
+                    style={{ fontWeight: "bold", marginBottom: "5px" }}
+                  >
+                    {member.name}
+                  </p>
+                </Link>
+                <div className="d-flex flex-wrap gap-1">
+                  {member.groupRoles
+                    .split(", ")
+                    .map((r) => groupRoleOptions.find((o) => o.value === r))
+                    .map((role) => (
+                      <span className={"tag-role " + role.value}>
+                        {role.label}
+                      </span>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </Col>
+        ))}
+        <div className="d-flex justify-content-center">
+          <Button className="btn btn-dark" onClick={handleSeeMoreFn}>
+            See More
+          </Button>
+        </div>
+      </Row>
+    </>
+  );
 
-  useEffect(() => {
-    if (targetedMember) {
-      console.log(targetedMember);
-      setValue(
-        "groupRoles",
-        targetedMember.groupRoles
-          .split(", ")
-          .map((r) => groupRoleOptions.find((o) => o.value === r))
-      );
-    }
-  }, [targetedMember]);
-
-  const onSubmit = async (data) => {
+  const fetchGroupOwnerAndMod = async (groupId) => {
     try {
-      const newGroupRoles = data.groupRoles.map((r) => r.value).join(", ");
-      const formData = new FormData();
-      formData.append("groupRoles", newGroupRoles);
-      console.log(newGroupRoles);
-      await groupApi.changeGroupRoles(groupId, targetedMember?.id, formData);
-      setMembers((prevMembers) =>
-        prevMembers.map((m) =>
-          m === targetedMember ? { ...m, groupRoles: newGroupRoles } : m
-        )
-      );
-      setTargetedMember(null);
-      toast.success("User's roles have been updated");
-    } catch (error) {
-      toast.error(error);
-    }
-  };
-
-  const checkIfOwner = (option) => {
-    if (
-      option.value === "Owner" &&
-      targetedMember?.id === user?.id &&
-      targetedMember?.groupRoles.includes("Owner")
-    ) {
-      return true;
-    }
-    return false;
-  };
-  const onChange = (newSelectedRoles, actionMeta) => {
-    setMessage(false);
-    switch (actionMeta.action) {
-      case "remove-value":
-      case "pop-value":
-        if (checkIfOwner(actionMeta.removedValue)) {
-          return;
-        }
-        break;
-      case "clear":
-        newSelectedRoles = groupRoleOptions.filter((o) => checkIfOwner(o));
-        break;
-      case "select-option":
-        if (
-          actionMeta.option.value === "Owner" &&
-          targetedMember?.id !== user?.id
-        ) {
-          setMessage(true);
-        }
-        break;
-      default:
-        break;
-    }
-
-    setValue("groupRoles", newSelectedRoles);
-  };
-
-  const fetchGroupMembers = async (groupId, filter) => {
-    try {
-      let res = await groupApi.getGroupMembers(groupId, filter);
-      setMembers(res.data);
-      setPermission(
-        res.data?.find((member) =>
-          member.groupRoles.includes("Owner", "Moderator")
-        )
-      );
+      let res = await groupApi.getGroupMembers(groupId, {
+        roleLowerBound: "Moderator",
+      });
+      setOwnerAndMods(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");
@@ -122,287 +69,105 @@ export default function Members({ groupId, groupName }) {
     }
   };
 
-  const styles = {
-    multiValue: (base, state) => {
-      return {
-        ...base,
-        backgroundColor: state.data.color,
-      };
-    },
-    multiValueLabel: (styles) => ({
-      ...styles,
-      color: "white",
-      fontWeight: "bold",
-      textTransform: "uppercase",
-      fontSize: "11px",
-    }),
-    multiValueRemove: (styles) => ({
-      ...styles,
-      color: "white",
-      ":hover": {
-        backgroundColor: "none",
-        color: "black",
-      },
-    }),
+  const fetchGroupUploader = async (groupId) => {
+    try {
+      let res = await groupApi.getGroupMembers(groupId, {
+        roleUpperBound: "Moderator",
+        roleLowerBound: "GroupUploader",
+      });
+      setGroupUploaders(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
   };
 
-  const handleRemoveMember = async (memberId) => {
+  const fetchGroupMembers = async (groupId) => {
     try {
-      await groupApi.removeGroupMember(groupId, memberId);
-      setMembers((prevMembers) => prevMembers.filter((m) => m.id !== memberId));
-      setDeleteMember(null);
-      toast.success("User's roles have been removed");
+      let res = await groupApi.getGroupMembers(groupId, {
+        roleUpperBound: "GroupUploader",
+      });
+      setMembers(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        console.log("404");
+      }
+    }
+  };
+
+  const handleSeeMoreMembers = async (lastJoin) => {
+    try {
+      const newMembers = await groupApi.getGroupMembers(groupId, {
+        roleUpperBound: "GroupUploader",
+        joinedAtCursor: lastJoin?.joinedAt,
+      });
+      setMembers([...members, ...newMembers.data]);
     } catch (error) {
-      toast.error(error);
+      console.error("Error fetching more members:", error);
+    }
+  };
+
+  const handleSeeMoreOwnerAndMods = async (lastJoin) => {
+    try {
+      const newMods = await groupApi.getGroupMembers(groupId, {
+        roleLowerBound: "Moderator",
+        joinedAtCursor: lastJoin?.joinedAt,
+      });
+      setOwnerAndMods([...ownerAndMods, ...newMods.data]);
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
+  };
+
+  const handleSeeMoreUploader = async (lastJoin) => {
+    try {
+      const newUploaders = await groupApi.getGroupMembers(groupId, {
+        roleUpperBound: "Moderator",
+        roleLowerBound: "GroupUploader",
+        joinedAtCursor: lastJoin?.joinedAt,
+      });
+      console.log("hi", newUploaders);
+      setGroupUploaders([...groupUploaders, ...newUploaders.data]);
+    } catch (error) {
+      console.error("Error fetching more members:", error);
     }
   };
 
   useEffect(() => {
     fetchGroupMembers(groupId);
+    fetchGroupUploader(groupId);
+    fetchGroupOwnerAndMod(groupId);
   }, [groupId]);
   return (
     <>
       <Container fluid style={{ padding: "0 25px" }}>
-        <b>Owner and Moderators</b>
-        <hr />
-        <Row>
-          {members?.map((owner) => (
-            <Col md={4} xl={3}>
-              <div className="d-flex align-items-center gap-3 mb-3">
-                <Link to={`/profile/${owner.id}`} className="card-link">
-                  <img
-                    className="group-avatar"
-                    src={owner.avatarPath || "/img/avatar/default.png"}
-                    alt="avatar"
-                  />
-                </Link>
-                <div>
-                  <Link to={`/profile/${owner.id}`} className="card-link">
-                    <p
-                      className="text-limit-2"
-                      style={{ fontWeight: "bold", marginBottom: "5px" }}
-                    >
-                      {owner.name}
-                    </p>
-                  </Link>
-                  <div className="d-flex flex-wrap gap-1">
-                    {owner.groupRoles
-                      .split(", ")
-                      .map((r) => groupRoleOptions.find((o) => o.value === r))
-                      .map((role) => (
-                        <span className={"tag-role " + role.value}>
-                          {role.label}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </Col>
-          ))}
-          <div className="d-flex justify-content-center">
-            <Button className="btn btn-dark"> See More </Button>
-          </div>
-        </Row>
+        {/* Owner and Moderators */}
+        <MemberList
+          members={ownerAndMods}
+          title="Owner and Moderators"
+          handleSeeMoreFn={() =>
+            handleSeeMoreOwnerAndMods(ownerAndMods[ownerAndMods.length - 1])
+          }
+        />
 
-        <b style={{ marginLeft: "10px" }}>Group Uploader</b>
-        <hr />
-        <Row>
-          {members?.map((uploader) => (
-            <Col md={4} xl={3}>
-              <div className="d-flex align-items-center gap-3 mb-3">
-                <Link to={`/profile/${uploader.id}`} className="card-link">
-                  <img
-                    className="group-avatar"
-                    src={uploader.avatarPath || "/img/avatar/default.png"}
-                    alt="avatar"
-                  />
-                </Link>
-                <div style={{ flexGrow: "1" }}>
-                  <Link to={`/profile/${uploader.id}`} className="card-link">
-                    <p
-                      className="text-limit-2"
-                      style={{ fontWeight: "bold", marginBottom: "5px" }}
-                    >
-                      {uploader.name}
-                    </p>
-                  </Link>
-                  <div className="d-flex flex-wrap gap-1">
-                    {uploader.groupRoles
-                      .split(", ")
-                      .map((r) => groupRoleOptions.find((o) => o.value === r))
-                      .map((role) => (
-                        <span className={"tag-role " + role.value}>
-                          {role.label}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </Col>
-          ))}
-          <div className="d-flex justify-content-center">
-            <Button className="btn btn-dark"> See More </Button>
-          </div>
-        </Row>
+        {/* Group Uploaders */}
+        <MemberList
+          members={groupUploaders}
+          title="Group Uploader"
+          handleSeeMoreFn={() =>
+            handleSeeMoreUploader(groupUploaders[groupUploaders.length - 1])
+          }
+        />
 
-        <b style={{ marginLeft: "10px" }}>Member</b>
-        <hr />
-        <Row>
-          {members?.map((member) => (
-            <Col md={4} xl={3}>
-              <div className="d-flex align-items-center gap-3 mb-3">
-                <Link to={`/profile/${member.id}`} className="card-link">
-                  <img
-                    className="group-avatar"
-                    src={member.avatarPath || "/img/avatar/default.png"}
-                    alt="avatar"
-                  />
-                </Link>
-                <div style={{ flexGrow: "1" }}>
-                  <Link to={`/profile/${member.id}`} className="card-link">
-                    <p
-                      className="text-limit-2"
-                      style={{ fontWeight: "bold", marginBottom: "5px" }}
-                    >
-                      {member.name}
-                    </p>
-                  </Link>
-                  <div className="d-flex flex-wrap gap-1">
-                    {member.groupRoles
-                      .split(", ")
-                      .map((r) => groupRoleOptions.find((o) => o.value === r))
-                      .map((role) => (
-                        <span className={"tag-role " + role.value}>
-                          {role.label}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </Col>
-          ))}
-          <div className="d-flex justify-content-center">
-            <Button className="btn btn-dark"> See More </Button>
-          </div>
-        </Row>
-
-        {/* Edit modal */}
-        <Modal
-          show={targetedMember}
-          onHide={() => {
-            setTargetedMember(null);
-            clearErrors();
-            setMessage(false);
-          }}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Update Roles</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
-              <Row>
-                <Col>
-                  <Form.Label>User Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={targetedMember?.name}
-                    disabled
-                  />
-                </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col>
-                  <Form.Label>
-                    Roles{" "}
-                    {errors.groupRoles && (
-                      <i
-                        title={errors.groupRoles.message}
-                        className="fa-solid fa-circle-exclamation"
-                        style={{ color: "red" }}
-                      ></i>
-                    )}
-                  </Form.Label>
-                  <Controller
-                    name="groupRoles"
-                    control={control}
-                    rules={{ required: "This field is required" }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        styles={styles}
-                        options={groupRoleOptions}
-                        onChange={onChange}
-                        isClearable={getValues("groupRoles")?.some(
-                          (o) => !checkIfOwner(o)
-                        )}
-                        isMulti
-                      />
-                    )}
-                  />
-                  {message && (
-                    <div style={{ color: "red", margin: "10px 0" }}>
-                      <i className="fa-solid fa-triangle-exclamation"></i>
-                      <span>
-                        {" "}
-                        This will transfer the group ownership to this member
-                      </span>
-                    </div>
-                  )}
-                </Col>
-              </Row>
-            </Form>
-            &nbsp;
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              <Button variant="success" type="submit" form="update-roles-form">
-                Confirm Update
-              </Button>
-            </div>
-          </Modal.Body>
-        </Modal>
-        {/* Remove modal */}
-        <Modal show={deleteMember} onHide={() => setDeleteMember(null)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Are you sure</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <img
-                  className="group-avatar"
-                  src={deleteMember?.avatarPath || "/img/avatar/default.png"}
-                  alt="avatar"
-                />
-
-                <b className="text-limit-2" style={{ fontSize: "20px" }}>
-                  {deleteMember?.name}
-                </b>
-                <span style={{ textAlign: "center" }}>
-                  You are removing <b>{deleteMember?.name}</b> from{" "}
-                  <b>{groupName}</b>.
-                </span>
-              </div>
-            </>
-            <div className="modal-button">
-              <Button
-                variant="success"
-                onClick={() => handleRemoveMember(deleteMember.id)}
-              >
-                Yes
-              </Button>
-              <Button variant="danger" onClick={() => setDeleteMember(null)}>
-                No
-              </Button>
-            </div>
-          </Modal.Body>
-        </Modal>
+        {/* Group Members */}
+        <MemberList
+          members={members}
+          title="Members"
+          handleSeeMoreFn={() =>
+            handleSeeMoreMembers(members[members.length - 1])
+          }
+        />
       </Container>
     </>
   );
