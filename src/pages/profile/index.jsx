@@ -11,6 +11,7 @@ import AvatarModal from "./components/AvatarModal";
 import BannerModal from "./components/BannerModal";
 import MangaList from "./components/MangaList";
 import FollowedMangaList from "./components/FollowedMangaList";
+import Community from "./components/Community";
 
 export default function Profile() {
   let profileOptions = [
@@ -134,6 +135,7 @@ export default function Profile() {
         )}
         {profileOption === "Manga List" && <MangaList />}
         {profileOption === "Followed Manga List" && <FollowedMangaList />}
+        {profileOption === "Community" && <Community />}
       </div>
       <AvatarModal
         close={() => setShowAvatarModal(false)}

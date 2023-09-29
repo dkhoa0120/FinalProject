@@ -48,7 +48,7 @@ export default function Comment({ comment, editComment, removeComment }) {
     try {
       await removeComment(comment.id);
       toast.success("Comment has been deleted");
-      handleClose();
+      setShow(false);
     } catch (error) {
       toast.error("Failed to delete comment");
     }
@@ -125,9 +125,6 @@ export default function Comment({ comment, editComment, removeComment }) {
       }
     }
   };
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
@@ -248,9 +245,9 @@ export default function Comment({ comment, editComment, removeComment }) {
                         Edit
                       </Dropdown.Item>
                       <Dropdown.Item>
-                        <div onClick={handleShow}>Delete</div>
+                        <div onClick={() => setShow(true)}>Delete</div>
                       </Dropdown.Item>
-                      <Modal show={showModal} onHide={handleClose}>
+                      <Modal show={showModal} onHide={() => setShow(false)}>
                         <Modal.Header closeButton>
                           <Modal.Title>Delete Comment</Modal.Title>
                         </Modal.Header>
@@ -273,8 +270,8 @@ export default function Comment({ comment, editComment, removeComment }) {
                   ) : (
                     <>
                       <Dropdown.Item>
-                        <div onClick={handleShow}>Report</div>
-                        <Modal show={showModal} onHide={handleClose}>
+                        <div onClick={() => setShow(true)}>Report</div>
+                        <Modal show={showModal} onHide={() => setShow(false)}>
                           <Modal.Header closeButton>
                             <Modal.Title>Report</Modal.Title>
                           </Modal.Header>
@@ -297,7 +294,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                                 fontSize: "15px",
                                 color: "#730000",
                               }}
-                              onClick={handleClose}
+                              onClick={() => setShow(false)}
                             >
                               Accept
                             </button>

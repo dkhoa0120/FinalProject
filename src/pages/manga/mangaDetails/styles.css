@@ -62,13 +62,13 @@
   border: none !important;
 }
 
-.banner .btn-resize-description {
+.btn-resize-description {
   border: none;
   background: none;
   color: #004759;
   font-weight: bold;
 }
-.banner .btn-resize-description:hover {
+.btn-resize-description:hover {
   text-decoration: underline;
 }
 

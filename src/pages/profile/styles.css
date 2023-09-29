@@ -72,53 +72,6 @@
   gap: 0.5em;
 }
 
-@media (max-width: 767px) {
-  #profile-banner {
-    flex-flow: column;
-    height: 150px;
-  }
-
-  #profile-info {
-    margin-top: 25px;
-  }
-
-  #profile-details {
-    position: relative;
-    flex-flow: column;
-    align-items: center;
-    gap: 0;
-  }
-
-  #profile-buttons {
-    justify-content: center;
-  }
-
-  #profile-image {
-    width: 100px;
-    height: 100px;
-  }
-
-  .container-avatar {
-    position: absolute;
-    top: -100px;
-  }
-
-  .create-manga-list {
-    aspect-ratio: 1/0.15 !important;
-  }
-
-  .manga-list-details {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .group-avatar,
-  .create-group-button {
-    width: 60px !important;
-  }
-}
-
 /* swipe buttons */
 .general-container .profile-option-container {
   display: flex;
@@ -423,6 +376,32 @@
   margin-bottom: 5px;
 }
 
+.post-container {
+  padding: 0 50px !important;
+}
+
+@media (max-width: 1458px) {
+  .post-container {
+    padding: 0 150px !important;
+  }
+}
+
+.community-container {
+  border: 1px solid #868686;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.image-container {
+  box-sizing: content-box;
+  max-width: 200px;
+}
+
+.image-container img {
+  height: 200px;
+  border-radius: 2%;
+}
+
 @media screen and (min-width: 768px) {
   .modal-50w {
     min-width: 50vw !important;
@@ -433,4 +412,73 @@
   .image-display {
     width: 350px;
   }
+}
+
+@media (max-width: 767px) {
+  #profile-banner {
+    flex-flow: column;
+    height: 150px;
+  }
+
+  #profile-info {
+    margin-top: 25px;
+  }
+
+  #profile-details {
+    position: relative;
+    flex-flow: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  #profile-buttons {
+    justify-content: center;
+  }
+
+  #profile-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .container-avatar {
+    position: absolute;
+    top: -100px;
+  }
+
+  .create-manga-list {
+    aspect-ratio: 1/0.15 !important;
+  }
+
+  .manga-list-details {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .group-avatar,
+  .create-group-button {
+    width: 60px !important;
+  }
+
+  .post-container {
+    padding: 0 !important;
+  }
+}
+
+.post-react-button {
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.post-react-button:hover {
+  background-color: #dfdfdf;
+}
+
+.post-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
