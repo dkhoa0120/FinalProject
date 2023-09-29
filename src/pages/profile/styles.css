@@ -76,7 +76,6 @@
   #profile-banner {
     flex-flow: column;
     height: 150px;
-    margin-top: 20px;
   }
 
   #profile-info {
@@ -114,7 +113,8 @@
     flex-wrap: wrap;
   }
 
-  .group-avatar {
+  .group-avatar,
+  .create-group-button {
     width: 60px !important;
   }
 }
@@ -301,7 +301,7 @@
 
 .create-group-button {
   width: 100px;
-  height: 100px;
+  aspect-ratio: 1/1;
   cursor: pointer;
   border: dashed gray;
   border-radius: 50%;

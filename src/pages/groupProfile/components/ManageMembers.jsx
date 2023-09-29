@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import {
   Button,
   Col,
+  Container,
   Form,
   FormSelect,
   Modal,
@@ -32,25 +33,23 @@ export default function ManageMembers() {
 
   const { groupId } = useParams();
 
-  const roleOptions = ["All", "Owner", "Moderator", "GroupUploader", "Member"];
+  const roleOptions = ["Owner", "Moderator", "GroupUploader", "Member"];
+  const sortOptions = ["Manage Member", "Request Member"];
+  const [sortOption, setSortOption] = useState(sortOptions[0]);
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
   };
 
   // Event handler for group option
   const handleRoleOption = (e) => {
-    if (e.target.value === "All") {
-      setRoleOption(null);
-    } else {
-      setRoleOption(e.target.value);
-      setPage(1);
-    }
+    setRoleOption(e.target.value);
+    setPage(1);
   };
 
   const getGroupDetail = async (id) => {
     try {
       const result = await groupApi.getGroupInfo(id);
-      document.title = `Group - 3K Manga`;
+      document.title = `Manage Group - ${result.data.name} - 3K Manga`;
       setGroupDetails(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -208,13 +207,29 @@ export default function ManageMembers() {
     getGroupDetail(groupId);
   }, [fetchGroupMembers, groupId]);
   return (
-    <>
+    <Container fluid>
       <ToastContainer />
-      <Row className="mb-3">
-        <Col xs={12} md={2} lg={7} className="mb-2">
-          <p>{groupDetails?.name}</p>
-        </Col>
-        <Col xs={12} md={6} lg={7} className="mb-2">
+      <div className="group-name">
+        <Link to={`/groups/${groupId}`}>
+          <button className="return-button">
+            <i className="fa-solid fa-arrow-left"></i>
+          </button>
+        </Link>{" "}
+        {groupDetails?.name} Group
+      </div>
+      <div style={{ paddingBottom: "20px" }}>
+        {sortOptions.map((option, index) => (
+          <Button
+            key={index}
+            variant={sortOption === option ? "dark" : "light"}
+            onClick={() => setSortOption(option)}
+          >
+            {toLabel(option)}
+          </Button>
+        ))}
+      </div>
+      <Row>
+        <Col xs={8}>
           <Form.Control
             type="search"
             placeholder="Search"
@@ -223,16 +238,17 @@ export default function ManageMembers() {
             onChange={handleSearch}
           />
         </Col>
-        <Col xs={9} md={4} lg={3}>
+        <Col xs={4}>
           <FormSelect value={roleOption} onChange={handleRoleOption}>
             {roleOptions.map((option, index) => (
-              <option key={index} value={option}>
+              <option key={index} value={option} selected={option === "Member"}>
                 {toLabel(option)}
               </option>
             ))}
           </FormSelect>
         </Col>
       </Row>
+      &nbsp;
       <Table striped bordered hover responsive="sm">
         <thead>
           <tr>
@@ -247,7 +263,7 @@ export default function ManageMembers() {
             members.map((member, index) => {
               return (
                 <tr key={index}>
-                  <td>
+                  <td style={{ width: "100px" }}>
                     <Link to={`/profile/${member.id}`} className="card-link">
                       <img
                         className="group-avatar"
@@ -256,7 +272,7 @@ export default function ManageMembers() {
                       />
                     </Link>
                   </td>
-                  <td>
+                  <td style={{ width: "200px" }}>
                     <Link to={`/profile/${member.id}`} className="card-link">
                       <p
                         className="text-limit-2"
@@ -266,23 +282,34 @@ export default function ManageMembers() {
                       </p>
                     </Link>
                   </td>
-                  <td>
-                    {member.groupRoles
-                      .split(", ")
-                      .map((r) => groupRoleOptions.find((o) => o.value === r))
-                      .map((role) => (
-                        <span className={"tag-role " + role.value}>
-                          {role.label}
-                        </span>
-                      ))}
+                  <td style={{ width: "200px" }}>
+                    <div className="d-flex flex-wrap gap-1 test">
+                      {member.groupRoles
+                        .split(", ")
+                        .map((r) => groupRoleOptions.find((o) => o.value === r))
+                        .map((role) => (
+                          <span className={"tag-role " + role.value}>
+                            {role.label}
+                          </span>
+                        ))}
+                    </div>
                   </td>
-                  <td>
-                    <Button onClick={() => setTargetedMember(member)}>
+                  <td style={{ width: "100px" }}>
+                    <Button
+                      onClick={() => setTargetedMember(member)}
+                      style={{ marginBottom: "5px" }}
+                    >
                       <i className="fa-solid fa-pen-to-square"></i>
+                      <span className="hide-when-mobile"> Edit</span>
                     </Button>
                     &nbsp;
-                    <Button onClick={() => setDeleteMember(member)}>
+                    <Button
+                      variant="danger"
+                      onClick={() => setDeleteMember(member)}
+                      style={{ marginBottom: "5px" }}
+                    >
                       <i className="fa-solid fa-user-minus"></i>
+                      <span className="hide-when-mobile"> Kick</span>
                     </Button>
                   </td>
                 </tr>
@@ -297,7 +324,6 @@ export default function ManageMembers() {
           )}
         </tbody>
       </Table>
-
       {/* Pagination */}
       <div className="d-flex justify-content-center">
         <PaginationNoParams
@@ -306,7 +332,6 @@ export default function ManageMembers() {
           onPageChange={handleChangeChapter}
         />
       </div>
-
       {/* Edit modal */}
       <Modal
         show={targetedMember}
@@ -321,60 +346,47 @@ export default function ManageMembers() {
         </Modal.Header>
         <Modal.Body>
           <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
-            <Row>
-              <Col>
-                <Form.Label>User Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={targetedMember?.name}
-                  disabled
-                />
-              </Col>
-            </Row>
+            <Form.Label>User Name</Form.Label>
+            <Form.Control type="text" value={targetedMember?.name} disabled />
             <br />
-            <Row>
-              <Col>
-                <Form.Label>
-                  Roles{" "}
-                  {errors.groupRoles && (
-                    <i
-                      title={errors.groupRoles.message}
-                      className="fa-solid fa-circle-exclamation"
-                      style={{ color: "red" }}
-                    ></i>
+            <Form.Label>
+              Roles{" "}
+              {errors.groupRoles && (
+                <i
+                  title={errors.groupRoles.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+            </Form.Label>
+            <Controller
+              name="groupRoles"
+              control={control}
+              rules={{ required: "This field is required" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  styles={styles}
+                  options={groupRoleOptions}
+                  onChange={onChange}
+                  isClearable={getValues("groupRoles")?.some(
+                    (o) => !checkIfOwner(o)
                   )}
-                </Form.Label>
-                <Controller
-                  name="groupRoles"
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      styles={styles}
-                      options={groupRoleOptions}
-                      onChange={onChange}
-                      isClearable={getValues("groupRoles")?.some(
-                        (o) => !checkIfOwner(o)
-                      )}
-                      isMulti
-                    />
-                  )}
+                  isMulti
                 />
-                {message && (
-                  <div style={{ color: "red", margin: "10px 0" }}>
-                    <i className="fa-solid fa-triangle-exclamation"></i>
-                    <span>
-                      {" "}
-                      This will transfer the group ownership to this member
-                    </span>
-                  </div>
-                )}
-              </Col>
-            </Row>
+              )}
+            />
+            {message && (
+              <div style={{ color: "red", margin: "10px 0 " }}>
+                <i className="fa-solid fa-triangle-exclamation"></i>
+                <span>
+                  {" "}
+                  This will transfer the group ownership to this member
+                </span>
+              </div>
+            )}
           </Form>
-          &nbsp;
-          <div style={{ display: "flex", justifyContent: "end" }}>
+          <div className="modal-button">
             <Button variant="success" type="submit" form="update-roles-form">
               Confirm Update
             </Button>
@@ -384,32 +396,21 @@ export default function ManageMembers() {
       {/* Remove modal */}
       <Modal show={deleteMember} onHide={() => setDeleteMember(null)}>
         <Modal.Header closeButton>
-          <Modal.Title>Are you sure</Modal.Title>
+          <Modal.Title>Are you sure ?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <img
-                className="group-avatar"
-                src={deleteMember?.avatarPath || "/img/avatar/default.png"}
-                alt="avatar"
-              />
-
-              <b className="text-limit-2" style={{ fontSize: "20px" }}>
-                {deleteMember?.name}
-              </b>
-              <span style={{ textAlign: "center" }}>
-                You are removing <b>{deleteMember?.name}</b> from <b></b>.
-              </span>
-            </div>
-          </>
+          <div className="kick-member-info">
+            <img
+              className="group-avatar"
+              src={deleteMember?.avatarPath || "/img/avatar/default.png"}
+              alt="avatar"
+            />
+            <b style={{ fontSize: "20px" }}>{deleteMember?.name}</b>
+            <span style={{ textAlign: "center" }}>
+              You are removing <b>{deleteMember?.name}</b> from{" "}
+              <b>{groupDetails?.name}</b>.
+            </span>
+          </div>
           <div className="modal-button">
             <Button
               variant="success"
@@ -423,6 +424,6 @@ export default function ManageMembers() {
           </div>
         </Modal.Body>
       </Modal>
-    </>
+    </Container>
   );
 }

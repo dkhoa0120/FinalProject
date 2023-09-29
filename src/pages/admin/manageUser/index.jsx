@@ -73,7 +73,7 @@ export default function ManageUser() {
       <ToastContainer />
       <div className="manage-table">
         <Row>
-          <Col xs={8} md={8}>
+          <Col xs={8}>
             <Form.Control
               type="search"
               placeholder="Search"
@@ -83,7 +83,7 @@ export default function ManageUser() {
               onChange={handleSearch}
             />
           </Col>
-          <Col xs={4} md={4}>
+          <Col xs={4}>
             <FormSelect
               value={roleOption}
               onChange={(e) =>

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from "react";
-import { Button, Modal, NavLink } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import * as groupApi from "../../service/api.group";
@@ -141,7 +141,7 @@ export default function Group() {
               Edit
             </Button>
           )}
-          {isOwner | isMod && (
+          {(isOwner || isMod) && (
             <Link to={`/manage/group/members/${groupId}`}>
               <Button variant="outline-dark">Manage</Button>
             </Link>

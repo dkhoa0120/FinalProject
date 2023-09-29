@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import * as groupApi from "../../../service/api.group";
 import { Link } from "react-router-dom";
@@ -9,52 +9,54 @@ export default function Members({ groupId }) {
   const [groupUploaders, setGroupUploaders] = useState(null);
   const [members, setMembers] = useState(null);
 
-  const MemberList = ({ members, title, handleSeeMoreFn }) => (
-    <>
-      <b style={{ marginLeft: "10px" }}>{title}</b>
-      <hr />
-      <Row>
-        {members?.map((member) => (
-          <Col md={4} xl={3}>
-            <div className="d-flex align-items-center gap-3 mb-3">
-              <Link to={`/profile/${member.id}`} className="card-link">
-                <img
-                  className="group-avatar"
-                  src={member.avatarPath || "/img/avatar/default.png"}
-                  alt="avatar"
-                />
-              </Link>
-              <div style={{ flexGrow: "1" }}>
+  const MemberList = ({ members, title, handleSeeMoreFn }) =>
+    members &&
+    members.length > 0 && (
+      <>
+        <b style={{ marginLeft: "10px" }}>{title}</b>
+        <hr />
+        <Row>
+          {members?.map((member) => (
+            <Col md={4} xl={3}>
+              <div className="d-flex align-items-center gap-3 mb-3">
                 <Link to={`/profile/${member.id}`} className="card-link">
-                  <p
-                    className="text-limit-2"
-                    style={{ fontWeight: "bold", marginBottom: "5px" }}
-                  >
-                    {member.name}
-                  </p>
+                  <img
+                    className="group-avatar"
+                    src={member.avatarPath || "/img/avatar/default.png"}
+                    alt="avatar"
+                  />
                 </Link>
-                <div className="d-flex flex-wrap gap-1">
-                  {member.groupRoles
-                    .split(", ")
-                    .map((r) => groupRoleOptions.find((o) => o.value === r))
-                    .map((role) => (
-                      <span className={"tag-role " + role.value}>
-                        {role.label}
-                      </span>
-                    ))}
+                <div style={{ flexGrow: "1" }}>
+                  <Link to={`/profile/${member.id}`} className="card-link">
+                    <p
+                      className="text-limit-2"
+                      style={{ fontWeight: "bold", marginBottom: "5px" }}
+                    >
+                      {member.name}
+                    </p>
+                  </Link>
+                  <div className="d-flex flex-wrap gap-1">
+                    {member.groupRoles
+                      .split(", ")
+                      .map((r) => groupRoleOptions.find((o) => o.value === r))
+                      .map((role) => (
+                        <span className={"tag-role " + role.value}>
+                          {role.label}
+                        </span>
+                      ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Col>
-        ))}
-        <div className="d-flex justify-content-center">
-          <Button className="btn btn-dark" onClick={handleSeeMoreFn}>
-            See More
-          </Button>
-        </div>
-      </Row>
-    </>
-  );
+            </Col>
+          ))}
+          <div className="d-flex justify-content-end">
+            <Button className="btn btn-light" onClick={handleSeeMoreFn}>
+              See More
+            </Button>
+          </div>
+        </Row>
+      </>
+    );
 
   const fetchGroupOwnerAndMod = async (groupId) => {
     try {

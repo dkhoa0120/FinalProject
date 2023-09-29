@@ -22,7 +22,38 @@
 
 .modal-button {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 5px;
-  margin-top: "20px";
+  margin-top: 10px;
+}
+
+.test > span {
+  font-size: 16px;
+  text-transform: none;
+}
+
+.group-name {
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.group-name .return-button {
+  margin-left: 0;
+}
+
+.kick-member-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  .group-name {
+    font-size: 20px;
+  }
+  .test > span {
+    font-size: 14px;
+  }
 }

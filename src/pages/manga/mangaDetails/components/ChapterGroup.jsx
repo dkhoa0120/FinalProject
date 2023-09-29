@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col, Collapse, Container } from "react-bootstrap";
 import CountryFlag from "../../../../components/countryFlag";
 import { Link } from "react-router-dom";
@@ -24,6 +24,23 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
   };
 
   const flagList = [...new Set(chapterList.map((c) => c.language))];
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setShowChapter(!show); // Close the collapse in mobile view
+      } else {
+        setShowChapter(show); // Show the collapse in PC view
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Call the handler initially
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [show]);
 
   return (
     <Container fluid>
@@ -112,7 +129,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
           ))}
         </div>
       </Collapse>
-      <hr style={{ margin: "1rem 2rem 0.5rem" }}></hr>
+      <hr />
     </Container>
   );
 }

@@ -38,7 +38,7 @@ export default function ChapterSection({
             </button>
           </Col>
         </Row>
-        <div style={{ paddingLeft: "20px" }}>
+        <div style={{ padding: "0 20px" }}>
           {chapters &&
             Object.entries(chapters)
               .sort(([numberA], [numberB]) => numberB - numberA)
