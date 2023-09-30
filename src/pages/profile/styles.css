@@ -376,30 +376,20 @@
   margin-bottom: 5px;
 }
 
-.post-container {
-  padding: 0 50px !important;
-}
-
-@media (max-width: 1458px) {
-  .post-container {
-    padding: 0 150px !important;
-  }
-}
-
 .community-container {
   border: 1px solid #868686;
   border-radius: 8px;
-  margin-bottom: 24px;
+  margin: 24px;
+  display: flex;
 }
 
-.image-container {
+.post-image-container {
   box-sizing: content-box;
-  max-width: 200px;
 }
 
-.image-container img {
+.post-image-container img {
   height: 200px;
-  border-radius: 2%;
+  border-radius: 0 8px 8px 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -460,8 +450,29 @@
     width: 60px !important;
   }
 
-  .post-container {
-    padding: 0 !important;
+  .post-image-container img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .community-container {
+    flex-flow: column;
+  }
+
+  .post-footer,
+  .modal-user-info {
+    display: none !important;
+  }
+
+  .post-footer-mobile-view {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-users-info-mobile-view {
+    display: block !important;
   }
 }
 
@@ -480,5 +491,25 @@
 .post-footer {
   display: flex;
   align-items: center;
-  gap: 10px;
+}
+
+.post-footer-mobile-view,
+.modal-users-info-mobile-view {
+  display: none;
+}
+
+.community-info {
+  display: flex;
+  padding: 15px 10px;
+  gap: 15px;
+}
+
+.modal-community-image {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-community-image img {
+  max-height: 80vh;
+  max-width: 100%;
 }

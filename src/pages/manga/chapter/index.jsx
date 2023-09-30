@@ -94,7 +94,17 @@ export default function ChapterPage() {
       <ChapterNav chapter={chapter} relatedChapters={relatedChapters} />
 
       <br />
-      <CommentSection type="chapter" typeId={chapterId} />
+      <div className="general-container">
+        <div
+          className="general-container-title"
+          style={{ textDecorationLine: "underline", marginBottom: "0" }}
+        >
+          Comments
+        </div>
+        <div id="comment-section">
+          <CommentSection type="chapter" typeId={chapterId} />
+        </div>
+      </div>
     </>
   );
 }

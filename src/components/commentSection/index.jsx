@@ -37,40 +37,32 @@ export default function CommentSection({ type, typeId }) {
   };
 
   return (
-    <div className="general-container">
-      <div
-        className="general-container-title"
-        style={{ textDecorationLine: "underline", marginBottom: "0" }}
-      >
-        Comments
+    <>
+      <div id="comment-section-header">
+        <AddCommentForm
+          type={type}
+          typeId={typeId}
+          addCommentToState={addComment}
+        />
       </div>
-      <div id="comment-section">
-        <div id="comment-section-header">
-          <AddCommentForm
-            type={type}
-            typeId={typeId}
-            addCommentToState={addComment}
-          />
-        </div>
 
-        {comments &&
-          comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              editComment={editComment}
-              removeComment={removeComment}
-            />
-          ))}
-
-        <div className="d-flex justify-content-center">
-          <PaginationNoParams
-            page={page}
-            totalPages={totalPages}
-            onPageChange={handleChangeComment}
+      {comments &&
+        comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            comment={comment}
+            editComment={editComment}
+            removeComment={removeComment}
           />
-        </div>
+        ))}
+
+      <div className="d-flex justify-content-center">
+        <PaginationNoParams
+          page={page}
+          totalPages={totalPages}
+          onPageChange={handleChangeComment}
+        />
       </div>
-    </div>
+    </>
   );
 }

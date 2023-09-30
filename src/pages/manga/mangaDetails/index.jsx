@@ -168,7 +168,17 @@ export default function MangaDetail() {
         totalPages={totalChapterPages}
         onPageChange={handleChangeChapter}
       />
-      <CommentSection type="manga" typeId={mangaId} />
+      <div className="general-container">
+        <div
+          className="general-container-title"
+          style={{ textDecorationLine: "underline", marginBottom: "0" }}
+        >
+          Comments
+        </div>
+        <div id="comment-section">
+          <CommentSection type="manga" typeId={mangaId} />
+        </div>
+      </div>
     </>
   );
 }
