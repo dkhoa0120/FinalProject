@@ -69,7 +69,8 @@ export default function Community() {
             </div>
           </div>
         </div>
-        <div className="post-image-container">
+        <div className="post-image-container" onClick={() => setShow(!show)}>
+          <div className="post-image-quantity">+12</div>
           <img src="/img/error/coverNotFound.png" alt="notFound" />
         </div>
         <div className="post-footer-mobile-view">
@@ -87,38 +88,58 @@ export default function Community() {
           <DropDownOptions />
         </div>
       </div>
-      {/* Comment Modal */}
+
+      <hr className="display-in-mobile" />
+
+      {/* Comment Modal in Mobile */}
       <Modal show={show} onHide={() => setShow(false)} size="xl">
-        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={6}>
               <div className="modal-users-info-mobile-view">
-                <img
-                  className="avatar"
-                  src={user.avatarPath || "/img/avatar/default.png"}
-                  alt="Avatar"
-                  style={{ margin: "10px 10px 10px 0" }}
-                />
-                <span className="comment-name">{user.name}</span>
-                <span className="comment-time"> 11 hours ago</span>
+                <div>
+                  <img
+                    className="avatar"
+                    src={user.avatarPath || "/img/avatar/default.png"}
+                    alt="Avatar"
+                    style={{ margin: "10px 10px 10px 0" }}
+                  />
+                  <span className="comment-name">{user.name}</span>
+                  <span className="comment-time"> 11 hours ago</span>
+                </div>
+                <span className="close-com" onClick={() => setShow(false)}>
+                  <i className="fa-solid fa-xmark"></i>
+                </span>
               </div>
               <div className="modal-community-image">
+                <div className="arrow-left">
+                  <i className="fa-solid fa-angle-left" />
+                </div>
                 <img src="/img/error/coverNotFound.png" alt="notFound" />
+                <div className="arrow-right">
+                  <i className="fa-solid fa-angle-right" />
+                </div>
               </div>
             </Col>
+
+            {/* Comment Modal in PC */}
             <Col md={6}>
               <div className="community-info" style={{ paddingTop: "0" }}>
                 <div>
                   <div className="modal-user-info">
-                    <img
-                      className="avatar"
-                      src={user.avatarPath || "/img/avatar/default.png"}
-                      alt="Avatar"
-                      style={{ margin: "10px 10px 10px 0" }}
-                    />
-                    <span className="comment-name">{user.name}</span>
-                    <span className="comment-time"> 11 hours ago</span>
+                    <div>
+                      <img
+                        className="avatar"
+                        src={user.avatarPath || "/img/avatar/default.png"}
+                        alt="Avatar"
+                        style={{ margin: "10px 10px 10px 0" }}
+                      />
+                      <span className="comment-name">{user.name}</span>
+                      <span className="comment-time"> 11 hours ago</span>
+                    </div>
+                    <div className="close-com" onClick={() => setShow(false)}>
+                      <i className="fa-solid fa-xmark"></i>
+                    </div>
                   </div>
                   <p style={{ marginBottom: "5px" }}>
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.

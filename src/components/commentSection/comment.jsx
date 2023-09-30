@@ -201,7 +201,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                 {calculateTimeDifference(comment.createdAt)}
               </span>
             </div>
-            <div>{comment.content}</div>
+            <div className="comment-message">{comment.content}</div>
             <div className="comment-footer">
               <div className="comment-reacts">
                 <div>
@@ -251,7 +251,9 @@ export default function Comment({ comment, editComment, removeComment }) {
                         <Modal.Header closeButton>
                           <Modal.Title>Delete Comment</Modal.Title>
                         </Modal.Header>
-                        <ModalBody>{comment.content}</ModalBody>
+                        <ModalBody style={{ wordWrap: "break-word" }}>
+                          {comment.content}
+                        </ModalBody>
                         <ModalFooter>
                           <button
                             style={{
@@ -275,7 +277,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                           <Modal.Header closeButton>
                             <Modal.Title>Report</Modal.Title>
                           </Modal.Header>
-                          <ModalBody>
+                          <ModalBody style={{ wordWrap: "break-word" }}>
                             {comment.content}
                             <hr></hr>
                             <div>

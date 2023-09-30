@@ -19,6 +19,11 @@
   color: #606060;
 }
 
+.comment-message {
+  max-width: 75vw;
+  word-wrap: break-word;
+}
+
 .comment-content {
   flex-grow: 1;
 }

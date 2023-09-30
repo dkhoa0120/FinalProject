@@ -384,12 +384,53 @@
 }
 
 .post-image-container {
+  cursor: pointer;
+  position: relative;
   box-sizing: content-box;
+}
+
+.post-image-quantity {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  bottom: 5px;
+  right: 5px;
+  width: 30px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .post-image-container img {
   height: 200px;
   border-radius: 0 8px 8px 0;
+}
+
+.close-com {
+  display: flex;
+  height: 60px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 2rem;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.close-com i {
+  cursor: pointer;
+}
+
+.modal-user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.display-in-mobile {
+  display: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -457,6 +498,8 @@
   }
 
   .community-container {
+    margin: 0;
+    border: none;
     flex-flow: column;
   }
 
@@ -466,13 +509,28 @@
   }
 
   .post-footer-mobile-view {
+    gap: 10px;
     display: flex !important;
     justify-content: center;
     align-items: center;
   }
 
   .modal-users-info-mobile-view {
-    display: block !important;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .post-image-quantity {
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 30px;
+    font-size: 20px;
+  }
+
+  .display-in-mobile {
+    display: block;
   }
 }
 
@@ -506,7 +564,38 @@
 
 .modal-community-image {
   display: flex;
+  position: relative;
   justify-content: center;
+}
+
+.arrow-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.522);
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  cursor: pointer;
+}
+
+.arrow-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.522);
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  cursor: pointer;
 }
 
 .modal-community-image img {
