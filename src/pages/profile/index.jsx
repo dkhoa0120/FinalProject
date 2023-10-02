@@ -108,7 +108,11 @@ export default function Profile() {
         </div>
         <div id="profile-buttons">
           {user && user?.id === userId ? (
-            <Button variant="outline-dark">Edit profile</Button>
+            <>
+              <Button variant="outline-dark">
+                <i className="fa-solid fa-user-pen"></i> Edit profile
+              </Button>
+            </>
           ) : (
             <Button variant="outline-dark">Follow</Button>
           )}

@@ -14,11 +14,11 @@ import {
   handleSelectedImages,
   handleRemoveImage,
   handleDragOver,
+  handleDragOnPhone,
 } from "./chapterUtilities";
 import { UserContext } from "../../context/UserContext";
 import { languageOptions } from "../../constants/languages";
 import PageUploader from "./components/PageUploader";
-import { handleDragOnPhone } from "./chapterUtilities";
 
 export default function Upload() {
   const {
