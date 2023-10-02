@@ -1,10 +1,13 @@
 import { baseAxios, getAuthorizedAxios } from "./api.base";
+import qs from "qs";
 
 export const getComments = (type, typeId, filter) => {
-  const page = filter?.page || 1;
-  const pageSize = filter?.pageSize || 6;
+  const createdAtCursor = filter?.createdAtCursor;
   return baseAxios.get(`${type}s/${typeId}/comments`, {
-    params: { page, pageSize },
+    params: {
+      createdAtCursor,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
 

@@ -33,6 +33,7 @@ export default function CreatePostModal({ show, onHide, onPostCreated, user }) {
       const newPost = res.data;
       onPostCreated(newPost);
       setContent("");
+      setImageInfos([]);
       onHide();
       toast.success("Your post has been created");
     } catch (error) {

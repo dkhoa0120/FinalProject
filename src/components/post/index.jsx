@@ -18,7 +18,6 @@ export default function Post({ post, index }) {
     </Dropdown>
   );
   const [targetPost, setTargetPost] = useState(null);
-  const [show, setShow] = useState(false);
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
     const chapterDate = new Date(createdAt);
@@ -36,6 +35,7 @@ export default function Post({ post, index }) {
     }
   };
 
+  console.log(post);
   return (
     <>
       <div key={index} className="community-container">
@@ -62,6 +62,7 @@ export default function Post({ post, index }) {
               <button className="post-react-button">
                 <i className="fa-regular fa-thumbs-down" />
               </button>
+              {post.commentCount}
               <button
                 className="post-react-button"
                 onClick={() => setTargetPost(post)}
@@ -76,11 +77,14 @@ export default function Post({ post, index }) {
           <>
             <div
               className="post-image-container"
-              onClick={() => setShow(!show)}
+              onClick={() => setTargetPost(post)}
             >
-              <div className="post-image-quantity">
-                +{post.imageUrls.length - 1}
-              </div>
+              {post.imageUrls.length > 1 ? (
+                <div className="post-image-quantity">
+                  {post.imageUrls.length - 1}
+                </div>
+              ) : null}
+
               <img src={post.imageUrls[0] || <p></p>} alt="Post" />
             </div>
           </>
@@ -94,6 +98,7 @@ export default function Post({ post, index }) {
           <button className="post-react-button">
             <i className="fa-regular fa-thumbs-down" />
           </button>
+          {post.commentCount}
           <button
             className="post-react-button"
             onClick={() => setTargetPost(post)}

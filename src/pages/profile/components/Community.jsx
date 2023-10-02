@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { ToastContainer } from "react-bootstrap";
-import CommentSection from "../../../components/commentSection";
 import { useParams } from "react-router-dom";
 import * as postApi from "../../../service/api.post";
 import CreatePostModal from "./CreatePostModal";

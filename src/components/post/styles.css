@@ -200,3 +200,8 @@
     margin: 0 10px;
   }
 }
+
+.comment-post {
+  max-height: 60vh;
+  overflow-y: auto; /* Show scrollbar only when content overflows */
+}

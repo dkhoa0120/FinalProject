@@ -35,7 +35,7 @@ export default function Comment({ comment, editComment, removeComment }) {
   const handleToggleReplies = async () => {
     if (!childComments) {
       const result = await commentApi.getChildComments(comment.id);
-      setChildComments(result.data.itemList);
+      setChildComments(result.data);
     }
     setShowChildComments(!showChildComments);
   };

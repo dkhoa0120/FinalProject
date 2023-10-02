@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import PaginationNoParams from "../paginationNoParams";
+
 import Comment from "./comment";
 import { AddCommentForm } from "./commentForm";
 import * as commentApi from "../../service/api.comment";
+import { Button } from "react-bootstrap";
 
 export default function CommentSection({ type, typeId }) {
   const [comments, setComments] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    fetchComments(type, typeId, page);
-  }, [type, typeId, page]);
+    fetchComments(type, typeId);
+  }, [type, typeId]);
 
-  const fetchComments = async (type, typeId, page) => {
-    const result = await commentApi.getComments(type, typeId, { page });
-    setComments(result.data.itemList);
-    setTotalPages(result.data.totalPages);
+  console.log(comments);
+
+  const fetchComments = async (type, typeId) => {
+    const result = await commentApi.getComments(type, typeId);
+    setComments(result.data);
   };
   const addComment = (comment) => setComments([comment, ...comments]);
   const editComment = (commentId, commentContent) =>
@@ -32,10 +32,16 @@ export default function CommentSection({ type, typeId }) {
     setComments(comments.filter((comment) => comment.id !== commentId));
   };
 
-  const handleChangeComment = (pageNum) => {
-    setPage(pageNum);
+  const handleSeeMoreComment = async (type, typeId, lastCreated) => {
+    try {
+      const newComments = await commentApi.getComments(type, typeId, {
+        createdAtCursor: lastCreated?.createdAt,
+      });
+      setComments([...comments, ...newComments.data]);
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
   };
-
   return (
     <>
       <div id="comment-section-header">
@@ -56,13 +62,18 @@ export default function CommentSection({ type, typeId }) {
           />
         ))}
 
-      <div className="d-flex justify-content-center">
-        <PaginationNoParams
-          page={page}
-          totalPages={totalPages}
-          onPageChange={handleChangeComment}
-        />
-      </div>
+      {comments && (
+        <div className="d-flex justify-content-end">
+          <Button
+            className="btn btn-light"
+            onClick={() =>
+              handleSeeMoreComment(type, typeId, comments[comments.length - 1])
+            }
+          >
+            See More
+          </Button>
+        </div>
+      )}
     </>
   );
 }

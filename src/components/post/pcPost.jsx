@@ -1,4 +1,5 @@
 import { Col, Dropdown } from "react-bootstrap";
+import CommentSection from "../commentSection";
 
 export default function PCPost({ post, close }) {
   const DropDownOptions = () => (
@@ -13,6 +14,7 @@ export default function PCPost({ post, close }) {
       </Dropdown.Menu>
     </Dropdown>
   );
+
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
     const chapterDate = new Date(createdAt);
@@ -49,7 +51,7 @@ export default function PCPost({ post, close }) {
           </div>
         </div>
         <p style={{ marginBottom: "5px" }}>{post?.content}</p>
-        <div className="post-footer">
+        <div>
           {post?.likeCount}
           <button className="post-react-button">
             <i className="fa-regular fa-thumbs-up" />
@@ -60,8 +62,9 @@ export default function PCPost({ post, close }) {
           </button>
           <DropDownOptions />
         </div>
-
-        {/* <CommentSection type="chapter" typeId={chapterId} /> */}
+        <div className="comment-post">
+          <CommentSection type="post" typeId={post?.id} />
+        </div>
       </div>
     </Col>
   );
