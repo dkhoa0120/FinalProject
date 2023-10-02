@@ -90,7 +90,7 @@ export default function CreatePostModal({ show, onHide, onPostCreated, user }) {
           <Form.Group className="mb-2">
             <Form.Control
               as="textarea"
-              placeholder="What's on your mind, `{user.name}`?"
+              placeholder={`What's on your mind, ${user.name}?`}
               value={content}
               ref={textAreaRef}
               onChange={(e) => setContent(e.target.value)}

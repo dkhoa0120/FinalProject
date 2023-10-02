@@ -30,7 +30,7 @@ export default function PCPost({ post, close }) {
     }
   };
   return (
-    <Col md={6}>
+    <Col md={post?.imageUrls.length > 0 ? 6 : 12}>
       <div className="modal-community-info">
         <div className="modal-user-info">
           <div>
