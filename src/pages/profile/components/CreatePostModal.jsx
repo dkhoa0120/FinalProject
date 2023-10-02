@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import PageUploader from "../../upload/components/PageUploader";
 import * as postApi from "../../../service/api.post";
 import {
@@ -11,18 +11,21 @@ import {
 } from "../../upload/chapterUtilities";
 import { toast } from "react-toastify";
 
-export default function CreatePostModal({ show, onHide, onPostCreated }) {
+export default function CreatePostModal({ show, onHide, onPostCreated, user }) {
   const [content, setContent] = useState("");
   const textAreaRef = useRef(null);
   const containerRef = useRef(null);
   const [imageInfos, setImageInfos] = useState([]);
   const [draggedIndex, setDraggedIndex] = useState(null);
   const fileInputRef = useRef(null);
+  const [showButton, setShowButton] = useState(false);
 
   const handleCreatePost = async () => {
     const formData = new FormData();
     const images = await convertToImage(imageInfos);
-    images.forEach((image) => formData.append("pages", image.data, image.name));
+    images.forEach((image) =>
+      formData.append("images", image.data, image.name)
+    );
     formData.append("Content", content);
 
     try {
@@ -75,11 +78,19 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
         <Modal.Title>Create a post</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <img
+          className="avatar"
+          src={user.avatarPath || "/img/avatar/default.png"}
+          alt="Avatar"
+          style={{ margin: "0 10px 10px 0" }}
+        />
+        <span className="comment-name">{user.name}</span>
+
         <Form>
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-2">
             <Form.Control
               as="textarea"
-              placeholder="Your Content"
+              placeholder="What's on your mind, `{user.name}`?"
               value={content}
               ref={textAreaRef}
               onChange={(e) => setContent(e.target.value)}
@@ -87,15 +98,17 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
               required
             />
           </Form.Group>
-          <Row>
-            <Col md={10}>
-              {" "}
-              <p className={content.length > 2000 ? "char-limit-error" : ""}>
-                {content.length}/2000
-              </p>
-            </Col>
-          </Row>
-          <Row>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <i
+              style={{ cursor: "pointer" }}
+              className="fa-regular fa-images"
+              onClick={() => setShowButton(!showButton)}
+            ></i>
+            <span className={content.length > 2000 ? "char-limit-error" : ""}>
+              {content.length}/2000
+            </span>
+          </div>
+          {showButton && (
             <PageUploader
               containerRef={containerRef}
               fileInputRef={fileInputRef}
@@ -108,11 +121,11 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
               handleDrag={handleDrag}
               dragStart={dragStart}
             />
-          </Row>
+          )}
         </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <div style={{ display: "flex", justifyContent: "start" }}>
+        <div
+          style={{ display: "flex", justifyContent: "end", paddingTop: "10px" }}
+        >
           <Button
             variant="success"
             onClick={handleCreatePost}
@@ -121,7 +134,7 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
             Post
           </Button>
         </div>
-      </Modal.Footer>
+      </Modal.Body>
     </Modal>
   );
 }
