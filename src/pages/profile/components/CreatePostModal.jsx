@@ -10,8 +10,11 @@ import {
   handleDragOnPhone,
 } from "../../upload/chapterUtilities";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
 
-export default function CreatePostModal({ show, onHide, onPostCreated, user }) {
+export default function CreatePostModal({ show, onHide, onPostCreated }) {
+  const { user } = useContext(UserContext);
   const [content, setContent] = useState("");
   const textAreaRef = useRef(null);
   const containerRef = useRef(null);

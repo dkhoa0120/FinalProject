@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../context/UserContext";
 import { ToastContainer } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import * as postApi from "../../../service/api.post";
-import CreatePostModal from "./CreatePostModal";
 import Post from "../../../components/post";
-import PostForm from "../../../components/post/postForm";
+import CreatePostModal from "../../../components/post/CreatePostModal";
+import PostCreateButton from "../../../components/post/postCreateButton";
+import { UserContext } from "../../../context/UserContext";
 
 export default function Community() {
-  const { user } = useContext(UserContext);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState(null);
   const { userId } = useParams();
+  const { user } = useContext(UserContext);
 
   const onPostCreated = (newPost) => {
     setPosts((prevPosts) => [newPost, ...prevPosts]);
@@ -28,11 +28,9 @@ export default function Community() {
   return (
     <>
       <ToastContainer />
-      <PostForm
-        user={user}
-        userId={userId}
-        open={() => setShowCreatePost(true)}
-      />
+      {user && user?.id === userId && (
+        <PostCreateButton open={() => setShowCreatePost(true)} />
+      )}
       {posts ? (
         posts.map((post, index) => <Post index={index} post={post} />)
       ) : (
@@ -41,7 +39,6 @@ export default function Community() {
 
       {/* Create Post Modal */}
       <CreatePostModal
-        user={user}
         show={showCreatePost}
         onHide={() => setShowCreatePost(false)}
         onPostCreated={onPostCreated}

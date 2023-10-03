@@ -1,4 +1,10 @@
-export default function PostForm({ user, userId, open }) {
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { useParams } from "react-router-dom";
+
+export default function PostCreateButton({ open }) {
+  const { userId } = useParams();
+  const { user } = useContext(UserContext);
   return (
     <>
       {user && user?.id === userId && (
