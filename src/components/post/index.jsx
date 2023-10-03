@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown, Modal, Row } from "react-bootstrap";
-import MobilePost from "./mobilePost";
-import PCPost from "./pcPost";
 import "./styles.css";
+import MobileModal from "./mobileModal";
+import PCModal from "./pcModal";
 
 export default function Post({ post, index }) {
   const DropDownOptions = () => (
@@ -18,6 +18,7 @@ export default function Post({ post, index }) {
     </Dropdown>
   );
   const [targetPost, setTargetPost] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const calculateTimeDifference = (createdAt) => {
     const currentDate = new Date();
     const chapterDate = new Date(createdAt);
@@ -34,6 +35,17 @@ export default function Post({ post, index }) {
       return `${daysDifference} days ago`;
     }
   };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -116,11 +128,21 @@ export default function Post({ post, index }) {
       >
         <Modal.Body>
           <Row>
-            {/* Comment Modal in Mobile */}
-            <MobilePost post={targetPost} close={() => setTargetPost(null)} />
-
-            {/* Comment Modal in PC */}
-            <PCPost post={targetPost} close={() => setTargetPost(null)} />
+            {isMobile ? (
+              <MobileModal
+                calculateTimeDifference={calculateTimeDifference}
+                DropDownOptions={DropDownOptions}
+                post={targetPost}
+                close={() => setTargetPost(null)}
+              />
+            ) : (
+              <PCModal
+                calculateTimeDifference={calculateTimeDifference}
+                DropDownOptions={DropDownOptions}
+                post={targetPost}
+                close={() => setTargetPost(null)}
+              />
+            )}
           </Row>
         </Modal.Body>
       </Modal>
