@@ -3,50 +3,98 @@ import { Dropdown, Modal, Row } from "react-bootstrap";
 import "./styles.css";
 import MobileModal from "./mobileModal";
 import PCModal from "./pcModal";
+import PostOptions from "./postOptions";
+import * as postReactApi from "../../service/api.react";
+import { toast } from "react-toastify";
+import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
+import PostContent from "./postContent";
 
 export default function Post({ post, index }) {
-  const DropDownOptions = () => (
-    <Dropdown as={"span"}>
-      <Dropdown.Toggle variant="outline" className="manga-list-options-toggle">
-        <i className="fa-solid fa-ellipsis-vertical"></i>
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item>Report</Dropdown.Item>
-        <Dropdown.Item>Edit</Dropdown.Item>
-        <Dropdown.Item>Delete</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
   const [targetPost, setTargetPost] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const calculateTimeDifference = (createdAt) => {
-    const currentDate = new Date();
-    const chapterDate = new Date(createdAt);
-    const timeDifference = Math.abs(currentDate - chapterDate);
-    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+  const [likeCount, setLikeCount] = useState(post.likeCount);
+  const [dislikeCount, setDisLikeCount] = useState(post.dislikeCount);
+  const [reactFlag, setReactFlag] = useState(null);
+  const postId = post?.id;
 
-    if (minutesDifference < 50) {
-      return `${minutesDifference} minutes ago`;
-    } else if (minutesDifference < 1440) {
-      const hoursDifference = Math.floor(minutesDifference / 60);
-      return `${hoursDifference} hours ago`;
-    } else {
-      const daysDifference = Math.floor(minutesDifference / 1440);
-      return `${daysDifference} days ago`;
-    }
-  };
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth < 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize(); // Call the handler initially
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const fetchUserReactPost = async (postId) => {
+    try {
+      const response = await postReactApi.getUserReactPost(postId);
+      const userReact = response.data;
+      if (userReact) {
+        setReactFlag(userReact);
+      }
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserReactPost(postId);
+  }, [postId]);
+
+  const handleLikeClick = async () => {
+    const nextReactFlag = "Like";
+    try {
+      if (reactFlag === nextReactFlag) {
+        await postReactApi.deleteReactPost(postId);
+        fetchUserReactPost(postId);
+        setLikeCount(likeCount - 1);
+        setReactFlag();
+      } else {
+        const formData = new FormData();
+        formData.append("reactFlag", nextReactFlag);
+        await postReactApi.putReactPost(postId, formData);
+        setLikeCount(likeCount + 1);
+        reactFlag && setDisLikeCount(dislikeCount - 1);
+        setReactFlag(nextReactFlag);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to like!");
+      }
+    }
+  };
+
+  const handleDislikeClick = async () => {
+    const nextReactFlag = "Dislike";
+    try {
+      if (reactFlag === nextReactFlag) {
+        await postReactApi.deleteReactPost(postId);
+        fetchUserReactPost(postId);
+        setDisLikeCount(dislikeCount - 1);
+        setReactFlag(null);
+      } else {
+        const formData = new FormData();
+        formData.append("reactFlag", nextReactFlag);
+        await postReactApi.putReactPost(postId, formData);
+        reactFlag && setLikeCount(likeCount - 1);
+        setDisLikeCount(dislikeCount + 1);
+        setReactFlag(nextReactFlag);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to dislike!");
+      }
+    }
+  };
   return (
     <>
       <div key={index} className="community-container">
@@ -65,13 +113,21 @@ export default function Post({ post, index }) {
             </span>
             <div className="text-limit-4">{post.content}</div>
             <div className="post-footer">
-              {post.likeCount}
-              <button className="post-react-button">
-                <i className="fa-regular fa-thumbs-up" />
+              {likeCount || 0} &nbsp;
+              <button className="btn-base" onClick={handleLikeClick}>
+                {reactFlag === "Like" ? (
+                  <i className="fa-solid fa-thumbs-up" />
+                ) : (
+                  <i className="fa-regular fa-thumbs-up" />
+                )}
               </button>
-              {post.dislikeCount}
-              <button className="post-react-button">
-                <i className="fa-regular fa-thumbs-down" />
+              {dislikeCount || 0} &nbsp;
+              <button className="btn-base" onClick={handleDislikeClick}>
+                {reactFlag === "Dislike" ? (
+                  <i className="fa-solid fa-thumbs-down" />
+                ) : (
+                  <i className="fa-regular fa-thumbs-down" />
+                )}
               </button>
               {post.commentCount}
               <button
@@ -80,7 +136,7 @@ export default function Post({ post, index }) {
               >
                 <i className="fa-regular fa-comment"></i>
               </button>
-              <DropDownOptions />
+              <PostOptions />
             </div>
           </div>
         </div>
@@ -100,24 +156,6 @@ export default function Post({ post, index }) {
             </div>
           </>
         )}
-        <div className="post-footer-mobile-view">
-          {post.likeCount}
-          <button className="post-react-button">
-            <i className="fa-regular fa-thumbs-up" />
-          </button>
-          {post.dislikeCount}
-          <button className="post-react-button">
-            <i className="fa-regular fa-thumbs-down" />
-          </button>
-          {post.commentCount}
-          <button
-            className="post-react-button"
-            onClick={() => setTargetPost(post)}
-          >
-            <i className="fa-regular fa-comment"></i>
-          </button>
-          <DropDownOptions />
-        </div>
       </div>
       <hr className="display-in-mobile" />
       <Modal
@@ -129,19 +167,27 @@ export default function Post({ post, index }) {
         <Modal.Body>
           <Row>
             {isMobile ? (
-              <MobileModal
-                calculateTimeDifference={calculateTimeDifference}
-                DropDownOptions={DropDownOptions}
-                post={targetPost}
-                close={() => setTargetPost(null)}
-              />
+              <MobileModal post={targetPost} close={() => setTargetPost(null)}>
+                <PostContent
+                  post={targetPost}
+                  likeCount={likeCount}
+                  dislikeCount={dislikeCount}
+                  handleLike={handleLikeClick}
+                  handleDislike={handleDislikeClick}
+                  reactFlag={reactFlag}
+                />
+              </MobileModal>
             ) : (
-              <PCModal
-                calculateTimeDifference={calculateTimeDifference}
-                DropDownOptions={DropDownOptions}
-                post={targetPost}
-                close={() => setTargetPost(null)}
-              />
+              <PCModal post={targetPost} close={() => setTargetPost(null)}>
+                <PostContent
+                  post={targetPost}
+                  likeCount={likeCount}
+                  dislikeCount={dislikeCount}
+                  handleLike={handleLikeClick}
+                  handleDislike={handleDislikeClick}
+                  reactFlag={reactFlag}
+                />
+              </PCModal>
             )}
           </Row>
         </Modal.Body>

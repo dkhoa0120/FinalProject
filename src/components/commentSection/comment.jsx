@@ -9,10 +9,11 @@ import {
 } from "react-bootstrap";
 import "./style.css";
 import * as commentApi from "../../service/api.comment";
-import * as commentReactApi from "../../service/api.commentReact";
+import * as commentReactApi from "../../service/api.react";
 import { UserContext } from "../../context/UserContext";
 import { EditCommentForm, ReplyCommentForm } from "./commentForm";
 import { Link } from "react-router-dom";
+import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 
 export default function Comment({ comment, editComment, removeComment }) {
   const [childComments, setChildComments] = useState(null);
@@ -22,7 +23,7 @@ export default function Comment({ comment, editComment, removeComment }) {
   const [childCommentCount, setChildCommentCount] = useState(
     comment.childCommentCount
   );
-  const [reactFlag, setReactFlag] = useState(0);
+  const [reactFlag, setReactFlag] = useState(null);
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -67,27 +68,20 @@ export default function Comment({ comment, editComment, removeComment }) {
   };
 
   const handleLikeClick = async () => {
+    const nextReactFlag = "Like";
     try {
-      if (reactFlag === 0) {
-        const formData = new FormData();
-        formData.append("reactFlag", 1);
-        await commentReactApi.postReactComment(comment.id, formData);
-        setLikeCount(likeCount + 1);
-        setReactFlag(1);
-      }
-      if (reactFlag === 1) {
+      if (reactFlag === nextReactFlag) {
         await commentReactApi.deleteReactComment(comment.id);
         fetchUserReactComment(comment.id);
         setLikeCount(likeCount - 1);
-        setReactFlag(0);
-      }
-      if (reactFlag === -1) {
+        setReactFlag();
+      } else {
         const formData = new FormData();
-        formData.append("reactFlag", 1);
+        formData.append("reactFlag", nextReactFlag);
         await commentReactApi.putReactComment(comment.id, formData);
         setLikeCount(likeCount + 1);
-        setDisLikeCount(dislikeCount - 1);
-        setReactFlag(1);
+        reactFlag && setDisLikeCount(dislikeCount - 1);
+        setReactFlag(nextReactFlag);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -97,49 +91,25 @@ export default function Comment({ comment, editComment, removeComment }) {
   };
 
   const handleDislikeClick = async () => {
+    const nextReactFlag = "Dislike";
     try {
-      if (reactFlag === 0) {
-        const formData = new FormData();
-        formData.append("reactFlag", -1);
-        await commentReactApi.postReactComment(comment.id, formData);
-        setDisLikeCount(dislikeCount + 1);
-        setReactFlag(-1);
-      }
-      if (reactFlag === -1) {
+      if (reactFlag === nextReactFlag) {
         await commentReactApi.deleteReactComment(comment.id);
         fetchUserReactComment(comment.id);
         setDisLikeCount(dislikeCount - 1);
-        setReactFlag(0);
-      }
-      if (reactFlag === 1) {
+        setReactFlag(null);
+      } else {
         const formData = new FormData();
-        formData.append("reactFlag", -1);
+        formData.append("reactFlag", nextReactFlag);
         await commentReactApi.putReactComment(comment.id, formData);
-        setLikeCount(likeCount - 1);
+        reactFlag && setLikeCount(likeCount - 1);
         setDisLikeCount(dislikeCount + 1);
-        setReactFlag(-1);
+        setReactFlag(nextReactFlag);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error("Please sign in to dislike!");
       }
-    }
-  };
-
-  const calculateTimeDifference = (createdAt) => {
-    const currentDate = new Date();
-    const chapterDate = new Date(createdAt);
-    const timeDifference = Math.abs(currentDate - chapterDate);
-    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-
-    if (minutesDifference < 50) {
-      return `${minutesDifference} minutes ago`;
-    } else if (minutesDifference < 1440) {
-      const hoursDifference = Math.floor(minutesDifference / 60);
-      return `${hoursDifference} hours ago`;
-    } else {
-      const daysDifference = Math.floor(minutesDifference / 1440);
-      return `${daysDifference} days ago`;
     }
   };
 
@@ -207,7 +177,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                 <div>
                   {likeCount || 0} &nbsp;
                   <button className="btn-base" onClick={handleLikeClick}>
-                    {reactFlag === 1 ? (
+                    {reactFlag === "Like" ? (
                       <i className="fa-solid fa-thumbs-up" />
                     ) : (
                       <i className="fa-regular fa-thumbs-up" />
@@ -217,7 +187,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                 <div>
                   {dislikeCount || 0} &nbsp;
                   <button className="btn-base" onClick={handleDislikeClick}>
-                    {reactFlag === -1 ? (
+                    {reactFlag === "Dislike" ? (
                       <i className="fa-solid fa-thumbs-down" />
                     ) : (
                       <i className="fa-regular fa-thumbs-down" />

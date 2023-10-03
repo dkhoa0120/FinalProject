@@ -4,29 +4,13 @@ import PaginationNoParams from "../../../components/paginationNoParams";
 import { Link, useParams } from "react-router-dom";
 import * as mangaApi from "../../../service/api.manga";
 import CountryFlag from "../../../components/countryFlag";
+import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
 
 export default function Uploads() {
   const [mangaGroups, setMangaGroups] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const { userId } = useParams();
-
-  const calculateTimeDifference = (createdAt) => {
-    const currentDate = new Date();
-    const chapterDate = new Date(createdAt);
-    const timeDifference = Math.abs(currentDate - chapterDate);
-    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-
-    if (minutesDifference < 50) {
-      return `${minutesDifference} minutes ago`;
-    } else if (minutesDifference < 1440) {
-      const hoursDifference = Math.floor(minutesDifference / 60);
-      return `${hoursDifference} hours ago`;
-    } else {
-      const daysDifference = Math.floor(minutesDifference / 1440);
-      return `${daysDifference} days ago`;
-    }
-  };
 
   const handleChangePage = (pageNum) => {
     setCurrentPage(pageNum);

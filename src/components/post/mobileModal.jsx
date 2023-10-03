@@ -1,12 +1,7 @@
 import PostImage from "./postImage";
-import PostContent from "./postContent";
+import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 
-export default function MobileModal({
-  post,
-  close,
-  DropDownOptions,
-  calculateTimeDifference,
-}) {
+export default function MobileModal({ post, close, children }) {
   return (
     <>
       <div className="modal-users-info-mobile-view">
@@ -26,7 +21,7 @@ export default function MobileModal({
         </span>
       </div>
       <PostImage post={post} />
-      <PostContent post={post} DropDownOptions={DropDownOptions} />
+      {children}
     </>
   );
 }

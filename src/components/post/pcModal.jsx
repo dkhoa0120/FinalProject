@@ -1,13 +1,8 @@
 import { Col } from "react-bootstrap";
 import PostImage from "./postImage";
-import PostContent from "./postContent";
+import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 
-export default function PCModal({
-  post,
-  close,
-  DropDownOptions,
-  calculateTimeDifference,
-}) {
+export default function PCModal({ post, close, children }) {
   return (
     <>
       <Col>
@@ -31,7 +26,7 @@ export default function PCModal({
               <i className="fa-solid fa-xmark"></i>
             </div>
           </div>
-          <PostContent post={post} DropDownOptions={DropDownOptions} />
+          {children}
         </div>
       </Col>
     </>
