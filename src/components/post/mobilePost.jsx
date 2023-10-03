@@ -1,4 +1,5 @@
 import { Col } from "react-bootstrap";
+import PostImage from "./postImage";
 
 export default function MobilePost({ post, close }) {
   const calculateTimeDifference = (createdAt) => {
@@ -35,19 +36,7 @@ export default function MobilePost({ post, close }) {
           <i className="fa-solid fa-xmark"></i>
         </span>
       </div>
-      {post?.imageUrls && post.imageUrls.length > 0 && (
-        <>
-          <div className="modal-community-image">
-            <div className="arrow-left">
-              <i className="fa-solid fa-angle-left" />
-            </div>
-            <img src={post.imageUrls[0] || <p></p>} alt="Post" />
-            <div className="arrow-right">
-              <i className="fa-solid fa-angle-right" />
-            </div>
-          </div>
-        </>
-      )}
+      <PostImage post={post} />
     </Col>
   );
 }

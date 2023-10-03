@@ -90,6 +90,7 @@
 }
 
 .modal-community-image {
+  height: 80vh;
   display: flex;
   position: relative;
   justify-content: center;
@@ -127,7 +128,7 @@
 }
 
 .modal-community-image img {
-  max-height: 80vh;
+  max-height: 100%;
   max-width: 100%;
 }
 
@@ -154,6 +155,11 @@
 }
 
 @media (max-width: 767px) {
+  .modal-community-image {
+    margin-bottom: 10px;
+    height: 50vh;
+  }
+
   .post-image-container img {
     width: 100% !important;
     height: auto !important;

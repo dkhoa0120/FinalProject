@@ -51,7 +51,7 @@ export default function PCPost({ post, close }) {
           </div>
         </div>
         <p style={{ marginBottom: "5px" }}>{post?.content}</p>
-        <div>
+        <div style={{ marginBottom: "10px" }}>
           {post?.likeCount}
           <button className="post-react-button">
             <i className="fa-regular fa-thumbs-up" />

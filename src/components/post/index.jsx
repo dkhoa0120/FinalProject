@@ -35,7 +35,6 @@ export default function Post({ post, index }) {
     }
   };
 
-  console.log(post);
   return (
     <>
       <div key={index} className="community-container">
@@ -81,7 +80,7 @@ export default function Post({ post, index }) {
             >
               {post.imageUrls.length > 1 ? (
                 <div className="post-image-quantity">
-                  {post.imageUrls.length - 1}
+                  + {post.imageUrls.length - 1}
                 </div>
               ) : null}
 
