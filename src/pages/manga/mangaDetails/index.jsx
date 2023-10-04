@@ -20,33 +20,42 @@ export default function MangaDetail() {
   const [follow, setFollow] = useState(null);
   const navigate = useNavigate();
 
+  const updateStatsAfterRating = (newRating) => {
+    setMangaStats((prev) => {
+      let updatedRatingSum = prev.ratingSum;
+      let updatedRatingCount = prev.ratingCount;
+
+      if (rate === 0) {
+        updatedRatingSum += newRating;
+        updatedRatingCount += 1;
+      } else if (newRating !== 0) {
+        updatedRatingSum = updatedRatingSum - rate + newRating;
+      } else {
+        updatedRatingSum -= rate;
+        updatedRatingCount -= 1;
+      }
+
+      return {
+        ...prev,
+        ratingSum: updatedRatingSum,
+        ratingCount: updatedRatingCount,
+      };
+    });
+  };
+
   const handleSelectRate = async (eventKey) => {
+    const newRating = Number(eventKey);
     const formData = new FormData();
     formData.append("inputRating", eventKey);
+
     try {
-      if (rate === 0) {
-        await ratingApi.postRating(mangaId, formData);
-        setMangaStats((prev) => ({
-          ...prev,
-          ratingSum: prev.ratingSum + Number(eventKey),
-          ratingCount: prev.ratingCount + 1,
-        }));
-      } else if (eventKey !== "0") {
+      if (rate === 0 || newRating !== 0) {
         await ratingApi.putRating(mangaId, formData);
-        setMangaStats((prev) => ({
-          ...prev,
-          ratingSum: prev.ratingSum - rate + Number(eventKey),
-          ratingCount: prev.ratingCount,
-        }));
-      } else {
+      } else if (newRating === 0) {
         await ratingApi.deleteRating(mangaId);
-        setMangaStats((prev) => ({
-          ...prev,
-          ratingSum: prev.ratingSum - rate,
-          ratingCount: prev.ratingCount - 1,
-        }));
       }
-      setRate(Number(eventKey));
+      updateStatsAfterRating(newRating);
+      setRate(newRating);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error("Please sign in to rate!");
