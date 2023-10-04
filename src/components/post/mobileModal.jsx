@@ -4,21 +4,21 @@ import CommentSection from "../commentSection";
 import PostImage from "./postImage";
 import PostStats from "./postStats";
 
-export default function MobileModal({ post, children, targetPost, close }) {
+export default function MobileModal({ post, close, react }) {
   return (
     <>
-      <Modal centered show={targetPost} onHide={close} size="xl">
+      <Modal centered show={post} onHide={close} size="xl">
         <Modal.Body>
           <div className="modal-users-info-mobile-view">
             <div>
               <img
                 className="avatar"
-                src={post?.user.avatarPath || "/img/avatar/default.png"}
+                src={post.user.avatarPath || "/img/avatar/default.png"}
                 alt="Avatar"
               />
-              <span className="comment-name">{post?.user.name}</span>
+              <span className="comment-name">{post.user.name}</span>
               <span className="comment-time">
-                {calculateTimeDifference(post?.createdAt)}
+                {calculateTimeDifference(post.createdAt)}
               </span>
             </div>
             <span className="close-com" onClick={close}>
@@ -26,10 +26,9 @@ export default function MobileModal({ post, children, targetPost, close }) {
             </span>
           </div>
           <PostImage post={post} />
-          <PostStats />
-          {children}
+          <PostStats post={post} react={react} />
           <div className="comment-post">
-            <CommentSection type="post" typeId={post?.id} />
+            <CommentSection type="post" typeId={post.id} />
           </div>
         </Modal.Body>
       </Modal>

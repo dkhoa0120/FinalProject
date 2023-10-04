@@ -1,10 +1,10 @@
 import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 import PostStats from "./postStats";
 
-export default function MobilePost({ post, index, open }) {
+export default function MobilePost({ post, open, react }) {
   return (
     <>
-      <div key={index} className="community-container" onClick={open}>
+      <div key={post.id} className="community-container" onClick={open}>
         <div className="community-info">
           <div>
             <img
@@ -33,7 +33,7 @@ export default function MobilePost({ post, index, open }) {
             </div>
           </>
         )}
-        <PostStats post={post} />
+        <PostStats post={post} react={react} />
       </div>
       <hr className="display-hr-in-mobile" />
     </>

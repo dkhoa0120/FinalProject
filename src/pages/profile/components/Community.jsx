@@ -16,11 +16,47 @@ export default function Community() {
   const { userId } = useParams();
   const { user } = useContext(UserContext);
   const [isMobile, setIsMobile] = useState(false);
-  const [targetedPostId] = useState(null);
-  const [targetPost, setTargetPost] = useState(null);
+  const [targetedPostId, setTargetedPostId] = useState(null);
+  const targetPost = targetedPostId
+    ? posts.find((post) => post.id === targetedPostId)
+    : null;
 
-  const onPostCreated = (newPost) => {
+  const handleCreatePost = (newPost) => {
     setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  const handleReactPost = (postId, selectedReact) => {
+    const nextPosts = [...posts];
+    const post = nextPosts.find((post) => post.id === postId);
+    const prevReactFlag = post.userReactFlag;
+
+    if (selectedReact === "Like") {
+      if (prevReactFlag === "Like") {
+        post.likeCount--;
+        post.userReactFlag = "None";
+      } else if (prevReactFlag === "Dislike") {
+        post.likeCount++;
+        post.dislikeCount--;
+        post.userReactFlag = "Like";
+      } else {
+        post.likeCount++;
+        post.userReactFlag = "Like";
+      }
+    } else {
+      if (prevReactFlag === "Like") {
+        post.likeCount--;
+        post.dislikeCount++;
+        post.userReactFlag = "Dislike";
+      } else if (prevReactFlag === "Dislike") {
+        post.dislikeCount--;
+        post.userReactFlag = "None";
+      } else {
+        post.dislikeCount++;
+        post.userReactFlag = "Dislike";
+      }
+    }
+
+    setPosts(nextPosts);
   };
 
   useEffect(() => {
@@ -51,39 +87,51 @@ export default function Community() {
   return (
     <>
       <ToastContainer />
+
       {user && user?.id === userId && (
         <PostCreateButton open={() => setShowCreatePost(true)} />
       )}
+
+      <CreatePostModal
+        show={showCreatePost}
+        onHide={() => setShowCreatePost(false)}
+        onPostCreated={handleCreatePost}
+      />
+
       {posts &&
         posts.length > 0 &&
         posts.map((post) =>
           isMobile ? (
-            <MobilePost post={post} open={() => setTargetPost(post)} />
+            <MobilePost
+              key={post.id}
+              post={post}
+              open={() => setTargetedPostId(post.id)}
+              react={handleReactPost}
+            />
           ) : (
-            <PcPost post={post} open={() => setTargetPost(post)} />
+            <PcPost
+              key={post.id}
+              post={post}
+              open={() => setTargetedPostId(post.id)}
+              react={handleReactPost}
+            />
           )
         )}
 
-      {targetedPostId && isMobile ? (
-        <MobileModal
-          targetPost={targetPost}
-          close={() => setTargetPost(null)}
-          post={targetPost}
-        />
-      ) : (
-        <PcModal
-          targetPost={targetPost}
-          close={() => setTargetPost(null)}
-          post={targetPost}
-        />
-      )}
-
-      {/* Create Post Modal */}
-      <CreatePostModal
-        show={showCreatePost}
-        onHide={() => setShowCreatePost(false)}
-        onPostCreated={onPostCreated}
-      />
+      {targetedPostId &&
+        (isMobile ? (
+          <MobileModal
+            post={targetPost}
+            close={() => setTargetedPostId(null)}
+            react={handleReactPost}
+          />
+        ) : (
+          <PcModal
+            post={targetPost}
+            close={() => setTargetedPostId(null)}
+            react={handleReactPost}
+          />
+        ))}
     </>
   );
 }

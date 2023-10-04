@@ -5,5 +5,5 @@ export const createPost = (formData) => {
 };
 
 export const getPosts = (userId) => {
-  return baseAxios.get(`users/${userId}/posts`);
+  return getAuthorizedAxios().get(`users/${userId}/posts`);
 };
