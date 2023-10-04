@@ -62,8 +62,8 @@ export default function CommentSection({ type, typeId }) {
           />
         ))}
 
-      {comments && (
-        <div className="d-flex justify-content-end">
+      {comments && comments.length > 0 && (
+        <div className="d-flex justify-content-center">
           <Button
             className="btn btn-light"
             onClick={() =>

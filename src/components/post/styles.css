@@ -46,7 +46,7 @@
   cursor: pointer;
 }
 
-.modal-user-info {
+.modal-users-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,11 +76,8 @@
   padding-bottom: 20px;
   display: flex;
   align-items: center;
-}
-
-.post-footer-mobile-view,
-.modal-users-info-mobile-view {
-  display: none;
+  justify-content: center;
+  gap: 10px;
 }
 
 .community-info {
@@ -133,7 +130,7 @@
 }
 
 .modal-users-info-mobile-view .avatar,
-.modal-user-info .avatar {
+.modal-users-info .avatar {
   margin: 10px 10px 10px 0;
 }
 
@@ -154,7 +151,16 @@
   margin-left: 10px;
 }
 
+.modal-users-info-mobile-view {
+  display: none;
+}
+
 @media (max-width: 767px) {
+  .modal-users-info-mobile-view {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
   .modal-community-image {
     margin-bottom: 10px;
     height: 50vh;
@@ -172,22 +178,8 @@
     flex-flow: column;
   }
 
-  .post-footer,
-  .modal-user-info {
+  .modal-users-info {
     display: none !important;
-  }
-
-  .post-footer-mobile-view {
-    gap: 10px;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-users-info-mobile-view {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
   }
 
   .post-image-quantity {
@@ -198,8 +190,9 @@
     font-size: 20px;
   }
 
-  .display-in-mobile {
+  .display-hr-in-mobile {
     display: block;
+    margin: 0 0 10px;
   }
 
   .post-form {

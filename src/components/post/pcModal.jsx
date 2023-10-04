@@ -1,34 +1,47 @@
-import { Col } from "react-bootstrap";
-import PostImage from "./postImage";
+import { Col, Modal, Row } from "react-bootstrap";
 import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
+import PostImage from "./postImage";
+import CommentSection from "../commentSection";
+import PostStats from "./postStats";
 
-export default function PCModal({ post, close, children }) {
+export default function PcModal({ post, targetPost, close }) {
   return (
     <>
-      <Col>
-        <PostImage post={post} />
-      </Col>
-      <Col md={post?.imageUrls.length > 0 ? 6 : 12}>
-        <div className="modal-community-info">
-          <div className="modal-user-info">
-            <div>
-              <img
-                className="avatar"
-                src={post?.user.avatarPath || "/img/avatar/default.png"}
-                alt="Avatar"
-              />
-              <span className="comment-name">{post?.user.name}</span>
-              <span className="comment-time">
-                {calculateTimeDifference(post?.createdAt)}
-              </span>
-            </div>
-            <div className="close-com" onClick={close}>
-              <i className="fa-solid fa-xmark"></i>
-            </div>
-          </div>
-          {children}
-        </div>
-      </Col>
+      <Modal centered show={targetPost} onHide={close} size="xl">
+        <Modal.Body>
+          <Row>
+            <Col>
+              <PostImage post={post} />
+            </Col>
+            <Col md={post?.imageUrls.length > 0 ? 6 : 12}>
+              <div className="modal-community-info">
+                <div className="modal-users-info">
+                  <div>
+                    <img
+                      className="avatar"
+                      src={post?.user.avatarPath || "/img/avatar/default.png"}
+                      alt="Avatar"
+                    />
+                    <span className="comment-name">{post?.user.name}</span>
+                    <span className="comment-time">
+                      {calculateTimeDifference(post?.createdAt)}
+                    </span>
+                  </div>
+                  <div className="close-com" onClick={close}>
+                    <i className="fa-solid fa-xmark"></i>
+                  </div>
+                  <p>{post?.content}</p>
+                </div>
+
+                <PostStats post={post} />
+              </div>
+              <div className="comment-post">
+                <CommentSection type="post" typeId={post?.id} />
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
