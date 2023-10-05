@@ -4,8 +4,8 @@ import PostStats from "./postStats";
 export default function MobilePost({ post, open, react }) {
   return (
     <>
-      <div key={post.id} className="community-container" onClick={open}>
-        <div className="community-info">
+      <div key={post.id} className="community-container">
+        <div className="community-info" onClick={open}>
           <div>
             <img
               className="avatar"
@@ -18,7 +18,9 @@ export default function MobilePost({ post, open, react }) {
             <span className="comment-time">
               {calculateTimeDifference(post.createdAt)}
             </span>
-            <div className="text-limit-4">{post.content}</div>
+            <div className="text-limit-4" style={{ wordBreak: "break-word" }}>
+              {post.content}
+            </div>
           </div>
         </div>
         {post.imageUrls && post.imageUrls.length > 0 && (
@@ -35,7 +37,7 @@ export default function MobilePost({ post, open, react }) {
         )}
         <PostStats post={post} react={react} />
       </div>
-      <hr className="display-hr-in-mobile" />
+      <hr style={{ margin: "0 0 10px" }} />
     </>
   );
 }

@@ -9,21 +9,24 @@ export default function MobileModal({ post, close, react }) {
     <>
       <Modal centered show={post} onHide={close} size="xl">
         <Modal.Body>
-          <div className="modal-users-info-mobile-view">
-            <div>
-              <img
-                className="avatar"
-                src={post.user.avatarPath || "/img/avatar/default.png"}
-                alt="Avatar"
-              />
-              <span className="comment-name">{post.user.name}</span>
-              <span className="comment-time">
-                {calculateTimeDifference(post.createdAt)}
-              </span>
+          <div className="modal-community-info">
+            <div className="modal-users-info">
+              <div>
+                <img
+                  className="avatar"
+                  src={post.user.avatarPath || "/img/avatar/default.png"}
+                  alt="Avatar"
+                />
+                <span className="comment-name">{post.user.name}</span>
+                <span className="comment-time">
+                  {calculateTimeDifference(post.createdAt)}
+                </span>
+                <div style={{ wordBreak: "break-word" }}>{post.content}</div>
+              </div>
+              <div className="comment-close">
+                <i className="fa-solid fa-xmark" onClick={close}></i>
+              </div>
             </div>
-            <span className="close-com" onClick={close}>
-              <i className="fa-solid fa-xmark"></i>
-            </span>
           </div>
           <PostImage post={post} />
           <PostStats post={post} react={react} />

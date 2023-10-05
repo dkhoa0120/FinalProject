@@ -5,7 +5,7 @@ import PostStats from "./postStats";
 export default function PcPost({ post, open, react }) {
   return (
     <>
-      <div key={post.id} className="community-container">
+      <div key={post.id} className="community-container" onClick={open}>
         <div className="community-info">
           <div>
             <img
@@ -19,13 +19,16 @@ export default function PcPost({ post, open, react }) {
             <span className="comment-time">
               {calculateTimeDifference(post.createdAt)}
             </span>
-            <div className="text-limit-4">{post.content}</div>
+            <div className="text-limit-4" style={{ wordBreak: "break-word" }}>
+              {post.content}
+            </div>
+
             <PostStats post={post} react={react} />
           </div>
         </div>
         {post.imageUrls && post.imageUrls.length > 0 && (
           <>
-            <div className="post-image-container" onClick={open}>
+            <div className="post-image-container">
               {post.imageUrls.length > 1 ? (
                 <div className="post-image-quantity">
                   + {post.imageUrls.length - 1}

@@ -26,13 +26,14 @@ export default function PcModal({ post, close, react }) {
                     <span className="comment-time">
                       {calculateTimeDifference(post.createdAt)}
                     </span>
+                    <div style={{ wordBreak: "break-word" }}>
+                      {post.content}
+                    </div>
                   </div>
-                  <div className="close-com" onClick={close}>
-                    <i className="fa-solid fa-xmark"></i>
+                  <div className="comment-close">
+                    <i className="fa-solid fa-xmark" onClick={close}></i>
                   </div>
-                  <p>{post.content}</p>
                 </div>
-
                 <PostStats post={post} react={react} />
               </div>
               <div className="comment-post">

@@ -5,7 +5,9 @@ import * as postReactApi from "../../service/api.react";
 export default function PostStats({ post, react }) {
   const postId = post?.id;
 
-  const handleLikeClick = async () => {
+  const handleLikeClick = async (e) => {
+    e.stopPropagation();
+
     const nextReactFlag = "Like";
     try {
       if (post.userReactFlag === nextReactFlag) {
@@ -23,7 +25,9 @@ export default function PostStats({ post, react }) {
     }
   };
 
-  const handleDislikeClick = async () => {
+  const handleDislikeClick = async (e) => {
+    e.stopPropagation();
+
     const nextReactFlag = "Dislike";
     try {
       if (post.userReactFlag === nextReactFlag) {
@@ -44,26 +48,31 @@ export default function PostStats({ post, react }) {
   return (
     <>
       <div className="post-footer">
-        {post.likeCount}
-        <button className="btn-base" onClick={handleLikeClick}>
-          {post.userReactFlag === "Like" ? (
-            <i className="fa-solid fa-thumbs-up" />
-          ) : (
-            <i className="fa-regular fa-thumbs-up" />
-          )}
-        </button>
+        <div onClick={handleLikeClick} className="post-button">
+          {post.likeCount}
+          <button>
+            {post.userReactFlag === "Like" ? (
+              <i className="fa-solid fa-thumbs-up" />
+            ) : (
+              <i className="fa-regular fa-thumbs-up" />
+            )}
+          </button>
+        </div>
 
-        {post.dislikeCount}
-        <button className="btn-base" onClick={handleDislikeClick}>
-          {post.userReactFlag === "Dislike" ? (
-            <i className="fa-solid fa-thumbs-down" />
-          ) : (
-            <i className="fa-regular fa-thumbs-down" />
-          )}
-        </button>
-
-        {post.commentCount}
-        <i className="fa-regular fa-comment"></i>
+        <div className="post-button" onClick={handleDislikeClick}>
+          {post.dislikeCount}
+          <button>
+            {post.userReactFlag === "Dislike" ? (
+              <i className="fa-solid fa-thumbs-down" />
+            ) : (
+              <i className="fa-regular fa-thumbs-down" />
+            )}
+          </button>
+        </div>
+        <div style={{ marginLeft: "5px", cursor: "default" }}>
+          {post.commentCount}
+          <i className="fa-regular fa-comment" style={{ marginLeft: "5px" }} />
+        </div>
 
         <PostOptions />
       </div>
