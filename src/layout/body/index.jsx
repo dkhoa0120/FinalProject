@@ -20,6 +20,7 @@ import Edit from "../../pages/upload/editChapter";
 import Group from "../../pages/groupProfile";
 import MangaListGroup from "../../pages/profile/components/MangaListGroup";
 import ManageMembers from "../../pages/groupProfile/components/ManageMembers";
+import FollowedManga from "../../pages/follows";
 
 export default function Body() {
   return (
@@ -36,6 +37,7 @@ export default function Body() {
         <Route path="/register" element={<Register />} />
         <Route path="/mangas/:mangaId" element={<MangaDetail />} />
         <Route path="/mangas" element={<Manga />} />
+        <Route path="/followed-mangas" element={<FollowedManga />} />
         <Route path="*" element={<Error />} />
         <Route path="/chapters/:chapterId" element={<ChapterPage />} />
         <Route path="/profile/:userId" element={<Profile />} />
