@@ -2,7 +2,7 @@ import { Dropdown } from "react-bootstrap";
 
 export default function PostOptions() {
   return (
-    <Dropdown as={"span"}>
+    <Dropdown as={"span"} onClick={(e) => e.stopPropagation()}>
       <Dropdown.Toggle variant="outline" className="manga-list-options-toggle">
         <i className="fa-solid fa-ellipsis-vertical"></i>
       </Dropdown.Toggle>

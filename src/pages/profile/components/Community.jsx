@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ToastContainer } from "react-bootstrap";
+import { Button, ToastContainer } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import * as postApi from "../../../service/api.post";
 import PostCreateButton from "../../../components/post/postCreateButton";
@@ -23,6 +23,17 @@ export default function Community() {
 
   const handleCreatePost = (newPost) => {
     setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  const handleSeeMorePost = async (userId, createdAtCursor) => {
+    try {
+      const newPosts = await postApi.getPosts(userId, {
+        createdAtCursor: createdAtCursor?.createdAt,
+      });
+      setPosts([...posts, ...newPosts.data]);
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
   };
 
   const handleReactPost = (postId, selectedReact) => {
@@ -114,6 +125,7 @@ export default function Community() {
               post={post}
               open={() => setTargetedPostId(post.id)}
               react={handleReactPost}
+              handleSeeMorePost={handleSeeMorePost}
             />
           )
         )}
@@ -132,6 +144,15 @@ export default function Community() {
             react={handleReactPost}
           />
         ))}
+
+      <div className="d-flex justify-content-center">
+        <Button
+          className="btn btn-light"
+          onClick={() => handleSeeMorePost(userId, posts[posts.length - 1])}
+        >
+          See More
+        </Button>
+      </div>
     </>
   );
 }
