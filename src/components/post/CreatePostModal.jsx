@@ -1,17 +1,17 @@
 import { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import PageUploader from "../../upload/components/PageUploader";
-import * as postApi from "../../../service/api.post";
+import * as postApi from "../../service/api.post";
 import {
   convertToImage,
   handleSelectedImages,
   handleRemoveImage,
   handleDragOver,
   handleDragOnPhone,
-} from "../../upload/chapterUtilities";
+} from "../../pages/upload/chapterUtilities";
 import { toast } from "react-toastify";
 import { useContext } from "react";
-import { UserContext } from "../../../context/UserContext";
+import PageUploader from "../../pages/upload/components/PageUploader";
+import { UserContext } from "../../context/UserContext";
 
 export default function CreatePostModal({ show, onHide, onPostCreated }) {
   const { user } = useContext(UserContext);

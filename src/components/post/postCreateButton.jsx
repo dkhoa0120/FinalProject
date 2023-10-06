@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-export default function PostCreateButton({ open }) {
+export default function PostCreateButton({ type, open }) {
   const { user } = useContext(UserContext);
   return (
     <div className="post-form">
@@ -13,7 +13,11 @@ export default function PostCreateButton({ open }) {
         />
       </div>
       <button onClick={open}>
-        <span>What's on your mind, {user.name}?</span>
+        {type === "user" ? (
+          <span>What's on your mind, {user.name}?</span>
+        ) : (
+          <span>Write somethings, {user.name}?</span>
+        )}
       </button>
     </div>
   );

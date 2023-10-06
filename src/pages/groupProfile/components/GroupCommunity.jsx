@@ -11,22 +11,23 @@ import MobileModal from "../../../components/post/mobileModal";
 import { ToastContainer } from "react-toastify";
 import CreatePostModal from "../../../components/post/CreatePostModal";
 
-export default function Community() {
+export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState([]);
-  const { userId } = useParams();
+  const { groupId } = useParams();
   const { user } = useContext(UserContext);
+  const memberId = user?.id;
   const [isMobile, setIsMobile] = useState(false);
   const [targetedPostId, setTargetedPostId] = useState(null);
   const targetPost = targetedPostId
     ? posts.find((post) => post.id === targetedPostId)
     : null;
 
-  const type = "user";
   const handleCreatePost = (newPost) => {
     setPosts((prevPosts) => [newPost, ...prevPosts]);
   };
 
+  console.log("isOwner", isOwner);
   const updatePostEdited = (updatedPost) => {
     setPosts(
       posts.map((post) =>
@@ -107,20 +108,20 @@ export default function Community() {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchUserPosts = async (type, userId) => {
-      const res = await postApi.getPosts(type, userId);
-      setPosts(res.data);
-    };
-    fetchUserPosts(type, userId);
-  }, [type, userId]);
+  // useEffect(() => {
+  //   const fetchUserPosts = async (userId) => {
+  //     const res = await postApi.getPosts(userId);
+  //     setPosts(res.data);
+  //   };
+  //   fetchUserPosts(userId);
+  // }, [userId]);
 
   return (
     <>
-      <ToastContainer />
-
-      {user && user?.id === userId && (
-        <PostCreateButton open={() => setShowCreatePost(true)} type={type} />
+      {isUserAMember | isOwner | isMod ? (
+        <PostCreateButton open={() => setShowCreatePost(true)} type={"group"} />
+      ) : (
+        <p></p>
       )}
 
       <CreatePostModal
@@ -172,15 +173,6 @@ export default function Community() {
             updateDeletePost={updateDeletePost}
           />
         ))}
-
-      <div className="d-flex justify-content-center">
-        <Button
-          className="btn btn-light"
-          onClick={() => handleSeeMorePost(userId, posts[posts.length - 1])}
-        >
-          See More
-        </Button>
-      </div>
     </>
   );
 }

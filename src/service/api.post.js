@@ -1,22 +1,22 @@
 import { getAuthorizedAxios } from "./api.base";
 
-export const createPost = (formData) => {
-  return getAuthorizedAxios().post(`posts`, formData);
-};
-
-export const getPosts = (userId, filter) => {
+export const getPosts = (type, typeId, filter) => {
   const createdAtCursor = filter?.createdAtCursor;
-  return getAuthorizedAxios().get(`users/${userId}/posts`, {
+  return getAuthorizedAxios().get(`${type}s/${typeId}/posts`, {
     params: {
       createdAtCursor,
     },
   });
 };
 
-export const editPost = (id, formData) => {
-  return getAuthorizedAxios().put(`posts/${id}`, formData);
+export const createPost = (formData) => {
+  return getAuthorizedAxios().post(`posts`, formData);
 };
 
-export const deletePost = (id) => {
-  return getAuthorizedAxios().delete(`posts/${id}`);
+export const editPost = (postId, formData) => {
+  return getAuthorizedAxios().put(`posts/${postId}`, formData);
+};
+
+export const deletePost = (postId) => {
+  return getAuthorizedAxios().delete(`posts/${postId}`);
 };
