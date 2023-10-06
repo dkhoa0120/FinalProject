@@ -2,7 +2,13 @@ import "./styles.css";
 import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 import PostStats from "./postStats";
 
-export default function PcPost({ post, open, react }) {
+export default function PcPost({
+  post,
+  open,
+  react,
+  updatePostEdited,
+  updateDeletePost,
+}) {
   return (
     <>
       <div key={post.id} className="community-container" onClick={open}>
@@ -23,7 +29,12 @@ export default function PcPost({ post, open, react }) {
               {post.content}
             </div>
 
-            <PostStats post={post} react={react} />
+            <PostStats
+              post={post}
+              react={react}
+              updatePostEdited={updatePostEdited}
+              updateDeletePost={updateDeletePost}
+            />
           </div>
         </div>
         {post.imageUrls && post.imageUrls.length > 0 && (

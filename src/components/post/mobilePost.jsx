@@ -1,7 +1,13 @@
 import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 import PostStats from "./postStats";
 
-export default function MobilePost({ post, open, react }) {
+export default function MobilePost({
+  post,
+  open,
+  react,
+  updatePostEdited,
+  updateDeletePost,
+}) {
   return (
     <>
       <div key={post.id} className="community-container">
@@ -35,7 +41,12 @@ export default function MobilePost({ post, open, react }) {
             </div>
           </>
         )}
-        <PostStats post={post} react={react} />
+        <PostStats
+          post={post}
+          react={react}
+          updatePostEdited={updatePostEdited}
+          updateDeletePost={updateDeletePost}
+        />
       </div>
       <hr style={{ margin: "0 0 10px" }} />
     </>

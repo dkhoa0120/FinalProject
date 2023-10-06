@@ -12,3 +12,11 @@ export const getPosts = (userId, filter) => {
     },
   });
 };
+
+export const editPost = (id, formData) => {
+  return getAuthorizedAxios().put(`posts/${id}`, formData);
+};
+
+export const deletePost = (id) => {
+  return getAuthorizedAxios().delete(`posts/${id}`);
+};

@@ -1,19 +1,21 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import PageUploader from "../../upload/components/PageUploader";
-import * as postApi from "../../../service/api.post";
 import {
   convertToImage,
   handleSelectedImages,
   handleRemoveImage,
   handleDragOver,
   handleDragOnPhone,
-} from "../../upload/chapterUtilities";
-import { toast } from "react-toastify";
+} from "../../pages/upload/chapterUtilities";
+import PageUploader from "../../pages/upload/components/PageUploader";
 import { useContext } from "react";
-import { UserContext } from "../../../context/UserContext";
+import { UserContext } from "../../context/UserContext";
+import * as postApi from "../../service/api.post";
+import { toast } from "react-toastify";
 
-export default function CreatePostModal({ show, onHide, onPostCreated }) {
+export default function EditPostModal({ post, close, updatePostEdited }) {
   const { user } = useContext(UserContext);
   const [content, setContent] = useState("");
   const textAreaRef = useRef(null);
@@ -23,7 +25,7 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
   const fileInputRef = useRef(null);
   const [showButton, setShowButton] = useState(false);
 
-  const handleCreatePost = async () => {
+  const handleEditPost = async () => {
     const formData = new FormData();
     const images = await convertToImage(imageInfos);
     images.forEach((image) =>
@@ -32,17 +34,50 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
     formData.append("content", content);
 
     try {
-      const res = await postApi.createPost(formData);
+      const res = await postApi.editPost(post?.id, formData);
+      console.log("res", res);
       const newPost = res.data;
-      onPostCreated(newPost);
-      setContent("");
-      setImageInfos([]);
-      onHide();
-      toast.success("Your post has been created");
+      updatePostEdited(newPost);
+      close();
+      toast.success("Your post has been updated");
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  async function urlToImageFile(url, filename) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const blob = await response.blob();
+      return new File([blob], filename, { type: blob.type });
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  }
+
+  const setInitialPages = async () => {
+    const imageFiles = await Promise.all(
+      post.imageUrls.map((url) => urlToImageFile(url, url.split("/").pop()))
+    );
+    console.log("imageFiles", imageFiles);
+    setImageInfos(
+      imageFiles.map((file) => ({
+        name: file.name,
+        url: URL.createObjectURL(file),
+      }))
+    );
+  };
+
+  useEffect(() => {
+    if (post) {
+      setContent(post.content);
+      setInitialPages();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post]);
 
   const handleSelected = (e) => {
     handleSelectedImages(e, imageInfos, setImageInfos);
@@ -77,9 +112,9 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
   };
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={post} onHide={close} onClick={(e) => e.stopPropagation()}>
       <Modal.Header closeButton>
-        <Modal.Title>Create a post</Modal.Title>
+        <Modal.Title>Edit a post</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <img
@@ -112,30 +147,28 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
               {content.length}/2000
             </span>
           </div>
-          {showButton && (
-            <PageUploader
-              containerRef={containerRef}
-              fileInputRef={fileInputRef}
-              handleSelected={handleSelected}
-              imageInfos={imageInfos}
-              setImageInfos={setImageInfos}
-              handleRemove={handleRemove}
-              draggedIndex={draggedIndex}
-              setDraggedIndex={setDraggedIndex}
-              handleDrag={handleDrag}
-              dragStart={dragStart}
-            />
-          )}
+          <PageUploader
+            containerRef={containerRef}
+            fileInputRef={fileInputRef}
+            handleSelected={handleSelected}
+            imageInfos={imageInfos}
+            setImageInfos={setImageInfos}
+            handleRemove={handleRemove}
+            draggedIndex={draggedIndex}
+            setDraggedIndex={setDraggedIndex}
+            handleDrag={handleDrag}
+            dragStart={dragStart}
+          />
         </Form>
         <div
           style={{ display: "flex", justifyContent: "end", paddingTop: "10px" }}
         >
           <Button
-            variant="success"
-            onClick={handleCreatePost}
+            variant="primary"
+            onClick={handleEditPost}
             disabled={!content || content.length > 2000}
           >
-            Post
+            Update
           </Button>
         </div>
       </Modal.Body>

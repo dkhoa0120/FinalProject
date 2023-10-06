@@ -4,7 +4,13 @@ import CommentSection from "../commentSection";
 import PostImage from "./postImage";
 import PostStats from "./postStats";
 
-export default function MobileModal({ post, close, react }) {
+export default function MobileModal({
+  post,
+  close,
+  react,
+  updatePostEdited,
+  updateDeletePost,
+}) {
   return (
     <>
       <Modal centered show={post} onHide={close} size="xl">
@@ -29,7 +35,12 @@ export default function MobileModal({ post, close, react }) {
             </div>
           </div>
           <PostImage post={post} />
-          <PostStats post={post} react={react} />
+          <PostStats
+            post={post}
+            react={react}
+            updatePostEdited={updatePostEdited}
+            updateDeletePost={updateDeletePost}
+          />
           <div className="comment-post">
             <CommentSection type="post" typeId={post.id} />
           </div>

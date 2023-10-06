@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, ToastContainer } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import * as postApi from "../../../service/api.post";
 import PostCreateButton from "../../../components/post/postCreateButton";
@@ -9,10 +9,11 @@ import PcPost from "../../../components/post/pcPost";
 import PcModal from "../../../components/post/pcModal";
 import MobilePost from "../../../components/post/mobilePost";
 import MobileModal from "../../../components/post/mobileModal";
+import { ToastContainer } from "react-toastify";
 
 export default function Community() {
   const [showCreatePost, setShowCreatePost] = useState(false);
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
   const { userId } = useParams();
   const { user } = useContext(UserContext);
   const [isMobile, setIsMobile] = useState(false);
@@ -23,6 +24,24 @@ export default function Community() {
 
   const handleCreatePost = (newPost) => {
     setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  const updatePostEdited = (updatedPost) => {
+    setPosts(
+      posts.map((post) =>
+        post.id === updatedPost.id
+          ? {
+              ...post,
+              content: updatedPost.content,
+              imageUrls: updatedPost.imageUrls,
+            }
+          : post
+      )
+    );
+  };
+
+  const updateDeletePost = (postId) => {
+    setPosts(posts.filter((comment) => comment.id !== postId));
   };
 
   const handleSeeMorePost = async (userId, createdAtCursor) => {
@@ -118,6 +137,8 @@ export default function Community() {
               post={post}
               open={() => setTargetedPostId(post.id)}
               react={handleReactPost}
+              updatePostEdited={updatePostEdited}
+              updateDeletePost={updateDeletePost}
             />
           ) : (
             <PcPost
@@ -126,6 +147,8 @@ export default function Community() {
               open={() => setTargetedPostId(post.id)}
               react={handleReactPost}
               handleSeeMorePost={handleSeeMorePost}
+              updatePostEdited={updatePostEdited}
+              updateDeletePost={updateDeletePost}
             />
           )
         )}
@@ -136,12 +159,16 @@ export default function Community() {
             post={targetPost}
             close={() => setTargetedPostId(null)}
             react={handleReactPost}
+            updatePostEdited={updatePostEdited}
+            updateDeletePost={updateDeletePost}
           />
         ) : (
           <PcModal
             post={targetPost}
             close={() => setTargetedPostId(null)}
             react={handleReactPost}
+            updatePostEdited={updatePostEdited}
+            updateDeletePost={updateDeletePost}
           />
         ))}
 

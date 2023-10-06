@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
-import { useParams } from "react-router-dom";
 
 export default function PostCreateButton({ open }) {
   const { user } = useContext(UserContext);

@@ -1,9 +1,24 @@
 import { toast } from "react-toastify";
-import PostOptions from "./postOptions";
 import * as postReactApi from "../../service/api.react";
+import { Dropdown } from "react-bootstrap";
+import { useState } from "react";
+import EditPostModal from "./EditPostModal";
+import DeletePostModal from "./DeletePostModal";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
-export default function PostStats({ post, react }) {
+export default function PostStats({
+  post,
+  react,
+  updatePostEdited,
+  updateDeletePost,
+}) {
   const postId = post?.id;
+
+  const [editPost, setEditPost] = useState();
+  const [deletePost, setDeletePost] = useState();
+
+  const { user } = useContext(UserContext);
 
   const handleLikeClick = async (e) => {
     e.stopPropagation();
@@ -74,7 +89,39 @@ export default function PostStats({ post, react }) {
           <i className="fa-regular fa-comment" style={{ marginLeft: "5px" }} />
         </div>
 
-        <PostOptions />
+        <Dropdown as={"span"} onClick={(e) => e.stopPropagation()}>
+          <Dropdown.Toggle
+            variant="outline"
+            className="manga-list-options-toggle"
+          >
+            <i className="fa-solid fa-ellipsis-vertical"></i>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>Report</Dropdown.Item>
+            {user && post && user.id === post.user.id && (
+              <>
+                <Dropdown.Item onClick={() => setEditPost(post)}>
+                  Edit
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setDeletePost(post)}>
+                  Delete
+                </Dropdown.Item>
+              </>
+            )}
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <EditPostModal
+          post={editPost}
+          close={() => setEditPost(null)}
+          updatePostEdited={updatePostEdited}
+        />
+
+        <DeletePostModal
+          post={deletePost}
+          close={() => setDeletePost(null)}
+          updateDeletePost={updateDeletePost}
+        />
       </div>
     </>
   );
