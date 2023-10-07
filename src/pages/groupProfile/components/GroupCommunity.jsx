@@ -108,13 +108,13 @@ export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const fetchUserPosts = async (userId) => {
-  //     const res = await postApi.getPosts(userId);
-  //     setPosts(res.data);
-  //   };
-  //   fetchUserPosts(userId);
-  // }, [userId]);
+  useEffect(() => {
+    const fetchGroupPosts = async (groupId) => {
+      const res = await postApi.getGroupPosts(groupId);
+      setPosts(res.data);
+    };
+    fetchGroupPosts(groupId);
+  }, [groupId]);
 
   return (
     <>
@@ -128,6 +128,8 @@ export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
         show={showCreatePost}
         onHide={() => setShowCreatePost(false)}
         onPostCreated={handleCreatePost}
+        type="group"
+        typeId={groupId}
       />
 
       {posts &&

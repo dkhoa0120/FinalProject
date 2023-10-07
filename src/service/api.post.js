@@ -20,3 +20,11 @@ export const editPost = (postId, formData) => {
 export const deletePost = (postId) => {
   return getAuthorizedAxios().delete(`posts/${postId}`);
 };
+
+export const createGroupPost = (groupId, formData) => {
+  return getAuthorizedAxios().post(`/groups/${groupId}/posts`, formData);
+};
+
+export const getGroupPosts = (groupId) => {
+  return getAuthorizedAxios().get(`/groups/${groupId}/posts`);
+};

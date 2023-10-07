@@ -434,3 +434,8 @@
     width: 60px !important;
   }
 }
+
+.post-content {
+  max-height: 60vh;
+  overflow-y: auto;
+}

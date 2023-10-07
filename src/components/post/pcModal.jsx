@@ -42,6 +42,7 @@ export default function PcModal({
                 </div>
                 <PostStats
                   post={post}
+                  close={close}
                   react={react}
                   updatePostEdited={updatePostEdited}
                   updateDeletePost={updateDeletePost}

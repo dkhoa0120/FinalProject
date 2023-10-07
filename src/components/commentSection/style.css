@@ -3,6 +3,11 @@
   padding-right: 1.5rem;
   padding-left: 1.5rem;
   padding-bottom: 0.5rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+#comment-section::-webkit-scrollbar {
+  display: none;
 }
 
 #comment-section-header {

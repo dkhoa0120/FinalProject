@@ -13,7 +13,13 @@ import { useContext } from "react";
 import PageUploader from "../../pages/upload/components/PageUploader";
 import { UserContext } from "../../context/UserContext";
 
-export default function CreatePostModal({ show, onHide, onPostCreated }) {
+export default function CreatePostModal({
+  show,
+  onHide,
+  onPostCreated,
+  type,
+  typeId,
+}) {
   const { user } = useContext(UserContext);
   const [content, setContent] = useState("");
   const textAreaRef = useRef(null);
@@ -32,7 +38,12 @@ export default function CreatePostModal({ show, onHide, onPostCreated }) {
     formData.append("content", content);
 
     try {
-      const res = await postApi.createPost(formData);
+      let res = null;
+      if (type === "user") {
+        res = await postApi.createPost(formData);
+      } else {
+        res = await postApi.createGroupPost(typeId, formData);
+      }
       const newPost = res.data;
       onPostCreated(newPost);
       setContent("");

@@ -13,6 +13,8 @@ export default function ChapterSection({
 
   const handleShowFirstChapter = () => setShowModalChapter(true);
 
+  console.log(chapters);
+
   const firstChapter = chapters && chapters["1"];
 
   return (

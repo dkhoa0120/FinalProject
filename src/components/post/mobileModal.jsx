@@ -40,6 +40,7 @@ export default function MobileModal({
             react={react}
             updatePostEdited={updatePostEdited}
             updateDeletePost={updateDeletePost}
+            close={close}
           />
           <div className="comment-post">
             <CommentSection type="post" typeId={post.id} />

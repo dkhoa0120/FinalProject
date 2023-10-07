@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import Comment from "./comment";
 import { AddCommentForm } from "./commentForm";
 import * as commentApi from "../../service/api.comment";
-import { Button } from "react-bootstrap";
 
 export default function CommentSection({ type, typeId }) {
   const [comments, setComments] = useState(null);
+  const [loadingComment, setLoadingComment] = useState(false);
+  const [outOfComment, setOutOfComment] = useState(false);
+  const commentHeader = useRef(null);
 
   useEffect(() => {
     fetchComments(type, typeId);
   }, [type, typeId]);
-
-  console.log(comments);
 
   const fetchComments = async (type, typeId) => {
     const result = await commentApi.getComments(type, typeId);
@@ -38,20 +37,54 @@ export default function CommentSection({ type, typeId }) {
         createdAtCursor: lastCreated?.createdAt,
       });
       setComments([...comments, ...newComments.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newComments.data.length > 0) {
+        setOutOfComment(true);
+      } else {
+        setOutOfComment(false);
+      }
     } catch (error) {
       console.error("Error fetching more members:", error);
     }
   };
+
+  useEffect(() => {
+    const commentPost = commentHeader.current.parentNode;
+
+    const handleScroll = () => {
+      const { scrollHeight, scrollTop, clientHeight } = commentPost;
+
+      // Check if you've scrolled to the bottom
+      if (
+        scrollHeight - scrollTop - clientHeight <= 5 &&
+        comments.length > 0 &&
+        !outOfComment
+      ) {
+        setLoadingComment(true);
+        setTimeout(() => {
+          handleSeeMoreComment(type, typeId, comments[comments.length - 1]);
+          setLoadingComment(false);
+        }, 1000);
+      }
+    };
+    commentPost.addEventListener("scroll", handleScroll);
+
+    return () => {
+      commentPost.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comments]);
+
   return (
     <>
-      <div id="comment-section-header">
+      <div id="comment-section-header" ref={commentHeader}>
         <AddCommentForm
           type={type}
           typeId={typeId}
           addCommentToState={addComment}
         />
       </div>
-
       {comments &&
         comments.map((comment) => (
           <Comment
@@ -62,16 +95,10 @@ export default function CommentSection({ type, typeId }) {
           />
         ))}
 
-      {comments && comments.length > 0 && (
+      {/* Loading comment spinner */}
+      {loadingComment && (
         <div className="d-flex justify-content-center">
-          <Button
-            className="btn btn-light"
-            onClick={() =>
-              handleSeeMoreComment(type, typeId, comments[comments.length - 1])
-            }
-          >
-            See More
-          </Button>
+          <div className="spinner-border" role="status"></div>
         </div>
       )}
     </>

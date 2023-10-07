@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import * as postApi from "../../../service/api.post";
 import PostCreateButton from "../../../components/post/postCreateButton";
@@ -18,6 +17,8 @@ export default function Community() {
   const { user } = useContext(UserContext);
   const [isMobile, setIsMobile] = useState(false);
   const [targetedPostId, setTargetedPostId] = useState(null);
+  const [loadingPost, setLoadingPost] = useState(false);
+  const [outOfPost, setOutOfPost] = useState(false);
   const targetPost = targetedPostId
     ? posts.find((post) => post.id === targetedPostId)
     : null;
@@ -47,14 +48,45 @@ export default function Community() {
 
   const handleSeeMorePost = async (userId, createdAtCursor) => {
     try {
-      const newPosts = await postApi.getPosts(userId, {
+      const newPosts = await postApi.getPosts("user", userId, {
         createdAtCursor: createdAtCursor?.createdAt,
       });
       setPosts([...posts, ...newPosts.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newPosts.data.length > 0) {
+        setOutOfPost(true);
+      } else {
+        setOutOfPost(false);
+      }
     } catch (error) {
       console.error("Error fetching more members:", error);
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if you've scrolled to the bottom
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.offsetHeight &&
+        posts.length > 0 &&
+        !outOfPost
+      ) {
+        setLoadingPost(true);
+        setTimeout(() => {
+          handleSeeMorePost(userId, posts[posts.length - 1]?.createdAt);
+          setLoadingPost(false);
+        }, 1000);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [posts]);
 
   const handleReactPost = (postId, selectedReact) => {
     const nextPosts = [...posts];
@@ -119,14 +151,17 @@ export default function Community() {
     <>
       <ToastContainer />
 
-      {user && user?.id === userId && (
-        <PostCreateButton open={() => setShowCreatePost(true)} type={type} />
-      )}
+      <div>
+        {user && user?.id === userId && (
+          <PostCreateButton open={() => setShowCreatePost(true)} type={type} />
+        )}
+      </div>
 
       <CreatePostModal
         show={showCreatePost}
         onHide={() => setShowCreatePost(false)}
         onPostCreated={handleCreatePost}
+        type={type}
       />
 
       {posts &&
@@ -173,14 +208,11 @@ export default function Community() {
           />
         ))}
 
-      <div className="d-flex justify-content-center">
-        <Button
-          className="btn btn-light"
-          onClick={() => handleSeeMorePost(userId, posts[posts.length - 1])}
-        >
-          See More
-        </Button>
-      </div>
+      {loadingPost && (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      )}
     </>
   );
 }

@@ -12,6 +12,7 @@ export default function PostStats({
   react,
   updatePostEdited,
   updateDeletePost,
+  close,
 }) {
   const postId = post?.id;
 
@@ -121,6 +122,7 @@ export default function PostStats({
           post={deletePost}
           close={() => setDeletePost(null)}
           updateDeletePost={updateDeletePost}
+          closeDetailModal={close}
         />
       </div>
     </>
