@@ -11,6 +11,7 @@ import Members from "./components/Members";
 import "./styles.css";
 import EditGroupModal from "./components/EditGroupModal";
 import { ToastContainer, toast } from "react-toastify";
+import GroupCommunity from "./components/GroupCommunity";
 
 export default function Group() {
   const profileOptions = ["Uploads", "Community", "Members", "About"];
@@ -179,6 +180,13 @@ export default function Group() {
         </div>
         {profileOption === "Uploads" && <Uploads groupId={groupId} />}
         {profileOption === "About" && <About groupDetails={groupDetails} />}
+        {profileOption === "Community" && (
+          <GroupCommunity
+            isUserAMember={isUserAMember}
+            isOwner={isOwner}
+            isMod={isMod}
+          />
+        )}
         {profileOption === "Members" && (
           <Members groupId={groupId} groupName={groupDetails?.name} />
         )}
