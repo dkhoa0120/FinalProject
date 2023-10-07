@@ -29,13 +29,17 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
   return (
     <Container fluid>
       <Row
-        className="d-flex"
-        style={{ cursor: "pointer" }}
+        style={{ display: "flex", cursor: "pointer" }}
         onClick={() => setShowChapter(!showChapter)}
       >
         <Col
           key={number}
-          className="general-container-title"
+          className={
+            "general-container-title" +
+            (chapterList.some((chapter) => chapter.isViewedByUser)
+              ? " chapter-viewed"
+              : "")
+          }
           style={{ fontSize: "18px", marginBottom: "5px" }}
         >
           Chapter {number}
@@ -63,7 +67,12 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
       <Collapse in={showChapter}>
         <div id="show-chapters">
           {chapterList.map((chapter) => (
-            <Row className="chapter-row" key={chapter.id}>
+            <Row
+              className={
+                "chapter-row" + (chapter.isViewedByUser ? " viewed" : "")
+              }
+              key={chapter.id}
+            >
               <Col xs={12} xl={4}>
                 <Link to={`/chapters/${chapter.id}`} className="card-link">
                   <p className="chapter-name text-truncate">

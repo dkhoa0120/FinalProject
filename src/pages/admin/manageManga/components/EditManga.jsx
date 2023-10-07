@@ -119,60 +119,56 @@ export default function EditManga({
             </Row>
             &nbsp;
             <Row>
-              <Col>
-                <Form.Label>
-                  Category{" "}
-                  {errors.categoryIds && (
-                    <i
-                      title={errors.categoryIds.message}
-                      className="fa-solid fa-circle-exclamation"
-                      style={{ color: "red" }}
-                    ></i>
-                  )}
-                </Form.Label>
-                <Controller
-                  name="categoryIds"
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      isMulti
-                      options={categoryOptions}
-                      components={animatedComponents}
-                    />
-                  )}
-                />
-              </Col>
+              <Form.Label>
+                Category{" "}
+                {errors.categoryIds && (
+                  <i
+                    title={errors.categoryIds.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
+              <Controller
+                name="categoryIds"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    isMulti
+                    options={categoryOptions}
+                    components={animatedComponents}
+                  />
+                )}
+              />
             </Row>
             &nbsp;
             <Row>
-              <Col>
-                <Form.Label>
-                  Author{" "}
-                  {errors.authorIds && (
-                    <i
-                      title={errors.authorIds.message}
-                      className="fa-solid fa-circle-exclamation"
-                      style={{ color: "red" }}
-                    ></i>
-                  )}
-                </Form.Label>
-                <Controller
-                  name="authorIds"
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <AsyncSelect
-                      {...field}
-                      isMulti
-                      cacheOptions
-                      defaultOptions
-                      loadOptions={handleAuthorOptions}
-                    />
-                  )}
-                />
-              </Col>
+              <Form.Label>
+                Author{" "}
+                {errors.authorIds && (
+                  <i
+                    title={errors.authorIds.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
+              <Controller
+                name="authorIds"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <AsyncSelect
+                    {...field}
+                    isMulti
+                    cacheOptions
+                    defaultOptions
+                    loadOptions={handleAuthorOptions}
+                  />
+                )}
+              />
             </Row>
             &nbsp;
             <Row>
@@ -229,35 +225,33 @@ export default function EditManga({
               &nbsp;
             </Row>
             &nbsp;
-            <Row>
-              <Col>
-                <Form.Label>
-                  Description {""}
-                  {errors.description && (
-                    <i
-                      title={errors.description.message}
-                      className="fa-solid fa-circle-exclamation"
-                      style={{ color: "red" }}
-                    ></i>
-                  )}
-                </Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  {...register("description", {
-                    maxLength: {
-                      value: 1000,
-                      message: "This field must be less than 1000 characters",
-                    },
-                  })}
-                />
-              </Col>
-            </Row>
+            <Col>
+              <Form.Label>
+                Description {""}
+                {errors.description && (
+                  <i
+                    title={errors.description.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                {...register("description", {
+                  maxLength: {
+                    value: 1000,
+                    message: "This field must be less than 1000 characters",
+                  },
+                })}
+              />
+            </Col>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" type="submit" form="edit-manga-form">
-            Update
+            Save Change
           </Button>
         </Modal.Footer>
       </Modal>

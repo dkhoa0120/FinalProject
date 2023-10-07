@@ -52,17 +52,15 @@ export default function ModalUpdateRoles({
         </Modal.Header>
         <Modal.Body>
           <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
-            <div>
+            <Form.Group className="mb-3">
               <Form.Label>User Id</Form.Label>
               <Form.Control disabled type="text" {...register("id")} />
-            </div>
-            <br />
-            <div>
+            </Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>User Name</Form.Label>
               <Form.Control disabled type="text" {...register("name")} />
-            </div>
-            <br />
-            <div>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>
                 Roles{" "}
                 {errors.roles && (
@@ -90,12 +88,12 @@ export default function ModalUpdateRoles({
                   />
                 )}
               />
-            </div>
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" type="submit" form="update-roles-form">
-            Confirm Update
+          <Button variant="primary" type="submit" form="update-roles-form">
+            Save Change
           </Button>
         </Modal.Footer>
       </Modal>

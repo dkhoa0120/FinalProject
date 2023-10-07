@@ -160,15 +160,13 @@ export default function EditPostModal({ post, close, updatePostEdited }) {
             dragStart={dragStart}
           />
         </Form>
-        <div
-          style={{ display: "flex", justifyContent: "end", paddingTop: "10px" }}
-        >
+        <div style={{ display: "flex", justifyContent: "end" }}>
           <Button
             variant="primary"
             onClick={handleEditPost}
             disabled={!content || content.length > 2000}
           >
-            Update
+            Save Change
           </Button>
         </div>
       </Modal.Body>

@@ -112,6 +112,11 @@
   color: green;
 }
 
+.viewed p,
+.chapter-viewed {
+  color: lightgray;
+}
+
 @media screen and (max-width: 767px) {
   .banner h1 {
     font-size: 32px;

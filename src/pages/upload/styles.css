@@ -230,6 +230,13 @@
   visibility: visible;
 }
 
+.new-to-you.edit-chapter-button {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px 15px;
+}
+
 @media (max-width: 767px) {
   .arrow {
     background: none !important;

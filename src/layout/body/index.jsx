@@ -21,6 +21,7 @@ import Group from "../../pages/groupProfile";
 import MangaListGroup from "../../pages/profile/components/MangaListGroup";
 import ManageMembers from "../../pages/groupProfile/components/ManageMembers";
 import FollowedManga from "../../pages/follows";
+import CommunityFeeds from "../../pages/communityFeed";
 
 export default function Body() {
   return (
@@ -50,6 +51,7 @@ export default function Body() {
           element={<ManageMembers />}
         />
         <Route path="/manga-lists/:listId" element={<MangaListGroup />} />
+        <Route path="/community" element={<CommunityFeeds />} />
       </Routes>
     </div>
   );

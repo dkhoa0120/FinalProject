@@ -8,12 +8,12 @@ export default function PostCreateButton({ open }) {
       <div>
         <img
           className="avatar"
-          src={user.avatarPath || "/img/avatar/default.png"}
+          src={user?.avatarPath || "/img/avatar/default.png"}
           alt="Avatar"
         />
       </div>
       <button onClick={open}>
-        <span>What's on your mind, {user.name}?</span>
+        <span>What's on your mind, {user?.name}?</span>
       </button>
     </div>
   );

@@ -209,31 +209,29 @@ export default function Edit() {
         </Card>
         &nbsp;
         <Form id="update-form" onSubmit={handleSubmit(onSubmit)}>
-          <Row>
-            <Col className="mb-3">
-              <Form.Label>
-                Group{" "}
-                {errors.uploadingGroupId && (
-                  <i
-                    title={errors.uploadingGroupId.message}
-                    className="fa-solid fa-circle-exclamation"
-                    style={{ color: "red" }}
-                  ></i>
-                )}
-              </Form.Label>
-              <Controller
-                name="uploadingGroupId"
-                defaultValue={null}
-                control={control}
-                rules={{ required: "This field is required" }}
-                render={({ field }) => (
-                  <Select {...field} isClearable options={groupOptions} />
-                )}
-              />
-            </Col>
+          <Row className="mb-3">
+            <Form.Label>
+              Group{" "}
+              {errors.uploadingGroupId && (
+                <i
+                  title={errors.uploadingGroupId.message}
+                  className="fa-solid fa-circle-exclamation"
+                  style={{ color: "red" }}
+                ></i>
+              )}
+            </Form.Label>
+            <Controller
+              name="uploadingGroupId"
+              defaultValue={null}
+              control={control}
+              rules={{ required: "This field is required" }}
+              render={({ field }) => (
+                <Select {...field} isClearable options={groupOptions} />
+              )}
+            />
           </Row>
-          <Row>
-            <Col md={4} lg={4} className="mb-3">
+          <Row className="mb-3">
+            <Col md={4}>
               <Form.Label>
                 Chapter number{" "}
                 {errors.number && (
@@ -254,7 +252,7 @@ export default function Edit() {
                 })}
               />
             </Col>
-            <Col md={4} lg={4} className="mb-3">
+            <Col md={4}>
               <Form.Label>
                 Chapter name{" "}
                 {errors.name && (
@@ -270,11 +268,11 @@ export default function Edit() {
                 placeholder="Name"
                 aria-label="Chapter name"
                 {...register("name", {
-                  required: "Chapter number is required",
+                  required: "Chapter name is required",
                 })}
               />
             </Col>
-            <Col md={4} lg={4} className="mb-3">
+            <Col md={4}>
               <Form.Label>
                 Choose language{" "}
                 {errors.language && (
@@ -316,15 +314,9 @@ export default function Edit() {
           <button
             type="submit"
             form="update-form"
-            className="new-to-you"
-            style={{
-              color: "white",
-              fontSize: "20px",
-              fontWeight: "bold",
-              padding: "6px 15px",
-            }}
+            className="new-to-you edit-chapter-button"
           >
-            Update
+            Save Change
           </button>
         </div>
       </Container>

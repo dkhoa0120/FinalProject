@@ -283,7 +283,7 @@ export default function ManageMembers() {
                     </Link>
                   </td>
                   <td style={{ width: "200px" }}>
-                    <div className="d-flex flex-wrap gap-1 test">
+                    <div className="d-flex flex-wrap gap-1 user-role">
                       {member.groupRoles
                         .split(", ")
                         .map((r) => groupRoleOptions.find((o) => o.value === r))
@@ -346,36 +346,39 @@ export default function ManageMembers() {
         </Modal.Header>
         <Modal.Body>
           <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
-            <Form.Label>User Name</Form.Label>
-            <Form.Control type="text" value={targetedMember?.name} disabled />
-            <br />
-            <Form.Label>
-              Roles{" "}
-              {errors.groupRoles && (
-                <i
-                  title={errors.groupRoles.message}
-                  className="fa-solid fa-circle-exclamation"
-                  style={{ color: "red" }}
-                ></i>
-              )}
-            </Form.Label>
-            <Controller
-              name="groupRoles"
-              control={control}
-              rules={{ required: "This field is required" }}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  styles={styles}
-                  options={groupRoleOptions}
-                  onChange={onChange}
-                  isClearable={getValues("groupRoles")?.some(
-                    (o) => !checkIfOwner(o)
-                  )}
-                  isMulti
-                />
-              )}
-            />
+            <Form.Group className="mb-3">
+              <Form.Label>User Name</Form.Label>
+              <Form.Control type="text" value={targetedMember?.name} disabled />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Roles{" "}
+                {errors.groupRoles && (
+                  <i
+                    title={errors.groupRoles.message}
+                    className="fa-solid fa-circle-exclamation"
+                    style={{ color: "red" }}
+                  ></i>
+                )}
+              </Form.Label>
+              <Controller
+                name="groupRoles"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    styles={styles}
+                    options={groupRoleOptions}
+                    onChange={onChange}
+                    isClearable={getValues("groupRoles")?.some(
+                      (o) => !checkIfOwner(o)
+                    )}
+                    isMulti
+                  />
+                )}
+              />
+            </Form.Group>
             {message && (
               <div style={{ color: "red", margin: "10px 0 " }}>
                 <i className="fa-solid fa-triangle-exclamation"></i>
@@ -387,8 +390,8 @@ export default function ManageMembers() {
             )}
           </Form>
           <div className="modal-button">
-            <Button variant="success" type="submit" form="update-roles-form">
-              Confirm Update
+            <Button variant="primary" type="submit" form="update-roles-form">
+              Save Change
             </Button>
           </div>
         </Modal.Body>
