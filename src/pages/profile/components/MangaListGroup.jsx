@@ -318,7 +318,7 @@ export default function MangaListGroup() {
                                   <div className="chapter-name">
                                     <CountryFlag key={c.id} lang={c.language} />
                                     <span className="text-limit-1">
-                                      {c.name}
+                                      Ch.{c.number} - {c.name}
                                     </span>
                                   </div>
                                 </Link>

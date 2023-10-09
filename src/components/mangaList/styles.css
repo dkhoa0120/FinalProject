@@ -66,3 +66,13 @@
   height: 100%;
   width: 100%;
 }
+
+@media (min-width: 767px), (max-width: 993px) {
+  .box .text h4 {
+    font-size: 22px;
+  }
+
+  .box .text span {
+    font-size: 12px;
+  }
+}
