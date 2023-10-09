@@ -19,6 +19,7 @@ export default function MangaDetail() {
   const [rate, setRate] = useState(0);
   const [follow, setFollow] = useState(null);
   const navigate = useNavigate();
+  const type = "manga";
 
   const updateStatsAfterRating = (newRating) => {
     setMangaStats((prev) => {
@@ -68,14 +69,14 @@ export default function MangaDetail() {
   const handleFollow = async () => {
     try {
       if (!follow) {
-        await followApi.postFollow(mangaId);
+        await followApi.postFollow(type, mangaId);
         setFollow(true);
         setMangaStats((prev) => ({
           ...prev,
           followCount: prev.followCount + 1,
         }));
       } else {
-        await followApi.deleteFollow(mangaId);
+        await followApi.deleteFollow(type, mangaId);
         setFollow(false);
         setMangaStats((prev) => ({
           ...prev,
@@ -145,7 +146,7 @@ export default function MangaDetail() {
 
   const fetchUserFollow = async (mangaId) => {
     try {
-      const response = await followApi.getCurrentUserFollow(mangaId);
+      const response = await followApi.getCurrentUserFollow(type, mangaId);
       setFollow(response.data);
     } catch (error) {
       console.error("Error retrieving user rating:", error);

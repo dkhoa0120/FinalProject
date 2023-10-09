@@ -40,9 +40,9 @@ export default function CommentSection({ type, typeId }) {
 
       // Set outOfComment to disable loading more comment in scroll event below
       if (newComments.data.length > 0) {
-        setOutOfComment(true);
-      } else {
         setOutOfComment(false);
+      } else {
+        setOutOfComment(true);
       }
     } catch (error) {
       console.error("Error fetching more members:", error);
@@ -55,6 +55,7 @@ export default function CommentSection({ type, typeId }) {
     const handleScroll = () => {
       const { scrollHeight, scrollTop, clientHeight } = commentPost;
 
+      console.log("outOfComment", outOfComment);
       // Check if you've scrolled to the bottom
       if (
         scrollHeight - scrollTop - clientHeight <= 5 &&

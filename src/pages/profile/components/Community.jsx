@@ -55,9 +55,9 @@ export default function Community() {
 
       // Set outOfComment to disable loading more comment in scroll event below
       if (newPosts.data.length > 0) {
-        setOutOfPost(true);
-      } else {
         setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
       }
     } catch (error) {
       console.error("Error fetching more members:", error);

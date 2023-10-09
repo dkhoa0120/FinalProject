@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as accountApi from "../../service/api.account";
+import * as followApi from "../../service/api.follow";
 import Uploads from "./components/Uploads";
 import Groups from "./components/Groups";
 import About from "./components/About";
@@ -12,6 +13,7 @@ import BannerModal from "./components/BannerModal";
 import MangaList from "./components/MangaList";
 import FollowedMangaList from "./components/FollowedMangaList";
 import Community from "./components/Community";
+import { toast } from "react-toastify";
 
 export default function Profile() {
   let profileOptions = [
@@ -28,12 +30,15 @@ export default function Profile() {
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [userStats, setUserStats] = useState(null);
   const { userId } = useParams();
+  const [follow, setFollow] = useState(null);
   const { user, setUser } = useContext(UserContext);
+  const type = "user";
 
   useEffect(() => {
     document.title = `Profile - 3K Manga`;
     getUserDetail(userId);
     getUserStats(userId);
+    fetchUserFollow(userId);
   }, [userId]);
 
   const getUserDetail = async (id) => {
@@ -55,6 +60,41 @@ export default function Profile() {
       if (error.response && error.response.status === 404) {
         console.log(error.response);
       }
+    }
+  };
+
+  const handleFollow = async () => {
+    try {
+      if (!follow) {
+        await followApi.postFollow(type, userId);
+        setFollow(true);
+        setUserStats((prev) => ({
+          ...prev,
+          followerNumber: prev.followerNumber + 1,
+        }));
+      } else {
+        await followApi.deleteFollow(type, userId);
+        setFollow(false);
+        setUserStats((prev) => ({
+          ...prev,
+          followerNumber: prev.followerNumber - 1,
+        }));
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Please sign in to follow!");
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const fetchUserFollow = async (userId) => {
+    try {
+      const response = await followApi.getCurrentUserFollow(type, userId);
+      setFollow(response.data);
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
     }
   };
 
@@ -114,7 +154,9 @@ export default function Profile() {
               </Button>
             </>
           ) : (
-            <Button variant="outline-dark">Follow</Button>
+            <Button variant="outline-dark" onClick={handleFollow}>
+              {follow ? "Unfollow" : "Follow"}
+            </Button>
           )}
         </div>
       </div>

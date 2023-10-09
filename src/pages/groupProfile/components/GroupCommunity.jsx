@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as postApi from "../../../service/api.post";
 import PostCreateButton from "../../../components/post/postCreateButton";
-import { UserContext } from "../../../context/UserContext";
 import PcPost from "../../../components/post/pcPost";
 import PcModal from "../../../components/post/pcModal";
 import MobilePost from "../../../components/post/mobilePost";
@@ -13,8 +12,6 @@ export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState([]);
   const { groupId } = useParams();
-  const { user } = useContext(UserContext);
-  const memberId = user?.id;
   const [isMobile, setIsMobile] = useState(false);
   const [targetedPostId, setTargetedPostId] = useState(null);
   const [loadingPost, setLoadingPost] = useState(false);
@@ -54,9 +51,9 @@ export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
 
       // Set outOfComment to disable loading more comment in scroll event below
       if (newPosts.data.length > 0) {
-        setOutOfPost(true);
-      } else {
         setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
       }
     } catch (error) {
       console.error("Error fetching more members:", error);

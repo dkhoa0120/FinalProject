@@ -1,16 +1,16 @@
 import { getAuthorizedAxios } from "./api.base";
 import qs from "qs";
 
-export const getCurrentUserFollow = (id) => {
-  return getAuthorizedAxios().get(`mangas/${id}/my-follow`);
+export const getCurrentUserFollow = (type, id) => {
+  return getAuthorizedAxios().get(`${type}s/${id}/my-follow`);
 };
 
-export const postFollow = (id) => {
-  return getAuthorizedAxios().post(`mangas/${id}/my-follow`, {});
+export const postFollow = (type, id) => {
+  return getAuthorizedAxios().post(`${type}s/${id}/my-follow`, {});
 };
 
-export const deleteFollow = (id) => {
-  return getAuthorizedAxios().delete(`mangas/${id}/my-follow`);
+export const deleteFollow = (type, id) => {
+  return getAuthorizedAxios().delete(`${type}s/${id}/my-follow`);
 };
 
 export const getFollowedMangas = (filter) => {
