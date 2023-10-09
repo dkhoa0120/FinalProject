@@ -60,7 +60,9 @@ export default function Uploads() {
                           <Link to={`/chapters/${c.id}`} className="card-link">
                             <div className="chapter-name">
                               <CountryFlag lang={c.language} />
-                              <p className="text-limit-1">{c.name}</p>
+                              <p className="text-limit-1">
+                                Ch.{c.number} - {c.name}
+                              </p>
                             </div>
                           </Link>
                         </Col>

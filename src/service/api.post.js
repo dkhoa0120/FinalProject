@@ -25,6 +25,11 @@ export const createGroupPost = (groupId, formData) => {
   return getAuthorizedAxios().post(`/groups/${groupId}/posts`, formData);
 };
 
-export const getGroupPosts = (groupId) => {
-  return getAuthorizedAxios().get(`/groups/${groupId}/posts`);
+export const getGroupPosts = (groupId, filter) => {
+  const createdAtCursor = filter?.createdAtCursor;
+  return getAuthorizedAxios().get(`/groups/${groupId}/posts`, {
+    params: {
+      createdAtCursor,
+    },
+  });
 };

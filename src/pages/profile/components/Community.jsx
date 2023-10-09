@@ -75,7 +75,7 @@ export default function Community() {
       ) {
         setLoadingPost(true);
         setTimeout(() => {
-          handleSeeMorePost(userId, posts[posts.length - 1]?.createdAt);
+          handleSeeMorePost(userId, posts[posts.length - 1]);
           setLoadingPost(false);
         }, 1000);
       }

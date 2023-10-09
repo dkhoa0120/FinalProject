@@ -34,7 +34,7 @@ export default function Uploads({ groupId }) {
     <>
       <Container fluid>
         {groupMangaLists ? (
-          groupMangaLists.map((m, index, c) => {
+          groupMangaLists.map((m, index) => {
             return (
               <>
                 <div className="chapter-group-container" key={index}>
@@ -72,7 +72,9 @@ export default function Uploads({ groupId }) {
                             >
                               <div className="chapter-name">
                                 <CountryFlag key={c.id} lang={c.language} />
-                                <p className="text-limit-1">{c.name}</p>
+                                <p className="text-limit-1">
+                                  Ch.{c.number} - {c.name}
+                                </p>
                               </div>
                             </Link>
                           </Col>

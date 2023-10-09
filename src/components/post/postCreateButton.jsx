@@ -14,9 +14,9 @@ export default function PostCreateButton({ type, open }) {
       </div>
       <button onClick={open}>
         {type === "user" ? (
-          <span>What's on your mind, {user.name}?</span>
+          <span>What's on your mind, {user?.name}?</span>
         ) : (
-          <span>Write somethings, {user.name}?</span>
+          <span>Write somethings, {user?.name}?</span>
         )}
       </button>
     </div>
