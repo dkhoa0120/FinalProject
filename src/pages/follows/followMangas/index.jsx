@@ -1,10 +1,10 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import CountryFlag from "../../components/countryFlag";
+import CountryFlag from "../../../components/countryFlag";
 import { useEffect, useState } from "react";
-import * as followApi from "../../service/api.follow";
-import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
-import Pagination from "../../components/pagination";
+import * as followApi from "../../../service/api.follow";
+import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
+import Pagination from "../../../components/pagination";
 
 export default function FollowedManga() {
   const [followedManga, setFollowedManga] = useState();
@@ -33,25 +33,30 @@ export default function FollowedManga() {
         {followedManga ? (
           followedManga.map((m) => {
             return (
-              <div className="chapter-group-container" key={m.manga.id}>
+              <div className="chapter-group-container" key={m.id}>
                 <div>
-                  <Link to={`/mangas/${m.manga.id}`} className="card-link">
+                  <Link to={`/mangas/${m.id}`} className="card-link">
                     <img
-                      src={m.manga.coverPath || "/img/error/coverNotFound.png"}
+                      src={m.coverPath || "/img/error/coverNotFound.png"}
                       style={{ width: "100px" }}
                       alt="manga's cover"
                     ></img>
                   </Link>
                 </div>
                 <div className="flex-grow-1">
-                  <Link to={`/mangas/${m.manga.id}`} className="card-link">
+                  <Link to={`/mangas/${m.id}`} className="card-link">
                     <p className="text-limit-1 manga-original-title">
-                      {m.manga.originalTitle}
+                      {m.originalTitle}
                     </p>
                   </Link>
                   {m.chapters ? (
                     m.chapters.map((c) => (
-                      <Row className="chapter-row" key={c.id}>
+                      <Row
+                        className={
+                          "chapter-row" + (c.isViewedByUser ? " viewed" : "")
+                        }
+                        key={c.id}
+                      >
                         <Col xs={12} md={4}>
                           <Link to={`/chapters/${c.id}`} className="card-link">
                             <div className="chapter-name">

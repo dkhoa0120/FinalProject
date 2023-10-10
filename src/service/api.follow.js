@@ -24,3 +24,11 @@ export const getFollowedMangas = (filter) => {
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
+
+export const getFollowingUsers = () => {
+  return getAuthorizedAxios().get(`followings`);
+};
+
+export const getFollowerUsers = () => {
+  return getAuthorizedAxios().get(`followers`);
+};

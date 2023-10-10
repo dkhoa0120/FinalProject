@@ -1,0 +1,8 @@
+.follow-user-container {
+  display: flex;
+  align-items: center;
+}
+
+.follow-user-container .group-info {
+  flex-grow: 1;
+}
