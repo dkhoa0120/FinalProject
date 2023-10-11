@@ -23,6 +23,7 @@ import ManageMembers from "../../pages/groupProfile/components/ManageMembers";
 import CommunityFeeds from "../../pages/communityFeed";
 import FollowUsers from "../../pages/follows/followUsers";
 import FollowedManga from "../../pages/follows/followMangas";
+import EditProfile from "../../pages/editProfile";
 
 export default function Body() {
   return (
@@ -54,6 +55,7 @@ export default function Body() {
           element={<ManageMembers />}
         />
         <Route path="/manga-lists/:listId" element={<MangaListGroup />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </div>
   );

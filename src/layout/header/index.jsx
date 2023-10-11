@@ -120,35 +120,33 @@ export default function Header({ showSidebar, toggleSidebar }) {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav>
-                <Row>
-                  <Col>
+                <Col>
+                  <Link to={`/edit-profile`}>
                     <Button className="mb-3 w-100" variant="outline-dark">
-                      <i className="fa-solid fa-sun"></i> Theme
+                      <i className="fa-solid fa-gear"></i> Settings
                     </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    {user ? (
-                      <>
-                        {user.roles.includes("Uploader") && (
-                          <NavLink to="/upload/chapters">
-                            <Button
-                              className="mb-3 w-100"
-                              variant="outline-dark"
-                              onClick={() => {
-                                setShow(false);
-                              }}
-                            >
-                              <i className="fa-solid fa-list-check"></i> Upload
-                              chapter
-                            </Button>
-                          </NavLink>
-                        )}
-                      </>
-                    ) : null}
-                  </Col>
-                </Row>
+                  </Link>
+                </Col>
+                <Col>
+                  {user ? (
+                    <>
+                      {user.roles.includes("Uploader") && (
+                        <NavLink to="/upload/chapters">
+                          <Button
+                            className="mb-3 w-100"
+                            variant="outline-dark"
+                            onClick={() => {
+                              setShow(false);
+                            }}
+                          >
+                            <i className="fa-solid fa-list-check"></i> Upload
+                            chapter
+                          </Button>
+                        </NavLink>
+                      )}
+                    </>
+                  ) : null}
+                </Col>
                 {user ? (
                   <>
                     {user.roles.includes("Admin") && (

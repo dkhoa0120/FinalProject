@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as accountApi from "../../service/api.account";
@@ -148,11 +148,11 @@ export default function Profile() {
         </div>
         <div id="profile-buttons">
           {user && user?.id === userId ? (
-            <>
+            <Link to={"/edit-profile"}>
               <Button variant="outline-dark">
                 <i className="fa-solid fa-user-pen"></i> Edit profile
               </Button>
-            </>
+            </Link>
           ) : (
             <Button variant="outline-dark" onClick={handleFollow}>
               {follow ? "Unfollow" : "Follow"}
