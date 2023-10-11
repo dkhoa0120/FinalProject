@@ -137,6 +137,7 @@ export default function AddToListModal({
             <Form.Group className="mb-3">
               {mangaLists?.map((mangaList) => (
                 <Form.Check
+                  id={`chk-${mangaList.id}`}
                   key={mangaList.id}
                   type="checkbox"
                   name="mangaListSelection"

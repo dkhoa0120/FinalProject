@@ -14,21 +14,31 @@ export const deleteFollow = (type, id) => {
 };
 
 export const getFollowedMangas = (filter) => {
-  const page = filter?.page;
-  const pageSize = filter?.pageSize;
+  const updatedAtCursor = filter?.updatedAtCursor;
   return getAuthorizedAxios().get(`followed-mangas`, {
     params: {
-      page,
-      pageSize,
+      updatedAtCursor,
     },
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
 
-export const getFollowingUsers = () => {
-  return getAuthorizedAxios().get(`followings`);
+export const getFollowingUsers = (filter) => {
+  const createdAtCursor = filter?.createdAtCursor;
+  return getAuthorizedAxios().get(`followings`, {
+    params: {
+      createdAtCursor,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
+  });
 };
 
-export const getFollowerUsers = () => {
-  return getAuthorizedAxios().get(`followers`);
+export const getFollowerUsers = (filter) => {
+  const createdAtCursor = filter?.createdAtCursor;
+  return getAuthorizedAxios().get(`followers`, {
+    params: {
+      createdAtCursor,
+    },
+    paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
+  });
 };

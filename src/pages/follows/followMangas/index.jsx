@@ -1,122 +1,86 @@
-import { Link, useSearchParams } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
-import CountryFlag from "../../../components/countryFlag";
+import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as followApi from "../../../service/api.follow";
-import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
-import Pagination from "../../../components/pagination";
+import MangaBlock from "../../../components/mangaBlock";
 
 export default function FollowedManga() {
-  const [followedManga, setFollowedManga] = useState();
-  const [totalPages, setTotalPages] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [followedManga, setFollowedManga] = useState([]);
+  const [loadingPost, setLoadingPost] = useState(false);
+  const [outOfPost, setOutOfPost] = useState(false);
 
-  const page = searchParams.get("page") || "1";
+  const fetchFollowedMangas = async () => {
+    try {
+      const result = await followApi.getFollowedMangas();
+      setFollowedManga(result.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setFollowedManga(null);
+      }
+    }
+  };
+
+  const handleSeeMoreMangas = async (updatedAtCursor) => {
+    try {
+      const newMangaLists = await followApi.getFollowedMangas({
+        updatedAtCursor,
+      });
+      setFollowedManga([...followedManga, ...newMangaLists.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newMangaLists.data.length > 0) {
+        setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
+      }
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
+  };
 
   useEffect(() => {
-    const getChaptersByPage = async (page) => {
-      try {
-        const result = await followApi.getFollowedMangas({ page });
-        setFollowedManga(result.data.itemList);
-        setTotalPages(result.data.totalPages);
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          setFollowedManga(null);
-        }
+    const handleScroll = () => {
+      // Check if you've scrolled to the bottom
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.offsetHeight &&
+        followedManga.length > 0 &&
+        !outOfPost
+      ) {
+        setLoadingPost(true);
+        setTimeout(() => {
+          handleSeeMoreMangas(
+            followedManga[followedManga.length - 1]?.updatedAt
+          );
+          setLoadingPost(false);
+        }, 1000);
       }
     };
-    getChaptersByPage(page);
-  }, [page]);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [followedManga]);
+
+  useEffect(() => {
+    fetchFollowedMangas();
+  }, []);
   return (
     <>
       <Container fluid>
         {followedManga ? (
-          followedManga.map((m) => {
-            return (
-              <div className="chapter-group-container" key={m.id}>
-                <div>
-                  <Link to={`/mangas/${m.id}`} className="card-link">
-                    <img
-                      src={m.coverPath || "/img/error/coverNotFound.png"}
-                      style={{ width: "100px" }}
-                      alt="manga's cover"
-                    ></img>
-                  </Link>
-                </div>
-                <div className="flex-grow-1">
-                  <Link to={`/mangas/${m.id}`} className="card-link">
-                    <p className="text-limit-1 manga-original-title">
-                      {m.originalTitle}
-                    </p>
-                  </Link>
-                  {m.chapters ? (
-                    m.chapters.map((c) => (
-                      <Row
-                        className={
-                          "chapter-row" + (c.isViewedByUser ? " viewed" : "")
-                        }
-                        key={c.id}
-                      >
-                        <Col xs={12} md={4}>
-                          <Link to={`/chapters/${c.id}`} className="card-link">
-                            <div className="chapter-name">
-                              <CountryFlag lang={c.language} />
-                              <p className="text-limit-1">
-                                Ch.{c.number} - {c.name}
-                              </p>
-                            </div>
-                          </Link>
-                        </Col>
-                        <Col xs={6} md={2}>
-                          <Link
-                            to={`/groups/${c.uploadingGroup.id}`}
-                            className="card-link"
-                          >
-                            <p className="text-truncate">
-                              <i className="fa-regular fa-user"></i>{" "}
-                              {c.uploadingGroup.name}
-                            </p>
-                          </Link>
-                        </Col>
-                        <Col xs={6} md={2} className="hide-when-mobile">
-                          <p className="text-truncate ">
-                            <i className="fa-regular fa-user"></i>{" "}
-                            {c.uploader.name}
-                          </p>
-                        </Col>
-                        <Col xs={6} md={2}>
-                          <p
-                            className="text-truncate"
-                            title={new Date(c.createdAt).toLocaleString()}
-                          >
-                            <i className="fa-regular fa-clock"></i>{" "}
-                            {calculateTimeDifference(c.createdAt)}
-                          </p>
-                        </Col>
-                        <Col xs={6} md={2} className="hide-when-mobile">
-                          <p className="text-truncate">
-                            <i className="fa-regular fa-eye"></i> {c.viewCount}{" "}
-                            {c.viewCount >= 2 ? "views" : "view"}
-                          </p>
-                        </Col>
-                      </Row>
-                    ))
-                  ) : (
-                    <p></p>
-                  )}
-                </div>
-              </div>
-            );
-          })
+          followedManga.map((m) => <MangaBlock manga={m} />)
         ) : (
           <p></p>
         )}
       </Container>
-      <Pagination
-        totalPages={totalPages}
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
-      />
+
+      {loadingPost && (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      )}
     </>
   );
 }

@@ -1,8 +1,13 @@
 import { baseAxios, getAuthorizedAxios } from "./api.base";
 import qs from "qs";
 
-export const getUploadGroup = (id) => {
-  return baseAxios.get(`users/${id}/groups`);
+export const getUploadGroup = (id, filter) => {
+  const joinedAtCursor = filter?.joinedAtCursor;
+  return baseAxios.get(`users/${id}/groups`, {
+    params: {
+      joinedAtCursor,
+    },
+  });
 };
 
 export const getGroupInfo = (id) => {
@@ -24,12 +29,12 @@ export const getGroupMembers = (groupId, filter) => {
   });
 };
 
-export const getGroupMangaList = (groupId, filter) => {
-  const page = filter?.page;
+export const getGroupUploadMangas = (groupId, filter) => {
+  const updatedAtCursor = filter?.updatedAtCursor;
 
-  return baseAxios.get(`groups/${groupId}/chapters-by-manga`, {
+  return getAuthorizedAxios().get(`groups/${groupId}/chapters-by-manga`, {
     params: {
-      page,
+      updatedAtCursor,
     },
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });

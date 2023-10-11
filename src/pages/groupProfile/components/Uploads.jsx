@@ -1,137 +1,91 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import PaginationNoParams from "../../../components/paginationNoParams";
 import { Link } from "react-router-dom";
 import * as groupApi from "../../../service/api.group";
 import CountryFlag from "../../../components/countryFlag";
 import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
+import MangaBlock from "../../../components/mangaBlock";
 
 export default function Uploads({ groupId }) {
-  const [groupMangaLists, setGroupMangaLists] = useState(null);
-  const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [groupMangaLists, setGroupMangaLists] = useState([]);
+  const [loadingPost, setLoadingPost] = useState(false);
+  const [outOfPost, setOutOfPost] = useState(false);
 
-  const handleChangePage = (pageNum) => {
-    setCurrentPage(pageNum);
+  const fetchUploadMangas = async (groupId) => {
+    try {
+      const result = await groupApi.getGroupUploadMangas(groupId);
+      setGroupMangaLists(result.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setGroupMangaLists(null);
+      }
+    }
+  };
+
+  const handleSeeMoreMangas = async (groupId, updatedAtCursor) => {
+    try {
+      const newGroupMangaLists = await groupApi.getGroupUploadMangas(groupId, {
+        updatedAtCursor,
+      });
+      setGroupMangaLists([...groupMangaLists, ...newGroupMangaLists.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newGroupMangaLists.data.length > 0) {
+        setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
+      }
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
   };
 
   useEffect(() => {
-    const getChaptersByPage = async (id, page) => {
-      try {
-        const result = await groupApi.getGroupMangaList(id, { page });
-        setGroupMangaLists(result.data.itemList);
-        setTotalPages(result.data.totalPages);
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          setGroupMangaLists(null);
-        }
+    const handleScroll = () => {
+      // Check if you've scrolled to the bottom
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.offsetHeight &&
+        groupMangaLists.length > 0 &&
+        !outOfPost
+      ) {
+        setLoadingPost(true);
+        setTimeout(() => {
+          handleSeeMoreMangas(
+            groupId,
+            groupMangaLists[groupMangaLists.length - 1]?.updatedAt
+          );
+          setLoadingPost(false);
+        }, 1000);
       }
     };
-    getChaptersByPage(groupId, currentPage);
-  }, [groupId, currentPage]);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupMangaLists]);
+
+  useEffect(() => {
+    fetchUploadMangas(groupId);
+  }, [groupId]);
 
   return (
     <>
       <Container fluid>
         {groupMangaLists ? (
-          groupMangaLists.map((m, index) => {
-            return (
-              <>
-                <div className="chapter-group-container" key={index}>
-                  <div>
-                    <Link to={`/mangas/${m.manga.id}`} className="card-link">
-                      <img
-                        src={
-                          m.manga.coverPath || "/img/error/coverNotFound.png"
-                        }
-                        style={{ width: "100px" }}
-                        alt="manga's cover"
-                      ></img>
-                    </Link>
-                  </div>
-                  <div className="flex-grow-1">
-                    <Link to={`/mangas/${m.manga.id}`} className="card-link">
-                      <p
-                        className="text-limit-1"
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "5px",
-                        }}
-                      >
-                        {m.manga.originalTitle}
-                      </p>
-                    </Link>
-                    {m.chapters ? (
-                      m.chapters.map((c, index) => (
-                        <Row className="chapter-row" key={index}>
-                          <Col xs={12} md={4}>
-                            <Link
-                              to={`/chapters/${c.id}`}
-                              className="card-link"
-                            >
-                              <div className="chapter-name">
-                                <CountryFlag key={c.id} lang={c.language} />
-                                <p className="text-limit-1">
-                                  Ch.{c.number} - {c.name}
-                                </p>
-                              </div>
-                            </Link>
-                          </Col>
-                          <Col xs={6} md={2} className="hide-when-mobile">
-                            <p className="text-truncate">
-                              <i className="fa-regular fa-user"></i>{" "}
-                              {c.uploadingGroup.name}
-                            </p>
-                          </Col>
-                          <Col xs={6} md={2}>
-                            <Link
-                              to={`/profile/${c.uploader.id}`}
-                              className="card-link"
-                            >
-                              <p className="text-truncate ">
-                                <i className="fa-regular fa-user"></i>{" "}
-                                {c.uploader.name}
-                              </p>
-                            </Link>
-                          </Col>
-                          <Col xs={6} md={2}>
-                            <p
-                              className="text-truncate"
-                              title={new Date(c.createdAt).toLocaleString()}
-                            >
-                              <i className="fa-regular fa-clock"></i>{" "}
-                              {calculateTimeDifference(c.createdAt)}
-                            </p>
-                          </Col>
-                          <Col xs={6} md={2} className="hide-when-mobile">
-                            <p className="text-truncate">
-                              <i className="fa-regular fa-eye"></i>{" "}
-                              {c.viewCount}{" "}
-                              {c.viewCount >= 2 ? "views" : "view"}
-                            </p>
-                          </Col>
-                        </Row>
-                      ))
-                    ) : (
-                      <p></p>
-                    )}
-                  </div>
-                </div>
-              </>
-            );
-          })
+          groupMangaLists.map((m) => <MangaBlock manga={m} />)
         ) : (
           <p></p>
         )}
       </Container>
-      <div className="d-flex justify-content-center">
-        <PaginationNoParams
-          page={currentPage}
-          totalPages={totalPages}
-          onPageChange={handleChangePage}
-        />
-      </div>
+
+      {loadingPost && (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      )}
     </>
   );
 }

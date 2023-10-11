@@ -6,7 +6,9 @@ import { useEffect } from "react";
 
 export default function FollowedMangaList() {
   const navigate = useNavigate();
-  const [mangaLists, setMangaLists] = useState();
+  const [mangaLists, setMangaLists] = useState([]);
+  const [loadingPost, setLoadingPost] = useState(false);
+  const [outOfPost, setOutOfPost] = useState(false);
 
   const fetchMangaLists = async () => {
     try {
@@ -19,6 +21,48 @@ export default function FollowedMangaList() {
       }
     }
   };
+
+  const handleSeeMoreMangaLists = async (createdAtCursor) => {
+    try {
+      const newMangaLists = await listApi.getFollowedLists({
+        createdAtCursor: createdAtCursor?.createdAt,
+      });
+      setMangaLists([...mangaLists, ...newMangaLists.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newMangaLists.data.length > 0) {
+        setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
+      }
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if you've scrolled to the bottom
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.offsetHeight &&
+        mangaLists.length > 0 &&
+        !outOfPost
+      ) {
+        setLoadingPost(true);
+        setTimeout(() => {
+          handleSeeMoreMangaLists(mangaLists[mangaLists.length - 1]);
+          setLoadingPost(false);
+        }, 1000);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mangaLists]);
 
   useEffect(() => {
     fetchMangaLists();
@@ -98,6 +142,11 @@ export default function FollowedMangaList() {
           )}
         </Row>
       </Container>
+      {loadingPost && (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      )}
     </>
   );
 }
