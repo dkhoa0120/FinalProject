@@ -19,11 +19,11 @@ import ManageChapter from "../../pages/upload/manageChapter";
 import Edit from "../../pages/upload/editChapter";
 import Group from "../../pages/groupProfile";
 import MangaListGroup from "../../pages/profile/components/MangaListGroup";
-import ManageMembers from "../../pages/groupProfile/components/ManageMembers";
 import CommunityFeeds from "../../pages/communityFeed";
 import FollowUsers from "../../pages/follows/followUsers";
 import FollowedManga from "../../pages/follows/followMangas";
 import EditProfile from "../../pages/editProfile";
+import ManageGroup from "../../pages/manageGroupMembers";
 
 export default function Body() {
   return (
@@ -52,7 +52,7 @@ export default function Body() {
         <Route path="/groups/:groupId" element={<Group />} />
         <Route
           path="/manage/group/members/:groupId"
-          element={<ManageMembers />}
+          element={<ManageGroup />}
         />
         <Route path="/manga-lists/:listId" element={<MangaListGroup />} />
         <Route path="/edit-profile" element={<EditProfile />} />

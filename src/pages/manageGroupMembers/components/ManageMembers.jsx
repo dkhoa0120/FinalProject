@@ -1,49 +1,42 @@
-import { useState, useEffect, useContext } from "react";
 import {
   Button,
   Col,
-  Container,
   Form,
   FormSelect,
   Modal,
   Row,
   Table,
 } from "react-bootstrap";
-import * as groupApi from "../../../service/api.group";
-import { Link, useParams } from "react-router-dom";
-import Select from "react-select";
-import { UserContext } from "../../../context/UserContext";
+import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { groupRoleOptions } from "../../../constants/groupRoles";
-import { toast, ToastContainer } from "react-toastify";
-import { useCallback } from "react";
+import Select from "react-select";
+import { useContext } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { UserContext } from "../../../context/UserContext";
 import PaginationNoParams from "../../../components/paginationNoParams";
+import { groupRoleOptions } from "../../../constants/groupRoles";
 
-export default function ManageMembers() {
+import * as groupApi from "../../../service/api.group";
+import { toast } from "react-toastify";
+import { useCallback } from "react";
+
+export default function ManageMembers({ groupId }) {
   const { user } = useContext(UserContext);
-  const [targetedMember, setTargetedMember] = useState(null);
   const [message, setMessage] = useState(false);
   const [deleteMember, setDeleteMember] = useState(null);
-  const [members, setMembers] = useState(null);
-  const [roleOption, setRoleOption] = useState(null);
+  const roleOptions = ["Owner", "Moderator", "GroupUploader", "Member"];
   const [search, setSearch] = useState(null);
+
+  const [targetedMember, setTargetedMember] = useState(null);
+  const [members, setMembers] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [groupDetails, setGroupDetails] = useState(null);
+  const [roleOption, setRoleOption] = useState(null);
 
-  const { groupId } = useParams();
-
-  const roleOptions = ["Owner", "Moderator", "GroupUploader", "Member"];
-  const sortOptions = ["Manage Member", "Request Member"];
-  const [sortOption, setSortOption] = useState(sortOptions[0]);
   const toLabel = (item) => {
     return item.replace(/([A-Z])/g, " $1").trim();
-  };
-
-  // Event handler for group option
-  const handleRoleOption = (e) => {
-    setRoleOption(e.target.value);
-    setPage(1);
   };
 
   const getGroupDetail = async (id) => {
@@ -58,15 +51,40 @@ export default function ManageMembers() {
     }
   };
 
+  const fetchGroupMembers = useCallback(
+    async (groupId) => {
+      try {
+        const res = await groupApi.getMembersToManage(groupId, {
+          search,
+          roleOption,
+          page,
+        });
+        setMembers(res.data.itemList);
+        setTotalPages(res.data.totalPages);
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          console.error();
+        }
+      }
+    },
+    [search, roleOption, page]
+  );
+
+  useEffect(() => {
+    fetchGroupMembers(groupId);
+    getGroupDetail(groupId);
+  }, [fetchGroupMembers, groupId]);
+
+  // Event handler for group option
+  const handleRoleOption = (e) => {
+    setRoleOption(e.target.value);
+    setPage(1);
+  };
+
   // Event handler for search member
   const handleSearch = (e) => {
     setSearch(e.target.value);
     setPage(1);
-  };
-
-  // Event handler for page change
-  const handleChangeChapter = (pageNum) => {
-    setPage(pageNum);
   };
 
   const {
@@ -79,19 +97,6 @@ export default function ManageMembers() {
   } = useForm({
     defaultValues: {},
   });
-
-  useEffect(() => {
-    if (targetedMember) {
-      console.log(targetedMember);
-      setValue(
-        "groupRoles",
-        targetedMember.groupRoles
-          .split(", ")
-          .map((r) => groupRoleOptions.find((o) => o.value === r))
-      );
-    }
-  }, [targetedMember]);
-
   const onSubmit = async (data) => {
     try {
       const newGroupRoles = data.groupRoles.map((r) => r.value).join(", ");
@@ -148,25 +153,6 @@ export default function ManageMembers() {
     setValue("groupRoles", newSelectedRoles);
   };
 
-  const fetchGroupMembers = useCallback(
-    async (groupId) => {
-      try {
-        const res = await groupApi.getMembersToManage(groupId, {
-          search,
-          roleOption,
-          page,
-        });
-        setMembers(res.data.itemList);
-        setTotalPages(res.data.totalPages);
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          console.error();
-        }
-      }
-    },
-    [search, roleOption, page]
-  );
-
   const styles = {
     multiValue: (base, state) => {
       return {
@@ -201,33 +187,24 @@ export default function ManageMembers() {
       toast.error(error);
     }
   };
+  // Event handler for page change
+  const handleChangeChapter = (pageNum) => {
+    setPage(pageNum);
+  };
 
   useEffect(() => {
-    fetchGroupMembers(groupId);
-    getGroupDetail(groupId);
-  }, [fetchGroupMembers, groupId]);
+    if (targetedMember) {
+      console.log(targetedMember);
+      setValue(
+        "groupRoles",
+        targetedMember.groupRoles
+          .split(", ")
+          .map((r) => groupRoleOptions.find((o) => o.value === r))
+      );
+    }
+  }, [targetedMember]);
   return (
-    <Container fluid>
-      <ToastContainer />
-      <div className="group-name">
-        <Link to={`/groups/${groupId}`}>
-          <button className="return-button">
-            <i className="fa-solid fa-arrow-left"></i>
-          </button>
-        </Link>{" "}
-        {groupDetails?.name} Group
-      </div>
-      <div style={{ paddingBottom: "20px" }}>
-        {sortOptions.map((option, index) => (
-          <Button
-            key={index}
-            variant={sortOption === option ? "dark" : "light"}
-            onClick={() => setSortOption(option)}
-          >
-            {toLabel(option)}
-          </Button>
-        ))}
-      </div>
+    <>
       <Row>
         <Col xs={8}>
           <Form.Control
@@ -317,9 +294,11 @@ export default function ManageMembers() {
             })
           ) : (
             <tr>
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status"></div>
-              </div>
+              <td colSpan={4}>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
+              </td>
             </tr>
           )}
         </tbody>
@@ -427,6 +406,6 @@ export default function ManageMembers() {
           </div>
         </Modal.Body>
       </Modal>
-    </Container>
+    </>
   );
 }

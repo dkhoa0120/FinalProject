@@ -1,4 +1,4 @@
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import EditProfileModal from "./editProfileModal";
 import "../styles.css";
 import { useState } from "react";
@@ -11,25 +11,21 @@ export default function Account() {
 
   return (
     <>
-      <div className="mb-3">
-        <b>Username</b>
-        <div className="edit-display">
+      <div className="edit-profile">
+        <div className="edit-label">
+          <b>Username</b>
           <span>username</span>
-          <div>
-            <Button
-              variant="dark"
-              onClick={() => setUserNameModal(!userNameModal)}
-              size="lg"
-            >
-              Edit
-            </Button>
-          </div>
         </div>
+        <Button variant="dark" onClick={() => setUserNameModal(!userNameModal)}>
+          Edit
+        </Button>
       </div>
-      <div className="mb-3">
-        <b>Change Bio</b>
-        <div className="edit-display">
-          <span style={{ maxWidth: "85%" }}>
+      <hr />
+
+      <div className="edit-profile">
+        <div className="edit-label">
+          <b>Change Biography</b>
+          <span>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
             libero quam eveniet accusantium nulla aspernatur voluptatum ullam
             eos culpa, soluta beatae eligendi deleniti a doloribus labore nobis
@@ -42,56 +38,49 @@ export default function Account() {
             quam possimus tenetur numquam facere? Tempore at libero, asperiores
             hic placeat aperiam.
           </span>
-          <div>
-            <Button
-              onClick={() => setBiographyModal(!biographyModal)}
-              variant="dark"
-              size="lg"
-            >
-              Edit
-            </Button>
-          </div>
         </div>
+        <Button
+          onClick={() => setBiographyModal(!biographyModal)}
+          variant="dark"
+        >
+          Edit
+        </Button>
       </div>
-      <div className="mb-3">
-        <b>Change Password</b>
-        <div className="edit-display">
-          <span>Enter your current password and new password for changes.</span>
-          <div>
-            <Button
-              onClick={() => setPasswordModal(!passwordModal)}
-              variant="danger"
-              size="lg"
-            >
-              Edit
-            </Button>
-          </div>
-        </div>
-      </div>
+      <hr />
 
-      <b>Delete Account</b>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
-        <span style={{ color: "red", maxWidth: "85%" }}>
-          Permanently delete your 3KManga account. Once deleted, the data is not
-          recoverable. Uploaded chapters will not be deleted with the account.
-        </span>
-        <div>
-          <Button
-            size="lg"
-            variant="danger"
-            onClick={() => {
-              setDeleteAccount(!deleteAccount);
-            }}
-          >
-            Delete
-          </Button>
+      <div className="edit-profile">
+        <div className="edit-label">
+          <b>Change Password</b>
+          <span style={{ color: "red" }}>
+            Enter your current password and new password for changes.
+          </span>
         </div>
+        <Button
+          onClick={() => setPasswordModal(!passwordModal)}
+          variant="danger"
+        >
+          Edit
+        </Button>
+      </div>
+      <hr />
+
+      <div className="edit-profile">
+        <div className="edit-label">
+          <b>Delete Account</b>
+          <span style={{ color: "red" }}>
+            Permanently delete your 3KManga account. Once deleted, the data is
+            not recoverable. Uploaded chapters will not be deleted with the
+            account.
+          </span>
+        </div>
+        <Button
+          variant="danger"
+          onClick={() => {
+            setDeleteAccount(!deleteAccount);
+          }}
+        >
+          Delete
+        </Button>
       </div>
 
       {/* Modal for username and password */}

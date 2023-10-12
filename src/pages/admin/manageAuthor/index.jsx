@@ -168,9 +168,11 @@ export default function ManageAuthor() {
               })
             ) : (
               <tr>
-                <div className="d-flex justify-content-center">
-                  <div className="spinner-border" role="status"></div>
-                </div>
+                <td colSpan={3}>
+                  <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status"></div>
+                  </div>
+                </td>
               </tr>
             )}
           </tbody>

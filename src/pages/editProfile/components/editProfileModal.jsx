@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 export default function EditProfileModal({
@@ -20,7 +20,7 @@ export default function EditProfileModal({
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form autoComplete="off">
+          <Form>
             {inputLabels.map((label, index) => (
               <div key={index} style={{ paddingBottom: "15px" }}>
                 <Form.Label>{label}</Form.Label>

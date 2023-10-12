@@ -1,19 +1,17 @@
-import { Button, Dropdown, FormSelect } from "react-bootstrap";
+import { FormSelect } from "react-bootstrap";
+import Select from "react-select";
+import { languageOptions } from "../../../constants/languages";
 
 export default function Display() {
   const themes = ["Light", "Dark"];
-  const languages = ["Vietnamese", "English"];
+
   return (
     <>
-      <b>Theme</b>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
-        <span style={{ maxWidth: "70%" }}>The theme of the site.</span>
+      <div className="edit-profile">
+        <div className="edit-label">
+          <b>Theme</b>
+          <span>The theme of the site.</span>
+        </div>
         <div>
           <FormSelect value={themes}>
             {themes.map((option, index) => (
@@ -24,26 +22,14 @@ export default function Display() {
           </FormSelect>
         </div>
       </div>
-      <b>Language Filter</b>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
-        <span style={{ maxWidth: "70%" }}>
-          Show all the mangas with selected language.
-        </span>
-        <div>
-          <FormSelect value={languages}>
-            {languages.map((language, index) => (
-              <option key={index} value={language}>
-                {language}
-              </option>
-            ))}
-          </FormSelect>
+      <hr />
+
+      <div className="edit-profile">
+        <div className="edit-label">
+          <b>Language Filter</b>
+          <span>Show all the mangas with selected language.</span>
         </div>
+        <Select options={languageOptions} />
       </div>
     </>
   );
