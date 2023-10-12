@@ -105,7 +105,9 @@ export default function AddToListModal({
 
   const fetchMangaLists = async (id) => {
     try {
-      let res = await listApi.getOwnerMangaLists(id, mangaId);
+      let res = await listApi.getMangaLists(id, {
+        checkedMangaId: mangaId,
+      });
       setMangaLists(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {

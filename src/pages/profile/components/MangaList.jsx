@@ -55,12 +55,7 @@ export default function MangaList() {
 
   const fetchMangaLists = async (id) => {
     try {
-      const fetchMethod =
-        user && userId === user?.id
-          ? listApi.getOwnerMangaLists
-          : listApi.getMangaLists;
-
-      const res = await fetchMethod(userId);
+      const res = await listApi.getMangaLists(userId);
       setMangaLists(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -69,15 +64,10 @@ export default function MangaList() {
     }
   };
 
-  const handleSeeMoreMangaLists = async (userId, createdAtCursor) => {
+  const handleSeeMoreMangaLists = async (userId, updatedAtCursor) => {
     try {
-      const fetchMethod =
-        user && userId === user?.id
-          ? listApi.getOwnerMangaLists
-          : listApi.getMangaLists;
-
-      const newMangaLists = await fetchMethod(userId, {
-        createdAtCursor: createdAtCursor?.createdAt,
+      const newMangaLists = await listApi.getMangaLists(userId, {
+        updatedAtCursor,
       });
       setMangaLists([...mangaLists, ...newMangaLists.data]);
 
@@ -103,7 +93,10 @@ export default function MangaList() {
       ) {
         setLoadingPost(true);
         setTimeout(() => {
-          handleSeeMoreMangaLists(userId, mangaLists[mangaLists.length - 1]);
+          handleSeeMoreMangaLists(
+            userId,
+            mangaLists[mangaLists.length - 1].updatedAt
+          );
           setLoadingPost(false);
         }, 1000);
       }

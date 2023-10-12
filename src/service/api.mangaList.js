@@ -1,19 +1,19 @@
-import { baseAxios, getAuthorizedAxios } from "./api.base";
+import { getAuthorizedAxios } from "./api.base";
 
 export const getMangaLists = (userId, filter) => {
-  const createdAtCursor = filter?.createdAtCursor;
-  return baseAxios.get(`users/${userId}/manga-lists`, {
-    params: {
-      createdAtCursor,
-    },
+  const updatedAtCursor = filter?.updatedAtCursor;
+  const checkedMangaId = filter?.checkedMangaId;
+  return getAuthorizedAxios().get(`users/${userId}/manga-lists`, {
+    params: { checkedMangaId, updatedAtCursor },
   });
 };
 
-export const getOwnerMangaLists = (userId, filter) => {
+export const getMangaList = (id, filter) => {
   const createdAtCursor = filter?.createdAtCursor;
-  const checkedMangaId = filter?.checkedMangaId;
-  return getAuthorizedAxios().get(`users/${userId}/manga-lists`, {
-    params: { checkedMangaId, createdAtCursor },
+  return getAuthorizedAxios().get(`manga-lists/${id}`, {
+    params: {
+      createdAtCursor,
+    },
   });
 };
 
@@ -29,15 +29,7 @@ export const deleteMangaList = (id) => {
   return getAuthorizedAxios().delete(`manga-lists/${id}`);
 };
 
-export const getMangaList = (id, filter) => {
-  const createdAtCursor = filter?.createdAtCursor;
-  return getAuthorizedAxios().get(`manga-lists/${id}`, {
-    params: {
-      createdAtCursor,
-    },
-  });
-};
-
+// Get mangas of manga list
 export const getMangasOfList = (id, filter) => {
   const updatedAtCursor = filter?.updatedAtCursor;
   return getAuthorizedAxios().get(`manga-lists/${id}/mangas`, {
@@ -47,22 +39,12 @@ export const getMangasOfList = (id, filter) => {
   });
 };
 
-export const getFollowedList = (id, filter) => {
-  const createdAtCursor = filter?.createdAtCursor;
-  return getAuthorizedAxios().get(`manga-lists/${id}`, {
-    params: {
-      createdAtCursor,
-    },
-  });
-};
-
-//Followed Manga List
-
+// Followed Manga List
 export const getFollowedLists = (filter) => {
-  const createdAtCursor = filter?.createdAtCursor;
+  const updatedAtCursor = filter?.updatedAtCursor;
   return getAuthorizedAxios().get("followed-manga-lists", {
     params: {
-      createdAtCursor,
+      updatedAtCursor,
     },
   });
 };

@@ -80,7 +80,7 @@ export default function Groups() {
       ) {
         setLoadingPost(true);
         setTimeout(() => {
-          handleSeeMoreGroups(userId, groups[groups.length - 1]?.joinedAt);
+          handleSeeMoreGroups(userId, groups[groups.length - 1]?.userJoinedAt);
           setLoadingPost(false);
         }, 1000);
       }

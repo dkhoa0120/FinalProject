@@ -7,8 +7,7 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
-import CountryFlag from "../../../components/countryFlag";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import * as listApi from "../../../service/api.mangaList";
 import { useEffect, useContext } from "react";
@@ -22,7 +21,7 @@ import MangaBlock from "../../../components/mangaBlock";
 export default function MangaListGroup() {
   const { listId } = useParams();
   const [mangaList, setMangaList] = useState();
-  const [mangas, setMangas] = useState();
+  const [mangas, setMangas] = useState([]);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -43,8 +42,7 @@ export default function MangaListGroup() {
 
   const fetchMangaList = async (id) => {
     try {
-      const fetchMethod = user ? listApi.getFollowedList : listApi.getMangaList;
-      const res = await fetchMethod(id);
+      const res = await listApi.getMangaList(id);
       setMangaList(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -302,7 +300,7 @@ export default function MangaListGroup() {
                 </div>
               </Col>
               <Col md={9}>
-                {mangas ? (
+                {mangas.length > 0 ? (
                   mangas.map((m) => (
                     <div className="d-flex">
                       <MangaBlock manga={m} />
@@ -326,7 +324,7 @@ export default function MangaListGroup() {
                     </div>
                   ))
                 ) : (
-                  <p></p>
+                  <p className="text-center">No manga added.</p>
                 )}
               </Col>
             </Row>

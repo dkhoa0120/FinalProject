@@ -22,10 +22,10 @@ export default function FollowedMangaList() {
     }
   };
 
-  const handleSeeMoreMangaLists = async (createdAtCursor) => {
+  const handleSeeMoreMangaLists = async (updatedAtCursor) => {
     try {
       const newMangaLists = await listApi.getFollowedLists({
-        createdAtCursor: createdAtCursor?.createdAt,
+        updatedAtCursor,
       });
       setMangaLists([...mangaLists, ...newMangaLists.data]);
 
@@ -51,7 +51,7 @@ export default function FollowedMangaList() {
       ) {
         setLoadingPost(true);
         setTimeout(() => {
-          handleSeeMoreMangaLists(mangaLists[mangaLists.length - 1]);
+          handleSeeMoreMangaLists(mangaLists[mangaLists.length - 1].updatedAt);
           setLoadingPost(false);
         }, 1000);
       }
