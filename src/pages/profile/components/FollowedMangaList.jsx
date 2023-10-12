@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import * as listApi from "../../../service/api.mangaList";
+import * as listApi from "../../../service/api.follow";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

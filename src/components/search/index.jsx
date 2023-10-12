@@ -67,6 +67,7 @@ export default function SearchBar({ placeholder }) {
             </div>
             {filteredData.length !== 0 && (
               <div className="item-list">
+                <p> Manga</p>
                 {filteredData.slice(0, 10).map((value, key) => {
                   return (
                     <React.Fragment key={value.id}>

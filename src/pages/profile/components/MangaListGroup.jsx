@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import * as followApi from "../../../service/api.follow";
 import * as listApi from "../../../service/api.mangaList";
 import { useEffect, useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
@@ -156,7 +157,7 @@ export default function MangaListGroup() {
 
   const handleAddToList = async (id) => {
     try {
-      await listApi.postFollowedList(id);
+      await followApi.postFollowedList(id);
       toast.success("A list has been added to your list");
       fetchMangaList(listId);
     } catch (err) {
@@ -170,7 +171,7 @@ export default function MangaListGroup() {
 
   const handleRemoveToList = async (id) => {
     try {
-      await listApi.deleteFollowedList(id);
+      await followApi.deleteFollowedList(id);
       toast.success("A list has been removed from your list");
       fetchMangaList(listId);
     } catch (err) {

@@ -38,21 +38,3 @@ export const getMangasOfList = (id, filter) => {
     },
   });
 };
-
-// Followed Manga List
-export const getFollowedLists = (filter) => {
-  const updatedAtCursor = filter?.updatedAtCursor;
-  return getAuthorizedAxios().get("followed-manga-lists", {
-    params: {
-      updatedAtCursor,
-    },
-  });
-};
-
-export const postFollowedList = (id) => {
-  return getAuthorizedAxios().post(`user/follow/manga-lists/${id}`);
-};
-
-export const deleteFollowedList = (id) => {
-  return getAuthorizedAxios().delete(`user/follow/manga-lists/${id}`);
-};
