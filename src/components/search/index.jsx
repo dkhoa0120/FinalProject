@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./styles.css";
 import { Button, Image, Modal, Nav } from "react-bootstrap";
 import * as mangaApi from "../../service/api.manga";
+import * as userApi from "../../service/api.account";
+import * as groupApi from "../../service/api.group";
 import { Link } from "react-router-dom";
 
 export default function SearchBar({ placeholder }) {
@@ -9,11 +11,23 @@ export default function SearchBar({ placeholder }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [filteredData, setFilteredData] = useState([]);
+  const [searchMangas, setSearchMangas] = useState([]);
+  const [searchUsers, setSearchUsers] = useState([]);
+  const [searchGroups, setSearchGroups] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
 
-  const getData = async (search) => {
+  const fetchMangas = async (search) => {
     const response = await mangaApi.getMangas({ search });
+    return response.data;
+  };
+
+  const fetchUsers = async (search) => {
+    const response = await userApi.getUsers({ search });
+    return response.data;
+  };
+
+  const fetchGroups = async (search) => {
+    const response = await groupApi.getGroups({ search });
     return response.data;
   };
 
@@ -22,20 +36,29 @@ export default function SearchBar({ placeholder }) {
     setWordEntered(searchWord);
 
     if (searchWord === "") {
-      setFilteredData([]);
+      setSearchMangas([]);
+      setSearchUsers([]);
+      setSearchGroups([]);
     } else {
       try {
-        const mangaData = await getData(searchWord);
-        setFilteredData(mangaData.itemList);
+        const mangaData = await fetchMangas(searchWord);
+        setSearchMangas(mangaData.itemList);
+        const userData = await fetchUsers(searchWord);
+        setSearchUsers(userData);
+        const groupData = await fetchGroups(searchWord);
+        setSearchGroups(groupData);
       } catch (error) {
-        console.error("Error fetching manga data:", error);
-        setFilteredData([]);
+        setSearchUsers([]);
+        setSearchMangas([]);
+        setSearchGroups([]);
       }
     }
   };
 
   const clearInput = () => {
-    setFilteredData([]);
+    setSearchMangas([]);
+    setSearchUsers([]);
+    setSearchGroups([]);
     setWordEntered("");
   };
 
@@ -57,7 +80,9 @@ export default function SearchBar({ placeholder }) {
                 onChange={handleFilter}
                 autoFocus
               />
-              {filteredData.length === 0 ? (
+              {searchMangas.length &&
+              searchUsers.length &&
+              searchGroups.length === 0 ? (
                 <p></p>
               ) : (
                 <Button variant="outline-dark" onClick={clearInput}>
@@ -65,10 +90,10 @@ export default function SearchBar({ placeholder }) {
                 </Button>
               )}
             </div>
-            {filteredData.length !== 0 && (
+            {searchMangas.length !== 0 && (
               <div className="item-list">
-                <p> Manga</p>
-                {filteredData.slice(0, 10).map((value, key) => {
+                <p> Mangas</p>
+                {searchMangas.slice(0, 5).map((value) => {
                   return (
                     <React.Fragment key={value.id}>
                       <Nav>
@@ -87,6 +112,74 @@ export default function SearchBar({ placeholder }) {
                             }
                           />
                           <p>{value.originalTitle} </p>
+                        </Link>
+                      </Nav>
+                      <hr />
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            )}
+
+            {searchUsers.length !== 0 && (
+              <div className="item-list">
+                <p> Users</p>
+                {searchUsers.slice(0, 5).map((value) => {
+                  return (
+                    <React.Fragment key={value.id}>
+                      <Nav>
+                        <Link
+                          onClick={() => {
+                            clearInput();
+                            handleClose();
+                          }}
+                          to={`/profile/${value.id}`}
+                          className="item card-link"
+                        >
+                          <Image
+                            style={{
+                              height: "50px",
+                              width: "50px",
+                              borderRadius: "50%",
+                            }}
+                            src={value.avatarPath || "/img/avatar/default.png"}
+                          />
+                          <p>{value.name} </p>
+                        </Link>
+                      </Nav>
+                      <hr />
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            )}
+
+            {searchGroups.length !== 0 && (
+              <div className="item-list">
+                <p> Groups</p>
+                {searchGroups.slice(0, 5).map((value) => {
+                  return (
+                    <React.Fragment key={value.id}>
+                      <Nav>
+                        <Link
+                          onClick={() => {
+                            clearInput();
+                            handleClose();
+                          }}
+                          to={`/groups/${value.id}`}
+                          className="item card-link"
+                        >
+                          <Image
+                            style={{
+                              height: "50px",
+                              width: "50px",
+                              borderRadius: "50%",
+                            }}
+                            src={
+                              value.avatarPath || "/img/avatar/defaultGroup.jpg"
+                            }
+                          />
+                          <p>{value.name} </p>
                         </Link>
                       </Nav>
                       <hr />

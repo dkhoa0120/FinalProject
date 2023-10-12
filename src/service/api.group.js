@@ -95,3 +95,10 @@ export const getMembersToManage = (groupId, filter) => {
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
+
+export const getGroups = (filter) => {
+  const search = filter?.search || "";
+  return baseAxios.get("groups", {
+    params: { search },
+  });
+};

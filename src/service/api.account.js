@@ -13,21 +13,28 @@ export const extendToken = () => {
 };
 
 export const getCurrentUserBasic = () => {
-  return getAuthorizedAxios().get("account/me");
+  return getAuthorizedAxios().get("users/me");
 };
 
 export const changeUserAvatar = (formData) => {
-  return getAuthorizedAxios().put("account/me/change-avatar", formData);
+  return getAuthorizedAxios().put("users/me/avatar", formData);
 };
 
 export const changeUserBanner = (formData) => {
-  return getAuthorizedAxios().put("account/me/change-banner", formData);
+  return getAuthorizedAxios().put("users/me/banner", formData);
 };
 
 export const getProfileBasic = (id) => {
-  return baseAxios.get(`account/${id}`);
+  return baseAxios.get(`users/${id}`);
 };
 
 export const getProfileStats = (id) => {
-  return baseAxios.get(`account/${id}/stats`);
+  return baseAxios.get(`users/${id}/stats`);
+};
+
+export const getUsers = (filter) => {
+  const search = filter?.search || "";
+  return baseAxios.get("users", {
+    params: { search },
+  });
 };
