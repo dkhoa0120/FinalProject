@@ -1,6 +1,7 @@
 .search .searchInputs {
   margin-top: 0px;
   display: flex;
+  align-items: center;
 }
 
 .search input {
@@ -35,10 +36,30 @@
   color: black;
 }
 
-.search .item-list .item:hover {
-  color: blue;
-}
-
 .search .item p {
   margin-left: 10px;
+}
+
+.search-title {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.icon-delete {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.icon-delete:hover {
+  color: #ab404a;
+}
+
+.search-info {
+  padding: 10px !important;
+  border-bottom: 1px solid lightgray;
+}
+
+.search-info:hover {
+  background-color: #f2f2f2;
 }

@@ -85,18 +85,19 @@ export default function SearchBar({ placeholder }) {
               searchGroups.length === 0 ? (
                 <p></p>
               ) : (
-                <Button variant="outline-dark" onClick={clearInput}>
-                  <i className="fa-solid fa-xmark"></i>
-                </Button>
+                <i
+                  className="fa-solid fa-delete-left icon-delete"
+                  onClick={clearInput}
+                ></i>
               )}
             </div>
             {searchMangas.length !== 0 && (
               <div className="item-list">
-                <p> Mangas</p>
+                <p className="search-title"> Mangas</p>
                 {searchMangas.slice(0, 5).map((value) => {
                   return (
                     <React.Fragment key={value.id}>
-                      <Nav>
+                      <Nav className="search-info">
                         <Link
                           onClick={() => {
                             clearInput();
@@ -106,7 +107,7 @@ export default function SearchBar({ placeholder }) {
                           className="item card-link"
                         >
                           <Image
-                            style={{ height: "60px", width: "40px" }}
+                            style={{ height: "100%" }}
                             src={
                               value.coverPath || "/img/error/coverNotFound.png"
                             }
@@ -114,7 +115,6 @@ export default function SearchBar({ placeholder }) {
                           <p>{value.originalTitle} </p>
                         </Link>
                       </Nav>
-                      <hr />
                     </React.Fragment>
                   );
                 })}
@@ -123,11 +123,11 @@ export default function SearchBar({ placeholder }) {
 
             {searchUsers.length !== 0 && (
               <div className="item-list">
-                <p> Users</p>
+                <p className="search-title"> Users</p>
                 {searchUsers.slice(0, 5).map((value) => {
                   return (
                     <React.Fragment key={value.id}>
-                      <Nav>
+                      <Nav className="search-info">
                         <Link
                           onClick={() => {
                             clearInput();
@@ -147,7 +147,6 @@ export default function SearchBar({ placeholder }) {
                           <p>{value.name} </p>
                         </Link>
                       </Nav>
-                      <hr />
                     </React.Fragment>
                   );
                 })}
@@ -156,11 +155,11 @@ export default function SearchBar({ placeholder }) {
 
             {searchGroups.length !== 0 && (
               <div className="item-list">
-                <p> Groups</p>
+                <p className="search-title"> Groups</p>
                 {searchGroups.slice(0, 5).map((value) => {
                   return (
                     <React.Fragment key={value.id}>
-                      <Nav>
+                      <Nav className="search-info">
                         <Link
                           onClick={() => {
                             clearInput();
@@ -182,7 +181,6 @@ export default function SearchBar({ placeholder }) {
                           <p>{value.name} </p>
                         </Link>
                       </Nav>
-                      <hr />
                     </React.Fragment>
                   );
                 })}
