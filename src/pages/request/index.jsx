@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import GroupRequests from "./components/groupRequests";
 import PromotionRequests from "./components/promotionRequests";
+import "./styles.css";
 
 export default function Requests() {
   const sortOptions = ["Group Request", "Promotion Request"];
