@@ -24,20 +24,20 @@ export const getFollowedMangas = (filter) => {
 };
 
 export const getFollowingUsers = (filter) => {
-  const createdAtCursor = filter?.createdAtCursor;
+  const followedAtCursor = filter?.followedAtCursor;
   return getAuthorizedAxios().get(`followings`, {
     params: {
-      createdAtCursor,
+      followedAtCursor,
     },
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });
 };
 
 export const getFollowerUsers = (filter) => {
-  const createdAtCursor = filter?.createdAtCursor;
+  const followedAtCursor = filter?.followedAtCursor;
   return getAuthorizedAxios().get(`followers`, {
     params: {
-      createdAtCursor,
+      followedAtCursor,
     },
     paramsSerializer: (params) => qs.stringify(params, { skipNulls: true }),
   });

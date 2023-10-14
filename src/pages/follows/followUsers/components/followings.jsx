@@ -22,12 +22,12 @@ export default function Followings() {
     fetchFollowingUsers();
   }, []);
 
-  const handleSeeMoreFollowings = async (createdAtCursor) => {
+  const handleSeeMoreFollowings = async (followedAtCursor) => {
     try {
       const newFollowings = await followApi.getFollowingUsers({
-        createdAtCursor: createdAtCursor?.createdAt,
+        followedAtCursor,
       });
-      setFollowings([...loadingPost, ...newFollowings.data]);
+      setFollowings([...followings, ...newFollowings.data]);
 
       // Set outOfComment to disable loading more comment in scroll event below
       if (newFollowings.data.length > 0) {
@@ -51,7 +51,9 @@ export default function Followings() {
       ) {
         setLoadingPost(true);
         setTimeout(() => {
-          handleSeeMoreFollowings(followings[followings.length - 1]);
+          handleSeeMoreFollowings(
+            followings[followings.length - 1]?.followedAt
+          );
           setLoadingPost(false);
         }, 1000);
       }
@@ -69,16 +71,16 @@ export default function Followings() {
       {followings ? (
         followings.map((f) => {
           return (
-            <Col xs={6} md={3}>
+            <Col xs={12} md={3}>
               <div className="follow-user-container">
                 <img
                   className="group-avatar"
-                  src={f.avatarPath || "/img/avatar/defaultGroup.jpg"}
+                  src={f.followedUser.avatarPath || "/img/avatar/default.png"}
                   alt="avatar"
                 ></img>
                 <div className="group-info">
                   <p className="text-limit-2">
-                    <b>{f.name}</b>
+                    <b>{f.followedUser.name}</b>
                   </p>
                 </div>
 

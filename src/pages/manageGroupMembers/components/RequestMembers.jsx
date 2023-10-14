@@ -1,43 +1,43 @@
-import { Button, Table } from "react-bootstrap";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 
 import PaginationNoParams from "../../../components/paginationNoParams";
 
-import * as groupApi from "../../../service/api.group";
+import * as requestApi from "../../../service/api.request";
 import { useCallback } from "react";
+import { toast } from "react-toastify";
 
 export default function RequestMembers({ groupId }) {
   const [search, setSearch] = useState(null);
-
-  const [members, setMembers] = useState(null);
+  const [requests, setRequests] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [groupDetails, setGroupDetails] = useState(null);
-  const [roleOption, setRoleOption] = useState(null);
 
-  const getGroupDetail = async (id) => {
-    try {
-      const result = await groupApi.getGroupInfo(id);
-      document.title = `Manage Group - ${result.data.name} - 3K Manga`;
-      setGroupDetails(result.data);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        console.log(error.response);
-      }
-    }
+  const handleDecide = async (requestId, status) => {
+    const formData = new FormData();
+    formData.append("status", status);
+    await requestApi.decideJoinGroupRequest(requestId, formData);
+    toast.success("Success processing!");
+    setRequests(requests.filter((request) => request.id !== requestId));
   };
 
-  const fetchGroupMembers = useCallback(
+  // Event handler for search member
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
+  const fetchGroupRequests = useCallback(
     async (groupId) => {
       try {
-        const res = await groupApi.getMembersToManage(groupId, {
+        const res = await requestApi.getJoinGroupRequest(groupId, {
           search,
-          roleOption,
           page,
         });
-        setMembers(res.data.itemList);
+        console.log(res.data);
+        setRequests(res.data.itemList);
         setTotalPages(res.data.totalPages);
       } catch (err) {
         if (err.response && err.response.status === 404) {
@@ -45,13 +45,12 @@ export default function RequestMembers({ groupId }) {
         }
       }
     },
-    [search, roleOption, page]
+    [search, page]
   );
 
   useEffect(() => {
-    fetchGroupMembers(groupId);
-    getGroupDetail(groupId);
-  }, [fetchGroupMembers, groupId]);
+    fetchGroupRequests(groupId);
+  }, [fetchGroupRequests, groupId]);
 
   // Event handler for page change
   const handleChangeChapter = (pageNum) => {
@@ -60,6 +59,18 @@ export default function RequestMembers({ groupId }) {
 
   return (
     <>
+      <Row>
+        <Col>
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={search}
+            onChange={handleSearch}
+          />
+        </Col>
+      </Row>
+      &nbsp;
       <Table striped bordered hover responsive="sm">
         <thead>
           <tr>
@@ -69,36 +80,55 @@ export default function RequestMembers({ groupId }) {
           </tr>
         </thead>
         <tbody>
-          {members ? (
-            members.map((member, index) => {
+          {requests ? (
+            requests.map((requests) => {
               return (
-                <tr key={index}>
+                <tr key={requests.id}>
                   <td style={{ width: "100px" }}>
-                    <Link to={`/profile/${member.id}`} className="card-link">
+                    <Link
+                      to={`/profile/${requests.user.id}`}
+                      className="card-link"
+                    >
                       <img
                         className="group-avatar"
-                        src={member.avatarPath || "/img/avatar/default.png"}
+                        src={
+                          requests.user.avatarPath || "/img/avatar/default.png"
+                        }
                         alt="avatar"
                       />
                     </Link>
                   </td>
                   <td style={{ width: "300px" }}>
-                    <Link to={`/profile/${member.id}`} className="card-link">
+                    <Link
+                      to={`/profile/${requests.user.id}`}
+                      className="card-link"
+                    >
                       <p
                         className="text-limit-2"
                         style={{ fontWeight: "bold", marginBottom: "5px" }}
                       >
-                        {member.name}
+                        {requests.user.name}
                       </p>
                     </Link>
                   </td>
                   <td style={{ width: "100px" }}>
-                    <Button style={{ marginBottom: "5px" }}>
+                    <Button
+                      style={{ marginBottom: "5px" }}
+                      onClick={() => {
+                        handleDecide(requests.id, "Approve");
+                      }}
+                    >
                       <i className="fa-solid fa-plus"></i>
                       <span className="hide-when-mobile"> Approve</span>
                     </Button>
                     &nbsp;
-                    <Button variant="danger" style={{ marginBottom: "5px" }}>
+                    <Button
+                      variant="danger"
+                      style={{ marginBottom: "5px" }}
+                      onClick={() => {
+                        handleDecide(requests.id, "Deny");
+                      }}
+                    >
                       <i className="fa-solid fa-minus"></i>
                       <span className="hide-when-mobile"> Deny</span>
                     </Button>

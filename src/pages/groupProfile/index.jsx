@@ -3,6 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import * as groupApi from "../../service/api.group";
+import * as requestAPI from "../../service/api.request";
 import Uploads from "./components/Uploads";
 import About from "./components/About";
 import AvatarModal from "./components/AvatarModal";
@@ -20,20 +21,22 @@ export default function Group() {
   const [groupDetails, setGroupDetails] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [isMod, setIsMod] = useState(false);
+  const [isUserAMember, setIsUserAMember] = useState(false);
   const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
   const memberId = user?.id;
-  const [isUserAMember, setIsUserAMember] = useState(false);
   const { groupId } = useParams();
   const [showLeaveModal, setShowLeaveModal] = useState(null);
+  const [showJoinModal, setShowJoinModal] = useState(false);
 
   const fetchMember = useCallback(async (groupId, memberId) => {
     try {
       const res = await groupApi.getMember(groupId, memberId);
+      console.log("res", res);
       const roles = res.data.groupRoles;
 
-      setIsUserAMember(roles.includes("Member"));
+      setIsUserAMember(roles.includes("Member") || roles.includes("Uploader"));
       setIsOwner(roles.includes("Owner"));
       setIsMod(roles.includes("Moderator"));
     } catch (err) {
@@ -62,12 +65,16 @@ export default function Group() {
     }
   };
 
-  // handle join group (need to improve)
-  const handleJoinGroup = async (groupId) => {
-    await groupApi.joinGroup(groupId);
-    toast.success("You have joined this group");
-    setIsUserAMember(true);
-    setProfileOption("Uploads");
+  //handle send request
+  const handleSendRequest = async () => {
+    try {
+      await requestAPI.createJoinGroupRequest(groupId);
+      toast.success("You have sent a request to join this group");
+      setShowJoinModal(false);
+    } catch (error) {
+      console.log("er", error);
+      toast.error(error.response.data);
+    }
   };
 
   // handle leave group (need to make a modal)
@@ -147,10 +154,10 @@ export default function Group() {
               <Button variant="outline-dark">Manage</Button>
             </Link>
           )}
-          {!isUserAMember && !isOwner ? (
+          {!isUserAMember && !isOwner && !isMod ? (
             <Button
               variant="outline-dark"
-              onClick={() => handleJoinGroup(groupId)}
+              onClick={() => setShowJoinModal(true)}
             >
               Join
             </Button>
@@ -232,6 +239,32 @@ export default function Group() {
               Yes
             </Button>
             <Button variant="danger" onClick={() => setShowLeaveModal(false)}>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* Join group modal */}
+      <Modal show={showJoinModal} onHide={() => setShowJoinModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Join group request</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <span style={{ textAlign: "center" }}>
+            Send a request to join <b>{groupDetails?.name}</b>?
+          </span>
+          <div className="modal-button">
+            <Button
+              variant="success"
+              onClick={() => {
+                handleSendRequest();
+                setShowJoinModal(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button variant="danger" onClick={() => setShowJoinModal(false)}>
               No
             </Button>
           </div>

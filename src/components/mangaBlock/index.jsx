@@ -29,10 +29,10 @@ export default function MangaBlock({ manga }) {
           </p>
         </Link>
         {manga.chapters ? (
-          manga.chapters.map((c, index) => (
+          manga.chapters.map((c) => (
             <Row
               className={"chapter-row" + (c.isViewedByUser ? " viewed" : "")}
-              key={index}
+              key={c.id}
             >
               <Col xs={12} md={4}>
                 <Link to={`/chapters/${c.id}`} className="card-link">

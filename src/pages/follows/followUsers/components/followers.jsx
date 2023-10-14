@@ -11,8 +11,9 @@ export default function Followers() {
   useEffect(() => {
     const fetchFollowerUsers = async () => {
       try {
-        const result = await followApi.getFollowerUsers();
-        setFollowers(result.data);
+        const res = await followApi.getFollowerUsers();
+        console.log(res.data);
+        setFollowers(res.data);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           setFollowers(null);
@@ -22,12 +23,12 @@ export default function Followers() {
     fetchFollowerUsers();
   }, []);
 
-  const handleSeeMoreFollowers = async (createdAtCursor) => {
+  const handleSeeMoreFollowers = async (followedAtCursor) => {
     try {
       const newFollowers = await followApi.getFollowerUsers({
-        createdAtCursor: createdAtCursor?.createdAt,
+        followedAtCursor,
       });
-      setFollowers([...loadingPost, ...newFollowers.data]);
+      setFollowers([...followers, ...newFollowers.data]);
 
       // Set outOfComment to disable loading more comment in scroll event below
       if (newFollowers.data.length > 0) {
@@ -51,7 +52,7 @@ export default function Followers() {
       ) {
         setLoadingPost(true);
         setTimeout(() => {
-          handleSeeMoreFollowers(followers[followers.length - 1]);
+          handleSeeMoreFollowers(followers[followers.length - 1]?.followedAt);
           setLoadingPost(false);
         }, 1000);
       }
@@ -69,17 +70,17 @@ export default function Followers() {
       {followers ? (
         followers.map((f) => {
           return (
-            <Col xs={6} md={3}>
+            <Col xs={12} md={3}>
               <div className="follow-user-container">
                 <img
                   className="group-avatar"
-                  src={f.avatarPath || "/img/avatar/defaultGroup.jpg"}
+                  src={f.user.avatarPath || "/img/avatar/default.png"}
                   alt="avatar"
                 ></img>
 
                 <div className="group-info">
                   <p className="text-limit-2">
-                    <b>{f.name}</b>
+                    <b>{f.user.name}</b>
                   </p>
                 </div>
                 <Dropdown>
