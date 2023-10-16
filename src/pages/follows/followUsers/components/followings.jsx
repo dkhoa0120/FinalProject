@@ -2,6 +2,7 @@ import { Col, Dropdown } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../styles.css";
 import * as followApi from "../../../../service/api.follow";
+import { Link } from "react-router-dom";
 
 export default function Followings() {
   const [followings, setFollowings] = useState(null);
@@ -73,17 +74,19 @@ export default function Followings() {
           return (
             <Col xs={12} md={3}>
               <div className="follow-user-container">
-                <img
-                  className="group-avatar"
-                  src={f.followedUser.avatarPath || "/img/avatar/default.png"}
-                  alt="avatar"
-                ></img>
-                <div className="group-info">
-                  <p className="text-limit-2">
-                    <b>{f.followedUser.name}</b>
-                  </p>
-                </div>
-
+                <Link
+                  to={`/profile/${f.followedUser.id}`}
+                  className="card-link"
+                >
+                  <img
+                    className="group-avatar"
+                    src={f.followedUser.avatarPath || "/img/avatar/default.png"}
+                    alt="avatar"
+                  ></img>
+                </Link>
+                <span className="text-limit-2">
+                  <b>{f.followedUser.name}</b>
+                </span>
                 <Dropdown>
                   <Dropdown.Toggle
                     variant="outline"
@@ -101,7 +104,9 @@ export default function Followings() {
           );
         })
       ) : (
-        <p></p>
+        <p className="d-flex justify-content-center">
+          You have not followed anyone yet
+        </p>
       )}
 
       {loadingPost && (

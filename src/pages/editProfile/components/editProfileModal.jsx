@@ -39,7 +39,7 @@ export default function EditProfileModal({
               </div>
             ))}
           </Form>
-          <div className="d-flex justify-content-end">
+          <div className="end-button">
             <Button
               variant="primary"
               onClick={() => setShow(!show)}

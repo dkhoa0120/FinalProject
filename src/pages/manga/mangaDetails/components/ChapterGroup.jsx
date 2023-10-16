@@ -40,7 +40,11 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
               ? " chapter-viewed"
               : "")
           }
-          style={{ fontSize: "18px", marginBottom: "5px" }}
+          style={{
+            fontSize: "18px",
+            marginBottom: "5px",
+            textDecorationLine: "none",
+          }}
         >
           Chapter {number}
         </Col>

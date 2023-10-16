@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import Followers from "./components/followers";
 import Followings from "./components/followings";
@@ -6,6 +6,10 @@ import Followings from "./components/followings";
 export default function FollowUsers() {
   const sortOptions = ["Follower User", "Following User"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
+
+  useEffect(() => {
+    document.title = "Followed Users - 3K Manga";
+  }, []);
 
   return (
     <>

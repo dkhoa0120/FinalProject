@@ -367,7 +367,7 @@ export default function MangaListGroup() {
                       )}
                     />
                   </Form.Group>
-                  <div style={{ display: "flex", justifyContent: "end" }}>
+                  <div className="end-button">
                     <Button
                       type="submit"
                       form="edit-form"

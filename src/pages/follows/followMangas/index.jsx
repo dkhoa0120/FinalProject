@@ -8,6 +8,10 @@ export default function FollowedManga() {
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
 
+  useEffect(() => {
+    document.title = "Followed Mangas - 3K Manga";
+  }, []);
+
   const fetchFollowedMangas = async () => {
     try {
       const result = await followApi.getFollowedMangas();
@@ -72,7 +76,9 @@ export default function FollowedManga() {
         {followedManga ? (
           followedManga.map((m) => <MangaBlock manga={m} />)
         ) : (
-          <p></p>
+          <p className="d-flex justify-content-center">
+            You have not followed any manga yet
+          </p>
         )}
       </Container>
 

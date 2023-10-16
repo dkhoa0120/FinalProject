@@ -102,7 +102,7 @@ export default function AvatarModal({
           />
         </div>
         {uploadedAvatar && (
-          <div className="profile-modal-button d-flex gap-1">
+          <div className="end-button">
             <Button
               variant="danger"
               onClick={() => {

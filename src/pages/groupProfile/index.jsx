@@ -235,7 +235,7 @@ export default function Group() {
           <span style={{ textAlign: "center" }}>
             Are you sure you want to leave <b>{groupDetails?.name}</b>?
           </span>
-          <div className="modal-button">
+          <div className="end-button">
             <Button
               variant="success"
               onClick={() => {

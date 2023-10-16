@@ -310,7 +310,7 @@ export default function Edit() {
             />
           </Row>
         </Form>
-        <div className="d-flex justify-content-end">
+        <div className="end-button">
           <button
             type="submit"
             form="update-form"

@@ -55,7 +55,7 @@ export default function Members({ groupId }) {
               </div>
             </Col>
           ))}
-          <div className="d-flex justify-content-end">
+          <div className="end-button">
             <Button className="btn btn-light" onClick={handleSeeMoreFn}>
               See More
             </Button>

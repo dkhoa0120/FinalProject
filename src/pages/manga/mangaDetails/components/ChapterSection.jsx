@@ -22,12 +22,7 @@ export default function ChapterSection({
       <Container fluid className="general-container">
         <Row>
           <Col>
-            <div
-              className="general-container-title"
-              style={{ textDecorationLine: "underline" }}
-            >
-              Chapters list
-            </div>
+            <div className="general-container-title">Chapters list</div>
           </Col>
           <Col style={{ textAlign: "right" }}>
             <button

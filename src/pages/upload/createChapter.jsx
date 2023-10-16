@@ -288,7 +288,7 @@ export default function Upload() {
             />
           </Row>
         </Form>
-        <div className="d-flex justify-content-end">
+        <div className="end-button">
           <button
             type="submit"
             form="upload-form"

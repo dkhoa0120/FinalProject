@@ -128,7 +128,7 @@ export default function Account() {
               you sure about this?
             </span>
           </div>
-          <div className="modal-button">
+          <div className="end-button">
             <Button
               variant="danger"
               onClick={() => setDeleteAccount(!deleteAccount)}

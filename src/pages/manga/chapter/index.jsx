@@ -95,12 +95,7 @@ export default function ChapterPage() {
 
       <br />
       <div className="general-container">
-        <div
-          className="general-container-title"
-          style={{ textDecorationLine: "underline", marginBottom: "0" }}
-        >
-          Comments
-        </div>
+        <div className="general-container-title">Comments</div>
         <div id="comment-section">
           <CommentSection type="chapter" typeId={chapterId} />
         </div>

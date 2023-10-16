@@ -97,7 +97,7 @@ export default function BannerModal({
           />
         </div>
         {uploadedBanner && (
-          <div className="profile-modal-button d-flex gap-1">
+          <div className="end-button">
             <Button
               variant="danger"
               onClick={() => {

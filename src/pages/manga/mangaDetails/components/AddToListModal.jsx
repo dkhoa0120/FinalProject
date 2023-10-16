@@ -218,7 +218,7 @@ export default function AddToListModal({
                   )}
                 />
               </Form.Group>
-              <div style={{ display: "flex", justifyContent: "end" }}>
+              <div className="end-button">
                 <Button type="submit" form="create-form" variant="success">
                   Create
                 </Button>

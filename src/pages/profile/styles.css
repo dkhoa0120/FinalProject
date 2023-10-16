@@ -214,12 +214,6 @@
   border-radius: 50%;
 }
 
-.profile-modal-button {
-  justify-content: end;
-  margin-top: 20px;
-  gap: 10em;
-}
-
 .create-manga-list {
   display: flex;
   position: relative;

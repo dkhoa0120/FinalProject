@@ -1,8 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import PostCreateButton from "../../components/post/postCreateButton";
 import { UserContext } from "../../context/UserContext";
 
 export default function CommunityFeeds() {
+  useEffect(() => {
+    document.title = "Community Feeds - 3K Manga";
+  }, []);
   const { user } = useContext(UserContext);
   return (
     <div div className="general-container">

@@ -374,7 +374,7 @@ export default function ManageMembers({ groupId }) {
               </div>
             )}
           </Form>
-          <div className="modal-button">
+          <div className="end-button">
             <Button variant="primary" type="submit" form="update-roles-form">
               Save Change
             </Button>
@@ -399,7 +399,7 @@ export default function ManageMembers({ groupId }) {
               <b>{groupDetails?.name}</b>.
             </span>
           </div>
-          <div className="modal-button">
+          <div className="end-button">
             <Button
               variant="success"
               onClick={() => handleRemoveMember(deleteMember.id)}

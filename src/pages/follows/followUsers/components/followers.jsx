@@ -1,7 +1,8 @@
-import { Col, Dropdown } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../styles.css";
 import * as followApi from "../../../../service/api.follow";
+import { Link } from "react-router-dom";
 
 export default function Followers() {
   const [followers, setFollowers] = useState(null);
@@ -71,36 +72,25 @@ export default function Followers() {
         followers.map((f) => {
           return (
             <Col xs={12} md={3}>
-              <div className="follow-user-container">
-                <img
-                  className="group-avatar"
-                  src={f.user.avatarPath || "/img/avatar/default.png"}
-                  alt="avatar"
-                ></img>
-
-                <div className="group-info">
-                  <p className="text-limit-2">
+              <Link to={`/profile/${f.user.id}`} className="card-link">
+                <div className="follow-user-container">
+                  <img
+                    className="group-avatar"
+                    src={f.user.avatarPath || "/img/avatar/default.png"}
+                    alt="avatar"
+                  ></img>
+                  <span className="text-limit-2">
                     <b>{f.user.name}</b>
-                  </p>
+                  </span>
                 </div>
-                <Dropdown>
-                  <Dropdown.Toggle
-                    variant="outline"
-                    className="manga-list-options-toggle"
-                  >
-                    <i className="fa-solid fa-ellipsis-vertical"></i>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item>Report</Dropdown.Item>
-                    <Dropdown.Item>Unfollow</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
+              </Link>
             </Col>
           );
         })
       ) : (
-        <p></p>
+        <p className="d-flex justify-content-center">
+          You do not have any follower
+        </p>
       )}
 
       {loadingPost && (

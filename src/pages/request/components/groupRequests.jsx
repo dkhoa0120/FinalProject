@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 export default function GroupRequests() {
   const [requests, setRequests] = useState();
   const [loadingRequest, setLoadingRequest] = useState(false);
   const [outOfReqs, setOutOfReqs] = useState(false);
 
   useEffect(() => {
-    document.title = "Request - 3K Manga";
+    document.title = "Requests - 3K Manga";
   }, []);
 
   const fetchUserRequests = async () => {
@@ -75,50 +76,62 @@ export default function GroupRequests() {
     <>
       <Container className="general-container">
         <Row>
-          {requests &&
-            requests.map((request) => (
-              <Col md={6}>
-                <div
-                  className={
-                    "request-container" +
-                    (!request.statusConfirmed &&
-                    (request.status === "Approve" || request.status === "Deny")
-                      ? " notification"
-                      : "")
-                  }
-                  onClick={() => handleReadRequest(request.id)}
-                >
-                  <div className="group-info">
-                    <img
-                      className="group-avatar"
-                      src={
-                        request.group.avatarPath ||
-                        "/img/avatar/defaultGroup.jpg"
-                      }
-                      alt="avatar"
-                    />
-                    <span className="group-name">{request.group.name}</span>
+          {requests ? (
+            requests.map((request) => {
+              return (
+                <Col md={6}>
+                  <div
+                    className={
+                      "request-container" +
+                      (!request.statusConfirmed &&
+                      (request.status === "Approve" ||
+                        request.status === "Deny")
+                        ? " notification"
+                        : "")
+                    }
+                    onClick={() => handleReadRequest(request.id)}
+                  >
+                    <Link to={`/groups/${request.group.id}`}>
+                      <div className="group-info">
+                        <img
+                          className="group-avatar"
+                          src={
+                            request.group.avatarPath ||
+                            "/img/avatar/defaultGroup.jpg"
+                          }
+                          alt="avatar"
+                        />
+                      </div>
+                    </Link>
+                    {request.status === "Approve" && (
+                      <i
+                        className="fa-solid fa-circle-check request-icon"
+                        style={{ color: "green" }}
+                      ></i>
+                    )}
+                    {request.status === "Deny" && (
+                      <i
+                        className="fa-solid fa-circle-xmark request-icon"
+                        style={{ color: "red" }}
+                      ></i>
+                    )}
+                    {request.status === "Processing" && (
+                      <i className="fa-solid fa-spinner request-icon"></i>
+                    )}
+                    <span style={{ flexGrow: "1" }}>
+                      Your request is {request.status} to{" "}
+                      <b>{request.group.name}</b>
+                    </span>
+                    <i className="fa-solid fa-circle mark-read-icon"></i>
                   </div>
-                  {request.status === "Approve" && (
-                    <i
-                      className="fa-solid fa-circle-check request-icon"
-                      style={{ color: "green" }}
-                    ></i>
-                  )}
-                  {request.status === "Deny" && (
-                    <i
-                      className="fa-solid fa-circle-xmark request-icon"
-                      style={{ color: "red" }}
-                    ></i>
-                  )}
-                  {request.status === "Processing" && (
-                    <i className="fa-solid fa-spinner request-icon"></i>
-                  )}
-                  <span style={{ flexGrow: "1" }}>{request.status}</span>
-                  <i className="fa-solid fa-circle mark-read-icon"></i>
-                </div>
-              </Col>
-            ))}
+                </Col>
+              );
+            })
+          ) : (
+            <p className="d-flex justify-content-center">
+              You do not have any group request
+            </p>
+          )}
         </Row>
       </Container>
 

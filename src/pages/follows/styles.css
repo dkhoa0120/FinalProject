@@ -1,8 +1,13 @@
 .follow-user-container {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
-.follow-user-container .group-info {
+.follow-user-container span {
   flex-grow: 1;
+}
+
+.follow-user-container img {
+  margin: 5px 0;
 }
