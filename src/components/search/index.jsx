@@ -133,7 +133,7 @@ export default function SearchBar({ placeholder }) {
                             clearInput();
                             handleClose();
                           }}
-                          to={`/profile/${value.id}`}
+                          to={`/profile/${value.id}/Uploads`}
                           className="item card-link"
                         >
                           <Image
@@ -165,7 +165,7 @@ export default function SearchBar({ placeholder }) {
                             clearInput();
                             handleClose();
                           }}
-                          to={`/groups/${value.id}`}
+                          to={`/groups/${value.id}/Uploads`}
                           className="item card-link"
                         >
                           <Image

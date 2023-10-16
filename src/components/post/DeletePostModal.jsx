@@ -2,19 +2,13 @@ import { Button, Modal } from "react-bootstrap";
 import * as postApi from "../../service/api.post";
 import { toast } from "react-toastify";
 
-export default function DeletePostModal({
-  post,
-  close,
-  updateDeletePost,
-  closeDetailModal,
-}) {
+export default function DeletePostModal({ post, close, updateDeletePost }) {
   console.log(post);
 
   const handleDeletePost = async () => {
     try {
       await postApi.deletePost(post?.id);
       close();
-      closeDetailModal();
       toast.success("Your post has been deleted");
       updateDeletePost(post?.id);
     } catch (error) {

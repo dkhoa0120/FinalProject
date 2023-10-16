@@ -110,7 +110,7 @@ export default function MangaListGroup() {
   const handleDeleteList = async (id) => {
     try {
       await listApi.deleteMangaList(id);
-      navigate(`/profile/${user?.id}`);
+      navigate(`/profile/${user?.id}/Uploads`);
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");

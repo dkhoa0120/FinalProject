@@ -102,7 +102,7 @@ export default function Header({ showSidebar, toggleSidebar }) {
                 {user ? (
                   <div className="d-flex flex-column align-items-center justify-content-center">
                     {user.name}
-                    <Link to={`/profile/${user.id}`} className="mt-2">
+                    <Link to={`/profile/${user.id}/Uploads`} className="mt-2">
                       <Button
                         variant="outline-dark"
                         onClick={() => {

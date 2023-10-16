@@ -151,7 +151,10 @@ export default function Comment({ comment, editComment, removeComment }) {
       ) : (
         <div className="d-flex gap-3">
           <div>
-            <Link to={`/profile/${comment.user.id}`} className="card-link">
+            <Link
+              to={`/profile/${comment.user.id}/Uploads`}
+              className="card-link"
+            >
               <img
                 className="avatar"
                 src={comment.user.avatarPath || "/img/avatar/default.png"}
@@ -161,7 +164,10 @@ export default function Comment({ comment, editComment, removeComment }) {
           </div>
           <div className="comment-content">
             <div>
-              <Link to={`/profile/${comment.user.id}`} className="card-link">
+              <Link
+                to={`/profile/${comment.user.id}/Uploads`}
+                className="card-link"
+              >
                 <span className="comment-name">{comment.user.name} </span>
               </Link>
               <span

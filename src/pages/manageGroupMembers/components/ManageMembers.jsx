@@ -241,7 +241,10 @@ export default function ManageMembers({ groupId }) {
               return (
                 <tr key={index}>
                   <td style={{ width: "100px" }}>
-                    <Link to={`/profile/${member.id}`} className="card-link">
+                    <Link
+                      to={`/profile/${member.id}/Uploads`}
+                      className="card-link"
+                    >
                       <img
                         className="group-avatar"
                         src={member.avatarPath || "/img/avatar/default.png"}
@@ -250,7 +253,10 @@ export default function ManageMembers({ groupId }) {
                     </Link>
                   </td>
                   <td style={{ width: "200px" }}>
-                    <Link to={`/profile/${member.id}`} className="card-link">
+                    <Link
+                      to={`/profile/${member.id}/Uploads`}
+                      className="card-link"
+                    >
                       <p
                         className="text-limit-2"
                         style={{ fontWeight: "bold", marginBottom: "5px" }}

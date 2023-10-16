@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as accountApi from "../../service/api.account";
@@ -19,19 +19,25 @@ export default function Profile() {
   let profileOptions = [
     "Uploads",
     "Group",
-    "Manga List",
-    "Followed Manga List",
+    "MangaList",
+    "FollowedMangaList",
     "Community",
     "About",
   ];
+  const toLabel = (item) => {
+    return item.replace(/([A-Z])/g, " $1").trim();
+  };
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [userStats, setUserStats] = useState(null);
-  const { userId } = useParams();
+  const { userId, option } = useParams();
+  const [profileOption, setProfileOption] = useState(
+    option || profileOptions[0]
+  );
   const [follow, setFollow] = useState(null);
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const type = "user";
 
   useEffect(() => {
@@ -40,6 +46,10 @@ export default function Profile() {
     getUserStats(userId);
     fetchUserFollow(userId);
   }, [userId]);
+
+  useEffect(() => {
+    navigate(`/profile/${userId}/${profileOption}`);
+  }, [profileOption, navigate, userId]);
 
   const getUserDetail = async (id) => {
     try {
@@ -163,13 +173,15 @@ export default function Profile() {
       <div className="general-container">
         <div className="profile-option-container">
           {profileOptions.map((option, index) =>
-            option === "Followed Manga List" && user?.id !== userId ? null : (
+            option === "FollowedMangaList" && user?.id !== userId ? null : (
               <Button
                 key={index}
                 variant={profileOption === option ? "dark" : "light"}
-                onClick={() => setProfileOption(option)}
+                onClick={() => {
+                  setProfileOption(option);
+                }}
               >
-                {option}
+                {toLabel(option)}
               </Button>
             )
           )}
@@ -179,8 +191,8 @@ export default function Profile() {
         {profileOption === "About" && (
           <About userStats={userStats} userDetails={userDetails} />
         )}
-        {profileOption === "Manga List" && <MangaList />}
-        {profileOption === "Followed Manga List" && <FollowedMangaList />}
+        {profileOption === "MangaList" && <MangaList />}
+        {profileOption === "FollowedMangaList" && <FollowedMangaList />}
         {profileOption === "Community" && <Community />}
       </div>
       <AvatarModal

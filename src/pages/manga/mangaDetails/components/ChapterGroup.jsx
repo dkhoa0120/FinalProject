@@ -83,7 +83,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
               </Col>
               <Col xs={6} xl={2}>
                 <Link
-                  to={`/groups/${chapter.uploadingGroup.id}`}
+                  to={`/groups/${chapter.uploadingGroup.id}/Uploads`}
                   className="card-link"
                 >
                   <p className="text-truncate">
@@ -94,7 +94,7 @@ export default function ChapterGroup({ number, chapterList, show = true }) {
               </Col>
               <Col xs={6} xl={2}>
                 <Link
-                  to={`/profile/${chapter.uploader.id}`}
+                  to={`/profile/${chapter.uploader.id}/Uploads`}
                   className="card-link"
                 >
                   <p className="text-truncate">

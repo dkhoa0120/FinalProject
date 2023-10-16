@@ -19,7 +19,10 @@ export default function Members({ groupId }) {
           {members?.map((member) => (
             <Col md={4} xl={3}>
               <div className="d-flex align-items-center gap-3 mb-3">
-                <Link to={`/profile/${member.id}`} className="card-link">
+                <Link
+                  to={`/profile/${member.id}/Uploads`}
+                  className="card-link"
+                >
                   <img
                     className="group-avatar"
                     src={member.avatarPath || "/img/avatar/default.png"}
@@ -27,7 +30,10 @@ export default function Members({ groupId }) {
                   />
                 </Link>
                 <div style={{ flexGrow: "1" }}>
-                  <Link to={`/profile/${member.id}`} className="card-link">
+                  <Link
+                    to={`/profile/${member.id}/Uploads`}
+                    className="card-link"
+                  >
                     <p
                       className="text-limit-2"
                       style={{ fontWeight: "bold", marginBottom: "5px" }}

@@ -50,7 +50,10 @@ export default function MangaBlock({ manga }) {
                 </p>
               </Col>
               <Col xs={6} md={2}>
-                <Link to={`/profile/${c.uploader.id}`} className="card-link">
+                <Link
+                  to={`/profile/${c.uploader.id}/Uploads`}
+                  className="card-link"
+                >
                   <p className="text-truncate ">
                     <i className="fa-regular fa-user"></i> {c.uploader.name}
                   </p>

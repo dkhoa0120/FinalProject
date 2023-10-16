@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, useCallback } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import * as groupApi from "../../service/api.group";
 import * as requestAPI from "../../service/api.request";
@@ -22,13 +22,20 @@ export default function Group() {
   const [isOwner, setIsOwner] = useState(false);
   const [isMod, setIsMod] = useState(false);
   const [isUserAMember, setIsUserAMember] = useState(false);
-  const [profileOption, setProfileOption] = useState(profileOptions[0]);
   const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
+  const { groupId, option } = useParams();
+  const [profileOption, setProfileOption] = useState(
+    option || profileOptions[0]
+  );
   const memberId = user?.id;
-  const { groupId } = useParams();
   const [showLeaveModal, setShowLeaveModal] = useState(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(`/groups/${groupId}/${profileOption}`);
+  }, [profileOption, navigate, groupId]);
 
   const fetchMember = useCallback(async (groupId, memberId) => {
     try {

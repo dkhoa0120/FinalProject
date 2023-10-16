@@ -86,7 +86,7 @@ export default function RequestMembers({ groupId }) {
                 <tr key={requests.id}>
                   <td style={{ width: "100px" }}>
                     <Link
-                      to={`/profile/${requests.user.id}`}
+                      to={`/profile/${requests.user.id}/Uploads`}
                       className="card-link"
                     >
                       <img
@@ -100,7 +100,7 @@ export default function RequestMembers({ groupId }) {
                   </td>
                   <td style={{ width: "300px" }}>
                     <Link
-                      to={`/profile/${requests.user.id}`}
+                      to={`/profile/${requests.user.id}/Uploads`}
                       className="card-link"
                     >
                       <p

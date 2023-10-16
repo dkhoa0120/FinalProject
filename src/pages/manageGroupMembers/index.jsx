@@ -52,7 +52,7 @@ export default function ManageGroup() {
     <Container fluid>
       <ToastContainer />
       <div className="group-name">
-        <Link to={`/groups/${groupId}`}>
+        <Link to={`/groups/${groupId}/Uploads`}>
           <button className="return-button">
             <i className="fa-solid fa-arrow-left"></i>
           </button>

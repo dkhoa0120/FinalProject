@@ -33,7 +33,7 @@ export default function Groups() {
       let res = await groupApi.postGroup(formData);
       setShow(false);
       reset();
-      navigate(`/groups/${res.data.id}`);
+      navigate(`/groups/${res.data.id}/Uploads`);
     } catch (error) {
       console.log(error.message);
     }
@@ -119,7 +119,10 @@ export default function Groups() {
               return (
                 <Col md={3} key={index}>
                   <div className="d-flex align-items-center gap-3 mb-3">
-                    <Link to={`/groups/${group.id}`} className="card-link">
+                    <Link
+                      to={`/groups/${group.id}/Uploads`}
+                      className="card-link"
+                    >
                       <img
                         className="group-avatar"
                         src={group.avatarPath || "/img/avatar/defaultGroup.jpg"}
@@ -127,7 +130,10 @@ export default function Groups() {
                       ></img>
                     </Link>
                     <div className="group-info">
-                      <Link to={`/groups/${group.id}`} className="card-link">
+                      <Link
+                        to={`/groups/${group.id}/Uploads`}
+                        className="card-link"
+                      >
                         <p className="text-limit-2">
                           <b>{group.name}</b>
                         </p>
