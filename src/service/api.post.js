@@ -33,3 +33,12 @@ export const getGroupPosts = (groupId, filter) => {
     },
   });
 };
+
+export const getMyFeeds = (filter) => {
+  const createdAtCursor = filter?.createdAtCursor;
+  return getAuthorizedAxios().get(`/my-feed`, {
+    params: {
+      createdAtCursor,
+    },
+  });
+};
