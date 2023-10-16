@@ -3,6 +3,8 @@ import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
 import PostImage from "./postImage";
 import CommentSection from "../commentSection";
 import PostStats from "./postStats";
+import * as viewApi from "../../service/api.view";
+import { useEffect } from "react";
 
 export default function PcModal({
   post,
@@ -11,6 +13,17 @@ export default function PcModal({
   updatePostEdited,
   updateDeletePost,
 }) {
+  useEffect(() => {
+    const fetchPostView = async (postId) => {
+      try {
+        await viewApi.postView("post", postId);
+      } catch (error) {
+        console.error("View has already been added for this post");
+      }
+    };
+    fetchPostView(post.id);
+  }, [post.id]);
+
   return (
     <>
       <Modal centered show={post} onHide={close} size="xl">

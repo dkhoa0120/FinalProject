@@ -3,6 +3,8 @@ import { Modal } from "react-bootstrap";
 import CommentSection from "../commentSection";
 import PostImage from "./postImage";
 import PostStats from "./postStats";
+import * as viewApi from "../../service/api.view";
+import { useEffect } from "react";
 
 export default function MobileModal({
   post,
@@ -11,6 +13,16 @@ export default function MobileModal({
   updatePostEdited,
   updateDeletePost,
 }) {
+  useEffect(() => {
+    const fetchPostView = async (postId) => {
+      try {
+        await viewApi.postView("post", postId);
+      } catch (error) {
+        console.error("View has already been added for this post");
+      }
+    };
+    fetchPostView(post.id);
+  }, [post.id]);
   return (
     <>
       <Modal centered show={post} onHide={close} size="xl">
