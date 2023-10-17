@@ -8,13 +8,16 @@ export default function Followers() {
   const [followers, setFollowers] = useState(null);
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFollowerUsers = async () => {
       try {
+        setLoading(true);
         const res = await followApi.getFollowerUsers();
         console.log(res.data);
         setFollowers(res.data);
+        setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           setFollowers(null);
@@ -68,7 +71,11 @@ export default function Followers() {
 
   return (
     <>
-      {followers ? (
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      ) : followers && followers.length > 0 ? (
         followers.map((f) => {
           return (
             <Col xs={12} md={3}>
@@ -88,7 +95,7 @@ export default function Followers() {
           );
         })
       ) : (
-        <p className="d-flex justify-content-center">
+        <p className="d-flex justify-content-center no-found-message">
           You do not have any follower
         </p>
       )}

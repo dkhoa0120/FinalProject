@@ -120,3 +120,16 @@ body {
     display: none !important;
   }
 }
+
+.no-found-message {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  border: 2px solid #d400ff;
+  padding: 10px;
+  border-radius: 8px;
+  background: linear-gradient(90.21deg, #aa367c80 -5.91%, #4a2fbd80 111.58%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

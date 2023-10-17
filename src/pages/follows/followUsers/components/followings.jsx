@@ -8,12 +8,15 @@ export default function Followings() {
   const [followings, setFollowings] = useState(null);
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFollowingUsers = async () => {
       try {
+        setLoading(true);
         const result = await followApi.getFollowingUsers();
         setFollowings(result.data);
+        setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           setFollowings(null);
@@ -69,7 +72,11 @@ export default function Followings() {
 
   return (
     <>
-      {followings ? (
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      ) : followings && followings.length > 0 ? (
         followings.map((f) => {
           return (
             <Col xs={12} md={3}>
@@ -104,7 +111,7 @@ export default function Followings() {
           );
         })
       ) : (
-        <p className="d-flex justify-content-center">
+        <p className="d-flex justify-content-center no-found-message">
           You have not followed anyone yet
         </p>
       )}

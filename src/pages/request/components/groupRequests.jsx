@@ -7,15 +7,17 @@ export default function GroupRequests() {
   const [requests, setRequests] = useState();
   const [loadingRequest, setLoadingRequest] = useState(false);
   const [outOfReqs, setOutOfReqs] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.title = "Requests - 3K Manga";
   }, []);
 
   const fetchUserRequests = async () => {
+    setLoading(true);
     const res = await requestApi.getUserGroupRequests();
     setRequests(res.data);
-    console.log("res", res);
+    setLoading(false);
   };
 
   const handleReadRequest = async (id) => {
@@ -76,7 +78,11 @@ export default function GroupRequests() {
     <>
       <Container className="general-container" fluid>
         <Row>
-          {requests ? (
+          {loading ? (
+            <div className="d-flex justify-content-center">
+              <div className="spinner-border" role="status"></div>
+            </div>
+          ) : requests && requests.length > 0 ? (
             requests.map((request) => {
               return (
                 <Col md={6}>
@@ -128,7 +134,7 @@ export default function GroupRequests() {
               );
             })
           ) : (
-            <p className="d-flex justify-content-center">
+            <p className="d-flex justify-content-center no-found-message">
               You do not have any group request
             </p>
           )}

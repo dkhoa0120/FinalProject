@@ -7,6 +7,7 @@ export default function FollowedManga() {
   const [followedManga, setFollowedManga] = useState([]);
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.title = "Followed Mangas - 3K Manga";
@@ -14,8 +15,10 @@ export default function FollowedManga() {
 
   const fetchFollowedMangas = async () => {
     try {
+      setLoading(true);
       const result = await followApi.getFollowedMangas();
       setFollowedManga(result.data);
+      setLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setFollowedManga(null);
@@ -73,10 +76,14 @@ export default function FollowedManga() {
   return (
     <>
       <Container fluid>
-        {followedManga ? (
+        {loading ? (
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        ) : followedManga && followedManga.length > 0 ? (
           followedManga.map((m) => <MangaBlock manga={m} />)
         ) : (
-          <p className="d-flex justify-content-center">
+          <p className="d-flex justify-content-center no-found-message">
             You have not followed any manga yet
           </p>
         )}
