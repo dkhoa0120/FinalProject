@@ -74,7 +74,7 @@ export default function GroupRequests() {
 
   return (
     <>
-      <Container className="general-container">
+      <Container className="general-container" fluid>
         <Row>
           {requests ? (
             requests.map((request) => {

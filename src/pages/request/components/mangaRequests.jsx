@@ -1,27 +1,32 @@
-import { Button, Table } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 
-export default function PromotionRequests() {
+export default function MangaRequests() {
   return (
     <>
       <div className="general-container">
-        <div className="general-container-title">Promotion Form</div>
+        <div className="general-container-title">Manga Form</div>
         <div style={{ padding: "0 30px" }}>
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>
-                <b>Evidence</b>
+                <b>Manga name</b>
               </Form.Label>
-              <Form.Control placeholder="Provide link contains evidence that you are a translator" />
+              <Form.Control />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>
-                <b>Reason</b>
+                <b>Manga author</b>
+              </Form.Label>
+              <Form.Control />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                <b>Manga official source</b>
               </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={5}
-                placeholder="What are you trying to write?"
+                placeholder="Provide links of the manga's official source"
               />
             </Form.Group>
           </Form>
@@ -31,25 +36,22 @@ export default function PromotionRequests() {
         </div>
       </div>
       <div className="general-container">
-        <div className="general-container-title">Promotion Status</div>
+        <div className="general-container-title">Manga Status</div>
         <div className="promotion-container">
           <Table bordered hover responsive="sm">
             <thead>
               <tr>
-                <th>Evidence</th>
-                <th>Reason</th>
+                <th>Manga name</th>
+                <th>Manga author</th>
+                <th>Manga official source</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>http://localhost:3000/requests</td>
-                <td>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid, eaque totam ullam nam numquam assumenda quam, illo
-                  necessitatibus a dignissimos provident sint, debitis tempore
-                  dolor impedit distinctio repellat minus voluptate!
-                </td>
+                <td>Naruto</td>
+                <td>Jiraiya</td>
+                <td>http://localhost:3000/</td>
                 <td>
                   <i
                     className="fa-solid fa-circle-check request-icon"
@@ -58,12 +60,9 @@ export default function PromotionRequests() {
                 </td>
               </tr>
               <tr>
-                <td>http://localhost:3000/requests</td>
-                <td>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Praesentium quod dolores quasi dignissimos quis qui numquam,
-                  at necessitatibus natus. Quod?
-                </td>
+                <td>Doraemon</td>
+                <td>idk</td>
+                <td>http://localhost:3000/</td>
                 <td>
                   <i
                     className="fa-solid fa-circle-xmark request-icon"
