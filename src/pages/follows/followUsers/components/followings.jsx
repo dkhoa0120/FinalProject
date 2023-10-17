@@ -75,7 +75,7 @@ export default function Followings() {
             <Col xs={12} md={3}>
               <div className="follow-user-container">
                 <Link
-                  to={`/profile/${f.followedUser.id}`}
+                  to={`/profile/${f.followedUser.id}/Uploads`}
                   className="card-link"
                 >
                   <img

@@ -44,11 +44,20 @@ export default function OtherRequest() {
               <tr>
                 <td>Skill issue</td>
                 <td>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Rerum dolorum aspernatur sit exercitationem tempora tenetur
-                  perspiciatis minus velit incidunt quam, provident, vitae
-                  cumque ab sapiente magnam repudiandae voluptatibus ratione
-                  unde?
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Deleniti eum, eius dignissimos quis veniam iste doloremque
+                  temporibus, voluptatem, in architecto distinctio tempore harum
+                  molestias error rem doloribus. Molestias quo doloribus,
+                  eveniet asperiores animi totam reprehenderit doloremque hic
+                  commodi officia, nobis voluptas nihil, qui iusto placeat
+                  quibusdam est. Assumenda, perspiciatis incidunt aut
+                  dignissimos quos soluta repudiandae corrupti autem voluptatum
+                  cupiditate obcaecati voluptas. Ullam dolor, reiciendis labore
+                  rem rerum quaerat assumenda enim temporibus, inventore commodi
+                  unde ea earum minima alias. Fugiat cupiditate repudiandae
+                  provident non doloremque, magni recusandae voluptas itaque id
+                  dolores quod vitae dicta vero aperiam dolorem reiciendis
+                  doloribus esse! Doloremque.
                 </td>
                 <td>
                   <i
@@ -60,7 +69,6 @@ export default function OtherRequest() {
               <tr>
                 <td>Skill issue</td>
                 <td>
-                  {" "}
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                   Rerum dolorum aspernatur sit exercitationem tempora tenetur
                   perspiciatis minus velit incidunt quam, provident, vitae

@@ -72,7 +72,7 @@ export default function Followers() {
         followers.map((f) => {
           return (
             <Col xs={12} md={3}>
-              <Link to={`/profile/${f.user.id}`} className="card-link">
+              <Link to={`/profile/${f.user.id}/Uploads`} className="card-link">
                 <div className="follow-user-container">
                   <img
                     className="group-avatar"

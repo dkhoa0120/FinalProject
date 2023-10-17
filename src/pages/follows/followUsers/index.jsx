@@ -4,7 +4,7 @@ import Followers from "./components/followers";
 import Followings from "./components/followings";
 
 export default function FollowUsers() {
-  const sortOptions = ["Follower User", "Following User"];
+  const sortOptions = ["Follower", "Following User"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function FollowUsers() {
       </div>
       <Container fluid style={{ paddingTop: "10px" }}>
         <Row>
-          {sortOption === "Follower User" && <Followers />}
+          {sortOption === "Follower" && <Followers />}
           {sortOption === "Following User" && <Followings />}
         </Row>
       </Container>

@@ -154,7 +154,7 @@ export default function CommunityFeeds() {
   }, [posts]);
 
   return (
-    <>
+    <div className="general-container">
       <ToastContainer />
 
       <div>
@@ -216,6 +216,6 @@ export default function CommunityFeeds() {
           <div className="spinner-border" role="status"></div>
         </div>
       )}
-    </>
+    </div>
   );
 }

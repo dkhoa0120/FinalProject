@@ -25,6 +25,7 @@ import FollowedManga from "../../pages/follows/followMangas";
 import EditProfile from "../../pages/editProfile";
 import ManageGroup from "../../pages/manageGroupMembers";
 import Requests from "../../pages/request";
+import ManageRequest from "../../pages/admin/manageRequest";
 
 export default function Body() {
   return (
@@ -36,6 +37,7 @@ export default function Body() {
         <Route path="/manage/reports" element={<Report />} />
         <Route path="/manage/categories" element={<ManageCategory />} />
         <Route path="/manage/authors" element={<ManageAuthor />} />
+        <Route path="/manage/requests" element={<ManageRequest />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

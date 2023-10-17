@@ -258,10 +258,10 @@ export default function Group() {
           <Modal.Title>Join group request</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <span style={{ textAlign: "center" }}>
+          <span>
             Send a request to join <b>{groupDetails?.name}</b>?
           </span>
-          <div className="modal-button">
+          <div className="end-button">
             <Button
               variant="success"
               onClick={() => {

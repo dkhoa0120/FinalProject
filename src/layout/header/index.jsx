@@ -120,42 +120,39 @@ export default function Header({ showSidebar, toggleSidebar }) {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav>
-                <Col>
-                  <Link to={`/edit-profile`}>
-                    <Button
-                      className="mb-3 w-100"
-                      variant="outline-dark"
-                      onClick={() => {
-                        setShow(false);
-                      }}
-                    >
-                      <i className="fa-solid fa-gear"></i> Settings
-                    </Button>
-                  </Link>
-                </Col>
-                <Col>
-                  {user ? (
-                    <>
-                      {user.roles.includes("Uploader") && (
-                        <NavLink to="/upload/chapters">
-                          <Button
-                            className="mb-3 w-100"
-                            variant="outline-dark"
-                            onClick={() => {
-                              setShow(false);
-                            }}
-                          >
-                            <i className="fa-solid fa-list-check"></i> Upload
-                            chapter
-                          </Button>
-                        </NavLink>
-                      )}
-                    </>
-                  ) : null}
-                </Col>
+                <Link to={`/edit-profile`}>
+                  <Button
+                    className="mb-3 w-100"
+                    variant="outline-dark"
+                    onClick={() => setShow(false)}
+                  >
+                    <i className="fa-solid fa-gear"></i> Settings
+                  </Button>
+                </Link>
+
                 {user ? (
                   <>
-                    {user.roles.includes("Admin") && (
+                    {user.roles.includes("Uploader") && (
+                      <NavLink to="/upload/chapters">
+                        <Button
+                          className="mb-3 w-100"
+                          variant="outline-dark"
+                          onClick={() => {
+                            setShow(false);
+                          }}
+                        >
+                          <i className="fa-solid fa-list-check"></i> Upload
+                          chapter
+                        </Button>
+                      </NavLink>
+                    )}
+                  </>
+                ) : null}
+
+                {user ? (
+                  <>
+                    {(user.roles.includes("Admin") ||
+                      user.roles.includes("Manager")) && (
                       <>
                         <Dropdown>
                           <Dropdown.Toggle
@@ -168,7 +165,7 @@ export default function Header({ showSidebar, toggleSidebar }) {
                           <Dropdown.Menu className="mb-3 w-100">
                             <Row className="px-2">
                               <Col>
-                                <NavLink to="/manage/users">
+                                <NavLink to="/manage/requests">
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"
@@ -176,7 +173,8 @@ export default function Header({ showSidebar, toggleSidebar }) {
                                       setShow(false);
                                     }}
                                   >
-                                    <i className="fa-solid fa-user"></i> Users
+                                    <i className="fa-solid fa-envelope"></i>{" "}
+                                    Requests
                                   </Button>
                                 </NavLink>
                               </Col>
@@ -227,6 +225,24 @@ export default function Header({ showSidebar, toggleSidebar }) {
                           </Dropdown.Menu>
                         </Dropdown>
                       </>
+                    )}
+                  </>
+                ) : null}
+
+                {user ? (
+                  <>
+                    {user.roles.includes("Admin") && (
+                      <NavLink to="/manage/users">
+                        <Button
+                          className="mb-3 w-100"
+                          variant="outline-dark"
+                          onClick={() => {
+                            setShow(false);
+                          }}
+                        >
+                          <i className="fa-solid fa-user"></i> Manage User
+                        </Button>
+                      </NavLink>
                     )}
                     <Button
                       className="mb-3 w-100"
