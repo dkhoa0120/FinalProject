@@ -122,7 +122,13 @@ export default function Header({ showSidebar, toggleSidebar }) {
               <Nav>
                 <Col>
                   <Link to={`/edit-profile`}>
-                    <Button className="mb-3 w-100" variant="outline-dark">
+                    <Button
+                      className="mb-3 w-100"
+                      variant="outline-dark"
+                      onClick={() => {
+                        setShow(false);
+                      }}
+                    >
                       <i className="fa-solid fa-gear"></i> Settings
                     </Button>
                   </Link>

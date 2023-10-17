@@ -38,3 +38,19 @@ export const getUsers = (filter) => {
     params: { search },
   });
 };
+
+export const updateName = (data) => {
+  return getAuthorizedAxios().put(`users/me/username`, data);
+};
+
+export const updateBio = (data) => {
+  return getAuthorizedAxios().put(`users/me/bio`, data);
+};
+
+export const updatePassword = (data) => {
+  return getAuthorizedAxios().put(`users/me/password`, data);
+};
+
+export const deleteUser = () => {
+  return getAuthorizedAxios().delete(`users`);
+};

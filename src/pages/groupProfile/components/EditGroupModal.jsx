@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import * as groupApi from "../../../service/api.group";
 
 export default function EditGroupModal({

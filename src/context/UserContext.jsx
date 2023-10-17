@@ -23,6 +23,7 @@ function UserProvider({ children }) {
       email: response.data.email,
       avatarPath: response.data.avatarPath,
       roles: response.data.roles,
+      biography: response.data.biography,
     });
   };
 

@@ -2,19 +2,32 @@ import { Button, Modal } from "react-bootstrap";
 import EditProfileModal from "./editProfileModal";
 import "../styles.css";
 import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
+import * as accountApi from "../../../service/api.account";
+import { useNavigate } from "react-router-dom";
 
 export default function Account() {
+  const { user, logout } = useContext(UserContext);
   const [userNameModal, setUserNameModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
   const [biographyModal, setBiographyModal] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDeleteAccount = async () => {
+    await accountApi.deleteUser();
+    setDeleteAccount(!deleteAccount);
+    logout();
+    navigate("/");
+  };
 
   return (
     <>
       <div className="edit-profile">
         <div className="edit-label">
           <b>Username</b>
-          <span>username</span>
+          <span>{user?.name}</span>
         </div>
         <Button variant="dark" onClick={() => setUserNameModal(!userNameModal)}>
           Edit
@@ -25,19 +38,7 @@ export default function Account() {
       <div className="edit-profile">
         <div className="edit-label">
           <b>Change Biography</b>
-          <span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
-            libero quam eveniet accusantium nulla aspernatur voluptatum ullam
-            eos culpa, soluta beatae eligendi deleniti a doloribus labore nobis
-            facilis cum magni sit ducimus eum ipsa incidunt dolore. Dolorem ea
-            adipisci necessitatibus rerum animi voluptatem dolor omnis nihil,
-            hic, maiores, cum iure. Minus esse non blanditiis animi officia
-            laboriosam doloribus at vero iusto. Id alias veniam laborum numquam
-            iste, iure aliquam obcaecati iusto sint a ipsam vero unde dolore
-            tempore nam non ullam eum! Autem vel veritatis quo, nihil recusandae
-            quam possimus tenetur numquam facere? Tempore at libero, asperiores
-            hic placeat aperiam.
-          </span>
+          <span>{user?.biography}</span>
         </div>
         <Button
           onClick={() => setBiographyModal(!biographyModal)}
@@ -97,7 +98,7 @@ export default function Account() {
         inputLabels={[
           "Current password",
           "New password",
-          "Confirm new password",
+          "New password confirm",
         ]}
       />
       <EditProfileModal
@@ -119,20 +120,19 @@ export default function Account() {
           <div className="kick-member-info">
             <img
               className="group-avatar"
-              src={"/img/avatar/default.png"}
+              src={user?.avatarPath || "/img/avatar/default.png"}
               alt="avatar"
             />
-            <b style={{ fontSize: "20px", paddingBottom: "10px" }}>username</b>
+            <b style={{ fontSize: "20px", paddingBottom: "10px" }}>
+              {user?.name}
+            </b>
             <span style={{ textAlign: "center", color: "red" }}>
               You are deleting your account. This action cannot be reversed, are
               you sure about this?
             </span>
           </div>
           <div className="end-button">
-            <Button
-              variant="danger"
-              onClick={() => setDeleteAccount(!deleteAccount)}
-            >
+            <Button variant="danger" onClick={handleDeleteAccount}>
               Confirm delete
             </Button>
           </div>
