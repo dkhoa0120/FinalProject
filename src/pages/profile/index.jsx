@@ -31,25 +31,18 @@ export default function Profile() {
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [userStats, setUserStats] = useState(null);
-  const { userId, option } = useParams();
-  const [profileOption, setProfileOption] = useState(
-    option || profileOptions[0]
-  );
+  const { userId, selectedOption } = useParams();
   const [follow, setFollow] = useState(null);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const type = "user";
 
   useEffect(() => {
-    document.title = `${user.name}'s Profile - 3K Manga`;
+    document.title = `Profile - 3K Manga`;
     getUserDetail(userId);
     getUserStats(userId);
     fetchUserFollow(userId);
-  }, [userId, user]);
-
-  useEffect(() => {
-    navigate(`/profile/${userId}/${profileOption}`);
-  }, [profileOption, navigate, userId]);
+  }, [userId]);
 
   const getUserDetail = async (id) => {
     try {
@@ -176,9 +169,9 @@ export default function Profile() {
             option === "FollowedMangaList" && user?.id !== userId ? null : (
               <Button
                 key={index}
-                variant={profileOption === option ? "dark" : "light"}
+                variant={option === selectedOption ? "dark" : "light"}
                 onClick={() => {
-                  setProfileOption(option);
+                  navigate(`/profile/${userId}/${option}`);
                 }}
               >
                 {toLabel(option)}
@@ -186,14 +179,14 @@ export default function Profile() {
             )
           )}
         </div>
-        {profileOption === "Uploads" && <Uploads />}
-        {profileOption === "Group" && <Groups />}
-        {profileOption === "About" && (
+        {selectedOption === "Uploads" && <Uploads />}
+        {selectedOption === "Group" && <Groups />}
+        {selectedOption === "About" && (
           <About userStats={userStats} userDetails={userDetails} />
         )}
-        {profileOption === "MangaList" && <MangaList />}
-        {profileOption === "FollowedMangaList" && <FollowedMangaList />}
-        {profileOption === "Community" && <Community />}
+        {selectedOption === "MangaList" && <MangaList />}
+        {selectedOption === "FollowedMangaList" && <FollowedMangaList />}
+        {selectedOption === "Community" && <Community />}
       </div>
       <AvatarModal
         close={() => setShowAvatarModal(false)}

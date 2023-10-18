@@ -49,11 +49,11 @@ export default function Body() {
         <Route path="/community" element={<CommunityFeeds />} />
         <Route path="*" element={<Error />} />
         <Route path="/chapters/:chapterId" element={<ChapterPage />} />
-        <Route path="/profile/:userId/:option" element={<Profile />} />
+        <Route path="/profile/:userId/:selectedOption" element={<Profile />} />
         <Route path="/upload/:mangaId" element={<Upload />} />
         <Route path="/upload/edit/:chapterId" element={<Edit />} />
         <Route path="/upload/chapters" element={<ManageChapter />} />
-        <Route path="/groups/:groupId/:option" element={<Group />} />
+        <Route path="/groups/:groupId/:selectedOption" element={<Group />} />
         <Route
           path="/manage/group/members/:groupId"
           element={<ManageGroup />}

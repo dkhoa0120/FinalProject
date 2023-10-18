@@ -24,18 +24,11 @@ export default function Group() {
   const [isUserAMember, setIsUserAMember] = useState(false);
   const [showEditGroup, setShowEditGroup] = useState(false);
   const { user } = useContext(UserContext);
-  const { groupId, option } = useParams();
-  const [profileOption, setProfileOption] = useState(
-    option || profileOptions[0]
-  );
+  const { groupId, selectedOption } = useParams();
   const memberId = user?.id;
   const [showLeaveModal, setShowLeaveModal] = useState(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate(`/groups/${groupId}/${profileOption}`);
-  }, [profileOption, navigate, groupId]);
 
   const fetchMember = useCallback(async (groupId, memberId) => {
     try {
@@ -95,7 +88,7 @@ export default function Group() {
         await groupApi.removeGroupMember(groupId, user?.id);
         toast.success("You have left this group");
         setIsUserAMember(false);
-        setProfileOption("Uploads");
+        navigate(`/groups/${groupId}/Uploads`);
       }
     } catch (error) {}
   };
@@ -184,24 +177,24 @@ export default function Group() {
             option === "Uploads" && !groupDetails?.isMangaGroup ? null : (
               <Button
                 key={index}
-                variant={profileOption === option ? "dark" : "light"}
-                onClick={() => setProfileOption(option)}
+                variant={option === selectedOption ? "dark" : "light"}
+                onClick={() => navigate(`/groups/${groupId}/${option}`)}
               >
                 {option}
               </Button>
             )
           )}
         </div>
-        {profileOption === "Uploads" && <Uploads groupId={groupId} />}
-        {profileOption === "About" && <About groupDetails={groupDetails} />}
-        {profileOption === "Community" && (
+        {selectedOption === "Uploads" && <Uploads groupId={groupId} />}
+        {selectedOption === "About" && <About groupDetails={groupDetails} />}
+        {selectedOption === "Community" && (
           <GroupCommunity
             isUserAMember={isUserAMember}
             isOwner={isOwner}
             isMod={isMod}
           />
         )}
-        {profileOption === "Members" && (
+        {selectedOption === "Members" && (
           <Members groupId={groupId} groupName={groupDetails?.name} />
         )}
       </div>
