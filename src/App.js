@@ -38,7 +38,7 @@ export default function App() {
       <div
         style={{
           marginLeft: window.innerWidth > 1080 && showSidebar ? "230px" : "0",
-          transition: "margin-left 0.3s ease-in-out"
+          transition: "margin-left 0.3s ease-in-out",
         }}
       >
         <Body />

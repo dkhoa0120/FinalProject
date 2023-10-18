@@ -43,6 +43,7 @@ export default function Body() {
         <Route path="/register" element={<Register />} />
         <Route path="/mangas/:mangaId" element={<MangaDetail />} />
         <Route path="/mangas" element={<Manga />} />
+        <Route path="/mangas/random" />
         <Route path="/followed-mangas" element={<FollowedManga />} />
         <Route path="/followed-users" element={<FollowUsers />} />
         <Route path="/community" element={<CommunityFeeds />} />

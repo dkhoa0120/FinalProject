@@ -52,6 +52,10 @@ export const getChapterByMangaId = (id, filter) => {
   });
 };
 
+export const getRandomManga = () => {
+  return baseAxios.get(`mangas/random-id`);
+};
+
 // manage/mangas
 export const getMangaByIdForManage = (id) => {
   return getAuthorizedAxios().get(`manage/mangas/${id}`);

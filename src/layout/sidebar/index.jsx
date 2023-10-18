@@ -1,14 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
 import { Image, Nav, Navbar } from "react-bootstrap";
 import React, { useState } from "react";
+import * as mangaApi from "../../service/api.manga";
 
 function SideBar(props) {
+  const navigate = useNavigate();
   const [dropdownStates, setDropdownStates] = useState({
     browsing: true,
     follows: true,
   });
+
+  const navigateRandomManga = async () => {
+    const res = await mangaApi.getRandomManga();
+    navigate(`mangas/${res.data}`);
+  };
 
   const handleDropdownClick = (section) => {
     setDropdownStates({
@@ -40,7 +47,12 @@ function SideBar(props) {
           to: "/mangas?sortOption=LatestChapter",
           key: "latest-chapters",
         },
-        { text: "Random", to: "/mangas/random", key: "random" },
+        {
+          text: "Random",
+          to: "/mangas/random",
+          key: "random",
+          onClick: navigateRandomManga,
+        },
       ],
     },
     {
@@ -110,9 +122,10 @@ function SideBar(props) {
               {menuItem.heading}
               {menuItem.items.map((item, key) => (
                 <MenuItem
-                  onClick={
-                    window.innerWidth <= 767 ? props.toggleSidebar : null
-                  }
+                  onClick={() => {
+                    if (window.innerWidth <= 767) props.toggleSidebar();
+                    if (item.onClick) item.onClick();
+                  }}
                   key={item.key}
                   className={`nav-text drop-item${
                     dropdownStates[menuItem.section] ? " active" : ""
