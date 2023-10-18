@@ -39,63 +39,60 @@ export default function ManagePromotionReq() {
   return (
     <>
       <ToastContainer />
-      <Container fluid>
-        <Table striped bordered hover responsive="sm">
-          <thead>
-            <tr>
-              <th>UserName</th>
-              <th>Evidence Link</th>
-              <th>Reason</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests ? (
-              requests.map((request) => (
-                <tr>
-                  <td>{request.user.name}</td>
-                  <td>{request.evidenceLink}</td>
-                  <td>{request.reason}</td>
-                  <td>
-                    <td style={{ width: "250px" }}>
-                      <Button
-                        style={{ marginBottom: "5px" }}
-                        onClick={() => {
-                          handleDecide(request.id, "Approve");
-                        }}
-                      >
-                        <i className="fa-solid fa-plus"></i>
-                        <span className="hide-when-mobile"> Approve</span>
-                      </Button>
-                      &nbsp;
-                      <Button
-                        variant="danger"
-                        style={{ marginBottom: "5px" }}
-                        onClick={() => {
-                          handleDecide(request.id, "Deny");
-                        }}
-                      >
-                        <i className="fa-solid fa-minus"></i>
-                        <span className="hide-when-mobile"> Deny</span>
-                      </Button>
-                    </td>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <p></p>
-            )}
-          </tbody>
-        </Table>
-        {/* Pagination */}
-        <div className="d-flex justify-content-center">
-          <PaginationNoParams
-            page={page}
-            totalPages={totalPages}
-            onPageChange={handleChangeChapter}
-          />
-        </div>
-      </Container>
+
+      <Table striped bordered hover responsive="sm">
+        <thead>
+          <tr>
+            <th>UserName</th>
+            <th>Evidence Link</th>
+            <th>Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {requests ? (
+            requests.map((request) => (
+              <tr>
+                <td style={{ width: "250px" }}>{request.user.name}</td>
+                <td>{request.evidenceLink}</td>
+                <td>{request.reason}</td>
+                <td style={{ width: "250px" }}>
+                  <Button
+                    style={{ marginBottom: "5px" }}
+                    onClick={() => {
+                      handleDecide(request.id, "Approve");
+                    }}
+                  >
+                    <i className="fa-solid fa-plus"></i>
+                    <span className="hide-when-mobile"> Approve</span>
+                  </Button>
+                  &nbsp;
+                  <Button
+                    variant="danger"
+                    style={{ marginBottom: "5px" }}
+                    onClick={() => {
+                      handleDecide(request.id, "Deny");
+                    }}
+                  >
+                    <i className="fa-solid fa-minus"></i>
+                    <span className="hide-when-mobile"> Deny</span>
+                  </Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <p></p>
+          )}
+        </tbody>
+      </Table>
+      {/* Pagination */}
+      <div className="d-flex justify-content-center">
+        <PaginationNoParams
+          page={page}
+          totalPages={totalPages}
+          onPageChange={handleChangeChapter}
+        />
+      </div>
     </>
   );
 }

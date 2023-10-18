@@ -142,7 +142,7 @@ export default function Header({ showSidebar, toggleSidebar }) {
                           }}
                         >
                           <i className="fa-solid fa-list-check"></i> Upload
-                          chapter
+                          Chapter
                         </Button>
                       </NavLink>
                     )}

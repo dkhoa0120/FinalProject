@@ -26,7 +26,7 @@ export default function EditProfileModal({
     const newValue = e.target.value;
 
     setActiveField(label);
-    if (label === "Username") {
+    if (label === "User Name") {
       setName(newValue);
     } else if (label === "Biography") {
       setBio(newValue);
@@ -83,7 +83,7 @@ export default function EditProfileModal({
   };
 
   const handleSaveChanges = async () => {
-    if (activeField === "Username") {
+    if (activeField === "User Name") {
       await handleEditName();
     } else if (activeField === "Biography") {
       await handleEditBio();
@@ -103,12 +103,12 @@ export default function EditProfileModal({
         <Modal.Body>
           <Form>
             {inputLabels.map((label, index) => (
-              <div key={index} style={{ paddingBottom: "15px" }}>
-                <Form.Label>{label}</Form.Label>
+              <div key={index}>
+                <Form.Label style={{ fontWeight: "bold" }}>{label}</Form.Label>
                 <Form.Control
                   rows={5}
                   value={
-                    label === "Username"
+                    label === "User Name"
                       ? name
                       : label === "Biography"
                       ? bio
@@ -120,13 +120,16 @@ export default function EditProfileModal({
                       ? newPassConfirm
                       : ""
                   }
-                  type={label === "Username" ? "text" : "password"}
+                  type={label === "User Name" ? "text" : "password"}
                   as={label === "Biography" ? "textarea" : "input"}
                   onChange={(e) => handleInputChange(e, label)}
                   style={{ marginBottom: "5px" }}
                 />
                 {label === "Biography" && (
-                  <span className={length > 1000 ? "char-limit-error" : ""}>
+                  <span
+                    className={length > 1000 ? "char-limit-error" : ""}
+                    style={{ padding: "0 5px" }}
+                  >
                     {length}/1000
                   </span>
                 )}
@@ -135,7 +138,7 @@ export default function EditProfileModal({
           </Form>
           <div className="end-button">
             <Button variant="primary" onClick={handleSaveChanges}>
-              Save Changes
+              Save Change
             </Button>
           </div>
         </Modal.Body>

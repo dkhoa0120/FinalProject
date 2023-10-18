@@ -39,65 +39,61 @@ export default function ManageMangaReq() {
 
   return (
     <>
-      <Container fluid>
-        <ToastContainer />
-        <Table striped bordered hover responsive="sm">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Manga Title</th>
-              <th>Author</th>
-              <th>Source Link</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests ? (
-              requests.map((request) => (
-                <tr>
-                  <td>{request.user.name}</td>
-                  <td>{request.mangaTitle}</td>
-                  <td>{request.mangaAuthor}</td>
-                  <td>{request.mangaSource}</td>
-                  <td>
-                    <td style={{ width: "250px" }}>
-                      <Button
-                        style={{ marginBottom: "5px" }}
-                        onClick={() => {
-                          handleDecide(request.id, "Approve");
-                        }}
-                      >
-                        <i className="fa-solid fa-plus"></i>
-                        <span className="hide-when-mobile"> Approve</span>
-                      </Button>
-                      &nbsp;
-                      <Button
-                        variant="danger"
-                        style={{ marginBottom: "5px" }}
-                        onClick={() => {
-                          handleDecide(request.id, "Deny");
-                        }}
-                      >
-                        <i className="fa-solid fa-minus"></i>
-                        <span className="hide-when-mobile"> Deny</span>
-                      </Button>
-                    </td>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <p></p>
-            )}
-          </tbody>
-        </Table>
-        <div className="d-flex justify-content-center">
-          <PaginationNoParams
-            page={page}
-            totalPages={totalPages}
-            onPageChange={handleChangeChapter}
-          />
-        </div>
-      </Container>
+      <ToastContainer />
+      <Table striped bordered hover responsive="sm">
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Manga Title</th>
+            <th>Author</th>
+            <th>Source Link</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {requests ? (
+            requests.map((request) => (
+              <tr>
+                <td>{request.user.name}</td>
+                <td>{request.mangaTitle}</td>
+                <td>{request.mangaAuthor}</td>
+                <td>{request.mangaSource}</td>
+                <td style={{ width: "250px" }}>
+                  <Button
+                    style={{ marginBottom: "5px" }}
+                    onClick={() => {
+                      handleDecide(request.id, "Approve");
+                    }}
+                  >
+                    <i className="fa-solid fa-plus"></i>
+                    <span className="hide-when-mobile"> Approve</span>
+                  </Button>
+                  &nbsp;
+                  <Button
+                    variant="danger"
+                    style={{ marginBottom: "5px" }}
+                    onClick={() => {
+                      handleDecide(request.id, "Deny");
+                    }}
+                  >
+                    <i className="fa-solid fa-minus"></i>
+                    <span className="hide-when-mobile"> Deny</span>
+                  </Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <p></p>
+          )}
+        </tbody>
+      </Table>
+      <div className="d-flex justify-content-center">
+        <PaginationNoParams
+          page={page}
+          totalPages={totalPages}
+          onPageChange={handleChangeChapter}
+        />
+      </div>
     </>
   );
 }

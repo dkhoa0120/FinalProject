@@ -157,9 +157,7 @@ export default function CommunityFeeds() {
     <div className="general-container">
       <ToastContainer />
 
-      <div>
-        <PostCreateButton open={() => setShowCreatePost(true)} type={type} />
-      </div>
+      <PostCreateButton open={() => setShowCreatePost(true)} type={type} />
 
       <CreatePostModal
         show={showCreatePost}

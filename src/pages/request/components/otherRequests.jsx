@@ -82,7 +82,7 @@ export default function OtherRequest() {
     <>
       <ToastContainer />
       <div className="general-container">
-        <div className="general-container-title">Submission form</div>
+        <div className="general-container-title">Submission Form</div>
         <div style={{ padding: "0 30px" }}>
           <Form>
             <Form.Group className="mb-3">

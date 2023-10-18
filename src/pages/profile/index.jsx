@@ -41,11 +41,11 @@ export default function Profile() {
   const type = "user";
 
   useEffect(() => {
-    document.title = `Profile - 3K Manga`;
+    document.title = `${user.name}'s Profile - 3K Manga`;
     getUserDetail(userId);
     getUserStats(userId);
     fetchUserFollow(userId);
-  }, [userId]);
+  }, [userId, user]);
 
   useEffect(() => {
     navigate(`/profile/${userId}/${profileOption}`);

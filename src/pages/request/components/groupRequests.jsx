@@ -134,9 +134,9 @@ export default function GroupRequests() {
               );
             })
           ) : (
-            <p className="d-flex justify-content-center no-found-message">
+            <span className="d-flex justify-content-center ">
               You do not have any group request
-            </p>
+            </span>
           )}
         </Row>
       </Container>

@@ -63,7 +63,7 @@ export default function Group() {
   const getGroupDetail = async (id) => {
     try {
       const result = await groupApi.getGroupInfo(id);
-      document.title = `Group - 3K Manga`;
+      document.title = `${result.data.name}'s Group Profile - 3K Manga`;
       setGroupDetails(result.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {

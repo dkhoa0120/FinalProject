@@ -178,6 +178,8 @@
   .community-container {
     margin: 0;
     border: none;
+    border-bottom: 1px solid lightgray;
+    border-radius: 0;
     flex-flow: column;
   }
 
@@ -190,7 +192,7 @@
   }
 
   .post-form {
-    margin: 0 10px;
+    margin: 0 10px 10px;
   }
 
   .post-footer {

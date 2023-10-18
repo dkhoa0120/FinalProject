@@ -83,9 +83,9 @@ export default function FollowedManga() {
         ) : followedManga && followedManga.length > 0 ? (
           followedManga.map((m) => <MangaBlock manga={m} />)
         ) : (
-          <p className="d-flex justify-content-center no-found-message">
+          <span className="d-flex justify-content-center">
             You have not followed any manga yet
-          </p>
+          </span>
         )}
       </Container>
 

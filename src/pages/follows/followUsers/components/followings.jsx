@@ -111,9 +111,9 @@ export default function Followings() {
           );
         })
       ) : (
-        <p className="d-flex justify-content-center no-found-message">
+        <span className="d-flex justify-content-center ">
           You have not followed anyone yet
-        </p>
+        </span>
       )}
 
       {loadingPost && (

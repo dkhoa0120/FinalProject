@@ -26,7 +26,7 @@ export default function Account() {
     <>
       <div className="edit-profile">
         <div className="edit-label">
-          <b>Username</b>
+          <b>User Name</b>
           <span>{user?.name}</span>
         </div>
         <Button variant="dark" onClick={() => setUserNameModal(!userNameModal)}>
@@ -89,7 +89,7 @@ export default function Account() {
         show={userNameModal}
         setShow={setUserNameModal}
         title="Change username"
-        inputLabels={["Username"]}
+        inputLabels={["User Name"]}
       />
       <EditProfileModal
         show={passwordModal}

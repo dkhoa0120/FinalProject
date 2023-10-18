@@ -95,9 +95,9 @@ export default function Followers() {
           );
         })
       ) : (
-        <p className="d-flex justify-content-center no-found-message">
+        <span className="d-flex justify-content-center ">
           You do not have any follower
-        </p>
+        </span>
       )}
 
       {loadingPost && (

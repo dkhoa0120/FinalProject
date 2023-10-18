@@ -82,7 +82,7 @@ export default function PromotionRequests() {
     <>
       <ToastContainer />
       <div className="general-container">
-        <div className="general-container-title">Uploader Promotion Form</div>
+        <div className="general-container-title">Promotion Form</div>
         <div style={{ padding: "0 30px" }}>
           <Form id="create-request-form">
             <Form.Group className="mb-3">

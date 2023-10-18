@@ -101,7 +101,6 @@ export default function ManageChapter() {
               <th>Manga Name</th>
               <th>Language</th>
               <th>Chapter Name</th>
-              <th>Number</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -135,10 +134,9 @@ export default function ManageChapter() {
                     </td>
                     <td>{item.language}</td>
                     <td>
-                      <span>{item.name}</span>
-                    </td>
-                    <td style={{ width: "100px" }}>
-                      <span>{item.number}</span>
+                      <span>
+                        Ch.{item.number} - {item.name}
+                      </span>
                     </td>
                     <td style={{ width: "200px" }}>
                       {item.deletedAt != null ? (
@@ -183,7 +181,7 @@ export default function ManageChapter() {
               })
             ) : (
               <tr>
-                <td colSpan={6}>
+                <td colSpan={5}>
                   <div className="d-flex justify-content-center">
                     <div className="spinner-border" role="status"></div>
                   </div>

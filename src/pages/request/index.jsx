@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function Requests() {
   const sortOptions = [
     "GroupRequest",
-    "PromotionRequest",
+    "UploaderPromotionRequest",
     "MangaRequest",
     "OtherRequest",
   ];
@@ -37,7 +37,7 @@ export default function Requests() {
       ))}
       <div className="manage-table">
         {sortOption === "GroupRequest" && <GroupRequests />}
-        {sortOption === "PromotionRequest" && <PromotionRequests />}
+        {sortOption === "UploaderPromotionRequest" && <PromotionRequests />}
         {sortOption === "MangaRequest" && <MangaRequests />}
         {sortOption === "OtherRequest" && <OtherRequest />}
       </div>
