@@ -1,8 +1,87 @@
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Form, Table } from "react-bootstrap";
+import * as requestApi from "../../../service/api.request";
+import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function MangaRequests() {
+  const [requests, setRequests] = useState([]);
+  const [mangaTitle, setMangaTitle] = useState("");
+  const [mangaAuthor, setMangaAuthor] = useState("");
+  const [mangaSource, setMangaSource] = useState("");
+  const [loadingPost, setLoadingPost] = useState(false);
+  const [outOfPost, setOutOfPost] = useState(false);
+
+  const handleCreateRequest = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("mangaTitle", mangaTitle);
+      formData.append("mangaAuthor", mangaAuthor);
+      formData.append("mangaSource", mangaSource);
+      const newRequest = await requestApi.postMangaRequest(formData);
+      setMangaTitle("");
+      setMangaAuthor("");
+      setMangaSource("");
+      setRequests((prev) => [newRequest.data, ...prev]);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  const fetchRequests = async () => {
+    const res = await requestApi.getUserMangaRequests();
+    setRequests(res.data);
+  };
+
+  const handleSeeMore = async (createdAtCursor) => {
+    try {
+      const newRequests = await requestApi.getUserMangaRequests({
+        createdAtCursor,
+      });
+      setRequests([...requests, ...newRequests.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newRequests.data.length > 0) {
+        setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
+      }
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if you've scrolled to the bottom
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.offsetHeight &&
+        requests.length > 0 &&
+        !outOfPost
+      ) {
+        setLoadingPost(true);
+        setTimeout(() => {
+          handleSeeMore(requests[requests.length - 1].createdAt);
+          setLoadingPost(false);
+        }, 1000);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requests]);
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
   return (
     <>
+      <ToastContainer />
       <div className="general-container">
         <div className="general-container-title">Manga Form</div>
         <div style={{ padding: "0 30px" }}>
@@ -11,13 +90,19 @@ export default function MangaRequests() {
               <Form.Label>
                 <b>Manga name</b>
               </Form.Label>
-              <Form.Control />
+              <Form.Control
+                value={mangaTitle}
+                onChange={(e) => setMangaTitle(e.target.value)}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>
                 <b>Manga author</b>
               </Form.Label>
-              <Form.Control />
+              <Form.Control
+                value={mangaAuthor}
+                onChange={(e) => setMangaAuthor(e.target.value)}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>
@@ -26,12 +111,20 @@ export default function MangaRequests() {
               <Form.Control
                 as="textarea"
                 rows={5}
+                value={mangaSource}
+                onChange={(e) => setMangaSource(e.target.value)}
                 placeholder="Provide links of the manga's official source"
               />
             </Form.Group>
           </Form>
           <div className="end-button">
-            <Button variant="success">Send</Button>
+            <Button
+              variant="success"
+              disabled={!mangaAuthor || !mangaTitle || !mangaSource}
+              onClick={handleCreateRequest}
+            >
+              Send
+            </Button>
           </div>
         </div>
       </div>
@@ -48,31 +141,42 @@ export default function MangaRequests() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Naruto</td>
-                <td>Jiraiya</td>
-                <td>http://localhost:3000/</td>
-                <td>
-                  <i
-                    className="fa-solid fa-circle-check request-icon"
-                    style={{ color: "green" }}
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <td>Doraemon</td>
-                <td>idk</td>
-                <td>http://localhost:3000/</td>
-                <td>
-                  <i
-                    className="fa-solid fa-circle-xmark request-icon"
-                    style={{ color: "red" }}
-                  ></i>
-                </td>
-              </tr>
+              {requests ? (
+                requests.map((request) => (
+                  <tr>
+                    <td>{request.mangaTitle}</td>
+                    <td>{request.mangaAuthor}</td>
+                    <td>{request.mangaSource}</td>
+                    <td>
+                      {request.status === "Approve" && (
+                        <i
+                          className="fa-solid fa-circle-check request-icon"
+                          style={{ color: "green" }}
+                        ></i>
+                      )}
+                      {request.status === "Deny" && (
+                        <i
+                          className="fa-solid fa-circle-xmark request-icon"
+                          style={{ color: "red" }}
+                        ></i>
+                      )}
+                      {request.status === "Processing" && (
+                        <i className="fa-solid fa-spinner request-icon"></i>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <p></p>
+              )}
             </tbody>
           </Table>
         </div>
+        {loadingPost && (
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        )}
       </div>
     </>
   );

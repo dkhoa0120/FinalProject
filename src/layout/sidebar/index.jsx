@@ -66,7 +66,7 @@ function SideBar(props) {
           key: "followed-users",
         },
         { text: "Community Feeds", to: "/community", key: "community-feeds" },
-        { text: "Requests", to: "/requests", key: "requests" },
+        { text: "Requests", to: "/requests/GroupRequest", key: "requests" },
       ],
     },
   ];

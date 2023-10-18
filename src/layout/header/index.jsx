@@ -165,7 +165,7 @@ export default function Header({ showSidebar, toggleSidebar }) {
                           <Dropdown.Menu className="mb-3 w-100">
                             <Row className="px-2">
                               <Col>
-                                <NavLink to="/manage/requests">
+                                <NavLink to="/manage/requests/PromotionRequest">
                                   <Button
                                     className="w-100"
                                     variant="outline-dark"

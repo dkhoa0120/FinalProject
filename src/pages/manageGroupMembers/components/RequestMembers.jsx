@@ -81,18 +81,18 @@ export default function RequestMembers({ groupId }) {
         </thead>
         <tbody>
           {requests ? (
-            requests.map((requests) => {
+            requests.map((request) => {
               return (
-                <tr key={requests.id}>
+                <tr key={request.id}>
                   <td style={{ width: "100px" }}>
                     <Link
-                      to={`/profile/${requests.user.id}/Uploads`}
+                      to={`/profile/${request.user.id}/Uploads`}
                       className="card-link"
                     >
                       <img
                         className="group-avatar"
                         src={
-                          requests.user.avatarPath || "/img/avatar/default.png"
+                          request.user.avatarPath || "/img/avatar/default.png"
                         }
                         alt="avatar"
                       />
@@ -100,14 +100,14 @@ export default function RequestMembers({ groupId }) {
                   </td>
                   <td style={{ width: "300px" }}>
                     <Link
-                      to={`/profile/${requests.user.id}/Uploads`}
+                      to={`/profile/${request.user.id}/Uploads`}
                       className="card-link"
                     >
                       <p
                         className="text-limit-2"
                         style={{ fontWeight: "bold", marginBottom: "5px" }}
                       >
-                        {requests.user.name}
+                        {request.user.name}
                       </p>
                     </Link>
                   </td>
@@ -115,7 +115,7 @@ export default function RequestMembers({ groupId }) {
                     <Button
                       style={{ marginBottom: "5px" }}
                       onClick={() => {
-                        handleDecide(requests.id, "Approve");
+                        handleDecide(request.id, "Approve");
                       }}
                     >
                       <i className="fa-solid fa-plus"></i>
@@ -126,7 +126,7 @@ export default function RequestMembers({ groupId }) {
                       variant="danger"
                       style={{ marginBottom: "5px" }}
                       onClick={() => {
-                        handleDecide(requests.id, "Deny");
+                        handleDecide(request.id, "Deny");
                       }}
                     >
                       <i className="fa-solid fa-minus"></i>

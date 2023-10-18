@@ -1,19 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import GroupRequests from "./components/groupRequests";
 import PromotionRequests from "./components/promotionRequests";
 import MangaRequests from "./components/mangaRequests";
 import OtherRequest from "./components/otherRequests";
 import "./styles.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Requests() {
   const sortOptions = [
-    "Group Request",
-    "Promotion Request",
-    "Manga Request",
-    "Other Request",
+    "GroupRequest",
+    "PromotionRequest",
+    "MangaRequest",
+    "OtherRequest",
   ];
-  const [sortOption, setSortOption] = useState(sortOptions[0]);
+  const toLabel = (item) => {
+    return item.replace(/([A-Z])/g, " $1").trim();
+  };
+  const navigate = useNavigate();
+  const { option } = useParams();
+  const [sortOption, setSortOption] = useState(option || sortOptions[0]);
+
+  useEffect(() => {
+    navigate(`/requests/${sortOption}`);
+  }, [sortOption, navigate]);
   return (
     <Container fluid>
       {sortOptions.map((option, index) => (
@@ -22,14 +32,14 @@ export default function Requests() {
           variant={sortOption === option ? "dark" : "light"}
           onClick={() => setSortOption(option)}
         >
-          {option}
+          {toLabel(option)}
         </Button>
       ))}
       <div className="manage-table">
-        {sortOption === "Group Request" && <GroupRequests />}
-        {sortOption === "Promotion Request" && <PromotionRequests />}
-        {sortOption === "Manga Request" && <MangaRequests />}
-        {sortOption === "Other Request" && <OtherRequest />}
+        {sortOption === "GroupRequest" && <GroupRequests />}
+        {sortOption === "PromotionRequest" && <PromotionRequests />}
+        {sortOption === "MangaRequest" && <MangaRequests />}
+        {sortOption === "OtherRequest" && <OtherRequest />}
       </div>
     </Container>
   );

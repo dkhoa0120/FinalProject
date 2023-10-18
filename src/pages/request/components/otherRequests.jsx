@@ -1,8 +1,86 @@
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Form, Table } from "react-bootstrap";
+import * as requestApi from "../../../service/api.request";
+import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function OtherRequest() {
+  const [requests, setRequests] = useState([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [loadingPost, setLoadingPost] = useState(false);
+  const [outOfPost, setOutOfPost] = useState(false);
+
+  const handleCreateRequest = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      const newRequest = await requestApi.postOtherRequest(formData);
+      console.log(newRequest, "newRequest");
+      setTitle("");
+      setContent("");
+      toast.success("A request has been sent");
+      setRequests((prevRequest) => [newRequest.data, ...prevRequest]);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  const fetchOtherRequests = async () => {
+    const res = await requestApi.getUserOtherRequests();
+    setRequests(res.data);
+  };
+
+  const handleSeeMore = async (createdAtCursor) => {
+    try {
+      const newRequests = await requestApi.getUserOtherRequests({
+        createdAtCursor,
+      });
+      setRequests([...requests, ...newRequests.data]);
+
+      // Set outOfComment to disable loading more comment in scroll event below
+      if (newRequests.data.length > 0) {
+        setOutOfPost(false);
+      } else {
+        setOutOfPost(true);
+      }
+    } catch (error) {
+      console.error("Error fetching more members:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if you've scrolled to the bottom
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.offsetHeight &&
+        requests.length > 0 &&
+        !outOfPost
+      ) {
+        setLoadingPost(true);
+        setTimeout(() => {
+          handleSeeMore(requests[requests.length - 1].createdAt);
+          setLoadingPost(false);
+        }, 1000);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requests]);
+
+  useEffect(() => {
+    fetchOtherRequests();
+  }, []);
+
   return (
     <>
+      <ToastContainer />
       <div className="general-container">
         <div className="general-container-title">Submission form</div>
         <div style={{ padding: "0 30px" }}>
@@ -11,13 +89,18 @@ export default function OtherRequest() {
               <Form.Label>
                 <b>Title</b>
               </Form.Label>
-              <Form.Control />
+              <Form.Control
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>
-                <b>Detail</b>
+                <b>Content</b>
               </Form.Label>
               <Form.Control
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
                 as="textarea"
                 rows={5}
                 placeholder="What are you trying to write?"
@@ -25,7 +108,13 @@ export default function OtherRequest() {
             </Form.Group>
           </Form>
           <div className="end-button">
-            <Button variant="success">Send</Button>
+            <Button
+              variant="success"
+              disabled={!title || !content}
+              onClick={handleCreateRequest}
+            >
+              Send
+            </Button>
           </div>
         </div>
       </div>
@@ -41,50 +130,41 @@ export default function OtherRequest() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Skill issue</td>
-                <td>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Deleniti eum, eius dignissimos quis veniam iste doloremque
-                  temporibus, voluptatem, in architecto distinctio tempore harum
-                  molestias error rem doloribus. Molestias quo doloribus,
-                  eveniet asperiores animi totam reprehenderit doloremque hic
-                  commodi officia, nobis voluptas nihil, qui iusto placeat
-                  quibusdam est. Assumenda, perspiciatis incidunt aut
-                  dignissimos quos soluta repudiandae corrupti autem voluptatum
-                  cupiditate obcaecati voluptas. Ullam dolor, reiciendis labore
-                  rem rerum quaerat assumenda enim temporibus, inventore commodi
-                  unde ea earum minima alias. Fugiat cupiditate repudiandae
-                  provident non doloremque, magni recusandae voluptas itaque id
-                  dolores quod vitae dicta vero aperiam dolorem reiciendis
-                  doloribus esse! Doloremque.
-                </td>
-                <td>
-                  <i
-                    className="fa-solid fa-circle-check request-icon"
-                    style={{ color: "green" }}
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <td>Skill issue</td>
-                <td>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Rerum dolorum aspernatur sit exercitationem tempora tenetur
-                  perspiciatis minus velit incidunt quam, provident, vitae
-                  cumque ab sapiente magnam repudiandae voluptatibus ratione
-                  unde?
-                </td>
-                <td>
-                  <i
-                    className="fa-solid fa-circle-xmark request-icon"
-                    style={{ color: "red" }}
-                  ></i>
-                </td>
-              </tr>
+              {requests && requests.length > 0 ? (
+                requests.map((request) => (
+                  <tr>
+                    <td>{request.title}</td>
+                    <td>{request.content}</td>
+                    <td>
+                      {request.status === "Approve" && (
+                        <i
+                          className="fa-solid fa-circle-check request-icon"
+                          style={{ color: "green" }}
+                        ></i>
+                      )}
+                      {request.status === "Deny" && (
+                        <i
+                          className="fa-solid fa-circle-xmark request-icon"
+                          style={{ color: "red" }}
+                        ></i>
+                      )}
+                      {request.status === "Processing" && (
+                        <i className="fa-solid fa-spinner request-icon"></i>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <p></p>
+              )}
             </tbody>
           </Table>
         </div>
+        {loadingPost && (
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        )}
       </div>
     </>
   );
