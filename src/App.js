@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "./App.css";
 import Body from "./layout/body";
 import { useState } from "react";
@@ -6,9 +6,11 @@ import Header from "./layout/header";
 import SideBar from "./layout/sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import * as signalR from "@microsoft/signalr";
+import { UserContext } from "./context/UserContext";
 
 export default function App() {
   const [showSidebar, setShowSidebar] = useState(true);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,6 +34,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    if (user === null) {
+      return;
+    }
+
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl(process.env.REACT_APP_API_URL + "/notify")
       .withAutomaticReconnect()
@@ -39,7 +45,10 @@ export default function App() {
 
     newConnection
       .start()
-      .then(() => console.log("SignalR connection established"))
+      .then(() => {
+        newConnection.invoke("RegisterConnection", user.id);
+        console.log("SignalR connection established");
+      })
       .catch((e) => console.error("SignalR connection failed:", e));
 
     newConnection.on("ReceiveNotification", (message) => {
@@ -49,7 +58,7 @@ export default function App() {
     return () => {
       newConnection.off("ReceiveNotification");
     };
-  }, []);
+  }, [user]);
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
