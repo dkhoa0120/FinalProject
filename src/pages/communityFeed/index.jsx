@@ -2,12 +2,15 @@ import { useState } from "react";
 import PostCreateButton from "../../components/post/postCreateButton";
 import * as postApi from "../../service/api.post";
 import { useEffect } from "react";
-import { ToastContainer } from "react-toastify";
+import {} from "react-toastify";
 import CreatePostModal from "../../components/post/CreatePostModal";
 import MobilePost from "../../components/post/mobilePost";
 import PcPost from "../../components/post/pcPost";
 import MobileModal from "../../components/post/mobileModal";
 import PcModal from "../../components/post/pcModal";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function CommunityFeeds() {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -20,10 +23,22 @@ export default function CommunityFeeds() {
   const targetPost = targetedPostId
     ? posts.find((post) => post.id === targetedPostId)
     : null;
-  console.log("posts", posts);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Community - 3K Manga";
+    if (user == null) {
+      navigate("/login");
+    }
+  }, [navigate, user]);
   const fetchPosts = async () => {
-    const res = await postApi.getMyFeeds();
-    setPosts(res.data);
+    try {
+      const res = await postApi.getMyFeeds();
+      setPosts(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCreatePost = (newPost) => {
@@ -155,8 +170,6 @@ export default function CommunityFeeds() {
 
   return (
     <div className="general-container">
-      <ToastContainer />
-
       <PostCreateButton open={() => setShowCreatePost(true)} type={type} />
 
       <CreatePostModal

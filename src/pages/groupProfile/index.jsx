@@ -11,7 +11,7 @@ import BannerModal from "./components/BannerModal";
 import Members from "./components/Members";
 import "./styles.css";
 import EditGroupModal from "./components/EditGroupModal";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import GroupCommunity from "./components/GroupCommunity";
 
 export default function Group() {
@@ -95,7 +95,6 @@ export default function Group() {
 
   return (
     <>
-      <ToastContainer />
       <div
         id="profile-banner"
         style={

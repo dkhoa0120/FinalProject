@@ -9,6 +9,7 @@ export default function Followings() {
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
   const [loading, setLoading] = useState(true);
+  const type = "user";
 
   useEffect(() => {
     const fetchFollowingUsers = async () => {
@@ -41,6 +42,17 @@ export default function Followings() {
       }
     } catch (error) {
       console.error("Error fetching more members:", error);
+    }
+  };
+
+  const handleFollow = async (userId) => {
+    try {
+      await followApi.deleteFollow(type, userId);
+      setFollowings(
+        followings.filter((followings) => followings.followedUser.id !== userId)
+      );
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -103,7 +115,11 @@ export default function Followings() {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item>Report</Dropdown.Item>
-                    <Dropdown.Item>Unfollow</Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handleFollow(f.followedUser.id)}
+                    >
+                      Unfollow
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>

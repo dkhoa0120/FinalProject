@@ -37,7 +37,10 @@ export default function Body() {
         <Route path="/manage/reports" element={<Report />} />
         <Route path="/manage/categories" element={<ManageCategory />} />
         <Route path="/manage/authors" element={<ManageAuthor />} />
-        <Route path="/manage/requests/:option" element={<ManageRequest />} />
+        <Route
+          path="/manage/requests/:selectedOption"
+          element={<ManageRequest />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -60,7 +63,7 @@ export default function Body() {
         />
         <Route path="/manga-lists/:listId" element={<MangaListGroup />} />
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/requests/:option" element={<Requests />} />
+        <Route path="/requests/:selectedOption" element={<Requests />} />
       </Routes>
     </div>
   );

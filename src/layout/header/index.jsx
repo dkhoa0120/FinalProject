@@ -120,18 +120,17 @@ export default function Header({ showSidebar, toggleSidebar }) {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav>
-                <Link to={`/edit-profile`}>
-                  <Button
-                    className="mb-3 w-100"
-                    variant="outline-dark"
-                    onClick={() => setShow(false)}
-                  >
-                    <i className="fa-solid fa-gear"></i> Settings
-                  </Button>
-                </Link>
-
                 {user ? (
                   <>
+                    <NavLink to={`/edit-profile`}>
+                      <Button
+                        className="mb-3 w-100"
+                        variant="outline-dark"
+                        onClick={() => setShow(false)}
+                      >
+                        <i className="fa-solid fa-gear"></i> Settings
+                      </Button>
+                    </NavLink>
                     {user.roles.includes("Uploader") && (
                       <NavLink to="/upload/chapters">
                         <Button

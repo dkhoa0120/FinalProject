@@ -7,7 +7,7 @@ import PcPost from "../../../components/post/pcPost";
 import PcModal from "../../../components/post/pcModal";
 import MobilePost from "../../../components/post/mobilePost";
 import MobileModal from "../../../components/post/mobileModal";
-import { ToastContainer } from "react-toastify";
+import {} from "react-toastify";
 import CreatePostModal from "../../../components/post/CreatePostModal";
 
 export default function Community() {
@@ -149,8 +149,6 @@ export default function Community() {
 
   return (
     <>
-      <ToastContainer />
-
       <div>
         {user && user?.id === userId && (
           <PostCreateButton open={() => setShowCreatePost(true)} type={type} />

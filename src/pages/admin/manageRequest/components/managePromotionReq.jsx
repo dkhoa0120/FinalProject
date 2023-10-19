@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import * as requestApi from "../../../../service/api.request";
 import { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import PaginationNoParams from "../../../../components/paginationNoParams";
 
 export default function ManagePromotionReq() {
@@ -38,8 +37,6 @@ export default function ManagePromotionReq() {
 
   return (
     <>
-      <ToastContainer />
-
       <Table striped bordered hover responsive="sm">
         <thead>
           <tr>

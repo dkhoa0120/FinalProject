@@ -1,9 +1,9 @@
-import { baseAxios, getAuthorizedAxios } from "./api.base";
+import { getAuthorizedAxios } from "./api.base";
 import qs from "qs";
 
 export const getComments = (type, typeId, filter) => {
   const createdAtCursor = filter?.createdAtCursor;
-  return baseAxios.get(`${type}s/${typeId}/comments`, {
+  return getAuthorizedAxios().get(`${type}s/${typeId}/comments`, {
     params: {
       createdAtCursor,
     },
@@ -12,7 +12,7 @@ export const getComments = (type, typeId, filter) => {
 };
 
 export const getChildComments = (id) => {
-  return baseAxios.get(`comments/${id}/children`);
+  return getAuthorizedAxios().get(`comments/${id}/children`);
 };
 
 export const postComment = (type, typeId, formData) => {

@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import * as groupApi from "../../service/api.group";
 import * as chapterApi from "../../service/api.chapter";
 import "./styles.css";
@@ -157,7 +157,6 @@ export default function Edit() {
 
   return (
     <>
-      <ToastContainer />
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
         <Link to={`/upload/chapters`}>
           <button className="return-button">

@@ -34,8 +34,9 @@ export const getProfileStats = (id) => {
 
 export const getUsers = (filter) => {
   const search = filter?.search || "";
+  const includeDeleted = filter?.includeDeleted || false;
   return baseAxios.get("users", {
-    params: { search },
+    params: { search, includeDeleted },
   });
 };
 

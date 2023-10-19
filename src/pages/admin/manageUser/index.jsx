@@ -12,7 +12,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
 import { getUsers } from "../../../service/api.user";
-import { ToastContainer } from "react-toastify";
+import {} from "react-toastify";
 
 export default function ManageUser() {
   const [users, setUsers] = useState([]);
@@ -70,7 +70,6 @@ export default function ManageUser() {
 
   return (
     <Container fluid>
-      <ToastContainer />
       <div className="manage-table">
         <Row>
           <Col xs={8}>

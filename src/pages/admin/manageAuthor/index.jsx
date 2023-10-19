@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Col, Row, Form, Container, Button, Table } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "./styles.css";
 import * as authorApi from "../../../service/api.author";
 import Pagination from "../../../components/pagination";
@@ -96,7 +96,6 @@ export default function ManageAuthor() {
 
   return (
     <Container fluid>
-      <ToastContainer />
       <div className="manage-table">
         <Row>
           <Col xs={4} md={6}>

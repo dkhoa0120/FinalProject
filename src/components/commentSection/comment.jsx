@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import {
   Collapse,
@@ -23,15 +23,11 @@ export default function Comment({ comment, editComment, removeComment }) {
   const [childCommentCount, setChildCommentCount] = useState(
     comment.childCommentCount
   );
-  const [reactFlag, setReactFlag] = useState(null);
+  const [reactFlag, setReactFlag] = useState(comment.userReactFlag);
   const [reply, setReply] = useState(false);
   const [showModal, setShow] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { user } = useContext(UserContext);
-
-  useEffect(() => {
-    fetchUserReactComment(comment.id);
-  }, [comment.id]);
 
   const handleToggleReplies = async () => {
     if (!childComments) {
@@ -55,24 +51,11 @@ export default function Comment({ comment, editComment, removeComment }) {
     }
   };
 
-  const fetchUserReactComment = async (commentId) => {
-    try {
-      const response = await commentReactApi.getUserReactComment(commentId);
-      const userReact = response.data;
-      if (userReact) {
-        setReactFlag(userReact);
-      }
-    } catch (error) {
-      console.error("Error retrieving user rating:", error);
-    }
-  };
-
   const handleLikeClick = async () => {
     const nextReactFlag = "Like";
     try {
       if (reactFlag === nextReactFlag) {
         await commentReactApi.deleteReactComment(comment.id);
-        fetchUserReactComment(comment.id);
         setLikeCount(likeCount - 1);
         setReactFlag();
       } else {
@@ -80,7 +63,7 @@ export default function Comment({ comment, editComment, removeComment }) {
         formData.append("reactFlag", nextReactFlag);
         await commentReactApi.putReactComment(comment.id, formData);
         setLikeCount(likeCount + 1);
-        reactFlag && setDisLikeCount(dislikeCount - 1);
+        reactFlag === "Dislike" && setDisLikeCount(dislikeCount - 1);
         setReactFlag(nextReactFlag);
       }
     } catch (error) {
@@ -95,14 +78,13 @@ export default function Comment({ comment, editComment, removeComment }) {
     try {
       if (reactFlag === nextReactFlag) {
         await commentReactApi.deleteReactComment(comment.id);
-        fetchUserReactComment(comment.id);
         setDisLikeCount(dislikeCount - 1);
         setReactFlag(null);
       } else {
         const formData = new FormData();
         formData.append("reactFlag", nextReactFlag);
         await commentReactApi.putReactComment(comment.id, formData);
-        reactFlag && setLikeCount(likeCount - 1);
+        reactFlag === "Like" && setLikeCount(likeCount - 1);
         setDisLikeCount(dislikeCount + 1);
         setReactFlag(nextReactFlag);
       }

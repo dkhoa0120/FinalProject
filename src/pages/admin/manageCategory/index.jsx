@@ -3,7 +3,7 @@ import { Col, Row, Form, Container, Button, Table } from "react-bootstrap";
 import "./styles.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as categoryApi from "../../../service/api.category";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
 import EditCate from "./components/EditCate";
@@ -90,7 +90,6 @@ export default function ManageCategory() {
 
   return (
     <Container fluid>
-      <ToastContainer />
       <div className="manage-table">
         <Row>
           <Col xs={4} md={6}>

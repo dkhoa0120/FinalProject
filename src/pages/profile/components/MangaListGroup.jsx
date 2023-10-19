@@ -13,7 +13,7 @@ import * as followApi from "../../../service/api.follow";
 import * as listApi from "../../../service/api.mangaList";
 import { useEffect, useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
@@ -190,7 +190,6 @@ export default function MangaListGroup() {
 
   return (
     <>
-      <ToastContainer />
       <Container fluid>
         {mangaList?.type === "Private" && user?.id !== mangaList?.owner.id ? (
           <div className="privacy">

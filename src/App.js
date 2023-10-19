@@ -4,6 +4,7 @@ import Body from "./layout/body";
 import { useState } from "react";
 import Header from "./layout/header";
 import SideBar from "./layout/sidebar";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -35,6 +36,7 @@ export default function App() {
 
   return (
     <>
+      <ToastContainer />
       <div
         style={{
           marginLeft: window.innerWidth > 1080 && showSidebar ? "230px" : "0",
