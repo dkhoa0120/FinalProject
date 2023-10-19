@@ -7,6 +7,7 @@ import SideBar from "./layout/sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import * as signalR from "@microsoft/signalr";
 import { UserContext } from "./context/UserContext";
+import { Link } from "react-router-dom";
 
 export default function App() {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -51,8 +52,14 @@ export default function App() {
       })
       .catch((e) => console.error("SignalR connection failed:", e));
 
-    newConnection.on("ReceiveNotification", (message) => {
-      toast.info(message);
+    newConnection.on("ReceiveNotification", (notification) => {
+      console.log("notification", notification);
+      toast.info(() => (
+        <p>
+          One of your requests has been processed{" "}
+          <Link to={"/requests/OtherRequest"}>See it</Link>
+        </p>
+      ));
     });
 
     return () => {
