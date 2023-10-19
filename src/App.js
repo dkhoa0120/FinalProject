@@ -4,6 +4,8 @@ import Body from "./layout/body";
 import { useState } from "react";
 import Header from "./layout/header";
 import SideBar from "./layout/sidebar";
+import { ToastContainer, toast } from "react-toastify";
+import * as signalR from "@microsoft/signalr";
 
 export default function App() {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -29,12 +31,33 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const newConnection = new signalR.HubConnectionBuilder()
+      .withUrl(process.env.REACT_APP_API_URL + "/notify")
+      .withAutomaticReconnect()
+      .build();
+
+    newConnection
+      .start()
+      .then(() => console.log("SignalR connection established"))
+      .catch((e) => console.error("SignalR connection failed:", e));
+
+    newConnection.on("ReceiveNotification", (message) => {
+      toast.info(message);
+    });
+
+    return () => {
+      newConnection.off("ReceiveNotification");
+    };
+  }, []);
+
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
 
   return (
     <>
+      <ToastContainer />
       <div
         style={{
           marginLeft: window.innerWidth > 1080 && showSidebar ? "230px" : "0",
