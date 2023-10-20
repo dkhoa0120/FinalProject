@@ -20,8 +20,11 @@ export default function EditProfileModal({
   const [length, setLength] = useState(0);
   const [activeField, setActiveField] = useState(null);
 
-  console.log("currentPass", currentPass);
-  console.log("newPass", newPass);
+  const currentName = user?.name;
+
+  console.log("currentName", currentName);
+  console.log("name", name);
+
   const handleInputChange = (e, label) => {
     const newValue = e.target.value;
 

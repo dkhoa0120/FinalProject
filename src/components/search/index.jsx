@@ -80,15 +80,13 @@ export default function SearchBar({ placeholder }) {
                 onChange={handleFilter}
                 autoFocus
               />
-              {searchMangas.length &&
-              searchUsers.length &&
-              searchGroups.length === 0 ? (
-                <p></p>
-              ) : (
+              {wordEntered.length > 0 ? (
                 <i
                   className="fa-solid fa-delete-left icon-delete"
                   onClick={clearInput}
                 ></i>
+              ) : (
+                <p></p>
               )}
             </div>
             {searchMangas.length !== 0 && (
@@ -112,7 +110,7 @@ export default function SearchBar({ placeholder }) {
                               value.coverPath || "/img/error/coverNotFound.png"
                             }
                           />
-                          <p>{value.originalTitle} </p>
+                          <span>{value.originalTitle} </span>
                         </Link>
                       </Nav>
                     </React.Fragment>
@@ -144,7 +142,7 @@ export default function SearchBar({ placeholder }) {
                             }}
                             src={value.avatarPath || "/img/avatar/default.png"}
                           />
-                          <p>{value.name} </p>
+                          <span>{value.name} </span>
                         </Link>
                       </Nav>
                     </React.Fragment>
@@ -178,7 +176,7 @@ export default function SearchBar({ placeholder }) {
                               value.avatarPath || "/img/avatar/defaultGroup.jpg"
                             }
                           />
-                          <p>{value.name} </p>
+                          <span>{value.name} </span>
                         </Link>
                       </Nav>
                     </React.Fragment>

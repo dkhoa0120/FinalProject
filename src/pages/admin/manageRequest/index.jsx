@@ -19,7 +19,7 @@ export default function ManageRequest() {
           <Button
             key={index}
             variant={selectedOption === option ? "dark" : "light"}
-            onClick={() => navigate(`/manage/requests/${selectedOption}`)}
+            onClick={() => navigate(`/manage/requests/${option}`)}
           >
             {toLabel(option)}
           </Button>
