@@ -6,9 +6,7 @@ import ManageOtherReq from "./components/manageOtherReq";
 
 export default function ManageRequest() {
   const sortOptions = ["PromotionRequest", "MangaRequest", "OtherRequest"];
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
-  };
+
   const navigate = useNavigate();
   const { selectedOption } = useParams();
 
@@ -21,7 +19,7 @@ export default function ManageRequest() {
             variant={selectedOption === option ? "dark" : "light"}
             onClick={() => navigate(`/manage/requests/${option}`)}
           >
-            {toLabel(option)}
+            {option}
           </Button>
         ))}
         <div className="manage-table">

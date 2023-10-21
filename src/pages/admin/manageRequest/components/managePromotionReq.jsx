@@ -40,7 +40,7 @@ export default function ManagePromotionReq() {
       <Table striped bordered hover responsive="sm">
         <thead>
           <tr>
-            <th>UserName</th>
+            <th>User Name</th>
             <th>Evidence Link</th>
             <th>Reason</th>
             <th>Action</th>

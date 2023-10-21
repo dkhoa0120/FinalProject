@@ -16,9 +16,7 @@ export default function Requests() {
     "MangaRequest",
     "OtherRequest",
   ];
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
-  };
+
   const navigate = useNavigate();
   const { selectedOption } = useParams();
 
@@ -39,7 +37,7 @@ export default function Requests() {
           variant={selectedOption === option ? "dark" : "light"}
           onClick={() => navigate(`/requests/${option}`)}
         >
-          {toLabel(option)}
+          {option}
         </Button>
       ))}
       <div className="manage-table">

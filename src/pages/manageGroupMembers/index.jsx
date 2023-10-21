@@ -11,9 +11,6 @@ export default function ManageGroup() {
   const { groupId } = useParams();
   const sortOptions = ["Manage Member", "Request Member"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
-  };
 
   useEffect(() => {
     const getGroupDetail = async (id) => {
@@ -61,7 +58,7 @@ export default function ManageGroup() {
             variant={sortOption === option ? "dark" : "light"}
             onClick={() => setSortOption(option)}
           >
-            {toLabel(option)}
+            {option}
           </Button>
         ))}
       </div>

@@ -38,8 +38,6 @@ export default function Header({ showSidebar, toggleSidebar }) {
 
   const [show, setShow] = useState(false);
 
-  const [showNoti, setShowNoti] = useState(false);
-
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -52,17 +50,6 @@ export default function Header({ showSidebar, toggleSidebar }) {
       alt="Toggle Navigation"
       onClick={() => setShow(true)}
     />
-  );
-
-  const CustomNotiFication = () => (
-    <>
-      <i
-        onClick={() => setShowNoti(true)}
-        className="fa-solid fa-bell"
-        style={{ fontSize: "25px" }}
-      ></i>
-      <span className="badge">2</span>
-    </>
   );
 
   return (
