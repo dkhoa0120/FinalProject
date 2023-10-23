@@ -45,8 +45,7 @@ nav.navbar.scrolled {
   height: 80px;
 }
 
-.badge {
-  background: #ff0000;
+.notification-number {
   margin: -20px 0 0 -10px;
   cursor: pointer;
 }
@@ -54,7 +53,6 @@ nav.navbar.scrolled {
 .mark-read-icon.notification {
   display: flex;
   margin: 0 2px 0 5px;
-
   align-items: center;
 }
 

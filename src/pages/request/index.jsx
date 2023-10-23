@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { useEffect, useContext } from "react";
+import { Badge, Button, Container } from "react-bootstrap";
 import GroupRequests from "./components/groupRequests";
 import PromotionRequests from "./components/promotionRequests";
 import MangaRequests from "./components/mangaRequests";
 import OtherRequest from "./components/otherRequests";
 import "./styles.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export default function Requests() {

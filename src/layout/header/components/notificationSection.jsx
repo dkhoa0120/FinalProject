@@ -1,4 +1,4 @@
-import { Button, Offcanvas } from "react-bootstrap";
+import { Badge, Button, Offcanvas } from "react-bootstrap";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Notification from "./notification";
@@ -15,7 +15,9 @@ export default function NotificationSection() {
         className="fa-solid fa-bell"
         style={{ fontSize: "25px", cursor: "pointer" }}
       ></i>
-      <span className="badge">2</span>
+      <Badge className="notification-number" bg="danger">
+        2
+      </Badge>
     </>
   );
 
@@ -28,6 +30,7 @@ export default function NotificationSection() {
         placement="end"
         id={`offcanvasNavbar-expand-false`}
         aria-labelledby={`offcanvasNavbarLabel-expand-false`}
+        style={{ width: "400px" }}
       >
         <Offcanvas.Header closeButton style={{ paddingBottom: "0px" }}>
           <h3 style={{ fontWeight: "bold" }}>Notifications</h3>
@@ -38,8 +41,12 @@ export default function NotificationSection() {
               key={index}
               variant={sortOption === option ? "dark" : "light"}
               onClick={() => setSortOption(option)}
+              style={{ marginBottom: "10px" }}
             >
-              {option}
+              {option}{" "}
+              <Badge pill bg="danger">
+                1
+              </Badge>
             </Button>
           ))}
           {sortOption === "Chapter" && <Notification />}

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
-import { Image, Nav, Navbar } from "react-bootstrap";
+import { Badge, Image, Nav, Navbar } from "react-bootstrap";
 import React, { useState } from "react";
 import * as mangaApi from "../../service/api.manga";
 
@@ -136,7 +136,13 @@ function SideBar(props) {
                   }`}
                   component={<Link to={item.to} />}
                 >
-                  {item.text}
+                  {item.text}{" "}
+                  {(item.text === "Followed Mangas" ||
+                    item.text === "Requests") && (
+                    <Badge pill bg="danger">
+                      1
+                    </Badge>
+                  )}
                 </MenuItem>
               ))}
               <hr className="sidebar-divider" />

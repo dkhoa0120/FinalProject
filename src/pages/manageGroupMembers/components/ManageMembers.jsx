@@ -10,16 +10,12 @@ import {
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import { useContext } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import { UserContext } from "../../../context/UserContext";
 import PaginationNoParams from "../../../components/paginationNoParams";
 import { groupRoleOptions } from "../../../constants/groupRoles";
-
 import * as groupApi from "../../../service/api.group";
 import { toast } from "react-toastify";
-import { useCallback } from "react";
 
 export default function ManageMembers({ groupId }) {
   const { user } = useContext(UserContext);
