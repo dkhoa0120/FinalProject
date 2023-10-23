@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 import SearchBar from "../../components/search";
 import { UserContext } from "../../context/UserContext";
 import "./styles.css";
-import Notification from "./components/notification";
+import NotificationSection from "./components/notificationSection";
 
 export default function Header({ showSidebar, toggleSidebar }) {
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ export default function Header({ showSidebar, toggleSidebar }) {
           <div className="d-flex align-items-center">
             {user && (
               <>
-                <Notification />
+                <NotificationSection />
               </>
             )}
             &nbsp; &nbsp;
