@@ -17,16 +17,9 @@ export default function MangaBlock({ manga }) {
       </div>
       <div className="flex-grow-1">
         <Link to={`/mangas/${manga.id}`} className="card-link">
-          <p
-            className="text-limit-1"
-            style={{
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginBottom: "5px",
-            }}
-          >
+          <b className="text-limit-1" style={{ fontSize: "20px" }}>
             {manga.originalTitle}
-          </p>
+          </b>
         </Link>
         {manga.chapters ? (
           manga.chapters.map((c) => (

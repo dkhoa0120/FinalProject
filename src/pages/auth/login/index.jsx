@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Col, InputGroup, Row, Form, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "../styles.css";
 import { UserContext } from "../../../context/UserContext";
 import * as accountApi from "../../../service/api.account";
@@ -58,7 +58,6 @@ export default function Login() {
 
   return (
     <>
-      <ToastContainer />
       <div className="auth-form-container">
         {showGif && (
           <img

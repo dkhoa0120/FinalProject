@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "../styles.css";
 import { UserContext } from "../../../context/UserContext";
 import * as accountApi from "../../../service/api.account";
@@ -65,7 +65,6 @@ export default function Register() {
 
   return (
     <>
-      <ToastContainer />
       <div className="auth-form-container">
         <img
           className="background"

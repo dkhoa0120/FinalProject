@@ -24,9 +24,7 @@ export default function Profile() {
     "Community",
     "About",
   ];
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
-  };
+
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
@@ -174,7 +172,7 @@ export default function Profile() {
                   navigate(`/profile/${userId}/${option}`);
                 }}
               >
-                {toLabel(option)}
+                {option}
               </Button>
             )
           )}

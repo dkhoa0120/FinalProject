@@ -1,12 +1,9 @@
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import PaginationNoParams from "../../../components/paginationNoParams";
-
 import * as requestApi from "../../../service/api.request";
-import { useCallback } from "react";
 import { toast } from "react-toastify";
 
 export default function RequestMembers({ groupId }) {
@@ -59,17 +56,13 @@ export default function RequestMembers({ groupId }) {
 
   return (
     <>
-      <Row>
-        <Col>
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            value={search}
-            onChange={handleSearch}
-          />
-        </Col>
-      </Row>
+      <Form.Control
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        value={search}
+        onChange={handleSearch}
+      />
       &nbsp;
       <Table striped bordered hover responsive="sm">
         <thead>

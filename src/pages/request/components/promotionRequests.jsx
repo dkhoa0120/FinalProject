@@ -3,7 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function PromotionRequests() {
   const [requests, setRequests] = useState([]);
@@ -80,7 +80,6 @@ export default function PromotionRequests() {
 
   return (
     <>
-      <ToastContainer />
       <div className="general-container">
         <div className="general-container-title">Promotion Form</div>
         <div style={{ padding: "0 30px" }}>

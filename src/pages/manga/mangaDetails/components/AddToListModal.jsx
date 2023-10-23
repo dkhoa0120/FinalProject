@@ -1,4 +1,4 @@
-import { Button, Form, Modal, ToastContainer } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
@@ -122,7 +122,6 @@ export default function AddToListModal({
   }, [userId]);
   return (
     <>
-      <ToastContainer />
       <Modal
         show={show}
         onHide={() => {

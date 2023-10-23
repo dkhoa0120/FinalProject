@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import * as mangaApi from "../../../service/api.manga";
-import CountryFlag from "../../../components/countryFlag";
-import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
 import MangaBlock from "../../../components/mangaBlock";
 
 export default function Uploads() {

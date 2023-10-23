@@ -8,11 +8,12 @@ export default function Compass({ chapter, relatedChapters }) {
   const navigate = useNavigate();
   const [follow, setFollow] = useState(null);
   const mangaId = chapter.manga.id;
+  const type = "manga";
 
   useEffect(() => {
     const fetchUserFollow = async (id) => {
       try {
-        const response = await followApi.getCurrentUserFollow(id);
+        const response = await followApi.getCurrentUserFollow(type, id);
         setFollow(response.data);
       } catch (error) {
         console.error("Error retrieving user rating:", error);
@@ -24,10 +25,10 @@ export default function Compass({ chapter, relatedChapters }) {
   const handleFollow = async () => {
     try {
       if (!follow) {
-        await followApi.postFollow(mangaId);
+        await followApi.postFollow(type, mangaId);
         setFollow(true);
       } else {
-        await followApi.deleteFollow(mangaId);
+        await followApi.deleteFollow(type, mangaId);
         setFollow(false);
       }
     } catch (error) {

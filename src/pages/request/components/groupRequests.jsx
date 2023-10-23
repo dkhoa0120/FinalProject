@@ -9,15 +9,15 @@ export default function GroupRequests() {
   const [outOfReqs, setOutOfReqs] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    document.title = "Requests - 3K Manga";
-  }, []);
-
   const fetchUserRequests = async () => {
-    setLoading(true);
-    const res = await requestApi.getUserGroupRequests();
-    setRequests(res.data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await requestApi.getUserGroupRequests();
+      setRequests(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleReadRequest = async (id) => {

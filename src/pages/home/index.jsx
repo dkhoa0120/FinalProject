@@ -63,10 +63,6 @@ export default function Home() {
     }
   };
 
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
-  };
-
   return (
     <>
       <div className="home-header">
@@ -109,7 +105,7 @@ export default function Home() {
               variant={sortOption === option ? "dark" : "light"}
               onClick={() => setSortOption(option)}
             >
-              {toLabel(option)}
+              {option}
             </Button>
           ))}
         </div>

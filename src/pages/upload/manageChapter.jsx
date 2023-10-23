@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Button, Container, Form, Table, Modal } from "react-bootstrap";
 import "./styles.css";
 import * as chapterApi from "../../service/api.chapter";
@@ -84,7 +84,6 @@ export default function ManageChapter() {
   return (
     <Container fluid>
       <div className="manage-table">
-        <ToastContainer />
         <Form.Control
           type="search"
           placeholder="Search Manga Name"

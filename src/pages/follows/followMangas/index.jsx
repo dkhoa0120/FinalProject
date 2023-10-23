@@ -2,16 +2,24 @@ import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as followApi from "../../../service/api.follow";
 import MangaBlock from "../../../components/mangaBlock";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function FollowedManga() {
   const [followedManga, setFollowedManga] = useState([]);
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Followed Mangas - 3K Manga";
-  }, []);
+    if (user == null) {
+      navigate("/login");
+    }
+  }, [navigate, user]);
 
   const fetchFollowedMangas = async () => {
     try {

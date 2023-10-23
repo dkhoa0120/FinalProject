@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function OtherRequest() {
@@ -80,7 +80,6 @@ export default function OtherRequest() {
 
   return (
     <>
-      <ToastContainer />
       <div className="general-container">
         <div className="general-container-title">Submission Form</div>
         <div style={{ padding: "0 30px" }}>

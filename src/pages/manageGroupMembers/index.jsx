@@ -2,21 +2,15 @@ import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import * as requestApi from "../../service/api.request";
 import { Link, useParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import * as groupApi from "../../service/api.group";
 import ManageMembers from "./components/ManageMembers";
 import RequestMembers from "./components/RequestMembers";
-import { useCallback } from "react";
 
 export default function ManageGroup() {
   const [groupDetails, setGroupDetails] = useState(null);
   const { groupId } = useParams();
-  const [totalCount, setTotalCount] = useState();
   const sortOptions = ["Manage Member", "Request Member"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
-  const toLabel = (item) => {
-    return item.replace(/([A-Z])/g, " $1").trim();
-  };
 
   useEffect(() => {
     const getGroupDetail = async (id) => {
@@ -38,7 +32,6 @@ export default function ManageGroup() {
       try {
         const res = await requestApi.getJoinGroupRequest(id);
         console.log(res.data);
-        setTotalCount(res.data.totalCount);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           console.log(error.response);
@@ -50,7 +43,6 @@ export default function ManageGroup() {
 
   return (
     <Container fluid>
-      <ToastContainer />
       <div className="group-name">
         <Link to={`/groups/${groupId}/Uploads`}>
           <button className="return-button">
@@ -66,7 +58,7 @@ export default function ManageGroup() {
             variant={sortOption === option ? "dark" : "light"}
             onClick={() => setSortOption(option)}
           >
-            {toLabel(option)}
+            {option}
           </Button>
         ))}
       </div>

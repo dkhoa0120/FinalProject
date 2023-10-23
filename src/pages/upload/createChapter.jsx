@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import * as mangaApi from "../../service/api.manga";
 import * as groupApi from "../../service/api.group";
 import * as chapterApi from "../../service/api.chapter";
@@ -135,7 +135,6 @@ export default function Upload() {
 
   return (
     <>
-      <ToastContainer />
       <div style={{ fontSize: "25px", fontWeight: "bold" }}>
         <Link to={`/mangas/${mangaId}`}>
           <button className="return-button">

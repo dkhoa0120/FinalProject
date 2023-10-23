@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import "./styles.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import CreateManga from "./components/CreateManga";
 import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
@@ -90,7 +90,6 @@ export default function ManageManga() {
 
   return (
     <Container fluid>
-      <ToastContainer />
       <div className="manage-table">
         <Row>
           <Col xs={4} md={6}>

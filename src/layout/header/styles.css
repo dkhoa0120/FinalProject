@@ -44,3 +44,24 @@ nav.navbar.scrolled {
   width: 80px;
   height: 80px;
 }
+
+.notification-number {
+  margin: -20px 0 0 -10px;
+  cursor: pointer;
+}
+
+.mark-read-icon.notification {
+  display: flex;
+  margin: 0 2px 0 5px;
+  align-items: center;
+}
+
+.notification-container {
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.notification-container:hover {
+  background-color: #f2f2f2;
+}

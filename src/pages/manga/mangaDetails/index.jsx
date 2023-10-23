@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "./styles.css";
 import MangaBanner from "./components/MangaBanner";
 import CommentSection from "../../../components/commentSection";
@@ -163,7 +163,6 @@ export default function MangaDetail() {
 
   return (
     <>
-      <ToastContainer />
       <MangaBanner
         manga={manga}
         mangaStats={mangaStats}
