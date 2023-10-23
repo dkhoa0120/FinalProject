@@ -54,12 +54,30 @@ export default function App() {
 
     newConnection.on("ReceiveNotification", (notification) => {
       console.log("notification", notification);
-      toast.info(() => (
-        <p>
-          One of your requests has been processed{" "}
-          <Link to={"/requests/OtherRequest"}>See it</Link>
-        </p>
-      ));
+      toast.info(() => {
+        let link;
+        switch (notification.type) {
+          case "RequestNotification":
+            link = `/requests/${notification.requestType}`;
+            break;
+          case "ChapterNotification":
+            link = `/chapters/${notification.chapter.id}`;
+            break;
+          case "GroupNotification":
+            link = `/groups/${notification.group.id}/Community`;
+            break;
+          case "FollowerNotification":
+            link = `/profile/${notification.user.id}/Community`;
+            break;
+          default:
+            break;
+        }
+        return (
+          <Link to={link} className="card-link">
+            You have a {notification.type}
+          </Link>
+        );
+      });
     });
 
     return () => {
