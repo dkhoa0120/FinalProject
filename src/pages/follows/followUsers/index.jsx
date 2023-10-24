@@ -20,7 +20,7 @@ export default function FollowUsers() {
   }, [navigate, user]);
 
   return (
-    <>
+    <Container fluid style={{ paddingTop: "10px" }}>
       <div>
         {sortOptions.map((option, index) => (
           <Button
@@ -32,12 +32,10 @@ export default function FollowUsers() {
           </Button>
         ))}
       </div>
-      <Container fluid style={{ paddingTop: "10px" }}>
-        <Row>
-          {sortOption === "Follower" && <Followers />}
-          {sortOption === "Following" && <Followings />}
-        </Row>
-      </Container>
-    </>
+      <Row>
+        {sortOption === "Follower" && <Followers />}
+        {sortOption === "Following" && <Followings />}
+      </Row>
+    </Container>
   );
 }

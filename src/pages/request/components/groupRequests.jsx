@@ -4,7 +4,7 @@ import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 export default function GroupRequests() {
-  const [requests, setRequests] = useState();
+  const [requests, setRequests] = useState([]);
   const [loadingRequest, setLoadingRequest] = useState(false);
   const [outOfReqs, setOutOfReqs] = useState(false);
   const [loading, setLoading] = useState(true);

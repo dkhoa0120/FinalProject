@@ -43,6 +43,7 @@ export default function NotificationSection() {
 
   useEffect(() => {
     fetchNotifications({ type: sortOption });
+    return () => setOutOfNoti(false);
   }, [sortOption, showNoti]);
 
   const handleSeeMoreNoti = async (type, createdAtCursor) => {
@@ -98,7 +99,8 @@ export default function NotificationSection() {
     return () => {
       notificationDiv.removeEventListener("scroll", handleScroll);
     };
-  }, [sortOption, notifications, showNoti, outOfNoti, handleSeeMoreNoti]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortOption, notifications, showNoti, outOfNoti]);
 
   return (
     <>

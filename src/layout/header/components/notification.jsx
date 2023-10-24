@@ -48,7 +48,7 @@ export default function Notification({ notifications, type, close }) {
 
   return (
     <>
-      {notifications.length > 0 &&
+      {notifications.length > 0 ? (
         notifications.map((notification) => (
           <AddLink key={notification.id} notification={notification}>
             <div
@@ -98,7 +98,12 @@ export default function Notification({ notifications, type, close }) {
               </div>
             </div>
           </AddLink>
-        ))}
+        ))
+      ) : (
+        <span className="d-flex justify-content-center">
+          No notification yet
+        </span>
+      )}
     </>
   );
 }

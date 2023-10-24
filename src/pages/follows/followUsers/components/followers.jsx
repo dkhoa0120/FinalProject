@@ -5,7 +5,7 @@ import * as followApi from "../../../../service/api.follow";
 import { Link } from "react-router-dom";
 
 export default function Followers() {
-  const [followers, setFollowers] = useState(null);
+  const [followers, setFollowers] = useState([]);
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
   const [loading, setLoading] = useState(true);
