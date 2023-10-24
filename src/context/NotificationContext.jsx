@@ -14,6 +14,7 @@ function NotificationProvider({ children }) {
     follower: 0,
     group: 0,
   });
+  const [connection, setConnection] = useState(null);
   const { user } = useContext(UserContext);
 
   const fetchNotificationsCount = async () => {
@@ -26,13 +27,11 @@ function NotificationProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchNotificationsCount();
-  }, []);
-
-  useEffect(() => {
-    if (user === null) {
+    if (!user?.id) {
       return;
     }
+
+    fetchNotificationsCount();
 
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl(process.env.REACT_APP_API_URL + "/notify")
@@ -43,34 +42,43 @@ function NotificationProvider({ children }) {
       .start()
       .then(() => {
         newConnection.invoke("RegisterConnection", user.id);
-        console.log("SignalR connection established");
       })
       .catch((e) => console.error("SignalR connection failed:", e));
 
-    newConnection.on("ReceiveNotification", (notification) => {
-      console.log("notification", notification);
-      if (notificationCounts) {
-        let updatedCounts = { ...notificationCounts };
+    setConnection(newConnection);
 
-        switch (notification.type) {
-          case "RequestNotification":
-            updatedCounts.request++;
-            break;
-          case "ChapterNotification":
-            updatedCounts.chapter++;
-            break;
-          case "GroupNotification":
-            updatedCounts.group++;
-            break;
-          case "FollowerNotification":
-            updatedCounts.follower++;
-            break;
-          default:
-            break;
-        }
+    return () => {
+      newConnection.stop();
+      setConnection(null);
+    };
+  }, [user?.id]);
 
-        setNotificationCounts(updatedCounts);
+  useEffect(() => {
+    if (!connection) {
+      return;
+    }
+
+    connection.on("ReceiveNotification", (notification) => {
+      let updatedCounts = { ...notificationCounts };
+
+      switch (notification.type) {
+        case "RequestNotification":
+          updatedCounts.request++;
+          break;
+        case "ChapterNotification":
+          updatedCounts.chapter++;
+          break;
+        case "GroupNotification":
+          updatedCounts.group++;
+          break;
+        case "FollowerNotification":
+          updatedCounts.follower++;
+          break;
+        default:
+          break;
       }
+      setNotificationCounts(updatedCounts);
+
       toast.info(() => {
         let link;
         switch (notification.type) {
@@ -98,9 +106,9 @@ function NotificationProvider({ children }) {
     });
 
     return () => {
-      newConnection.off("ReceiveNotification");
+      connection.off("ReceiveNotification");
     };
-  }, [user]);
+  }, [connection, notificationCounts]);
 
   return (
     <NotificationContext.Provider

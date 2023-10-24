@@ -10,8 +10,8 @@ import { UserContext } from "../../context/UserContext";
 
 export default function Requests() {
   const sortOptions = [
-    "GroupRequest",
-    "UploaderPromotionRequest",
+    "JoinGroupRequest",
+    "PromotionRequest",
     "MangaRequest",
     "OtherRequest",
   ];
@@ -40,8 +40,8 @@ export default function Requests() {
         </Button>
       ))}
       <div className="manage-table">
-        {selectedOption === "GroupRequest" && <GroupRequests />}
-        {selectedOption === "UploaderPromotionRequest" && <PromotionRequests />}
+        {selectedOption === "JoinGroupRequest" && <GroupRequests />}
+        {selectedOption === "PromotionRequest" && <PromotionRequests />}
         {selectedOption === "MangaRequest" && <MangaRequests />}
         {selectedOption === "OtherRequest" && <OtherRequest />}
       </div>

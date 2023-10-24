@@ -23,6 +23,7 @@ export default function MangaRequests() {
       setMangaAuthor("");
       setMangaSource("");
       setRequests((prev) => [newRequest.data, ...prev]);
+      toast.success("A request has been sent");
     } catch (error) {
       toast.error(error.response.data);
     }
