@@ -92,7 +92,7 @@ function NotificationProvider({ children }) {
             link = `/groups/${notification.group.id}/Community`;
             break;
           case "FollowerNotification":
-            link = `/profile/${notification.user.id}/Community`;
+            link = `/profile/${notification.followedPerson.id}/Community`;
             break;
           default:
             break;

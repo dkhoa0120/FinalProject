@@ -22,7 +22,7 @@ export default function Notification({ notifications, type, close }) {
         link = `/groups/${notification?.group?.id}/Community`;
         break;
       case "Follower":
-        link = `/profile/${notification?.user?.id}/Community`;
+        link = `/profile/${notification?.followedPerson?.id}/Community`;
         break;
       default:
         break;
@@ -67,7 +67,7 @@ export default function Notification({ notifications, type, close }) {
                       : type === "Group"
                       ? notification?.group?.avatarPath ||
                         "/img/avatar/defaultGroup.jpg"
-                      : notification?.user?.avatarPath ||
+                      : notification?.followedPerson?.avatarPath ||
                         "/img/avatar/default.png"
                   }
                   alt="Avatar"
@@ -81,12 +81,12 @@ export default function Notification({ notifications, type, close }) {
                     }
                   >
                     {type === "Request"
-                      ? `Your ${notification?.type} Request has been processed.`
+                      ? `Your ${notification?.requestType} has been processed.`
                       : type === "Chapter"
                       ? `${notification?.chapter?.manga?.originalTitle} has a new chapter number ${notification?.chapter?.number}.`
                       : type === "Group"
                       ? `${notification?.group?.name} has a new post.`
-                      : `${notification?.user?.name} has a new post.`}{" "}
+                      : `${notification?.followedPerson?.name} has a new post.`}{" "}
                   </span>
                   <span className="comment-time" style={{ display: "block" }}>
                     {calculateTimeDifference(notification?.createdAt)}
