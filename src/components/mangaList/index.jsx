@@ -3,7 +3,7 @@ import { Row, Image, Container, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
 
-export default function MangasList({ data, link }) {
+export default function MangasList({ data }) {
   return (
     <Container fluid>
       <Row className="px-3 my-3">

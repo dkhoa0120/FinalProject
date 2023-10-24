@@ -137,12 +137,6 @@ function SideBar(props) {
                   component={<Link to={item.to} />}
                 >
                   {item.text}{" "}
-                  {(item.text === "Followed Mangas" ||
-                    item.text === "Requests") && (
-                    <Badge pill bg="danger">
-                      1
-                    </Badge>
-                  )}
                 </MenuItem>
               ))}
               <hr className="sidebar-divider" />

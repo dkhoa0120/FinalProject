@@ -9,17 +9,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./context/UserContext";
 import { CategoryProvider } from "./context/CategoryContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <CategoryProvider>
       <UserProvider>
-        <ProSidebarProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ProSidebarProvider>
+        <NotificationProvider>
+          <ProSidebarProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ProSidebarProvider>
+        </NotificationProvider>
       </UserProvider>
     </CategoryProvider>
   </React.StrictMode>
