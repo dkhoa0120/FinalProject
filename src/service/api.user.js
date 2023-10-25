@@ -15,3 +15,7 @@ export const getUsers = (filter) => {
 export const updateRoles = (id, roles) => {
   return getAuthorizedAxios().put(`manage/users/${id}`, roles);
 };
+
+export const restoreUser = (id) => {
+  return getAuthorizedAxios().put(`manage/users/${id}/restore`);
+};

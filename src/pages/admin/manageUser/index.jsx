@@ -7,12 +7,13 @@ import {
   Button,
   Table,
   Container,
+  Modal,
 } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 import ModalUpdateRoles from "./components/ModalUpdateRoles";
-import { getUsers } from "../../../service/api.user";
-import {} from "react-toastify";
+import * as userApi from "../../../service/api.user";
+import { toast } from "react-toastify";
 
 export default function ManageUser() {
   const [users, setUsers] = useState([]);
@@ -20,6 +21,7 @@ export default function ManageUser() {
   const [totalPages, setTotalPages] = useState(0);
   const [updateData, setUpdateData] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showRestore, setShowRestore] = useState(false);
 
   const search = searchParams.get("search") || "";
   const roleOption = searchParams.get("roleOption") || "";
@@ -39,7 +41,7 @@ export default function ManageUser() {
 
   const getUsersList = async () => {
     try {
-      const result = await getUsers({ search, page, roleOption });
+      const result = await userApi.getUsers({ search, page, roleOption });
       setUsers(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
@@ -50,6 +52,32 @@ export default function ManageUser() {
         setUsers([]);
         setTotalPages(0);
       }
+    }
+  };
+
+  const handleShowRestore = (user) => {
+    setUpdateData(user);
+    setShowRestore(true);
+  };
+
+  const handleRestore = async (user) => {
+    try {
+      await userApi.restoreUser(user.id);
+      setUsers((prevUsers) => {
+        return prevUsers.map((u) => {
+          if (u.id === user.id) {
+            return {
+              ...u,
+              deletedAt: null,
+            };
+          }
+          return u;
+        });
+      });
+      toast.success("Restore the user successful!");
+      setShowRestore(false);
+    } catch (error) {
+      toast.error(error.response.data);
     }
   };
 
@@ -121,7 +149,16 @@ export default function ManageUser() {
                       <Button onClick={() => handleUpdateRole(item)}>
                         <i className="fa-solid fa-pen-to-square"></i>
                         <span className="hide-when-mobile"> Edit</span>
-                      </Button>
+                      </Button>{" "}
+                      {item.deletedAt && (
+                        <Button
+                          onClick={() => handleShowRestore(item)}
+                          variant="light"
+                        >
+                          <i className="fa-solid fa-arrow-rotate-left"></i>
+                          <span className="hide-when-mobile"> Restore</span>
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 );
@@ -151,6 +188,19 @@ export default function ManageUser() {
         dataEdit={updateData}
         getUsers={getUsersList}
       />
+      <Modal show={showRestore} onHide={() => setShowRestore(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Restore this user</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you want to restore {updateData?.name}!{" "}
+          <div className="end-button">
+            <Button variant="primary" onClick={() => handleRestore(updateData)}>
+              Confirm restore
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }

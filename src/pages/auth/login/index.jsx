@@ -50,7 +50,13 @@ export default function Login() {
         }, 1300);
       }
     } catch (error) {
-      toast.error("Somethings went wrong!");
+      if (error.response && error.response.status === 401) {
+        toast.error("Wrong password or email!");
+      } else if (error.response && error.response.status === 400) {
+        toast.error(error.response.data);
+      } else {
+        toast.error("Something went wrong!");
+      }
     }
 
     setLoading(false);
