@@ -22,10 +22,10 @@ export default function DeletePostModal({ post, close, updateDeletePost }) {
         <Modal.Title>Delete a post</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure want to delete it?</p>
-        <div style={{ display: "flex", justifyContent: "end" }}>
+        <span>Are you sure want to delete it?</span>
+        <div className="end-button">
           <Button variant="danger" onClick={handleDeletePost}>
-            Delete
+            Confirm Delete
           </Button>
         </div>
       </Modal.Body>

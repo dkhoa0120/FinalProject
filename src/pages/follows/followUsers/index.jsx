@@ -20,8 +20,8 @@ export default function FollowUsers() {
   }, [navigate, user]);
 
   return (
-    <Container fluid style={{ paddingTop: "10px" }}>
-      <div>
+    <Container fluid>
+      <div style={{ paddingBottom: "10px" }}>
         {sortOptions.map((option, index) => (
           <Button
             key={index}

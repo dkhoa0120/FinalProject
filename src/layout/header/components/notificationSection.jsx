@@ -21,8 +21,7 @@ export default function NotificationSection() {
     <>
       <i
         onClick={() => setShowNoti(true)}
-        className="fa-solid fa-bell"
-        style={{ fontSize: "25px", cursor: "pointer" }}
+        className="fa-solid fa-bell notification-icon"
       ></i>
       {Object.values(notificationCounts).reduce((a, b) => a + b) > 0 && (
         <Badge className="notification-number" bg="danger">
@@ -111,7 +110,7 @@ export default function NotificationSection() {
         placement="end"
         id={`offcanvasNavbar-expand-false`}
         aria-labelledby={`offcanvasNavbarLabel-expand-false`}
-        style={{ width: "470px", maxHeight: "50vh" }}
+        style={{ width: "470px", maxHeight: "80vh" }}
       >
         <Offcanvas.Header closeButton style={{ paddingBottom: "0px" }}>
           <h3 style={{ fontWeight: "bold" }}>Notifications</h3>

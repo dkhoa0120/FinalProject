@@ -97,7 +97,7 @@ export default function GroupRequests() {
                     }
                     onClick={() => handleReadRequest(request.id)}
                   >
-                    <Link to={`/groups/${request.group.id}`}>
+                    <Link to={`/groups/${request.group.id}/Members`}>
                       <div className="group-info">
                         <img
                           className="group-avatar"

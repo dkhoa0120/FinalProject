@@ -38,9 +38,15 @@ export default function MangaBlock({ manga }) {
                 </Link>
               </Col>
               <Col xs={6} md={2} className="hide-when-mobile">
-                <p className="text-truncate">
-                  <i className="fa-regular fa-user"></i> {c.uploadingGroup.name}
-                </p>
+                <Link
+                  to={`/groups/${c.uploadingGroup.id}/Uploads`}
+                  className="card-link"
+                >
+                  <p className="text-truncate">
+                    <i className="fa-regular fa-user"></i>{" "}
+                    {c.uploadingGroup.name}
+                  </p>
+                </Link>
               </Col>
               <Col xs={6} md={2}>
                 <Link

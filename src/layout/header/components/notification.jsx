@@ -60,7 +60,7 @@ export default function Notification({ notifications, type, close }) {
                   className="avatar"
                   src={
                     type === "Request"
-                      ? "/img/avatar/default.png"
+                      ? "/img/avatar/request.png"
                       : type === "Chapter"
                       ? notification?.chapter?.manga?.coverPath ||
                         "/img/error/coverNotFound.png"
@@ -73,7 +73,7 @@ export default function Notification({ notifications, type, close }) {
                   alt="Avatar"
                   style={{ marginRight: "5px" }}
                 />
-                <div>
+                <div style={{ flexGrow: "1" }}>
                   <span
                     className={
                       "notification" +
@@ -86,7 +86,7 @@ export default function Notification({ notifications, type, close }) {
                       ? `${notification?.chapter?.manga?.originalTitle} has a new chapter number ${notification?.chapter?.number}.`
                       : type === "Group"
                       ? `${notification?.group?.name} has a new post.`
-                      : `${notification?.followedPerson?.name} has a new post.`}{" "}
+                      : `${notification?.followedPerson?.name} has a new post.`}
                   </span>
                   <span className="comment-time" style={{ display: "block" }}>
                     {calculateTimeDifference(notification?.createdAt)}

@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Dropdown,
+  Button,
 } from "react-bootstrap";
 import "./style.css";
 import * as commentApi from "../../service/api.comment";
@@ -189,15 +190,15 @@ export default function Comment({ comment, editComment, removeComment }) {
               >
                 Reply
               </button>
-              <Dropdown>
-                <Dropdown.Toggle
-                  variant="outline"
-                  className="comment-options-toggle"
-                >
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {user && user.id === comment.user.id ? (
+              {user && user.id === comment.user.id && (
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="outline"
+                    className="comment-options-toggle"
+                  >
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
                     <>
                       <Dropdown.Item onClick={() => setIsEditing(true)}>
                         Edit
@@ -211,60 +212,20 @@ export default function Comment({ comment, editComment, removeComment }) {
                         </Modal.Header>
                         <ModalBody style={{ wordWrap: "break-word" }}>
                           {comment.content}
+                          <div className="end-button">
+                            <Button
+                              variant="danger"
+                              onClick={handleDeleteComment}
+                            >
+                              Confirm Delete
+                            </Button>
+                          </div>
                         </ModalBody>
-                        <ModalFooter>
-                          <button
-                            style={{
-                              borderWidth: "0",
-                              backgroundColor: "white",
-                              fontSize: "15px",
-                              color: "#730000",
-                            }}
-                            onClick={handleDeleteComment}
-                          >
-                            Confirm Delete
-                          </button>
-                        </ModalFooter>
                       </Modal>
                     </>
-                  ) : (
-                    <>
-                      <Dropdown.Item>
-                        <div onClick={() => setShow(true)}>Report</div>
-                        <Modal show={showModal} onHide={() => setShow(false)}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>Report</Modal.Title>
-                          </Modal.Header>
-                          <ModalBody style={{ wordWrap: "break-word" }}>
-                            {comment.content}
-                            <hr></hr>
-                            <div>
-                              <input
-                                type="text"
-                                className="form-control mr-3"
-                                placeholder="..."
-                              ></input>
-                            </div>
-                          </ModalBody>
-                          <ModalFooter>
-                            <button
-                              style={{
-                                borderWidth: "0",
-                                backgroundColor: "white",
-                                fontSize: "15px",
-                                color: "#730000",
-                              }}
-                              onClick={() => setShow(false)}
-                            >
-                              Accept
-                            </button>
-                          </ModalFooter>
-                        </Modal>
-                      </Dropdown.Item>
-                    </>
-                  )}
-                </Dropdown.Menu>
-              </Dropdown>
+                  </Dropdown.Menu>
+                </Dropdown>
+              )}
             </div>
             {childCommentCount > 0 && (
               <button

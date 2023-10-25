@@ -77,7 +77,6 @@ export default function Header({ showSidebar, toggleSidebar }) {
               <span style={{ fontWeight: "800" }}>3K Manga </span>
             </Navbar.Brand>
           </div>
-
           <div className="d-flex align-items-center">
             {user && (
               <>

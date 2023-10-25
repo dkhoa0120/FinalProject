@@ -204,18 +204,18 @@ export default function ManageChapter() {
             Chapter {chapterDelete?.number} - {chapterDelete?.name}
           </b>{" "}
           of Manga: <b>{chapterDelete?.manga.originalTitle}</b>
+          <div className="end-button">
+            <Button
+              variant="danger"
+              onClick={() => {
+                setShow(false);
+                handleDeleteChapter(chapterDelete?.id);
+              }}
+            >
+              Confirm Delete
+            </Button>
+          </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="danger"
-            onClick={() => {
-              setShow(false);
-              handleDeleteChapter(chapterDelete?.id);
-            }}
-          >
-            Confirm Delete
-          </Button>
-        </Modal.Footer>
       </Modal>
     </Container>
   );

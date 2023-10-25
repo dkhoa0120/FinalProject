@@ -32,14 +32,16 @@ export default function DeleteManga(props) {
           <Modal.Title>Delete Manga</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Label>Original Title</Form.Label>
+          <Form.Label>
+            <b>Original Title</b>
+          </Form.Label>
           <Form.Control type="text" value={originalTitle} disabled />
+          <div className="end-button">
+            <Button variant="danger" onClick={onSubmit}>
+              Confirm Delete
+            </Button>
+          </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={onSubmit}>
-            Confirm Delete
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

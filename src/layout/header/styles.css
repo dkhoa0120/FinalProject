@@ -45,8 +45,14 @@ nav.navbar.scrolled {
   height: 80px;
 }
 
+.notification-icon {
+  font-size: 25px;
+  cursor: pointer;
+  padding: 0 20px;
+}
+
 .notification-number {
-  margin: -20px 0 0 -10px;
+  margin: -20px 0 0 -30px;
   cursor: pointer;
 }
 

@@ -26,6 +26,7 @@ export default function MangaListGroup() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const privacy = [`Private`, `Public`];
   const privacyOptions = privacy.map((p) => ({
     value: p,
@@ -110,7 +111,7 @@ export default function MangaListGroup() {
   const handleDeleteList = async (id) => {
     try {
       await listApi.deleteMangaList(id);
-      navigate(`/profile/${user?.id}/Uploads`);
+      navigate(`/profile/${user?.id}/MangaList`);
     } catch (err) {
       if (err.response && err.response.status === 404) {
         console.log("404");
@@ -268,11 +269,32 @@ export default function MangaListGroup() {
                               <Dropdown.Item>
                                 <div onClick={() => setShow(true)}>Edit</div>
                               </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() => handleDeleteList(mangaList?.id)}
-                              >
-                                <div>Delete</div>
+                              <Dropdown.Item>
+                                <div onClick={() => setShowDeleteModal(true)}>
+                                  Delete
+                                </div>
                               </Dropdown.Item>
+                              <Modal
+                                show={showDeleteModal}
+                                onHide={() => setShowDeleteModal(false)}
+                              >
+                                <Modal.Header closeButton>
+                                  <Modal.Title>Delete a Manga List</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                  <span>Are you sure want to delete it?</span>
+                                  <div className="end-button">
+                                    <Button
+                                      variant="danger"
+                                      onClick={() =>
+                                        handleDeleteList(mangaList?.id)
+                                      }
+                                    >
+                                      Confirm Delete
+                                    </Button>
+                                  </div>
+                                </Modal.Body>
+                              </Modal>
                             </>
                           ) : mangaList?.alreadyFollowed === false ? (
                             <Dropdown.Item
@@ -328,6 +350,7 @@ export default function MangaListGroup() {
                 )}
               </Col>
             </Row>
+
             <Modal show={show} onHide={() => setShow(false)} size="xl">
               <Modal.Header closeButton>
                 <Modal.Title>Edit Manga List</Modal.Title>

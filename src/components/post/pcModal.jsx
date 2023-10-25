@@ -5,6 +5,7 @@ import CommentSection from "../commentSection";
 import PostStats from "./postStats";
 import * as viewApi from "../../service/api.view";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function PcModal({
   post,
@@ -36,12 +37,17 @@ export default function PcModal({
               <div className="modal-community-info">
                 <div className="modal-users-info">
                   <div>
-                    <img
-                      className="avatar"
-                      src={post.user.avatarPath || "/img/avatar/default.png"}
-                      alt="Avatar"
-                    />
-                    <span className="comment-name">{post.user.name}</span>
+                    <Link
+                      to={`/profile/${post.user.id}/Community`}
+                      className="card-link"
+                    >
+                      <img
+                        className="avatar"
+                        src={post.user.avatarPath || "/img/avatar/default.png"}
+                        alt="Avatar"
+                      />
+                      <span className="comment-name">{post.user.name}</span>
+                    </Link>
                     <span className="comment-time">
                       {calculateTimeDifference(post.createdAt)}
                     </span>

@@ -89,28 +89,24 @@ export default function PostStats({
           {post.commentCount}
           <i className="fa-regular fa-comment" style={{ marginLeft: "5px" }} />
         </div>
-
-        <Dropdown as={"span"} onClick={(e) => e.stopPropagation()}>
-          <Dropdown.Toggle
-            variant="outline"
-            className="manga-list-options-toggle"
-          >
-            <i className="fa-solid fa-ellipsis-vertical"></i>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>Report</Dropdown.Item>
-            {user && post && user.id === post.user.id && (
-              <>
-                <Dropdown.Item onClick={() => setEditPost(post)}>
-                  Edit
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setDeletePost(post)}>
-                  Delete
-                </Dropdown.Item>
-              </>
-            )}
-          </Dropdown.Menu>
-        </Dropdown>
+        {user && post && user.id === post.user.id && (
+          <Dropdown onClick={(e) => e.stopPropagation()}>
+            <Dropdown.Toggle
+              variant="outline"
+              className="manga-list-options-toggle"
+            >
+              <i className="fa-solid fa-ellipsis-vertical"></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setEditPost(post)}>
+                Edit
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setDeletePost(post)}>
+                Delete
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
 
         <EditPostModal
           post={editPost}
