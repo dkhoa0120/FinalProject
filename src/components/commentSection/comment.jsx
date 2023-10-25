@@ -1,13 +1,6 @@
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
-import {
-  Collapse,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  Dropdown,
-  Button,
-} from "react-bootstrap";
+import { Collapse, Modal, Dropdown, Button } from "react-bootstrap";
 import "./style.css";
 import * as commentApi from "../../service/api.comment";
 import * as commentReactApi from "../../service/api.react";
@@ -151,7 +144,14 @@ export default function Comment({ comment, editComment, removeComment }) {
                 to={`/profile/${comment.user.id}/Uploads`}
                 className="card-link"
               >
-                <span className="comment-name">{comment.user.name} </span>
+                <span
+                  className={
+                    "comment-name" +
+                    (comment.user.deletedAt === null ? " " : " deleted")
+                  }
+                >
+                  {comment.user.name}{" "}
+                </span>
               </Link>
               <span
                 className="comment-time"
@@ -210,7 +210,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                         <Modal.Header closeButton>
                           <Modal.Title>Delete Comment</Modal.Title>
                         </Modal.Header>
-                        <ModalBody style={{ wordWrap: "break-word" }}>
+                        <Modal.Body style={{ wordWrap: "break-word" }}>
                           {comment.content}
                           <div className="end-button">
                             <Button
@@ -220,7 +220,7 @@ export default function Comment({ comment, editComment, removeComment }) {
                               Confirm Delete
                             </Button>
                           </div>
-                        </ModalBody>
+                        </Modal.Body>
                       </Modal>
                     </>
                   </Dropdown.Menu>

@@ -40,7 +40,14 @@ export default function MobileModal({
                     src={post.user.avatarPath || "/img/avatar/default.png"}
                     alt="Avatar"
                   />
-                  <span className="comment-name">{post.user.name}</span>
+                  <span
+                    className={
+                      "comment-name" +
+                      (post.user.deletedAt === null ? " " : " deleted")
+                    }
+                  >
+                    {post.user.name}
+                  </span>
                 </Link>
                 <span className="comment-time">
                   {calculateTimeDifference(post.createdAt)}

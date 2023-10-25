@@ -2,6 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
 import { calculateTimeDifference } from "../../utilities/dateTimeHelper";
+import "../../App.css";
 
 export default function MangaBlock({ manga }) {
   return (
@@ -53,7 +54,12 @@ export default function MangaBlock({ manga }) {
                   to={`/profile/${c.uploader.id}/Uploads`}
                   className="card-link"
                 >
-                  <p className="text-truncate ">
+                  <p
+                    className={
+                      "text-truncate" +
+                      (c.uploader.deletedAt === null ? " " : " deleted")
+                    }
+                  >
                     <i className="fa-regular fa-user"></i> {c.uploader.name}
                   </p>
                 </Link>

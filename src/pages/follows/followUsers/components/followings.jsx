@@ -103,7 +103,12 @@ export default function Followings() {
                     alt="avatar"
                   ></img>
                 </Link>
-                <span className="text-limit-2">
+                <span
+                  className={
+                    "text-limit-2" +
+                    (f.followedUser.deletedAt === null ? " " : " deleted")
+                  }
+                >
                   <b>{f.followedUser.name}</b>
                 </span>
                 <Dropdown>

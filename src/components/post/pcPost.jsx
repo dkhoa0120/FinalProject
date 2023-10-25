@@ -21,7 +21,14 @@ export default function PcPost({
             />
           </div>
           <div>
-            <span className="comment-name">{post.user.name} </span>
+            <span
+              className={
+                "comment-name" +
+                (post.user.deletedAt === null ? " " : " deleted")
+              }
+            >
+              {post.user.name}{" "}
+            </span>
             <span className="comment-time">
               {calculateTimeDifference(post.createdAt)}
             </span>

@@ -86,7 +86,12 @@ export default function Followers() {
                     src={f.user.avatarPath || "/img/avatar/default.png"}
                     alt="avatar"
                   ></img>
-                  <span className="text-limit-2">
+                  <span
+                    className={
+                      "text-limit-2" +
+                      (f.user.deletedAt === null ? " " : " deleted")
+                    }
+                  >
                     <b>{f.user.name}</b>
                   </span>
                 </div>

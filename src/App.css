@@ -115,6 +115,10 @@ body {
   margin-top: 10px;
 }
 
+.deleted {
+  text-decoration-line: line-through;
+}
+
 @media (max-width: 767px) {
   .hide-when-mobile {
     display: none !important;

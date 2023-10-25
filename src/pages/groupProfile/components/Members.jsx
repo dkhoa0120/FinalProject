@@ -35,7 +35,10 @@ export default function Members({ groupId }) {
                     className="card-link"
                   >
                     <p
-                      className="text-limit-2"
+                      className={
+                        "text-limit-2" +
+                        (member.deletedAt === null ? " " : " deleted")
+                      }
                       style={{ fontWeight: "bold", marginBottom: "5px" }}
                     >
                       {member.name}
