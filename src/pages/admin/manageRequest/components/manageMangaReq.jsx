@@ -52,7 +52,7 @@ export default function ManageMangaReq() {
         <tbody>
           {requests ? (
             requests.map((request) => (
-              <tr>
+              <tr key={request.id}>
                 <td>{request.user.name}</td>
                 <td>{request.mangaTitle}</td>
                 <td>{request.mangaAuthor}</td>

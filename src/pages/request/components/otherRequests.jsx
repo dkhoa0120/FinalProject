@@ -131,7 +131,7 @@ export default function OtherRequest() {
             <tbody>
               {requests && requests.length > 0 ? (
                 requests.map((request) => (
-                  <tr>
+                  <tr key={request.id}>
                     <td>{request.title}</td>
                     <td>{request.content}</td>
                     <td>
@@ -154,7 +154,7 @@ export default function OtherRequest() {
                   </tr>
                 ))
               ) : (
-                <p></p>
+                <></>
               )}
             </tbody>
           </Table>

@@ -85,7 +85,7 @@ export default function GroupRequests() {
           ) : requests && requests.length > 0 ? (
             requests.map((request) => {
               return (
-                <Col md={6}>
+                <Col md={6} key={request.id}>
                   <div
                     className={
                       "request-container" +
