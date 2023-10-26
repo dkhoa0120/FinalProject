@@ -45,10 +45,10 @@ export default function ModalUpdateRoles({
   };
 
   return (
-    <div>
+    <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Update Roles</Modal.Title>
+          <Modal.Title>Update {dataEdit?.name}'s Roles</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form id="update-roles-form" onSubmit={handleSubmit(onSubmit)}>
@@ -90,13 +90,13 @@ export default function ModalUpdateRoles({
               />
             </Form.Group>
           </Form>
+          <div className="end-button">
+            <Button variant="primary" type="submit" form="update-roles-form">
+              Save Change
+            </Button>
+          </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" type="submit" form="update-roles-form">
-            Save Change
-          </Button>
-        </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 }

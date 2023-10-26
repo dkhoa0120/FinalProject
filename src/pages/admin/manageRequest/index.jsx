@@ -3,12 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import ManagePromotionReq from "./components/managePromotionReq";
 import ManageMangaReq from "./components/manageMangaReq";
 import ManageOtherReq from "./components/manageOtherReq";
+import { useEffect } from "react";
 
 export default function ManageRequest() {
   const sortOptions = ["PromotionRequest", "MangaRequest", "OtherRequest"];
 
   const navigate = useNavigate();
   const { selectedOption } = useParams();
+
+  useEffect(() => {
+    document.title = "Manage Request - 3K Manga";
+  }, []);
 
   return (
     <>

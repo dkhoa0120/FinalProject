@@ -1,6 +1,5 @@
 import "./styles.css";
 import { Route, Routes } from "react-router-dom";
-import Report from "../../pages/admin/manageReport";
 import About from "../../pages/about";
 import Error from "../../pages/error/error404";
 import Manga from "../../pages/manga/mangaOptions";
@@ -34,7 +33,6 @@ export default function Body() {
         <Route path="/" element={<Home />} />
         <Route path="/manage/mangas" element={<ManageManga />} />
         <Route path="/manage/users" element={<ManageUser />} />
-        <Route path="/manage/reports" element={<Report />} />
         <Route path="/manage/categories" element={<ManageCategory />} />
         <Route path="/manage/authors" element={<ManageAuthor />} />
         <Route

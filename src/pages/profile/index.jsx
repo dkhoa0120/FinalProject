@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 import { UserContext } from "../../context/UserContext";
@@ -27,6 +27,7 @@ export default function Profile() {
 
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showBannerModal, setShowBannerModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [userStats, setUserStats] = useState(null);
   const { userId, selectedOption } = useParams();
@@ -137,14 +138,9 @@ export default function Profile() {
             )}
           </div>
           <div id="profile-name">{userDetails?.name}</div>
-          <div style={{ margin: "2px" }}>
-            <span className="profile-text">
-              {userStats?.followerNumber} followed
-            </span>
-            &nbsp;&nbsp;
-            <span className="profile-text">
-              {userStats?.followingNumber} following
-            </span>
+          <div style={{ margin: "2px", gap: "10px", display: "flex" }}>
+            <span>{userStats?.followerNumber} followed</span>
+            <span>{userStats?.followingNumber} following</span>
           </div>
         </div>
         <div id="profile-buttons">
@@ -155,9 +151,17 @@ export default function Profile() {
               </Button>
             </Link>
           ) : (
-            <Button variant="outline-dark" onClick={handleFollow}>
-              {follow ? "Unfollow" : "Follow"}
-            </Button>
+            <>
+              <Button
+                variant="outline-dark"
+                onClick={() => setShowReportModal(true)}
+              >
+                Report
+              </Button>
+              <Button variant="outline-dark" onClick={handleFollow}>
+                {follow ? "Unfollow" : "Follow"}
+              </Button>
+            </>
           )}
         </div>
       </div>
@@ -200,6 +204,23 @@ export default function Profile() {
         setUser={setUser}
         setUserDetails={setUserDetails}
       />
+      {/* Report modal */}
+      <Modal show={showReportModal} onHide={() => setShowReportModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            Report <b>{userDetails?.name}</b>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Label>
+            <b>Reason</b>
+          </Form.Label>
+          <Form.Control as="textarea" rows={3} />
+          <div className="end-button">
+            <Button variant="danger">Send</Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
