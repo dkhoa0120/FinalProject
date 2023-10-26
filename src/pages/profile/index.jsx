@@ -5,6 +5,7 @@ import "./styles.css";
 import { UserContext } from "../../context/UserContext";
 import * as accountApi from "../../service/api.account";
 import * as followApi from "../../service/api.follow";
+import * as reportApi from "../../service/api.report";
 import Uploads from "./components/Uploads";
 import Groups from "./components/Groups";
 import About from "./components/About";
@@ -32,6 +33,7 @@ export default function Profile() {
   const [userStats, setUserStats] = useState(null);
   const { userId, selectedOption } = useParams();
   const [follow, setFollow] = useState(null);
+  const [reportReason, setReportReason] = useState(null);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const type = "user";
@@ -50,6 +52,7 @@ export default function Profile() {
     } catch (error) {
       if (error.response && error.response.status === 404) {
         console.log(error.response);
+        navigate("/404");
       }
     }
   };
@@ -95,6 +98,19 @@ export default function Profile() {
     try {
       const response = await followApi.getCurrentUserFollow(type, userId);
       setFollow(response.data);
+    } catch (error) {
+      console.error("Error retrieving user rating:", error);
+    }
+  };
+
+  const createReport = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("reporteeId", userId);
+      formData.append("reason", reportReason);
+      await reportApi.createReport(formData);
+      setShowReportModal(false);
+      toast.success("You has reported this user");
     } catch (error) {
       console.error("Error retrieving user rating:", error);
     }
@@ -215,9 +231,16 @@ export default function Profile() {
           <Form.Label>
             <b>Reason</b>
           </Form.Label>
-          <Form.Control as="textarea" rows={3} />
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={reportReason}
+            onChange={(e) => setReportReason(e.target.value)}
+          />
           <div className="end-button">
-            <Button variant="danger">Send</Button>
+            <Button variant="danger" onClick={() => createReport()}>
+              Send
+            </Button>
           </div>
         </Modal.Body>
       </Modal>

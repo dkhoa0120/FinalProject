@@ -12,12 +12,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../../../../components/pagination";
 import ModalUpdateRoles from "./ModalUpdateRoles";
 import * as userApi from "../../../../service/api.user";
+import * as reportApi from "../../../../service/api.report";
 import { toast } from "react-toastify";
 
 export default function ManageUserRoles() {
   const [users, setUsers] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
+  const [bannedDate, setBannedDate] = useState("null");
   const [updateData, setUpdateData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showRestore, setShowRestore] = useState(false);
@@ -27,6 +29,8 @@ export default function ManageUserRoles() {
   const roleOption = searchParams.get("roleOption") || "";
   const page = searchParams.get("page") || "1";
   const navigate = useNavigate();
+
+  console.log("users", users);
 
   // Fetch manga data
   useEffect(() => {
@@ -71,6 +75,57 @@ export default function ManageUserRoles() {
       });
       toast.success("Restore the user successful!");
       setShowRestore(false);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  // Handle ban user
+
+  const handleShowBan = (user) => {
+    setUpdateData(user);
+    setShowBan(true);
+  };
+
+  const handleBanUser = async (user) => {
+    try {
+      const formData = new FormData();
+      formData.append("bannedDayNum", bannedDate);
+      await reportApi.banUser(user.id, formData);
+      setUsers((prevUsers) => {
+        return prevUsers.map((u) => {
+          if (u.id === user.id) {
+            return {
+              ...u,
+              bannedUntil: bannedDate,
+            };
+          }
+          return u;
+        });
+      });
+      toast.success("Ban the user successful!");
+      setShowBan(false);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  // Handle unban
+  const handleUnbanUser = async (user) => {
+    try {
+      await reportApi.unbanUser(user.id);
+      setUsers((prevUsers) => {
+        return prevUsers.map((u) => {
+          if (u.id === user.id) {
+            return {
+              ...u,
+              bannedUntil: null,
+            };
+          }
+          return u;
+        });
+      });
+      toast.success("Unban the user successful!");
     } catch (error) {
       toast.error(error.response.data);
     }
@@ -148,14 +203,25 @@ export default function ManageUserRoles() {
                       <span className="hide-when-mobile"> Edit</span>
                     </Button>
                     &nbsp;
-                    <Button
-                      onClick={() => setShowBan(true)}
-                      style={{ marginBottom: "5px" }}
-                      variant="danger"
-                    >
-                      <i className="fa-solid fa-xmark"></i>
-                      <span className="hide-when-mobile"> Ban</span>
-                    </Button>
+                    {item.bannedUntil ? (
+                      <Button
+                        onClick={() => handleUnbanUser(item)}
+                        style={{ marginBottom: "5px" }}
+                        variant="secondary"
+                      >
+                        <i className="fa-solid fa-arrow-rotate-left"></i>
+                        <span className="hide-when-mobile"> Unban</span>
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => handleShowBan(item)}
+                        style={{ marginBottom: "5px" }}
+                        variant="danger"
+                      >
+                        <i className="fa-solid fa-xmark"></i>
+                        <span className="hide-when-mobile"> Ban</span>
+                      </Button>
+                    )}
                     &nbsp;
                     {item.deletedAt && (
                       <Button
@@ -211,17 +277,23 @@ export default function ManageUserRoles() {
       {/* Report modal */}
       <Modal show={showBan} onHide={() => setShowBan(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Ban User Name</Modal.Title>
+          <Modal.Title>Ban {updateData?.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3">
             <Form.Label>
-              <b>To Date</b>
+              <b>Number of date</b>
             </Form.Label>
-            <Form.Control type="date" />
+            <Form.Control
+              type="number"
+              value={bannedDate}
+              onChange={(e) => setBannedDate(e.target.value)}
+            />
           </Form.Group>
           <div className="end-button">
-            <Button variant="danger">Confirm Ban</Button>
+            <Button variant="danger" onClick={() => handleBanUser(updateData)}>
+              Confirm Ban
+            </Button>
           </div>
         </Modal.Body>
       </Modal>
