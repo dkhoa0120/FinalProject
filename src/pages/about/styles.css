@@ -1,0 +1,26 @@
+.about-us {
+  display: flex;
+  align-items: center;
+}
+
+.upload-rules-image {
+  height: 300px;
+  margin-left: 20px;
+  border-radius: 7px;
+}
+
+.community-rules-image {
+  border-radius: 7px;
+  width: 600px;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .about-us {
+    display: block;
+  }
+
+  .upload-rules-image {
+    display: none;
+  }
+}

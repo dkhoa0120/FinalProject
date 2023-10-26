@@ -17,7 +17,7 @@ export default function EditProfileModal({
   const [currentPass, setCurrentPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [newPassConfirm, setNewPassConfirm] = useState("");
-  const [length, setLength] = useState(0);
+  const [length, setLength] = useState();
   const [activeField, setActiveField] = useState(null);
 
   const currentName = user?.name;
@@ -130,10 +130,10 @@ export default function EditProfileModal({
                 />
                 {label === "Biography" && (
                   <span
-                    className={length > 1000 ? "char-limit-error" : ""}
+                    className={bio?.length > 1000 ? "char-limit-error" : ""}
                     style={{ padding: "0 5px" }}
                   >
-                    {length}/1000
+                    {bio?.length}/1000
                   </span>
                 )}
               </div>
