@@ -10,6 +10,7 @@ function SideBar(props) {
   const [dropdownStates, setDropdownStates] = useState({
     browsing: true,
     follows: true,
+    aboutUs: true,
   });
 
   const navigateRandomManga = async () => {
@@ -83,6 +84,25 @@ function SideBar(props) {
           key: "community-feeds",
         },
         { text: "Requests", to: "/requests/JoinGroupRequest", key: "requests" },
+      ],
+    },
+    {
+      section: "aboutUs",
+      heading: (
+        <MenuItem
+          className="sidebar-heading"
+          onClick={() => handleDropdownClick("aboutUs")}
+          key="site-rules"
+        >
+          <i className="fa-solid fa-globe"></i> &nbsp; 3KManga
+        </MenuItem>
+      ),
+      items: [
+        {
+          text: "Site rules",
+          to: "/about",
+          key: "about",
+        },
       ],
     },
   ];

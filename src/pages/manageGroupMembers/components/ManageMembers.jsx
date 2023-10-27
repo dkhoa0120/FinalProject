@@ -214,8 +214,12 @@ export default function ManageMembers({ groupId }) {
         </Col>
         <Col xs={4}>
           <FormSelect value={roleOption} onChange={handleRoleOption}>
-            {roleOptions.map((option, index) => (
-              <option key={index} value={option} selected={option === "Member"}>
+            {roleOptions.map((option) => (
+              <option
+                key={option}
+                value={option}
+                selected={option === "Member"}
+              >
                 {toLabel(option)}
               </option>
             ))}
@@ -234,9 +238,9 @@ export default function ManageMembers({ groupId }) {
         </thead>
         <tbody>
           {members ? (
-            members.map((member, index) => {
+            members.map((member) => {
               return (
-                <tr key={index}>
+                <tr key={member.id}>
                   <td style={{ width: "100px" }}>
                     <Link
                       to={`/profile/${member.id}/Uploads`}
@@ -267,8 +271,11 @@ export default function ManageMembers({ groupId }) {
                       {member.groupRoles
                         .split(", ")
                         .map((r) => groupRoleOptions.find((o) => o.value === r))
-                        .map((role) => (
-                          <span className={"tag-role " + role.value}>
+                        .map((role, index) => (
+                          <span
+                            key={index}
+                            className={"tag-role " + role.value}
+                          >
                             {role.label}
                           </span>
                         ))}

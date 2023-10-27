@@ -144,7 +144,7 @@ export default function MangaRequests() {
             <tbody>
               {requests ? (
                 requests.map((request) => (
-                  <tr>
+                  <tr key={request.id}>
                     <td>{request.mangaTitle}</td>
                     <td>{request.mangaAuthor}</td>
                     <td>{request.mangaSource}</td>
@@ -168,7 +168,7 @@ export default function MangaRequests() {
                   </tr>
                 ))
               ) : (
-                <p></p>
+                <></>
               )}
             </tbody>
           </Table>

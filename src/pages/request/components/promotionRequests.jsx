@@ -130,7 +130,7 @@ export default function PromotionRequests() {
             <tbody>
               {requests && requests.length > 0 ? (
                 requests.map((request) => (
-                  <tr>
+                  <tr key={request.id}>
                     <td>{request.evidenceLink}</td>
                     <td>{request.reason}</td>
                     <td>
@@ -153,7 +153,7 @@ export default function PromotionRequests() {
                   </tr>
                 ))
               ) : (
-                <p></p>
+                <></>
               )}
             </tbody>
           </Table>

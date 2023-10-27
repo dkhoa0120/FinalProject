@@ -17,7 +17,7 @@ export default function Members({ groupId }) {
         <hr />
         <Row>
           {members?.map((member) => (
-            <Col md={4} xl={3}>
+            <Col key={member.id} md={4} xl={3}>
               <div className="d-flex align-items-center gap-3 mb-3">
                 <Link
                   to={`/profile/${member.id}/Uploads`}
@@ -48,7 +48,10 @@ export default function Members({ groupId }) {
                       .split(", ")
                       .map((r) => groupRoleOptions.find((o) => o.value === r))
                       .map((role) => (
-                        <span className={"tag-role " + role.value}>
+                        <span
+                          key={role.value}
+                          className={"tag-role " + role.value}
+                        >
                           {role.label}
                         </span>
                       ))}
