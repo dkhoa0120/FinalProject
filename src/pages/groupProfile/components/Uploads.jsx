@@ -5,6 +5,7 @@ import * as groupApi from "../../../service/api.group";
 import CountryFlag from "../../../components/countryFlag";
 import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
 import MangaBlock from "../../../components/mangaBlock";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function Uploads({ groupId }) {
   const [groupMangaLists, setGroupMangaLists] = useState([]);
@@ -81,11 +82,7 @@ export default function Uploads({ groupId }) {
         )}
       </Container>
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

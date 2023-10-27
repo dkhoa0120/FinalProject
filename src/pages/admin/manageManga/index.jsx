@@ -8,6 +8,7 @@ import EditManga from "./components/EditManga";
 import DeleteManga from "./components/DeleteManga";
 import Pagination from "../../../components/pagination";
 import * as mangaApi from "../../../service/api.manga";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function ManageManga() {
   // Component state variables
@@ -172,9 +173,7 @@ export default function ManageManga() {
             ) : (
               <tr>
                 <td colSpan={5}>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
+                  <SpinnerLoading />
                 </td>
               </tr>
             )}

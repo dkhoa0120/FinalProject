@@ -36,8 +36,7 @@ export default function Members({ groupId }) {
                   >
                     <p
                       className={
-                        "text-limit-2" +
-                        (member.deletedAt === null ? " " : " deleted")
+                        "text-limit-2" + (!member.deletedAt ? " " : " deleted")
                       }
                       style={{ fontWeight: "bold", marginBottom: "5px" }}
                     >

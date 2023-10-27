@@ -18,6 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
 import MangaBlock from "../../../components/mangaBlock";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function MangaListGroup() {
   const { listId } = useParams();
@@ -408,11 +409,7 @@ export default function MangaListGroup() {
         )}
       </Container>
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

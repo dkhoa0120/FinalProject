@@ -42,8 +42,7 @@ export default function MobileModal({
                   />
                   <span
                     className={
-                      "comment-name" +
-                      (post.user.deletedAt === null ? " " : " deleted")
+                      "comment-name" + (!post.user.deletedAt ? " " : " deleted")
                     }
                   >
                     {post.user.name}

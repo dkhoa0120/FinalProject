@@ -8,6 +8,7 @@ import Pagination from "../../../components/pagination";
 import CreateCate from "./components/CreateCate";
 import EditCate from "./components/EditCate";
 import DeleteCate from "./components/DeleteCate";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function ManageCategory() {
   // Component state variables
@@ -162,21 +163,17 @@ export default function ManageCategory() {
             ) : (
               <tr>
                 <td colSpan={3}>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
+                  <SpinnerLoading />
                 </td>
               </tr>
             )}
           </tbody>
         </Table>
-        <div className="d-flex justify-content-center">
-          <Pagination
-            totalPages={totalPages}
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-          />
-        </div>
+        <Pagination
+          totalPages={totalPages}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+        />
         <CreateCate
           show={showCreate}
           search={search}

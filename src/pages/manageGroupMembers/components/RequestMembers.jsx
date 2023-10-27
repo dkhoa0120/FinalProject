@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import PaginationNoParams from "../../../components/paginationNoParams";
 import * as requestApi from "../../../service/api.request";
 import { toast } from "react-toastify";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function RequestMembers({ groupId }) {
   const [search, setSearch] = useState(null);
@@ -132,22 +133,18 @@ export default function RequestMembers({ groupId }) {
           ) : (
             <tr>
               <td colSpan={3}>
-                <div className="d-flex justify-content-center">
-                  <div className="spinner-border" role="status"></div>
-                </div>
+                <SpinnerLoading />
               </td>
             </tr>
           )}
         </tbody>
       </Table>
       {/* Pagination */}
-      <div className="d-flex justify-content-center">
-        <PaginationNoParams
-          page={page}
-          totalPages={totalPages}
-          onPageChange={handleChangeChapter}
-        />
-      </div>
+      <PaginationNoParams
+        page={page}
+        totalPages={totalPages}
+        onPageChange={handleChangeChapter}
+      />
     </>
   );
 }

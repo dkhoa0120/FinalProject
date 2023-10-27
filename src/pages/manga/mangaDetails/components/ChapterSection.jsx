@@ -56,13 +56,12 @@ export default function ChapterSection({
             <ChapterGroup chapterList={firstChapter} />
           </Modal.Body>
         </Modal>
-        <div className="d-flex justify-content-center">
-          <PaginationNoParams
-            page={page}
-            totalPages={totalPages}
-            onPageChange={onPageChange}
-          />
-        </div>
+
+        <PaginationNoParams
+          page={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
       </Container>
     </>
   );

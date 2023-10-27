@@ -98,16 +98,14 @@ export default function Header({ showSidebar, toggleSidebar }) {
                 style={{ textAlign: "center", display: "block" }}
                 closeButton
               >
-                <div>
-                  <img
-                    className="avatar"
-                    src={user?.avatarPath || "/img/avatar/default.png"}
-                    alt="Avatar"
-                  />
-                </div>
+                <img
+                  className="avatar"
+                  src={user?.avatarPath || "/img/avatar/default.png"}
+                  alt="Avatar"
+                />
                 <Offcanvas.Title style={{ fontWeight: "bold" }}>
                   {user ? (
-                    <div className="d-flex flex-column align-items-center justify-content-center">
+                    <div className="d-flex flex-column justify-content-center">
                       {user.name}
                       <Link to={`/profile/${user.id}/Uploads`} className="mt-2">
                         <Button
@@ -239,7 +237,7 @@ export default function Header({ showSidebar, toggleSidebar }) {
                   {user ? (
                     <>
                       {user.roles.includes("Admin") && (
-                        <NavLink to="/manage/users">
+                        <NavLink to="/manage/users/UserRole">
                           <Button
                             className="mb-3 w-100"
                             variant="outline-dark"

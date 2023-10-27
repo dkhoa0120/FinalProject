@@ -1,19 +1,10 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  FormSelect,
-  Modal,
-  Row,
-  Table,
-} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Form, FormSelect, Row, Table } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as reportApi from "../../../../service/api.report";
+import Pagination from "../../../../components/pagination";
 
 export default function ManageUserReports() {
-  const [showBanModal, setShowBanModal] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const [reports, setReports] = useState([]);
@@ -68,7 +59,7 @@ export default function ManageUserReports() {
   return (
     <>
       <Row>
-        <Col xs={4}>
+        <Col xs={12} md={{ span: 4, offset: 8 }}>
           <FormSelect
             value={status}
             onChange={(e) => {
@@ -86,6 +77,7 @@ export default function ManageUserReports() {
           </FormSelect>
         </Col>
       </Row>
+      &nbsp;
       <Table striped bordered hover responsive="sm">
         <thead>
           <tr>
@@ -100,8 +92,8 @@ export default function ManageUserReports() {
             reports.map((report) => {
               return (
                 <tr key={report.id}>
-                  <td style={{ width: "150px" }}>{report.reportee.name}</td>
-                  <td style={{ width: "150px" }}>{report.reporter.name}</td>
+                  <td style={{ width: "200px" }}>{report.reportee.name}</td>
+                  <td style={{ width: "200px" }}>{report.reporter.name}</td>
                   <td>{report.reason}</td>
                   <td style={{ width: "150px" }}>
                     <Form.Select
@@ -121,7 +113,7 @@ export default function ManageUserReports() {
           ) : (
             <tr>
               <td colSpan={5}>
-                <div className="d-flex justify-content-center">
+                <div className="content-center">
                   <span>There are no reports</span>
                 </div>
               </td>
@@ -129,23 +121,11 @@ export default function ManageUserReports() {
           )}
         </tbody>
       </Table>
-      {/* Report modal */}
-      <Modal show={showBanModal} onHide={() => setShowBanModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Ban User Name</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>
-              <b>To Date</b>
-            </Form.Label>
-            <Form.Control type="date" />
-          </Form.Group>
-          <div className="end-button">
-            <Button variant="danger">Confirm Ban</Button>
-          </div>
-        </Modal.Body>
-      </Modal>
+      <Pagination
+        totalPages={totalPages}
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+      />
     </>
   );
 }

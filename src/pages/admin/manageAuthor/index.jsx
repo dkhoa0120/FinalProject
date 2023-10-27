@@ -8,6 +8,7 @@ import Pagination from "../../../components/pagination";
 import CreateAuthor from "./components/CreateAuthor";
 import EditAuthor from "./components/EditAuthor";
 import DeleteAuthor from "./components/DeleteAuthor";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function ManageAuthor() {
   // Component state variables
@@ -168,21 +169,17 @@ export default function ManageAuthor() {
             ) : (
               <tr>
                 <td colSpan={3}>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
+                  <SpinnerLoading />
                 </td>
               </tr>
             )}
           </tbody>
         </Table>
-        <div className="d-flex justify-content-center">
-          <Pagination
-            totalPages={totalPages}
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-          />
-        </div>
+        <Pagination
+          totalPages={totalPages}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+        />
         <CreateAuthor
           show={showCreate}
           handleClose={() => setShowCreate(false)}

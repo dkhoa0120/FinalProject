@@ -3,6 +3,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 export default function GroupRequests() {
   const [requests, setRequests] = useState([]);
   const [loadingRequest, setLoadingRequest] = useState(false);
@@ -79,9 +80,7 @@ export default function GroupRequests() {
       <Container className="general-container" fluid>
         <Row>
           {loading ? (
-            <div className="d-flex justify-content-center">
-              <div className="spinner-border" role="status"></div>
-            </div>
+            <SpinnerLoading />
           ) : requests && requests.length > 0 ? (
             requests.map((request) => {
               return (
@@ -134,18 +133,14 @@ export default function GroupRequests() {
               );
             })
           ) : (
-            <span className="d-flex justify-content-center ">
+            <span className="content-center">
               You do not have any group request
             </span>
           )}
         </Row>
       </Container>
 
-      {loadingRequest && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingRequest && <SpinnerLoading />}
     </>
   );
 }

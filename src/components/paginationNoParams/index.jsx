@@ -57,7 +57,7 @@ export default function PaginationNoParams({ totalPages, page, onPageChange }) {
 
   if (totalPages > 1) {
     return (
-      <div className="d-flex justify-content-center">
+      <div className="content-center">
         <Button
           key="<<"
           onClick={() => updatePageParam(1)}

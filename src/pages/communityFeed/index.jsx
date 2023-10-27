@@ -11,6 +11,7 @@ import PcModal from "../../components/post/pcModal";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
 export default function CommunityFeeds() {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -222,11 +223,7 @@ export default function CommunityFeeds() {
           />
         ))}
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </div>
   );
 }

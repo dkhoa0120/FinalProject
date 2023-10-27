@@ -4,9 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as chapterApi from "../../../service/api.chapter";
 import ChapterNav from "./components/ChapterNav";
-import {} from "react-toastify";
 import * as viewApi from "../../../service/api.view";
 import Compass from "./components/Compass";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function ChapterPage() {
   const { chapterId } = useParams();
@@ -53,11 +53,7 @@ export default function ChapterPage() {
   }, [chapterId]);
 
   if (!chapter) {
-    return (
-      <div className="d-flex justify-content-center">
-        <div className="spinner-border" role="status"></div>
-      </div>
-    );
+    return <SpinnerLoading />;
   }
 
   return (

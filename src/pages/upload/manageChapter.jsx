@@ -5,6 +5,7 @@ import { Button, Container, Form, Table, Modal } from "react-bootstrap";
 import "./styles.css";
 import * as chapterApi from "../../service/api.chapter";
 import Pagination from "../../components/pagination";
+import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
 export default function ManageChapter() {
   const navigate = useNavigate();
@@ -181,9 +182,7 @@ export default function ManageChapter() {
             ) : (
               <tr>
                 <td colSpan={5}>
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status"></div>
-                  </div>
+                  <SpinnerLoading />
                 </td>
               </tr>
             )}

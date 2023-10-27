@@ -14,6 +14,7 @@ import ModalUpdateRoles from "./ModalUpdateRoles";
 import * as userApi from "../../../../service/api.user";
 import * as reportApi from "../../../../service/api.report";
 import { toast } from "react-toastify";
+import { SpinnerLoading } from "../../../../utilities/spinnerLoading";
 
 export default function ManageUserRoles() {
   const [users, setUsers] = useState([]);
@@ -24,6 +25,7 @@ export default function ManageUserRoles() {
   const [showModal, setShowModal] = useState(false);
   const [showRestore, setShowRestore] = useState(false);
   const [showBan, setShowBan] = useState(false);
+  const [showUnBan, setShowUnBan] = useState(false);
 
   const search = searchParams.get("search") || "";
   const roleOption = searchParams.get("roleOption") || "";
@@ -126,6 +128,7 @@ export default function ManageUserRoles() {
         });
       });
       toast.success("Unban the user successful!");
+      setShowUnBan(false);
     } catch (error) {
       toast.error(error.response.data);
     }
@@ -240,21 +243,17 @@ export default function ManageUserRoles() {
           ) : (
             <tr>
               <td colSpan={5}>
-                <div className="d-flex justify-content-center">
-                  <div className="spinner-border" role="status"></div>
-                </div>
+                <SpinnerLoading />
               </td>
             </tr>
           )}
         </tbody>
       </Table>
-      <div className="d-flex justify-content-center">
-        <Pagination
-          totalPages={totalPages}
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-        />
-      </div>
+      <Pagination
+        totalPages={totalPages}
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+      />
       <ModalUpdateRoles
         show={showModal}
         handleClose={() => setShowModal(false)}

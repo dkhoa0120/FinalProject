@@ -147,10 +147,10 @@ export default function Comment({ comment, editComment, removeComment }) {
                 <span
                   className={
                     "comment-name" +
-                    (comment.user.deletedAt === null ? " " : " deleted")
+                    (!comment.user.deletedAt ? " " : " deleted")
                   }
                 >
-                  {comment.user.name}{" "}
+                  {comment.user.name}
                 </span>
               </Link>
               <span

@@ -13,6 +13,7 @@ import * as mangaApi from "../../../service/api.manga";
 import Pagination from "../../../components/pagination";
 import "./styles.css";
 import FilterModal from "./components/FilterModal";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function Manga() {
   const [mangas, setMangas] = useState(null);
@@ -174,9 +175,7 @@ export default function Manga() {
           </React.Fragment>
         ))
       ) : (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
+        <SpinnerLoading />
       )}
       &nbsp;
       <Pagination

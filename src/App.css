@@ -119,6 +119,11 @@ body {
   text-decoration-line: line-through;
 }
 
+.content-center {
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 767px) {
   .hide-when-mobile {
     display: none !important;

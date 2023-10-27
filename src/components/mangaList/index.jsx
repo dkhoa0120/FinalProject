@@ -2,6 +2,7 @@ import "./styles.css";
 import { Row, Image, Container, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CountryFlag from "../countryFlag";
+import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
 export default function MangasList({ data }) {
   return (
@@ -29,9 +30,7 @@ export default function MangasList({ data }) {
             </Col>
           ))
         ) : (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
+          <SpinnerLoading />
         )}
       </Row>
     </Container>

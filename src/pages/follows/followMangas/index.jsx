@@ -5,6 +5,7 @@ import MangaBlock from "../../../components/mangaBlock";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function FollowedManga() {
   const [followedManga, setFollowedManga] = useState([]);
@@ -85,23 +86,17 @@ export default function FollowedManga() {
     <>
       <Container fluid>
         {loading ? (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
+          <SpinnerLoading />
         ) : followedManga && followedManga.length > 0 ? (
           followedManga.map((m) => <MangaBlock manga={m} />)
         ) : (
-          <span className="d-flex justify-content-center">
+          <span className="content-center">
             You have not followed any manga yet
           </span>
         )}
       </Container>
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

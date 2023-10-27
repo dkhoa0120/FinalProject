@@ -57,7 +57,7 @@ export default function MangaBlock({ manga }) {
                   <p
                     className={
                       "text-truncate" +
-                      (c.uploader.deletedAt === null ? " " : " deleted")
+                      (!c.uploader.deletedAt ? " " : " deleted")
                     }
                   >
                     <i className="fa-regular fa-user"></i> {c.uploader.name}

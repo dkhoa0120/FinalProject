@@ -83,13 +83,12 @@ export default function ManagePromotionReq() {
         </tbody>
       </Table>
       {/* Pagination */}
-      <div className="d-flex justify-content-center">
-        <PaginationNoParams
-          page={page}
-          totalPages={totalPages}
-          onPageChange={handleChangeChapter}
-        />
-      </div>
+
+      <PaginationNoParams
+        page={page}
+        totalPages={totalPages}
+        onPageChange={handleChangeChapter}
+      />
     </>
   );
 }

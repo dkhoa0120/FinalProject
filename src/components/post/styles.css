@@ -206,6 +206,3 @@
   max-height: 50vh;
   overflow-y: auto; /* Show scrollbar only when content overflows */
 }
-.comment-post::-webkit-scrollbar {
-  display: none;
-}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useReducer, useRef } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./styles.css";
+import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
 function indexReducer(index, action) {
   switch (action.type) {
@@ -93,12 +94,8 @@ export default function CarouselFade({ mangas }) {
           </Link>
         </Container>
       ) : (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
+        <SpinnerLoading />
       )}
-      &nbsp;
-      {/* Pagination controls */}
     </div>
   );
 }

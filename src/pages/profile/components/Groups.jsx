@@ -6,6 +6,7 @@ import * as groupApi from "../../../service/api.group";
 import { UserContext } from "../../../context/UserContext";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function Groups() {
   const [show, setShow] = useState(false);
@@ -215,7 +216,7 @@ export default function Groups() {
                 ></i>
               </Form.Group>
             </Form>
-            <div style={{ display: "flex", justifyContent: "end" }}>
+            <div className="end-button">
               <Button type="submit" form="create-form" variant="success">
                 Create
               </Button>
@@ -223,11 +224,7 @@ export default function Groups() {
           </Modal.Body>
         </Modal>
       </Container>
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

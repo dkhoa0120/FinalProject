@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { useEffect } from "react";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function MangaList() {
   const [show, setShow] = useState(false);
@@ -247,11 +248,7 @@ export default function MangaList() {
           </Modal.Body>
         </Modal>
       </Container>
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

@@ -3,6 +3,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function OtherRequest() {
   const [requests, setRequests] = useState([]);
@@ -159,11 +160,7 @@ export default function OtherRequest() {
             </tbody>
           </Table>
         </div>
-        {loadingPost && (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        )}
+        {loadingPost && <SpinnerLoading />}
       </div>
     </>
   );

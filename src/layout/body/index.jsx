@@ -32,7 +32,7 @@ export default function Body() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/manage/mangas" element={<ManageManga />} />
-        <Route path="/manage/users" element={<ManageUser />} />
+        <Route path="/manage/users/:selectedOption" element={<ManageUser />} />
         <Route path="/manage/categories" element={<ManageCategory />} />
         <Route path="/manage/authors" element={<ManageAuthor />} />
         <Route

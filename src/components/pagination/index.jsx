@@ -68,7 +68,7 @@ export default function Pagination({
 
   if (totalPages > 1) {
     return (
-      <div className="d-flex justify-content-center">
+      <div className="content-center">
         <Button
           key="<<"
           onClick={() => updatePageParam(1)}

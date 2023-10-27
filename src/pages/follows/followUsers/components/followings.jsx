@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "../../styles.css";
 import * as followApi from "../../../../service/api.follow";
 import { Link } from "react-router-dom";
+import { SpinnerLoading } from "../../../../utilities/spinnerLoading";
 
 export default function Followings() {
   const [followings, setFollowings] = useState([]);
@@ -85,9 +86,7 @@ export default function Followings() {
   return (
     <>
       {loading ? (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
+        <SpinnerLoading />
       ) : followings && followings.length > 0 ? (
         followings.map((f) => {
           return (
@@ -106,7 +105,7 @@ export default function Followings() {
                 <span
                   className={
                     "text-limit-2" +
-                    (f.followedUser.deletedAt === null ? " " : " deleted")
+                    (!f.followedUser.deletedAt ? " " : " deleted")
                   }
                 >
                   <b>{f.followedUser.name}</b>
@@ -132,13 +131,11 @@ export default function Followings() {
           );
         })
       ) : (
-        <span className="d-flex justify-content-center ">
-          You have not followed anyone yet
-        </span>
+        <span className="content-center">You have not followed anyone yet</span>
       )}
 
       {loadingPost && (
-        <div className="d-flex justify-content-center">
+        <div className="content-center">
           <div className="spinner-border" role="status"></div>
         </div>
       )}

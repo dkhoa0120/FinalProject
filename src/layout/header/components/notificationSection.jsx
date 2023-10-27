@@ -6,6 +6,7 @@ import * as notificationApi from "../../../service/api.notification";
 import { NotificationContext } from "../../../context/NotificationContext";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function NotificationSection() {
   const sortOptions = ["Chapter", "Request", "Follower", "Group"];
@@ -164,11 +165,7 @@ export default function NotificationSection() {
             )}
           </div>
         </Offcanvas.Body>
-        {loadingNoti && (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        )}
+        {loadingNoti && <SpinnerLoading />}
       </Offcanvas>
     </>
   );

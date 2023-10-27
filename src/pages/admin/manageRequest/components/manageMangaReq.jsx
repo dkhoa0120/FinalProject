@@ -86,13 +86,12 @@ export default function ManageMangaReq() {
           )}
         </tbody>
       </Table>
-      <div className="d-flex justify-content-center">
-        <PaginationNoParams
-          page={page}
-          totalPages={totalPages}
-          onPageChange={handleChangeChapter}
-        />
-      </div>
+
+      <PaginationNoParams
+        page={page}
+        totalPages={totalPages}
+        onPageChange={handleChangeChapter}
+      />
     </>
   );
 }

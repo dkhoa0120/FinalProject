@@ -1,13 +1,15 @@
 import { Button, Container } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ManageUserReports from "./components/ManageReports";
 import ManageUserRoles from "./components/ManageRoles";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ManageUser() {
   const sortOptions = ["UserRole", "UserReport"];
-  const [sortOption, setSortOption] = useState(sortOptions[0]);
 
-  // Update the document title
+  const navigate = useNavigate();
+  const { selectedOption } = useParams();
+
   useEffect(() => {
     document.title = "Manage User - 3K Manga";
   }, []);
@@ -18,15 +20,15 @@ export default function ManageUser() {
         {sortOptions.map((option, index) => (
           <Button
             key={index}
-            variant={sortOption === option ? "dark" : "light"}
-            onClick={() => setSortOption(option)}
+            variant={selectedOption === option ? "dark" : "light"}
+            onClick={() => navigate(`/manage/users/${option}`)}
           >
             {option}
           </Button>
         ))}
         <div className="manage-table">
-          {sortOption === "UserRole" && <ManageUserRoles />}
-          {sortOption === "UserReport" && <ManageUserReports />}
+          {selectedOption === "UserRole" && <ManageUserRoles />}
+          {selectedOption === "UserReport" && <ManageUserReports />}
         </div>
       </Container>
     </>

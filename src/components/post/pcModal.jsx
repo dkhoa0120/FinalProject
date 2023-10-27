@@ -49,7 +49,7 @@ export default function PcModal({
                       <span
                         className={
                           "comment-name" +
-                          (post.user.deletedAt === null ? " " : " deleted")
+                          (!post.user.deletedAt ? " " : " deleted")
                         }
                       >
                         {post.user.name}

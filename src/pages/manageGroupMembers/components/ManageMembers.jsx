@@ -16,6 +16,7 @@ import PaginationNoParams from "../../../components/paginationNoParams";
 import { groupRoleOptions } from "../../../constants/groupRoles";
 import * as groupApi from "../../../service/api.group";
 import { toast } from "react-toastify";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function ManageMembers({ groupId }) {
   const { user } = useContext(UserContext);
@@ -297,22 +298,18 @@ export default function ManageMembers({ groupId }) {
           ) : (
             <tr>
               <td colSpan={4}>
-                <div className="d-flex justify-content-center">
-                  <div className="spinner-border" role="status"></div>
-                </div>
+                <SpinnerLoading />
               </td>
             </tr>
           )}
         </tbody>
       </Table>
       {/* Pagination */}
-      <div className="d-flex justify-content-center">
-        <PaginationNoParams
-          page={page}
-          totalPages={totalPages}
-          onPageChange={handleChangeChapter}
-        />
-      </div>
+      <PaginationNoParams
+        page={page}
+        totalPages={totalPages}
+        onPageChange={handleChangeChapter}
+      />
       {/* Edit modal */}
       <Modal
         show={targetedMember}

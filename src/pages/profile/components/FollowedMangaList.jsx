@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import * as listApi from "../../../service/api.follow";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function FollowedMangaList() {
   const navigate = useNavigate();
@@ -142,11 +143,7 @@ export default function FollowedMangaList() {
           )}
         </Row>
       </Container>
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

@@ -9,6 +9,7 @@ import MobilePost from "../../../components/post/mobilePost";
 import MobileModal from "../../../components/post/mobileModal";
 import {} from "react-toastify";
 import CreatePostModal from "../../../components/post/CreatePostModal";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function Community() {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -206,11 +207,7 @@ export default function Community() {
           />
         ))}
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

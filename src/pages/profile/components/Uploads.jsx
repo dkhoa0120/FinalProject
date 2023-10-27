@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import * as mangaApi from "../../../service/api.manga";
 import MangaBlock from "../../../components/mangaBlock";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function Uploads() {
   const [mangaGroups, setMangaGroups] = useState([]);
@@ -80,11 +81,7 @@ export default function Uploads() {
         )}
       </Container>
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }

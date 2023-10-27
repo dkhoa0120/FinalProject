@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Comment from "./comment";
 import { AddCommentForm } from "./commentForm";
 import * as commentApi from "../../service/api.comment";
+import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
 export default function CommentSection({ type, typeId }) {
   const [comments, setComments] = useState(null);
@@ -97,11 +98,7 @@ export default function CommentSection({ type, typeId }) {
         ))}
 
       {/* Loading comment spinner */}
-      {loadingComment && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingComment && <SpinnerLoading />}
     </>
   );
 }

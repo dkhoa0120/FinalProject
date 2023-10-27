@@ -3,6 +3,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function MangaRequests() {
   const [requests, setRequests] = useState([]);
@@ -172,11 +173,7 @@ export default function MangaRequests() {
             </tbody>
           </Table>
         </div>
-        {loadingPost && (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        )}
+        {loadingPost && <SpinnerLoading />}
       </div>
     </>
   );

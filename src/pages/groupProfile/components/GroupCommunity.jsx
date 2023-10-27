@@ -7,6 +7,7 @@ import PcModal from "../../../components/post/pcModal";
 import MobilePost from "../../../components/post/mobilePost";
 import MobileModal from "../../../components/post/mobileModal";
 import CreatePostModal from "../../../components/post/CreatePostModal";
+import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -203,11 +204,7 @@ export default function GroupCommunity({ isUserAMember, isOwner, isMod }) {
           />
         ))}
 
-      {loadingPost && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
+      {loadingPost && <SpinnerLoading />}
     </>
   );
 }
