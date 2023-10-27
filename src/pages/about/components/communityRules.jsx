@@ -15,11 +15,11 @@ export default function CommunityRules() {
         <li>Don't dispute moderation actions in public.</li>
         <li>Don't spoil the story.</li>
       </ul>
-      <div className="d-flex justify-content-center">
+      <div className="content-center">
         <img
           className="community-rules-image"
           src="/img/banner/communityRules.png"
-          alt=""
+          alt="communityRules"
         />
       </div>
     </div>

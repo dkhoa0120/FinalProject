@@ -25,7 +25,6 @@ export default function ManageUserRoles() {
   const [showModal, setShowModal] = useState(false);
   const [showRestore, setShowRestore] = useState(false);
   const [showBan, setShowBan] = useState(false);
-  const [showUnBan, setShowUnBan] = useState(false);
 
   const search = searchParams.get("search") || "";
   const roleOption = searchParams.get("roleOption") || "";
@@ -128,7 +127,6 @@ export default function ManageUserRoles() {
         });
       });
       toast.success("Unban the user successful!");
-      setShowUnBan(false);
     } catch (error) {
       toast.error(error.response.data);
     }
@@ -262,12 +260,14 @@ export default function ManageUserRoles() {
       />
       <Modal show={showRestore} onHide={() => setShowRestore(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Restore this user</Modal.Title>
+          <Modal.Title>
+            Restore <b>{updateData?.name}</b>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you want to restore <b>{updateData?.name}</b>!
+          Do you want to restore <b>{updateData?.name}</b>?
           <div className="end-button">
-            <Button variant="primary" onClick={() => handleRestore(updateData)}>
+            <Button variant="danger" onClick={() => handleRestore(updateData)}>
               Confirm Restore
             </Button>
           </div>

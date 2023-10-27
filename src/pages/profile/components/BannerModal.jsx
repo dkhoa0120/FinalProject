@@ -92,6 +92,7 @@ export default function BannerModal({
             id="upload-input"
             ref={hiddenFileInput}
             type="file"
+            accept="image/*"
             onChange={(e) => {
               handleChangeBanner(e);
             }}

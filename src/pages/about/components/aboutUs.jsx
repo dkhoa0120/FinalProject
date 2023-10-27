@@ -14,7 +14,11 @@ export default function AboutUs() {
             Nguyen, Khai Tri and Khoa Le
           </p>
         </div>
-        <img src="/img/banner/aboutUs1.jpg" alt="" style={{ width: "50%" }} />
+        <img
+          src="/img/banner/aboutUs1.jpg"
+          alt="aboutUs1"
+          style={{ width: "50%" }}
+        />
       </div>
       <div className="about-us text-center mt-3">
         <div>
@@ -31,7 +35,7 @@ export default function AboutUs() {
         </div>
         <img
           src="/img/banner/aboutUs2.jpg"
-          alt=""
+          alt="aboutUs2"
           style={{
             width: "50%",
             marginRight: "20px",
@@ -53,7 +57,11 @@ export default function AboutUs() {
             and share their favorite manga series.
           </p>
         </div>
-        <img src="/img/banner/aboutUs3.png" alt="" style={{ width: "50%" }} />
+        <img
+          src="/img/banner/aboutUs3.png"
+          alt="aboutUs3"
+          style={{ width: "50%" }}
+        />
       </div>
       <div className="text-center mt-3">
         <h1>
@@ -65,7 +73,7 @@ export default function AboutUs() {
         </p>
         <img
           src="/img/banner/aboutUs4.jpg"
-          alt=""
+          alt="aboutUs4"
           style={{ maxWidth: "100%" }}
         />
       </div>

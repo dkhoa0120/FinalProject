@@ -96,6 +96,7 @@ export default function AvatarModal({
             id="upload-input"
             ref={hiddenFileInput}
             type="file"
+            accept="image/*"
             onChange={(e) => {
               handleChangeAvatar(e);
             }}

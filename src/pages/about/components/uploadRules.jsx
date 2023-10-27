@@ -49,7 +49,7 @@ export default function UploadRules() {
           <img
             className="upload-rules-image"
             src="/img/banner/chapterGuideline.png"
-            alt=""
+            alt="chapterGuideline"
           />
         </div>
         <h4>
