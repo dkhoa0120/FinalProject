@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import AboutUs from "./components/aboutUs";
 import UploadRules from "./components/uploadRules";
 import CommunityRules from "./components/communityRules";
@@ -9,7 +9,7 @@ function About() {
   const sortOptions = ["About us", "Upload Rules", "Community Rules"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
   return (
-    <>
+    <Container fluid>
       {sortOptions.map((option, index) => (
         <Button
           key={index}
@@ -19,12 +19,12 @@ function About() {
           {option}
         </Button>
       ))}
-      <div className="general-container">
+      <div className="general-container" style={{ marginTop: "10px" }}>
         {sortOption === "About us" && <AboutUs />}
         {sortOption === "Upload Rules" && <UploadRules />}
         {sortOption === "Community Rules" && <CommunityRules />}
       </div>
-    </>
+    </Container>
   );
 }
 

@@ -101,7 +101,7 @@ export default function Notification({ notifications, type, close }) {
           </AddLink>
         ))
       ) : (
-        <SpinnerLoading />
+        <span className="content-center">No notification yet</span>
       )}
     </>
   );

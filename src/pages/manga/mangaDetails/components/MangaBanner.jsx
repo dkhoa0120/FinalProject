@@ -60,14 +60,16 @@ export default function MangaBanner({
                 <i
                   className="fa fa-star"
                   style={rate ? { color: "#FFC107" } : { color: "#ccc" }}
-                ></i>{" "}
+                ></i>
                 {manga && (
                   <span>
                     {mangaStats.ratingCount === 0
                       ? 3.5
-                      : Math.round(
-                          (mangaStats.ratingSum / mangaStats.ratingCount) * 10
-                        ) / 10}
+                      : (
+                          Math.ceil(
+                            (mangaStats.ratingSum / mangaStats.ratingCount) * 10
+                          ) / 10
+                        ).toFixed(1)}
                   </span>
                 )}
               </Dropdown.Toggle>

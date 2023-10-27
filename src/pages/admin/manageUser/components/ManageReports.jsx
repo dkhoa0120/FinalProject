@@ -59,7 +59,7 @@ export default function ManageUserReports() {
   return (
     <>
       <Row>
-        <Col xs={12} md={{ span: 4, offset: 8 }}>
+        <Col xs={12} md={4}>
           <FormSelect
             value={status}
             onChange={(e) => {
