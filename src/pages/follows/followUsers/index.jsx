@@ -2,22 +2,16 @@ import { useEffect, useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import Followers from "./components/followers";
 import Followings from "./components/followings";
-import { useContext } from "react";
-import { UserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 export default function FollowUsers() {
   const sortOptions = ["Follower", "Following"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Followed Users - 3K Manga";
-    if (user == null) {
-      navigate("/login");
-    }
-  }, [navigate, user]);
+  }, [navigate]);
 
   return (
     <Container fluid>

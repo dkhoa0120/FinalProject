@@ -8,8 +8,6 @@ import MobilePost from "../../components/post/mobilePost";
 import PcPost from "../../components/post/pcPost";
 import MobileModal from "../../components/post/mobileModal";
 import PcModal from "../../components/post/pcModal";
-import { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
@@ -24,21 +22,19 @@ export default function CommunityFeeds() {
   const targetPost = targetedPostId
     ? posts.find((post) => post.id === targetedPostId)
     : null;
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Community - 3K Manga";
-    if (user == null) {
-      navigate("/login");
-    }
-  }, [navigate, user]);
+  }, []);
   const fetchPosts = async () => {
     try {
       const res = await postApi.getMyFeeds();
       setPosts(res.data);
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
     }
   };
 

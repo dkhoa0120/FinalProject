@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 export default function GroupRequests() {
   const [requests, setRequests] = useState([]);
   const [loadingRequest, setLoadingRequest] = useState(false);
   const [outOfReqs, setOutOfReqs] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchUserRequests = async () => {
     try {
@@ -17,7 +18,9 @@ export default function GroupRequests() {
       setRequests(res.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
     }
   };
 

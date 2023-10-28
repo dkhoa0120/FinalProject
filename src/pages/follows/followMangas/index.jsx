@@ -2,8 +2,6 @@ import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as followApi from "../../../service/api.follow";
 import MangaBlock from "../../../components/mangaBlock";
-import { useContext } from "react";
-import { UserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
@@ -12,15 +10,11 @@ export default function FollowedManga() {
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Followed Mangas - 3K Manga";
-    if (user == null) {
-      navigate("/login");
-    }
-  }, [navigate, user]);
+  }, []);
 
   const fetchFollowedMangas = async () => {
     try {
@@ -31,6 +25,8 @@ export default function FollowedManga() {
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setFollowedManga(null);
+      } else if (error.response && error.response.status === 401) {
+        navigate("/login");
       }
     }
   };
@@ -88,7 +84,7 @@ export default function FollowedManga() {
         {loading ? (
           <SpinnerLoading />
         ) : followedManga && followedManga.length > 0 ? (
-          followedManga.map((m) => <MangaBlock manga={m} />)
+          followedManga.map((m) => <MangaBlock manga={m} key={m.id} />)
         ) : (
           <span className="content-center">
             You have not followed any manga yet

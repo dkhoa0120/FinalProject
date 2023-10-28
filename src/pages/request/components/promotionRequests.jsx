@@ -5,6 +5,7 @@ import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
+import { useNavigate } from "react-router-dom";
 
 export default function PromotionRequests() {
   const [requests, setRequests] = useState([]);
@@ -12,10 +13,17 @@ export default function PromotionRequests() {
   const [reason, setReason] = useState("");
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
+  const navigate = useNavigate();
 
   const fetchUserPromotionRequests = async () => {
-    const res = await requestApi.getUserPromotionRequests();
-    setRequests(res.data);
+    try {
+      const res = await requestApi.getUserPromotionRequests();
+      setRequests(res.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
+    }
   };
 
   const handleCreateRequest = async () => {

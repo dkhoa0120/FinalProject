@@ -2,7 +2,7 @@ import { Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../../styles.css";
 import * as followApi from "../../../../service/api.follow";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SpinnerLoading } from "../../../../utilities/spinnerLoading";
 
 export default function Followers() {
@@ -10,6 +10,7 @@ export default function Followers() {
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFollowerUsers = async () => {
@@ -22,11 +23,13 @@ export default function Followers() {
       } catch (error) {
         if (error.response && error.response.status === 404) {
           setFollowers(null);
+        } else if (error.response && error.response.status === 401) {
+          navigate("/login");
         }
       }
     };
     fetchFollowerUsers();
-  }, []);
+  }, [navigate]);
 
   const handleSeeMoreFollowers = async (followedAtCursor) => {
     try {

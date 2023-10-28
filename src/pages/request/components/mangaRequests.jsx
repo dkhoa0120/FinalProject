@@ -4,6 +4,7 @@ import * as requestApi from "../../../service/api.request";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
+import { useNavigate } from "react-router-dom";
 
 export default function MangaRequests() {
   const [requests, setRequests] = useState([]);
@@ -12,6 +13,7 @@ export default function MangaRequests() {
   const [mangaSource, setMangaSource] = useState("");
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
+  const navigate = useNavigate();
 
   const handleCreateRequest = async () => {
     try {
@@ -31,8 +33,14 @@ export default function MangaRequests() {
   };
 
   const fetchRequests = async () => {
-    const res = await requestApi.getUserMangaRequests();
-    setRequests(res.data);
+    try {
+      const res = await requestApi.getUserMangaRequests();
+      setRequests(res.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
+    }
   };
 
   const handleSeeMore = async (createdAtCursor) => {

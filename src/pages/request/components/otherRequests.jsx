@@ -4,6 +4,7 @@ import * as requestApi from "../../../service/api.request";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
+import { useNavigate } from "react-router-dom";
 
 export default function OtherRequest() {
   const [requests, setRequests] = useState([]);
@@ -11,6 +12,7 @@ export default function OtherRequest() {
   const [content, setContent] = useState("");
   const [loadingPost, setLoadingPost] = useState(false);
   const [outOfPost, setOutOfPost] = useState(false);
+  const navigate = useNavigate();
 
   const handleCreateRequest = async () => {
     try {
@@ -29,8 +31,14 @@ export default function OtherRequest() {
   };
 
   const fetchOtherRequests = async () => {
-    const res = await requestApi.getUserOtherRequests();
-    setRequests(res.data);
+    try {
+      const res = await requestApi.getUserOtherRequests();
+      setRequests(res.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
+    }
   };
 
   const handleSeeMore = async (createdAtCursor) => {
