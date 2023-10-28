@@ -75,7 +75,7 @@ export default function Uploads() {
     <>
       <Container fluid>
         {mangaGroups ? (
-          mangaGroups.map((m) => <MangaBlock manga={m} />)
+          mangaGroups.map((m) => <MangaBlock manga={m} key={m.id} />)
         ) : (
           <p></p>
         )}

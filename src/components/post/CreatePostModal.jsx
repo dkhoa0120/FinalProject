@@ -111,6 +111,7 @@ export default function CreatePostModal({
               onChange={(e) => setContent(e.target.value)}
               rows={3}
               required
+              autoFocus
             />
           </Form.Group>
           <div style={{ display: "flex", justifyContent: "space-between" }}>

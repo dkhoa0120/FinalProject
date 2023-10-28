@@ -85,3 +85,8 @@ export const getMangaInProfile = (uploaderId, filter) => {
     },
   });
 };
+
+// get first chapter of manga
+export const getFirstChapterOfMangaId = (id) => {
+  return getAuthorizedAxios().get(`mangas/${id}/first-chapters`);
+};

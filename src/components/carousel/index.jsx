@@ -81,9 +81,13 @@ export default function CarouselFade({ mangas }) {
                 </Card.Title>
                 <Card.Text className="text-limit-1 carousel-category">
                   {currentManga.categories.map((category) => (
-                    <span className="btn-pill" key={category.id}>
+                    <Link
+                      className="btn-pill clickable"
+                      key={category.id}
+                      to={`/mangas?included=${category.id.substring(0, 5)}`}
+                    >
                       {category.name}
-                    </span>
+                    </Link>
                   ))}
                 </Card.Text>
                 <Card.Text className="text-limit-4">

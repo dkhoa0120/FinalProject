@@ -53,14 +53,20 @@ export default function PcModal({
                         }
                       >
                         {post.user.name}{" "}
-                        {post.group && (
-                          <>
-                            <i class="fa-solid fa-arrow-right"></i>{" "}
-                            {post.group.name}
-                          </>
-                        )}
                       </span>
                     </Link>
+                    {post.group && (
+                      <Link
+                        to={`/groups/${post.group.id}/Community`}
+                        className="card-link"
+                      >
+                        <span className="comment-name ">
+                          <i class="fa-solid fa-arrow-right"></i>{" "}
+                          {post.group.name}
+                        </span>
+                      </Link>
+                    )}
+
                     <span className="comment-time">
                       {calculateTimeDifference(post.createdAt)}
                     </span>

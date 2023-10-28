@@ -2,20 +2,25 @@ import { useState } from "react";
 import { Container, Row, Col, Modal } from "react-bootstrap";
 import ChapterGroup from "./ChapterGroup";
 import PaginationNoParams from "../../../../components/paginationNoParams";
+import * as mangaApi from "../../../../service/api.manga";
 
 export default function ChapterSection({
   chapters,
   page,
   totalPages,
   onPageChange,
+  manga,
 }) {
   const [showModalChapter, setShowModalChapter] = useState(false);
 
-  const handleShowFirstChapter = () => setShowModalChapter(true);
-
+  const handleShowFirstChapter = async () => {
+    const res = await mangaApi.getFirstChapterOfMangaId(manga.id);
+    setFirstChapter(res.data);
+    setShowModalChapter(true);
+  };
   console.log(chapters);
 
-  const firstChapter = chapters && chapters["1"];
+  const [firstChapter, setFirstChapter] = useState(null);
 
   return (
     <>

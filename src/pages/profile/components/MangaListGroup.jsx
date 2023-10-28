@@ -49,7 +49,7 @@ export default function MangaListGroup() {
       setMangaList(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        console.log("404");
+        navigate("/404");
       }
     }
   };
@@ -60,7 +60,7 @@ export default function MangaListGroup() {
       setMangas(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        console.log("404");
+        navigate("/404");
       }
     }
   };
@@ -192,7 +192,7 @@ export default function MangaListGroup() {
   return (
     <>
       <Container fluid>
-        {mangaList?.type === "Private" && user?.id !== mangaList?.owner.id ? (
+        {mangaList?.type === "Private" && user?.id !== mangaList?.owner?.id ? (
           <div className="privacy">
             <p>Op!! Sorry, the user was setting this list of private</p>
             <img src={"/img/error/dizzy.gif"} alt="error404" />
@@ -203,7 +203,7 @@ export default function MangaListGroup() {
               <Col md={3}>
                 <div className="manga-list-container">
                   <div className="manga-list-cover">
-                    {mangaList?.mangaCoverUrls.length > 0 ? (
+                    {mangaList?.mangaCoverUrls?.length > 0 ? (
                       <>
                         <img
                           style={{
@@ -264,7 +264,7 @@ export default function MangaListGroup() {
                           <i className="fa-solid fa-ellipsis-vertical"></i>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          {user?.id === mangaList?.owner.id ? (
+                          {user?.id === mangaList?.owner?.id ? (
                             <>
                               <Dropdown.Item>
                                 <div onClick={() => setShow(true)}>Edit</div>
@@ -313,7 +313,7 @@ export default function MangaListGroup() {
                       </Dropdown>
                     </div>
                     <div className="manga-list-details">
-                      <p>By {mangaList?.owner.name}</p>
+                      <p>By {mangaList?.owner?.name}</p>
                       <p>{mangaList?.type}</p>
                       <p>{mangas?.length} mangas</p>
                       <p>{calculateTimeDifference(mangaList?.updatedAt)}</p>
@@ -326,7 +326,7 @@ export default function MangaListGroup() {
                   mangas.map((m) => (
                     <div className="d-flex">
                       <MangaBlock manga={m} />
-                      {user?.id === mangaList?.owner.id && (
+                      {user?.id === mangaList?.owner?.id && (
                         <Dropdown>
                           <Dropdown.Toggle
                             variant="outline"

@@ -3,7 +3,6 @@ import { calculateTimeDifference } from "../../../utilities/dateTimeHelper";
 import * as notificationApi from "../../../service/api.notification";
 import { useContext } from "react";
 import { NotificationContext } from "../../../context/NotificationContext";
-import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function Notification({ notifications, type, close }) {
   const { notificationCounts, setNotificationCounts } =

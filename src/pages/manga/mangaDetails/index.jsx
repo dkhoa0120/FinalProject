@@ -174,6 +174,7 @@ export default function MangaDetail() {
       <ChapterSection
         chapters={chapters}
         page={chapterPage}
+        manga={manga}
         totalPages={totalChapterPages}
         onPageChange={handleChangeChapter}
       />

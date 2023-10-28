@@ -54,13 +54,13 @@ export default function MangaList() {
     }
   };
 
-  const fetchMangaLists = async (id) => {
+  const fetchMangaLists = async (userId) => {
     try {
       const res = await listApi.getMangaLists(userId);
       setMangaLists(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        console.log("404");
+        navigate(-1);
       }
     }
   };

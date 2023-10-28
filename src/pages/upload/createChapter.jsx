@@ -19,6 +19,7 @@ import {
 import { UserContext } from "../../context/UserContext";
 import { languageOptions } from "../../constants/languages";
 import PageUploader from "./components/PageUploader";
+import { SpinnerLoading } from "../../utilities/spinnerLoading";
 
 export default function Upload() {
   const {
@@ -32,6 +33,7 @@ export default function Upload() {
   const { mangaId } = useParams();
   const { user } = useContext(UserContext);
   const userId = user?.id;
+  const [loading, setLoading] = useState(false);
 
   const [manga, setManga] = useState();
   const [imageInfos, setImageInfos] = useState([]);
@@ -53,9 +55,11 @@ export default function Upload() {
     const images = await convertToImage(imageInfos);
     const formData = buildFormData(data, images);
     try {
+      setLoading(true);
       await chapterApi.uploadChapter(mangaId, formData);
       resetForm();
       toast.success("A Chapter has been created");
+      setLoading(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -288,6 +292,7 @@ export default function Upload() {
           </Row>
         </Form>
         <div className="end-button">
+          {loading && <SpinnerLoading />}
           <button
             type="submit"
             form="upload-form"

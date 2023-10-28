@@ -38,7 +38,7 @@ export default function ManageChapter() {
         page,
         includeDeleted: true,
       });
-      setChapters(result.data.itemList);
+      setChapters(result.data.chapterList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -106,17 +106,17 @@ export default function ManageChapter() {
           </thead>
           <tbody>
             {chapters ? (
-              chapters.map((item, index) => {
+              chapters.map((chapter) => {
                 return (
-                  <tr key={index}>
+                  <tr key={chapter.id}>
                     <td style={{ width: "80px" }}>
                       <Link
-                        to={`/mangas/${item.manga.id}`}
+                        to={`/mangas/${chapter.manga.id}`}
                         className="card-link"
                       >
                         <img
                           src={
-                            item.manga.coverPath ||
+                            chapter.manga.coverPath ||
                             "/img/error/coverNotFound.png"
                           }
                           alt="cover"
@@ -126,25 +126,28 @@ export default function ManageChapter() {
                     </td>
                     <td style={{ width: "300px" }}>
                       <Link
-                        to={`/mangas/${item.manga.id}`}
+                        to={`/mangas/${chapter.manga.id}`}
                         className="card-link"
                       >
-                        {item.manga.originalTitle}
+                        {chapter.manga.originalTitle}
                       </Link>
                     </td>
-                    <td>{item.language}</td>
+                    <td>{chapter.language}</td>
                     <td>
-                      <span>
-                        Ch.{item.number} - {item.name}
-                      </span>
+                      <Link
+                        to={`/chapters/${chapter.id}`}
+                        className="card-link"
+                      >
+                        Ch.{chapter.number} - {chapter.name}
+                      </Link>
                     </td>
                     <td style={{ width: "200px" }}>
-                      {item.deletedAt != null ? (
+                      {chapter.deletedAt != null ? (
                         <Button
                           variant="dark"
                           style={{ marginBottom: "5px" }}
                           onClick={() => {
-                            handleUndeleteChapter(item.id);
+                            handleUndeleteChapter(chapter.id);
                           }}
                         >
                           <i className="fa-solid fa-rotate-left"></i>
@@ -153,7 +156,7 @@ export default function ManageChapter() {
                       ) : (
                         <>
                           <Link
-                            to={`/upload/Edit/${item.id}`}
+                            to={`/upload/Edit/${chapter.id}`}
                             className="card-link"
                           >
                             <Button style={{ marginBottom: "5px" }}>
@@ -167,7 +170,7 @@ export default function ManageChapter() {
                             style={{ marginBottom: "5px" }}
                             onClick={() => {
                               setShow(true);
-                              setChapterDelete(item);
+                              setChapterDelete(chapter);
                             }}
                           >
                             <i className="fa-solid fa-trash"></i>
