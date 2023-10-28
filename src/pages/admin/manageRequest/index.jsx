@@ -18,15 +18,17 @@ export default function ManageRequest() {
   return (
     <>
       <Container fluid>
-        {sortOptions.map((option, index) => (
-          <Button
-            key={index}
-            variant={selectedOption === option ? "dark" : "light"}
-            onClick={() => navigate(`/manage/requests/${option}`)}
-          >
-            {option}
-          </Button>
-        ))}
+        <div className="notification-button">
+          {sortOptions.map((option, index) => (
+            <Button
+              key={index}
+              variant={selectedOption === option ? "dark" : "light"}
+              onClick={() => navigate(`/manage/requests/${option}`)}
+            >
+              {option}
+            </Button>
+          ))}
+        </div>
         <div className="manage-table">
           {selectedOption === "PromotionRequest" && <ManagePromotionReq />}
           {selectedOption === "MangaRequest" && <ManageMangaReq />}

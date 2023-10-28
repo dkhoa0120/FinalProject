@@ -94,7 +94,7 @@ export default function ManageUserReports() {
                 <tr key={report.id}>
                   <td style={{ width: "200px" }}>{report.reportee.name}</td>
                   <td style={{ width: "200px" }}>{report.reporter.name}</td>
-                  <td>{report.reason}</td>
+                  <td style={{ wordBreak: "break-word" }}>{report.reason}</td>
                   <td style={{ width: "150px" }}>
                     <Form.Select
                       value={report.status}

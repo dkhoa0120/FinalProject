@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import AboutUs from "./components/aboutUs";
 import UploadRules from "./components/uploadRules";
@@ -15,15 +15,17 @@ function About() {
   }, []);
   return (
     <Container fluid>
-      {sortOptions.map((option, index) => (
-        <Button
-          key={index}
-          variant={sortOption === option ? "dark" : "light"}
-          onClick={() => setSortOption(option)}
-        >
-          {option}
-        </Button>
-      ))}
+      <div className="notification-button">
+        {sortOptions.map((option, index) => (
+          <Button
+            key={index}
+            variant={sortOption === option ? "dark" : "light"}
+            onClick={() => setSortOption(option)}
+          >
+            {option}
+          </Button>
+        ))}
+      </div>
       <div className="general-container" style={{ marginTop: "10px" }}>
         {sortOption === "About us" && <AboutUs />}
         {sortOption === "Upload Rules" && <UploadRules />}

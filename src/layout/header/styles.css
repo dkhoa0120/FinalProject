@@ -72,21 +72,17 @@ nav.navbar.scrolled {
   background-color: #f2f2f2;
 }
 
+.notification.not-read {
+  font-weight: bold;
+}
+
 .notification-button {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
 }
 
-.notification-button::-webkit-scrollbar {
-  display: none;
-}
-
 .notification-button > button {
   flex-grow: 1;
   flex-shrink: 0;
-}
-
-.notification.not-read {
-  font-weight: bold;
 }

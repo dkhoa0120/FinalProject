@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Account from "./components/account";
-import Display from "./components/display";
 
 export default function EditProfile() {
-  const sortOptions = ["Account", "Display"];
+  const sortOptions = ["Account"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
 
   useEffect(() => {
@@ -13,21 +12,23 @@ export default function EditProfile() {
 
   return (
     <>
-      <div style={{ paddingBottom: "20px" }}>
-        {sortOptions.map((option, index) => (
-          <Button
-            key={index}
-            variant={sortOption === option ? "dark" : "light"}
-            onClick={() => setSortOption(option)}
-          >
-            {option}
-          </Button>
-        ))}
+      <div style={{ padding: "10px" }}>
+        <div style={{ paddingBottom: "20px" }}>
+          {sortOptions.map((option, index) => (
+            <Button
+              key={index}
+              variant={sortOption === option ? "dark" : "light"}
+              onClick={() => setSortOption(option)}
+            >
+              {option}
+            </Button>
+          ))}
+        </div>
+        <div className="general-container" style={{ padding: "10px" }}>
+          {sortOption === "Account" && <Account />}
+          {/* {sortOption === "Display" && <Display />} */}
+        </div>
       </div>
-      <Container fluid className="general-container">
-        {sortOption === "Account" && <Account />}
-        {sortOption === "Display" && <Display />}
-      </Container>
     </>
   );
 }

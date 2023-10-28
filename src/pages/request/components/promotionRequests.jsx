@@ -94,7 +94,9 @@ export default function PromotionRequests() {
         <div style={{ padding: "0 30px" }}>
           <Form id="create-request-form">
             <Form.Group className="mb-3">
-              <Form.Label>Evidence </Form.Label>
+              <Form.Label>
+                <b>Evidence</b>
+              </Form.Label>
               <Form.Control
                 placeholder="Provide link contains evidence that you are a translator"
                 type="text"
@@ -103,7 +105,9 @@ export default function PromotionRequests() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Reason </Form.Label>
+              <Form.Label>
+                <b>Reason</b>
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={5}

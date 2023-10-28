@@ -128,4 +128,18 @@ body {
   .hide-when-mobile {
     display: none !important;
   }
+  .notification-button {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .notification-button::-webkit-scrollbar {
+    display: none;
+  }
+
+  .notification-button > button {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
 }

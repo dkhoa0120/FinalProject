@@ -24,15 +24,17 @@ export default function Requests() {
 
   return (
     <Container fluid>
-      {sortOptions.map((option, index) => (
-        <Button
-          key={index}
-          variant={selectedOption === option ? "dark" : "light"}
-          onClick={() => navigate(`/requests/${option}`)}
-        >
-          {option}
-        </Button>
-      ))}
+      <div className="notification-button">
+        {sortOptions.map((option, index) => (
+          <Button
+            key={index}
+            variant={selectedOption === option ? "dark" : "light"}
+            onClick={() => navigate(`/requests/${option}`)}
+          >
+            {option}
+          </Button>
+        ))}
+      </div>
       <div className="manage-table">
         {selectedOption === "JoinGroupRequest" && <GroupRequests />}
         {selectedOption === "PromotionRequest" && <PromotionRequests />}

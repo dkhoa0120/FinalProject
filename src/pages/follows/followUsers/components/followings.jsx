@@ -121,7 +121,6 @@ export default function Followings() {
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item>Report</Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => handleFollow(f.followedUser.id)}
                     >

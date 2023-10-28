@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Button, Table } from "react-bootstrap";
 import * as requestApi from "../../../../service/api.request";
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 import PaginationNoParams from "../../../../components/paginationNoParams";
 
@@ -53,7 +52,7 @@ export default function ManageMangaReq() {
           {requests ? (
             requests.map((request) => (
               <tr key={request.id}>
-                <td>{request.user.name}</td>
+                <td style={{ width: "200px" }}>{request.user.name}</td>
                 <td>{request.mangaTitle}</td>
                 <td>{request.mangaAuthor}</td>
                 <td>{request.mangaSource}</td>

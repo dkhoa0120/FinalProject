@@ -137,7 +137,7 @@ export default function MangaList() {
                         <img
                           style={{
                             width: "40%",
-                            zIndex: "110",
+                            zIndex: "2",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[0] ||
@@ -149,7 +149,7 @@ export default function MangaList() {
                           style={{
                             width: "30%",
                             marginLeft: "-10px",
-                            zIndex: "100",
+                            zIndex: "1",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[1] ||
@@ -161,7 +161,6 @@ export default function MangaList() {
                           style={{
                             width: "20%",
                             marginLeft: "-5px",
-                            zIndex: "90",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[2] ||
@@ -175,7 +174,7 @@ export default function MangaList() {
                     )}
                     <div className="manga-list-info">
                       <i className="fa-solid fa-list-ul"></i>
-                      <span className="manga-list-name text-limit-2">
+                      <span className="manga-list-name text-limit-1">
                         {mangaList.name}
                       </span>
                       {mangaList.type === "Private" && (

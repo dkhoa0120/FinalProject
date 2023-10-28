@@ -208,7 +208,7 @@ export default function MangaListGroup() {
                         <img
                           style={{
                             width: "40%",
-                            zIndex: "110",
+                            zIndex: "2",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[0] ||
@@ -220,7 +220,7 @@ export default function MangaListGroup() {
                           style={{
                             width: "30%",
                             marginLeft: "-10px",
-                            zIndex: "100",
+                            zIndex: "1",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[1] ||
@@ -232,7 +232,6 @@ export default function MangaListGroup() {
                           style={{
                             width: "20%",
                             marginLeft: "-5px",
-                            zIndex: "90",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[2] ||
@@ -253,7 +252,10 @@ export default function MangaListGroup() {
                         alignItems: "center",
                       }}
                     >
-                      <span style={{ fontWeight: "bold" }}>
+                      <span
+                        className="text-limit-1"
+                        style={{ fontWeight: "bold" }}
+                      >
                         {mangaList?.name}
                       </span>
                       <Dropdown>

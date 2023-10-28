@@ -1,11 +1,8 @@
 import { Badge, Button, Offcanvas } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import Notification from "./notification";
-import { useContext } from "react";
 import * as notificationApi from "../../../service/api.notification";
 import { NotificationContext } from "../../../context/NotificationContext";
-import { useEffect } from "react";
-import { useRef } from "react";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function NotificationSection() {
