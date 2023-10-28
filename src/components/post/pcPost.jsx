@@ -26,15 +26,20 @@ export default function PcPost({
                 "comment-name" + (!post.user.deletedAt ? " " : " deleted")
               }
             >
-              {post.user.name}
+              {post.user.name}{" "}
+              {post.group && (
+                <>
+                  <i class="fa-solid fa-arrow-right"></i> {post.group.name}
+                </>
+              )}
             </span>
+
             <span className="comment-time">
               {calculateTimeDifference(post.createdAt)}
             </span>
             <div className="text-limit-4" style={{ wordBreak: "break-word" }}>
               {post.content}
             </div>
-
             <PostStats
               post={post}
               react={react}

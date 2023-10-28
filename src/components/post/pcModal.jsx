@@ -52,7 +52,13 @@ export default function PcModal({
                           (!post.user.deletedAt ? " " : " deleted")
                         }
                       >
-                        {post.user.name}
+                        {post.user.name}{" "}
+                        {post.group && (
+                          <>
+                            <i class="fa-solid fa-arrow-right"></i>{" "}
+                            {post.group.name}
+                          </>
+                        )}
                       </span>
                     </Link>
                     <span className="comment-time">

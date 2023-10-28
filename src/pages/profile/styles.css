@@ -107,18 +107,6 @@
   display: none;
 }
 
-.img-display-before {
-  height: 200px;
-  width: 200px;
-  border-radius: 100%;
-}
-
-.img-display-after {
-  height: 200px;
-  width: 200px;
-  border-radius: 100%;
-}
-
 /*Style for the modal to change banner*/
 .banner-upload-container {
   display: flex;
@@ -142,8 +130,7 @@
   margin: 10px;
   border-style: solid;
   border-color: gray;
-  padding: 5px;
-  padding-bottom: 10px;
+  padding: 5px 5px 10px 5px;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -218,7 +205,6 @@
   border-style: solid;
   border-color: gray;
   padding: 5px;
-  padding-bottom: 10px;
   border-radius: 10px;
   cursor: pointer;
   border-style: dashed;

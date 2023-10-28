@@ -1,5 +1,5 @@
 #comment-section {
-  padding: 20px 1.5rem 0.5rem;
+  padding: 15px 1.5rem 0.5rem;
   max-height: 60vh;
   overflow-y: auto;
 }
@@ -21,6 +21,7 @@
 .comment-time {
   font-size: 14px;
   color: #606060;
+  margin-bottom: 5px;
 }
 
 .comment-message {

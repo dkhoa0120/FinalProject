@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
-import { Badge, Image, Nav, Navbar } from "react-bootstrap";
+import { Image, Nav, Navbar } from "react-bootstrap";
 import React, { useState } from "react";
 import * as mangaApi from "../../service/api.manga";
 

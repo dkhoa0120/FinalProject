@@ -8,10 +8,9 @@ import {
   Row,
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 import * as followApi from "../../../service/api.follow";
 import * as listApi from "../../../service/api.mangaList";
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
@@ -46,6 +45,7 @@ export default function MangaListGroup() {
   const fetchMangaList = async (id) => {
     try {
       const res = await listApi.getMangaList(id);
+      document.title = `${res.data.name} | Manga List  - 3K Manga`;
       setMangaList(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -108,7 +108,6 @@ export default function MangaListGroup() {
   }, [mangas]);
 
   // Edit and delete your list
-
   const handleDeleteList = async (id) => {
     try {
       await listApi.deleteMangaList(id);

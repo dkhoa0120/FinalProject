@@ -26,6 +26,11 @@ export default function MobilePost({
               }
             >
               {post.user.name}{" "}
+              {post.group && (
+                <>
+                  <i class="fa-solid fa-arrow-right"></i> {post.group.name}
+                </>
+              )}
             </span>
             <span className="comment-time">
               {calculateTimeDifference(post.createdAt)}

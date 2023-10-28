@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Container } from "react-bootstrap";
 import Account from "./components/account";
 import Display from "./components/display";
-import {} from "react-toastify";
 
 export default function EditProfile() {
   const sortOptions = ["Account", "Display"];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
+
+  useEffect(() => {
+    document.title = "Edit Profile - 3K Manga";
+  }, []);
+
   return (
     <>
       <div style={{ paddingBottom: "20px" }}>

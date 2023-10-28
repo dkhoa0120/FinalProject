@@ -45,12 +45,18 @@ export default function MobileModal({
                       "comment-name" + (!post.user.deletedAt ? " " : " deleted")
                     }
                   >
-                    {post.user.name}
+                    {post.user.name}{" "}
+                    {post.group && (
+                      <>
+                        <i class="fa-solid fa-arrow-right"></i>{" "}
+                        {post.group.name}
+                      </>
+                    )}
                   </span>
                 </Link>
-                <span className="comment-time">
+                <p className="comment-time">
                   {calculateTimeDifference(post.createdAt)}
-                </span>
+                </p>
                 <div style={{ wordBreak: "break-word" }}>{post.content}</div>
               </div>
               <div className="comment-close">
