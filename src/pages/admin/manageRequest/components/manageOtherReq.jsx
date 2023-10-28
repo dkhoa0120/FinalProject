@@ -13,7 +13,6 @@ export default function ManageOtherReq() {
     const res = await requestApi.getOtherRequests({
       page,
     });
-    console.log("res", res);
     setRequests(res.data.itemList);
     setTotalPages(res.data.totalPages);
   };

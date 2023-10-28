@@ -46,8 +46,6 @@ export default function EditGroupModal({
     }
   };
 
-  console.log(groupDetails);
-
   return (
     <>
       <Modal show={show} onHide={close}>

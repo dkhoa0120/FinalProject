@@ -14,7 +14,6 @@ export default function FollowedMangaList() {
   const fetchMangaLists = async () => {
     try {
       let res = await listApi.getFollowedLists();
-      console.log(res);
       setMangaLists(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {

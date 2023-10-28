@@ -11,7 +11,6 @@ export default function ManagePromotionReq() {
 
   const fetchPromotionRequests = async () => {
     const res = await requestApi.getPromotionRequests();
-    console.log("res", res);
     setRequests(res.data.itemList);
     setTotalPages(res.data.totalPages);
   };

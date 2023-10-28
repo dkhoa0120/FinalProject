@@ -3,8 +3,6 @@ import * as postApi from "../../service/api.post";
 import { toast } from "react-toastify";
 
 export default function DeletePostModal({ post, close, updateDeletePost }) {
-  console.log(post);
-
   const handleDeletePost = async () => {
     try {
       await postApi.deletePost(post?.id);

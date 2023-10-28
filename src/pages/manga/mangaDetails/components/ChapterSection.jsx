@@ -18,7 +18,6 @@ export default function ChapterSection({
     setFirstChapter(res.data);
     setShowModalChapter(true);
   };
-  console.log(chapters);
 
   const [firstChapter, setFirstChapter] = useState(null);
 

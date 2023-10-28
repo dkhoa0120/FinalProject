@@ -99,7 +99,6 @@ export default function ManageMembers({ groupId }) {
       const newGroupRoles = data.groupRoles.map((r) => r.value).join(", ");
       const formData = new FormData();
       formData.append("groupRoles", newGroupRoles);
-      console.log(newGroupRoles);
       await groupApi.changeGroupRoles(groupId, targetedMember?.id, formData);
       setMembers((prevMembers) =>
         prevMembers.map((m) =>

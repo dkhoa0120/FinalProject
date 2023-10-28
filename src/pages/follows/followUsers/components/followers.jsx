@@ -17,7 +17,6 @@ export default function Followers() {
       try {
         setLoading(true);
         const res = await followApi.getFollowerUsers();
-        console.log(res.data);
         setFollowers(res.data);
         setLoading(false);
       } catch (error) {

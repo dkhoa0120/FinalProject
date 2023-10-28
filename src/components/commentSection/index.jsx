@@ -55,8 +55,6 @@ export default function CommentSection({ type, typeId }) {
 
     const handleScroll = () => {
       const { scrollHeight, scrollTop, clientHeight } = commentPost;
-
-      console.log("outOfComment", outOfComment);
       // Check if you've scrolled to the bottom
       if (
         scrollHeight - scrollTop - clientHeight <= 5 &&

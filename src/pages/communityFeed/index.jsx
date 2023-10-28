@@ -61,7 +61,6 @@ export default function CommunityFeeds() {
       ? current
       : latest;
   }, posts[0]);
-  console.log("latestPost", latestPost);
 
   const updateDeletePost = (postId) => {
     setPosts(posts.filter((comment) => comment.id !== postId));

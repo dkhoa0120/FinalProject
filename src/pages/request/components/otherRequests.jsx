@@ -20,7 +20,6 @@ export default function OtherRequest() {
       formData.append("title", title);
       formData.append("content", content);
       const newRequest = await requestApi.postOtherRequest(formData);
-      console.log(newRequest, "newRequest");
       setTitle("");
       setContent("");
       toast.success("A request has been sent");

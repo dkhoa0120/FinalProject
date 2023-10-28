@@ -43,7 +43,6 @@ export default function Groups() {
   const fetchGroups = async (id) => {
     try {
       let res = await groupApi.getUploadGroup(id);
-      console.log("group", res);
       setGroups(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {

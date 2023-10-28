@@ -30,8 +30,7 @@ export default function ManageGroup() {
   useEffect(() => {
     const fetchGroupRequests = async (id) => {
       try {
-        const res = await requestApi.getJoinGroupRequest(id);
-        console.log(res.data);
+        await requestApi.getJoinGroupRequest(id);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           console.log(error.response);

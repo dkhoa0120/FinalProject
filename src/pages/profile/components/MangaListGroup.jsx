@@ -187,8 +187,6 @@ export default function MangaListGroup() {
     fetchMangasOfList(listId);
   }, [listId]);
 
-  console.log(mangaList);
-
   return (
     <>
       <Container fluid>

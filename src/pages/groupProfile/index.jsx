@@ -33,7 +33,6 @@ export default function Group() {
   const fetchMember = useCallback(async (groupId, memberId) => {
     try {
       const res = await groupApi.getMember(groupId, memberId);
-      console.log("res", res);
       const roles = res.data.groupRoles;
 
       setIsUserAMember(roles.includes("Member") || roles.includes("Uploader"));
@@ -72,7 +71,6 @@ export default function Group() {
       toast.success("You have sent a request to join this group");
       setShowJoinModal(false);
     } catch (error) {
-      console.log("er", error);
       toast.error(error.response.data);
     }
   };

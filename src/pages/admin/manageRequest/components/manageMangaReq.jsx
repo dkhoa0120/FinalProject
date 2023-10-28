@@ -13,7 +13,6 @@ export default function ManageMangaReq() {
     const res = await requestApi.getMangaRequests({
       page,
     });
-    console.log("res", res);
     setRequests(res.data.itemList);
     setTotalPages(res.data.totalPages);
   };

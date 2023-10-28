@@ -66,12 +66,6 @@ export default function NotificationSection() {
     if (!notiHeader.current) return;
 
     const notificationDiv = notiHeader.current.parentNode;
-
-    console.log("sortOption", sortOption);
-    console.log(
-      "notifications",
-      notifications[notifications.length - 1]?.createdAt
-    );
     const handleScroll = () => {
       const { scrollHeight, scrollTop, clientHeight } = notificationDiv;
 

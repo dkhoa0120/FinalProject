@@ -13,8 +13,6 @@ export default function ManageUserReports() {
   const status = searchParams.get("status") || "";
   const page = searchParams.get("page") || "1";
 
-  console.log("report", reports);
-
   useEffect(() => {
     getUsersList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +35,6 @@ export default function ManageUserReports() {
   };
 
   const putStatus = async (id, status) => {
-    console.log("id", id);
     try {
       const formData = new FormData();
       formData.append("status", status);

@@ -16,8 +16,6 @@ export default function ManageChapter() {
   const [chapterDelete, setChapterDelete] = useState();
   const [show, setShow] = useState(false);
 
-  console.log(chapters);
-
   const search = searchParams.get("search") || "";
   const page = searchParams.get("page") || "1";
 
@@ -38,7 +36,7 @@ export default function ManageChapter() {
         page,
         includeDeleted: true,
       });
-      setChapters(result.data.chapterList);
+      setChapters(result.data.itemList);
       setTotalPages(result.data.totalPages);
     } catch (error) {
       if (error.response && error.response.status === 401) {

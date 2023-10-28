@@ -35,7 +35,6 @@ export default function EditPostModal({ post, close, updatePostEdited }) {
 
     try {
       const res = await postApi.editPost(post?.id, formData);
-      console.log("res", res);
       const newPost = res.data;
       updatePostEdited(newPost);
       close();
@@ -62,7 +61,6 @@ export default function EditPostModal({ post, close, updatePostEdited }) {
     const imageFiles = await Promise.all(
       post.imageUrls.map((url) => urlToImageFile(url, url.split("/").pop()))
     );
-    console.log("imageFiles", imageFiles);
     setImageInfos(
       imageFiles.map((file) => ({
         name: file.name,

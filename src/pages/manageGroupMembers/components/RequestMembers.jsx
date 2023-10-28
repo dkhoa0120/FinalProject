@@ -33,7 +33,6 @@ export default function RequestMembers({ groupId }) {
           search,
           page,
         });
-        console.log(res.data);
         setRequests(res.data.itemList);
         setTotalPages(res.data.totalPages);
       } catch (err) {

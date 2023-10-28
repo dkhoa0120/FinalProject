@@ -140,7 +140,6 @@ export default function Members({ groupId }) {
         roleLowerBound: "GroupUploader",
         joinedAtCursor: lastJoin?.joinedAt,
       });
-      console.log("hi", newUploaders);
       setGroupUploaders([...groupUploaders, ...newUploaders.data]);
     } catch (error) {
       console.error("Error fetching more members:", error);

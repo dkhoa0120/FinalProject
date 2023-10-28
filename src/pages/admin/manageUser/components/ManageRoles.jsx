@@ -31,8 +31,6 @@ export default function ManageUserRoles() {
   const page = searchParams.get("page") || "1";
   const navigate = useNavigate();
 
-  console.log("users", users);
-
   // Fetch manga data
   useEffect(() => {
     getUsersList();
