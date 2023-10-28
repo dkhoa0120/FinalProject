@@ -32,6 +32,13 @@ export default function Register() {
       toast.error("All fields are required");
       return;
     }
+
+    const emailRegex = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Invalid Email");
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -59,7 +66,9 @@ export default function Register() {
         navigate(-1);
       }
     } catch (error) {
-      toast.error(error.response.data);
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data);
+      }
     }
   };
 

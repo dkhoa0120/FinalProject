@@ -81,7 +81,7 @@ export default function EditProfileModal({
       await accountApi.updatePassword(formData);
       toast.success("Update password successfully!");
     } catch (error) {
-      toast.error("Somethings went wrong!");
+      toast.error(error.response.data);
     }
   };
 

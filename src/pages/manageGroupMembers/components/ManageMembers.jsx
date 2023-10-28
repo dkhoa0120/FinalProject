@@ -181,7 +181,9 @@ export default function ManageMembers({ groupId }) {
       setDeleteMember(null);
       toast.success("User's roles have been removed");
     } catch (error) {
-      toast.error(error);
+      if (error.response && error.response.status === 403) {
+        toast.error("Forbidden Operation");
+      }
     }
   };
   // Event handler for page change
