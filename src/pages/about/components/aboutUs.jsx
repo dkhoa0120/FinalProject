@@ -1,6 +1,6 @@
 export default function AboutUs() {
   return (
-    <div style={{ padding: "0 20px" }}>
+    <>
       <div className="about-us text-center">
         <div>
           <h1>
@@ -67,9 +67,15 @@ export default function AboutUs() {
         <h1>
           <b>Join Us</b>
         </h1>
-        <p>
+        <span>
           Join us in our mission to make manga a universally cherished and
           accessible art form, and become a part of the 3KManga community today.
+        </span>
+        <p>
+          <a href="https://discord.gg/riel_link" style={{ color: "black" }}>
+            The quickest method to reach out to us is through our Discord
+            server.
+          </a>
         </p>
         <img
           src="/img/banner/aboutUs4.jpg"
@@ -77,6 +83,6 @@ export default function AboutUs() {
           style={{ maxWidth: "100%" }}
         />
       </div>
-    </div>
+    </>
   );
 }

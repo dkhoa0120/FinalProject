@@ -28,7 +28,7 @@ export default function MobilePost({
               {post.user.name}{" "}
               {post.group && (
                 <>
-                  <i class="fa-solid fa-arrow-right"></i> {post.group.name}
+                  <i className="fa-solid fa-arrow-right"></i> {post.group.name}
                 </>
               )}
             </span>

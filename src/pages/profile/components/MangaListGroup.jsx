@@ -324,7 +324,7 @@ export default function MangaListGroup() {
               <Col md={9}>
                 {mangas.length > 0 ? (
                   mangas.map((m) => (
-                    <div className="d-flex">
+                    <div className="d-flex" key={m.id}>
                       <MangaBlock manga={m} />
                       {user?.id === mangaList?.owner?.id && (
                         <Dropdown>

@@ -1,9 +1,7 @@
 export default function CommunityRules() {
   return (
-    <div style={{ padding: "0 20px" }}>
-      <h4>
-        <b>Community Rules:</b>
-      </h4>
+    <>
+      <h4>Community Rules:</h4>
       <ul>
         <li>
           Don't engage in objectionable behavior towards others such as racism,
@@ -22,6 +20,6 @@ export default function CommunityRules() {
           alt="communityRules"
         />
       </div>
-    </div>
+    </>
   );
 }

@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import * as listApi from "../../../service/api.mangaList";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext } from "react";
 import { UserContext } from "../../../context/UserContext";
-import { useEffect } from "react";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function MangaList() {

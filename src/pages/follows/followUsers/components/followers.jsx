@@ -79,7 +79,7 @@ export default function Followers() {
       ) : followers && followers.length > 0 ? (
         followers.map((f) => {
           return (
-            <Col xs={12} md={3}>
+            <Col xs={12} md={3} key={f.user.id}>
               <Link to={`/profile/${f.user.id}/Uploads`} className="card-link">
                 <div className="follow-user-container">
                   <img

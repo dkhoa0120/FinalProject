@@ -49,7 +49,7 @@ export default function ManageOtherReq() {
         <tbody>
           {requests ? (
             requests.map((request) => (
-              <tr>
+              <tr key={request.id}>
                 <td style={{ width: "200px" }}>{request.user.name}</td>
                 <td>{request.title}</td>
                 <td>{request.content}</td>

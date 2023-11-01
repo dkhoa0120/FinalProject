@@ -93,7 +93,7 @@ export default function Followings() {
       ) : followings && followings.length > 0 ? (
         followings.map((f) => {
           return (
-            <Col xs={12} md={3}>
+            <Col xs={12} md={3} key={f.followedUser.id}>
               <div className="follow-user-container">
                 <Link
                   to={`/profile/${f.followedUser.id}/Uploads`}

@@ -54,7 +54,8 @@ export default function MobileModal({
                     className="card-link"
                   >
                     <span className="comment-name ">
-                      <i class="fa-solid fa-arrow-right"></i> {post.group.name}
+                      <i className="fa-solid fa-arrow-right"></i>{" "}
+                      {post.group.name}
                     </span>
                   </Link>
                 )}

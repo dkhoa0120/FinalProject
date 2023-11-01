@@ -3,10 +3,16 @@ import { Button, Container } from "react-bootstrap";
 import AboutUs from "./components/aboutUs";
 import UploadRules from "./components/uploadRules";
 import CommunityRules from "./components/communityRules";
+import Privacy from "./components/privacy";
 import "./styles.css";
 
 function About() {
-  const sortOptions = ["About us", "Upload Rules", "Community Rules"];
+  const sortOptions = [
+    "About us",
+    "Upload Rules",
+    "Community Rules",
+    "Data Privacy Policy",
+  ];
   const [sortOption, setSortOption] = useState(sortOptions[0]);
 
   // Update the document title
@@ -26,10 +32,14 @@ function About() {
           </Button>
         ))}
       </div>
-      <div className="general-container" style={{ marginTop: "10px" }}>
+      <div
+        className="general-container"
+        style={{ marginTop: "10px", padding: "20px" }}
+      >
         {sortOption === "About us" && <AboutUs />}
         {sortOption === "Upload Rules" && <UploadRules />}
         {sortOption === "Community Rules" && <CommunityRules />}
+        {sortOption === "Data Privacy Policy" && <Privacy />}
       </div>
     </Container>
   );

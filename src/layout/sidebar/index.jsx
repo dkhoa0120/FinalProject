@@ -92,16 +92,16 @@ function SideBar(props) {
         <MenuItem
           className="sidebar-heading"
           onClick={() => handleDropdownClick("aboutUs")}
-          key="site-rules"
+          key="about"
         >
           <i className="fa-solid fa-globe"></i> &nbsp; 3KManga
         </MenuItem>
       ),
       items: [
         {
-          text: "Site rules",
+          text: "Site Rules",
           to: "/about",
-          key: "about",
+          key: "site-rules",
         },
       ],
     },

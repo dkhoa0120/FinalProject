@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import * as listApi from "../../../service/api.follow";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { SpinnerLoading } from "../../../utilities/spinnerLoading";
 
 export default function FollowedMangaList() {
@@ -82,7 +81,7 @@ export default function FollowedMangaList() {
                         <img
                           style={{
                             width: "40%",
-                            zIndex: "110",
+                            zIndex: "2",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[0] ||
@@ -94,7 +93,7 @@ export default function FollowedMangaList() {
                           style={{
                             width: "30%",
                             marginLeft: "-10px",
-                            zIndex: "100",
+                            zIndex: "1",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[1] ||
@@ -106,7 +105,6 @@ export default function FollowedMangaList() {
                           style={{
                             width: "20%",
                             marginLeft: "-5px",
-                            zIndex: "90",
                           }}
                           src={
                             mangaList?.mangaCoverUrls[2] ||
