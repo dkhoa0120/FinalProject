@@ -22,7 +22,7 @@ export default function Pagination({
     const addPageNumber = (i) => {
       pageNumbers.push(
         <Button
-          key={i} // Add unique "key" prop here
+          key={i}
           variant={`btn ${page === i ? "btn-dark" : "btn-light"}`}
           onClick={() => updatePageParam(i)}
         >
